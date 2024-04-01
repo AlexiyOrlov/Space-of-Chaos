@@ -51,7 +51,9 @@ public class Slot {
             if (next != null) {
                 if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
                     if (Gdx.input.isTouched())
+                    {
                         return slotIndex;
+                    }
                 }
             }
             if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
