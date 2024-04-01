@@ -24,19 +24,18 @@ import java.util.ArrayList;
 
 public class PlanetScreen extends ScreenAdapter {
     private final Stage stage;
-    private final ArrayList<Slot> inventorySlots;
     private final Viewport viewport;
     private Stack stackUnderMouse;
     private final StarShip player;
-    private final ArrayList<Slot> equipmentSlots;
+    private final Planet planet;
 
     public PlanetScreen(StarSystem system, Planet planet, StarShip player) {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         viewport.apply();
-
-        inventorySlots = new ArrayList<>(40);
+        this.planet=planet;
+        ArrayList<Slot> inventorySlots = new ArrayList<>(40);
         stage = new Stage(viewport);
-        equipmentSlots=new ArrayList<>();
+        ArrayList<Slot> equipmentSlots = new ArrayList<>();
         Table table = new Table();
         table.setFillParent(true);
         Skin skin = SpaceGame.INSTANCE.skin;
@@ -132,7 +131,7 @@ public class PlanetScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     market.setVisible(true);
-                    equipmentSlots.forEach(slot -> slot.visible=false);
+                    planet.equipmentInventory.setVisible(false);
                 }
             });
             table.add(marketButton);
@@ -142,7 +141,7 @@ public class PlanetScreen extends ScreenAdapter {
             equipmentButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    equipmentSlots.forEach(slot -> slot.visible=true);
+                    planet.equipmentInventory.setVisible(true);
                     market.setVisible(false);
                 }
             });
@@ -209,12 +208,12 @@ public class PlanetScreen extends ScreenAdapter {
             for (int j = 0; j < 3; j++) {
                 Vector2 slotPosition=new Vector2(Gdx.graphics.getBackBufferWidth()/2+j*64-96,i*64+Gdx.graphics.getBackBufferHeight()/2);
                 Slot slot=new Slot(SpaceGame.INSTANCE.slotTexture2,(int) slotPosition.x,(int) slotPosition.y, in,planet.equipmentInventory);
-                slot.visible=false;
-                inventorySlots.add(slot);
-                equipmentSlots.add(slot);
+
+                planet.equipmentInventory.slots[in]=slot;
                 in++;
             }
         }
+        planet.equipmentInventory.setVisible(false);
     }
 
     @Override
@@ -231,10 +230,13 @@ public class PlanetScreen extends ScreenAdapter {
         spriteBatch.begin();
         //draw slots and stacks first
         player.inventory.draw(spriteBatch);
+        planet.equipmentInventory.draw(spriteBatch);
         //draw tooltips
         player.inventory.drawSlotInfo(spriteBatch,viewport);
+        planet.equipmentInventory.drawSlotInfo(spriteBatch,viewport);
         if(Gdx.input.justTouched()) {
             stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
+            stackUnderMouse=planet.equipmentInventory.processClick(viewport,stackUnderMouse);
         }
 
         //draw

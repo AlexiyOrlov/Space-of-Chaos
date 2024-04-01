@@ -94,4 +94,11 @@ public class Inventory {
         }
         return stackUnderMouse;
     }
+
+    public void setVisible(boolean b)
+    {
+        for (Slot slot : slots) {
+            slot.visible=b;
+        }
+    }
 }
