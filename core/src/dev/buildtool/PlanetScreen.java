@@ -33,6 +33,7 @@ public class PlanetScreen extends ScreenAdapter {
     public PlanetScreen(StarSystem system, Planet planet, StarShip player) {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         viewport.apply();
+
         inventorySlots = new ArrayList<>(40);
         stage = new Stage(viewport);
         equipmentSlots=new ArrayList<>();
@@ -197,10 +198,11 @@ public class PlanetScreen extends ScreenAdapter {
             for (int j = 0; j < 10; j++) {
                 Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() + j * 64 - 64 * 10, i * 80);
                 Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture, (int) slotPosition.x, (int) slotPosition.y, index, player.inventory);
-                inventorySlots.add(slot);
+                player.inventory.slots[index]=slot;
                 index++;
             }
         }
+
 
         int in=0;
         for (int i = 3; i > 0; i--) {
@@ -228,28 +230,11 @@ public class PlanetScreen extends ScreenAdapter {
         stage.draw();
         spriteBatch.begin();
         //draw slots and stacks first
-        inventorySlots.forEach(slot -> slot.draw(spriteBatch));
-        for (Slot slot : inventorySlots) {
-            slot.drawInfo(spriteBatch, viewport);
-            if (Gdx.input.justTouched()) {
-                int clickedSlot = slot.processClick(viewport);
-                if (clickedSlot != -1) {
-                    if (stackUnderMouse == null) {
-                        stackUnderMouse = player.inventory.stacks[clickedSlot];
-                        player.inventory.stacks[clickedSlot] = null;
-                    } else {
-                        Stack present = player.inventory.stacks[clickedSlot];
-                        if (present == null) {
-                            player.inventory.stacks[clickedSlot] = stackUnderMouse;
-                            stackUnderMouse = null;
-                        } else if (present.item != stackUnderMouse.item) {
-                            player.inventory.stacks[clickedSlot] = stackUnderMouse;
-                            stackUnderMouse = present;
-                        }
-                    }
-                    break;
-                }
-            }
+        player.inventory.draw(spriteBatch);
+        //draw tooltips
+        player.inventory.drawSlotInfo(spriteBatch,viewport);
+        if(Gdx.input.justTouched()) {
+            stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
         }
 
         //draw

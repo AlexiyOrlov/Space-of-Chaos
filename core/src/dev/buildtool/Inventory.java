@@ -1,10 +1,15 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
 public class Inventory {
     public Stack[] stacks;
+    public Slot[] slots;
 
     public Inventory(int stackCount) {
         stacks=new Stack[stackCount];
+        slots=new Slot[stackCount];
     }
 
     public void addItem(Stack stack)
@@ -50,5 +55,43 @@ public class Inventory {
                 }
             }
         }
+    }
+
+    public void draw(SpriteBatch spriteBatch)
+    {
+        for (Slot slot : slots) {
+            slot.draw(spriteBatch);
+        }
+    }
+
+    public void drawSlotInfo(SpriteBatch spriteBatch, Viewport viewport)
+    {
+        for (Slot slot : slots) {
+            slot.drawInfo(spriteBatch, viewport);
+        }
+    }
+
+    public Stack processClick(Viewport viewport,Stack stackUnderMouse)
+    {
+        for (Slot slot : slots) {
+            int clickedSlot=slot.processClick(viewport);
+            if (clickedSlot != -1) {
+                if (stackUnderMouse == null) {
+                    stackUnderMouse = stacks[clickedSlot];
+                    stacks[clickedSlot] = null;
+                } else {
+                    Stack present = stacks[clickedSlot];
+                    if (present == null) {
+                        stacks[clickedSlot] = stackUnderMouse;
+                        stackUnderMouse = null;
+                    } else if (present.item != stackUnderMouse.item) {
+                        stacks[clickedSlot] = stackUnderMouse;
+                        stackUnderMouse = present;
+                    }
+                }
+                break;
+            }
+        }
+        return stackUnderMouse;
     }
 }
