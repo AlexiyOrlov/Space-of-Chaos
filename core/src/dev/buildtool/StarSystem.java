@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class StarSystem {
     public Array<Planet> planets;
     public Star star;
-    public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures) {
+    public int positionX,positionY;
+    public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
         this.planets = new Array<>(3);
         int inhabitedPlanetCount=0;
         int distance=600;
@@ -28,6 +29,8 @@ public class StarSystem {
             distance+=300;
         }
         star=new Star(starTextures.get(SpaceGame.random.nextInt(starTextures.size())));
+        positionX=x;
+        positionY=y;
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)

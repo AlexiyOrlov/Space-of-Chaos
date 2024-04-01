@@ -29,7 +29,7 @@ public class SpaceGame extends Game {
 	Texture redStarshipTexture;
 	public Texture scalesTexture,takeOffTexture,slotTexture,alcoholTexture,toolsTexture,carPartsTexture,firearmsTexture,
 			jewelleryTexture, clothesTexture,electronicsTexture,waterTexture,furnitureTexture,foodTexture,medicineTexture,
-		basicProjectile,ironOreTexture,copperOreTexture,diamondTexture,droneTexture1,gearTexture,slotTexture2;
+		basicProjectile,ironOreTexture,copperOreTexture,diamondTexture,droneTexture1,gearTexture,slotTexture2,starIcon;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer;
@@ -61,6 +61,7 @@ public class SpaceGame extends Game {
 		assetManager.load("drone 1.png", Texture.class);
 		assetManager.load("gears64.png", Texture.class);
 		assetManager.load("slot.png",Texture.class);
+		assetManager.load("star icon.png",Texture.class);
 
 		assetManager.load("alcohol.png",Texture.class);
 		assetManager.load("tools.png",Texture.class);
@@ -94,6 +95,7 @@ public class SpaceGame extends Game {
 		droneTexture1=assetManager.get("drone 1.png");
 		gearTexture=assetManager.get("gears64.png");
 		slotTexture2=assetManager.get("slot.png");
+		starIcon=assetManager.get("star icon.png");
 
 		starTextures=new ArrayList<>(3);
 		starTextures.add(assetManager.get("star.png"));
@@ -124,9 +126,15 @@ public class SpaceGame extends Game {
 	public void initialize()
 	{
 		starSystems=new Array<>();
-		StarSystem starSystem=new StarSystem(planetTextures,starTextures);
-		starSystems.add(starSystem);
-		playerShip=new StarShip(0,0,0,redStarshipTexture,starSystem);
+		int x=0;
+		int y=0;
+		for (int i = 0; i < 10; i++) {
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y);
+			starSystems.add(starSystem);
+			x+=random.nextInt(-400,400);
+			y+=random.nextInt(-400,400);
+		}
+		playerShip=new StarShip(0,0,0,redStarshipTexture,starSystems.get(random.nextInt(starSystems.size)));
 	}
 
 	@Override

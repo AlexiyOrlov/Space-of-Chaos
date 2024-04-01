@@ -200,7 +200,7 @@ public class PlanetScreen extends ScreenAdapter {
         takeOffButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceGame.INSTANCE.setScreen(new SystemScreen(SpaceGame.INSTANCE, system, planet));
+                SpaceGame.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
             }
         });
         table.add(takeOffButton);

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class StarShip {
     public float x,y;
@@ -127,6 +126,11 @@ public class StarShip {
             }
         });
         projectiles.removeAll(toRemove,false);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.M))
+        {
+            SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
+        }
     }
 
     public void addItem(Stack stack)
