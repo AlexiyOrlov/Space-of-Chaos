@@ -41,7 +41,7 @@ public class Slot {
     /**
      * @return clicked slot index
      */
-    public int drawInfo(SpriteBatch spriteBatch,Viewport viewport)
+    public int processClick(Viewport viewport)
     {
         if(visible) {
             int mouseX = Gdx.input.getX();
@@ -50,7 +50,6 @@ public class Slot {
             Stack next = inventory.stacks[slotIndex];
             if (next != null) {
                 if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
-                    bitmapFont.draw(spriteBatch, next.item.name, mousePositionInWorld.x + 20, mousePositionInWorld.y + 10);
                     if (Gdx.input.isTouched())
                         return slotIndex;
                 }
@@ -61,5 +60,24 @@ public class Slot {
             }
         }
         return -1;
+    }
+
+    /**
+     * Must be called after draw
+     */
+    public void drawInfo(SpriteBatch spriteBatch, Viewport viewport)
+    {
+        if(visible)
+        {
+            int mouseX = Gdx.input.getX();
+            int mouseY = Gdx.input.getY();
+            Vector2 mousePositionInWorld = viewport.unproject(new Vector2(mouseX, mouseY));
+            Stack next=inventory.stacks[slotIndex];
+            if (next != null) {
+                if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
+                    bitmapFont.draw(spriteBatch, next.item.name, mousePositionInWorld.x + 20, mousePositionInWorld.y + 10);
+                }
+            }
+        }
     }
 }

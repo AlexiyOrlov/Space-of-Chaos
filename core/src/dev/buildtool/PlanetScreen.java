@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -230,8 +229,8 @@ public class PlanetScreen extends ScreenAdapter {
         spriteBatch.begin();
         inventorySlots.forEach(slot -> slot.draw(spriteBatch));
         inventorySlots.forEach(slot -> {
-            int clickedSlot = slot.drawInfo(spriteBatch, viewport);
             if(Gdx.input.justTouched()) {
+                int clickedSlot = slot.processClick(viewport);
                 if (clickedSlot != -1) {
                     if (stackUnderMouse == null) {
                         stackUnderMouse = player.inventory.stacks[clickedSlot];
@@ -248,7 +247,9 @@ public class PlanetScreen extends ScreenAdapter {
                     }
                 }
             }
+            slot.drawInfo(spriteBatch,viewport);
         });
+
         //draw
         if(stackUnderMouse!=null)
         {
