@@ -227,6 +227,7 @@ public class PlanetScreen extends ScreenAdapter {
         stage.act();
         stage.draw();
         spriteBatch.begin();
+        //draw slots and stacks first
         inventorySlots.forEach(slot -> slot.draw(spriteBatch));
         inventorySlots.forEach(slot -> {
             if(Gdx.input.justTouched()) {
