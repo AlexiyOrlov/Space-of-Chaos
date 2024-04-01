@@ -64,45 +64,57 @@ public class PlanetScreen extends ScreenAdapter {
                 buy.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
+                        Integer price = planet.warePrices.get(ware);
                         Integer currentAmount = planet.wareAmounts.get(ware);
-                        if (currentAmount > 0) {
-                            Dialog dialog = new Dialog("Buying", skin);
-                            Table table = new Table();
-                            Label amountLabel = new Label("1", skin);
-                            Slider amount = new Slider(1, currentAmount, 1, false, skin);
-                            amount.addListener(new ChangeListener() {
-                                @Override
-                                public void changed(ChangeEvent event, Actor actor) {
-                                    amountLabel.setText("" + amount.getValue());
-                                }
-                            });
-                            Button accept = new TextButton("Accept", skin);
-                            accept.addListener(new ChangeListener() {
-                                @Override
-                                public void changed(ChangeEvent event, Actor actor) {
-                                    int wareAm = planet.wareAmounts.get(ware);
-                                    float value = amount.getValue();
-                                    wareAm -= (int) value;
-                                    planet.wareAmounts.put(ware, wareAm);
-                                    wareAmount.setText(String.valueOf(wareAm));
-                                    player.addItem(new Stack(ware, (int) value));
-                                    dialog.hide();
-                                }
-                            });
-                            Button cancel = new TextButton("Cancel", skin);
-                            cancel.addListener(new ChangeListener() {
-                                @Override
-                                public void changed(ChangeEvent event, Actor actor) {
-                                    dialog.hide();
-                                }
-                            });
-                            table.add(amountLabel, amount);
-                            table.row();
-                            table.add(accept, cancel);
-                            dialog.add(table);
-                            dialog.show(stage);
-                            dialog.setResizable(true);
-                        } else {
+                        if(currentAmount>0) {
+                            int maximumToBuy = Math.min(currentAmount, player.money / price);
+                            if (maximumToBuy > 0) {
+                                Dialog dialog = new Dialog("Buying", skin);
+                                Table table = new Table();
+                                Label amountLabel = new Label("1", skin);
+                                Slider amount = new Slider(1, maximumToBuy, 1, false, skin);
+                                amount.addListener(new ChangeListener() {
+                                    @Override
+                                    public void changed(ChangeEvent event, Actor actor) {
+                                        amountLabel.setText("" + amount.getValue());
+                                    }
+                                });
+                                Button accept = new TextButton("Accept", skin);
+                                accept.addListener(new ChangeListener() {
+                                    @Override
+                                    public void changed(ChangeEvent event, Actor actor) {
+                                        int wareAm = planet.wareAmounts.get(ware);
+                                        float value = amount.getValue();
+                                        wareAm -= (int) value;
+                                        planet.wareAmounts.put(ware, wareAm);
+                                        wareAmount.setText(String.valueOf(wareAm));
+                                        player.addItem(new Stack(ware, (int) value));
+                                        dialog.hide();
+                                        player.money -= maximumToBuy * price;
+                                        moneyLabel.setText("Money: "+player.money);
+                                    }
+                                });
+                                Button cancel = new TextButton("Cancel", skin);
+                                cancel.addListener(new ChangeListener() {
+                                    @Override
+                                    public void changed(ChangeEvent event, Actor actor) {
+                                        dialog.hide();
+                                    }
+                                });
+                                table.add(amountLabel, amount);
+                                table.row();
+                                table.add(accept, cancel);
+                                dialog.add(table);
+                                dialog.show(stage);
+                                dialog.setResizable(true);
+                            } else {
+                                Dialog dialog=new Dialog("Can't affrod",skin);
+                                Label message=new Label("Not enough money",skin);
+                                dialog.button(new TextButton("OK",skin));
+                                dialog.add(message);
+                                dialog.show(stage);
+                            }
+                        }else {
                             Dialog dialog = new Dialog("Sold out", skin);
                             Label message = new Label(ware.type + " is sold out", skin);
                             dialog.button(new TextButton("OK", skin));
