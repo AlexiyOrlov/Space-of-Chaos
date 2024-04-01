@@ -230,6 +230,7 @@ public class PlanetScreen extends ScreenAdapter {
         //draw slots and stacks first
         inventorySlots.forEach(slot -> slot.draw(spriteBatch));
         inventorySlots.forEach(slot -> {
+            slot.drawInfo(spriteBatch,viewport);
             if(Gdx.input.justTouched()) {
                 int clickedSlot = slot.processClick(viewport);
                 if (clickedSlot != -1) {
@@ -248,7 +249,6 @@ public class PlanetScreen extends ScreenAdapter {
                     }
                 }
             }
-            slot.drawInfo(spriteBatch,viewport);
         });
 
         //draw
