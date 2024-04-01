@@ -41,6 +41,9 @@ public class PlanetScreen extends ScreenAdapter {
         Skin skin = SpaceGame.INSTANCE.skin;
         this.player = player;
         if(planet.isInhabited) {
+            Label moneyLabel=new Label("Money: "+player.money,skin);
+            table.add(moneyLabel);
+            table.row();
             Table market = new Table(skin);
             market.setFillParent(true);
             market.setVisible(false);
@@ -189,8 +192,8 @@ public class PlanetScreen extends ScreenAdapter {
             }
         });
         table.add(takeOffButton);
-        stage.addActor(table);
         table.bottom();
+        stage.addActor(table);
 
         int index = 0;
         for (int i = 4; i > 0; i--) {
