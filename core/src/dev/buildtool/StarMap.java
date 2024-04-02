@@ -57,15 +57,21 @@ public class StarMap extends ScreenAdapter {
             image.setX(starSystem.positionX- (float) starIcon.getWidth() /2);
             image.setY(starSystem.positionY- (float) starIcon.getHeight() /2);
             stage.addActor(image);
+            BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
             if(starShip.currentStarSystem==starSystem)
             {
                 camera.position.x+= starSystem.positionX;
                 camera.position.y+=starSystem.positionY;
-                BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
-                Label cs=new Label("[YELLOW]Current system",new Label.LabelStyle(font, Color.WHITE));
-                GlyphLayout glyphLayout=new GlyphLayout(font,"Current system");
+                Label cs=new Label("[YELLOW]Current system ("+starSystem.star.name+")",new Label.LabelStyle(font, Color.WHITE));
+                GlyphLayout glyphLayout=new GlyphLayout(font,"Current system ("+starSystem.star.name+")");
                 cs.setPosition(starSystem.positionX- glyphLayout.width/2, starSystem.positionY+30);
                 stage.addActor(cs);
+            }
+            else {
+                Label starName=new Label("[YELLOW]"+starSystem.star.name,new Label.LabelStyle(font,Color.WHITE));
+                GlyphLayout glyphLayout=new GlyphLayout(font,starSystem.star.name);
+                starName.setPosition(starSystem.positionX -glyphLayout.width/2,starSystem.positionY+30);
+                stage.addActor(starName);
             }
             image.addListener(new ClickListener(Input.Buttons.RIGHT){
                 @Override

@@ -135,7 +135,8 @@ public class SpaceGame extends Game {
 		starSystems=new Array<>();
 		int x=0;
 		int y=0;
-		for (int i = 0; i < 10; i++) {
+		System.out.println(Star.starNames.size());
+		for (int i = 0; i <10; i++) {
 			int xleft=random.nextInt(-400,-100);
 			int xright=random.nextInt(100,400);
 			int yleft=random.nextInt(-400,-100);
@@ -150,6 +151,7 @@ public class SpaceGame extends Game {
 				y+=yleft;
 			else
 				y+=yright;
+			System.out.println(i);
 		}
 	}
 
