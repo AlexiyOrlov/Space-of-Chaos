@@ -177,10 +177,12 @@ public class StarMap extends ScreenAdapter {
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(inputAdapter);
         Gdx.input.setInputProcessor(inputMultiplexer);
+        SpaceGame.INSTANCE.updateWorld=false;
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        SpaceGame.INSTANCE.updateWorld=true;
     }
 }
