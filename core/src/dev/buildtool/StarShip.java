@@ -30,7 +30,7 @@ public class StarShip {
     private final Array<Projectile> projectiles;
     private float fireDelay;
     public Inventory inventory;
-    private Circle area;
+    private final Circle area;
     public int money=1000;
     public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
         this.x = x;
