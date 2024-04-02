@@ -217,15 +217,16 @@ public class PlanetScreen extends ScreenAdapter {
             }
         }
 
+        if(planet.isInhabited) {
+            int in = 0;
+            for (int i = 3; i > 0; i--) {
+                for (int j = 0; j < 3; j++) {
+                    Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() / 2 + j * 64 - 96, i * 64 + Gdx.graphics.getBackBufferHeight() / 2);
+                    Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture2, (int) slotPosition.x, (int) slotPosition.y, in, planet.equipmentInventory);
 
-        int in=0;
-        for (int i = 3; i > 0; i--) {
-            for (int j = 0; j < 3; j++) {
-                Vector2 slotPosition=new Vector2(Gdx.graphics.getBackBufferWidth()/2+j*64-96,i*64+Gdx.graphics.getBackBufferHeight()/2);
-                Slot slot=new Slot(SpaceGame.INSTANCE.slotTexture2,(int) slotPosition.x,(int) slotPosition.y, in,planet.equipmentInventory);
-
-                planet.equipmentInventory.slots[in]=slot;
-                in++;
+                    planet.equipmentInventory.slots[in] = slot;
+                    in++;
+                }
             }
         }
         planet.equipmentInventory.setVisible(false);
