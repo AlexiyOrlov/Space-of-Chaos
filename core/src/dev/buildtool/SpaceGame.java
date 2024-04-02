@@ -129,10 +129,20 @@ public class SpaceGame extends Game {
 		int x=0;
 		int y=0;
 		for (int i = 0; i < 10; i++) {
+			int xleft=random.nextInt(-400,-100);
+			int xright=random.nextInt(100,400);
+			int yleft=random.nextInt(-400,-100);
+			int yright=random.nextInt(100,400);
 			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y);
 			starSystems.add(starSystem);
-			x+=random.nextInt(-400,400);
-			y+=random.nextInt(-400,400);
+			if(random.nextBoolean())
+				x+=xleft;
+			else
+				x+=xright;
+			if(random.nextBoolean())
+				y+=yleft;
+			else
+				y+=yright;
 		}
 		playerShip=new StarShip(0,0,0,redStarshipTexture,starSystems.get(random.nextInt(starSystems.size)));
 	}
