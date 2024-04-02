@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -27,10 +28,14 @@ public class StarMap extends ScreenAdapter {
     private final float shipY;
     private final Viewport viewport;
     private final Camera camera;
+    private StarShip starShip;
+    private ShapeRenderer shapeRenderer;
 
     public StarMap(StarSystem currentSystem,StarShip starShip) {
         starSystems=SpaceGame.INSTANCE.starSystems;
         viewport = new ScreenViewport();
+        this.starShip=starShip;
+        shapeRenderer=new ShapeRenderer();
         camera=viewport.getCamera();
         stage=new Stage(viewport);
         starSystems.forEach(starSystem -> {
@@ -70,6 +75,12 @@ public class StarMap extends ScreenAdapter {
         spriteBatch.begin();
         SpaceGame.INSTANCE.bitmapFont.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
         spriteBatch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.setColor(Color.GREEN);
+        int shipJumpDistance = starShip.engine.jumpDistance;
+        shapeRenderer.ellipse(currentStarSystem.positionX-shipJumpDistance,currentStarSystem.positionY-shipJumpDistance, shipJumpDistance*2, shipJumpDistance*2);
+        shapeRenderer.end();
     }
 
     @Override
