@@ -139,10 +139,10 @@ public class SpaceGame extends Game {
 		int y=0;
 		System.out.println(Star.starNames.size());
 		for (int i = 0; i <10; i++) {
-			int xleft=random.nextInt(-400,-100);
-			int xright=random.nextInt(100,400);
-			int yleft=random.nextInt(-400,-100);
-			int yright=random.nextInt(100,400);
+			int xleft=random.nextInt(-300,-100);
+			int xright=random.nextInt(100,300);
+			int yleft=random.nextInt(-300,-100);
+			int yright=random.nextInt(100,300);
 			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y);
 			starSystems.add(starSystem);
 			if(random.nextBoolean())
