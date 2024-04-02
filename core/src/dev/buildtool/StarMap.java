@@ -2,6 +2,7 @@ package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,6 +27,11 @@ public class StarMap extends ScreenAdapter {
             image.setX(starSystem.positionX);
             image.setY(starSystem.positionY);
             stage.addActor(image);
+            if(starShip.currentStarSystem==starSystem)
+            {
+                viewport.getCamera().position.x+= starSystem.positionX;
+                viewport.getCamera().position.y+=starSystem.positionY;
+            }
         });
         viewport.getCamera().position.x-=Gdx.graphics.getBackBufferWidth()/2;
         viewport.getCamera().position.y-=Gdx.graphics.getBackBufferHeight()/2;
@@ -48,5 +54,31 @@ public class StarMap extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width,height);
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(new InputAdapter(){
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                return super.touchDown(screenX, screenY, pointer, button);
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return super.touchUp(screenX, screenY, pointer, button);
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                System.out.println(screenX);
+                return super.touchDragged(screenX, screenY, pointer);
+            }
+        });
+    }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 }
