@@ -31,7 +31,6 @@ public class StarMap extends ScreenAdapter {
     public StarMap(StarSystem currentSystem,StarShip starShip) {
         starSystems=SpaceGame.INSTANCE.starSystems;
         viewport = new ScreenViewport();
-        Skin skin=SpaceGame.INSTANCE.skin;
         camera=viewport.getCamera();
         stage=new Stage(viewport);
         starSystems.forEach(starSystem -> {
