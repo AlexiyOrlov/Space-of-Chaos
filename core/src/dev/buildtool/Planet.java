@@ -81,9 +81,6 @@ public class Planet {
     {
         spriteBatch.begin();
         Functions.drawScaled(spriteBatch,texture,1,x-radius,y-radius);
-        shapeRenderer.setColor(Color.YELLOW);
-        //TODO correlate with outline
-        shapeRenderer.ellipse(outline.x-radius,outline.y-radius, radius*2,radius*2);
         if(!isInhabited)
         {
             Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
@@ -99,6 +96,12 @@ public class Planet {
             spriteBatch.setTransformMatrix(oldMatrix);
         }
         spriteBatch.end();
+
+        //TODO correlate with outline
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.YELLOW);
+        shapeRenderer.circle(outline.x-radius,outline.y-radius, radius);
+        shapeRenderer.end();
     }
 
     public void update()

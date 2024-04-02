@@ -2,9 +2,12 @@ package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -25,6 +28,7 @@ public class StarShip {
     private final Array<Projectile> projectiles;
     private float fireDelay;
     public Inventory inventory;
+    private Circle area;
     public int money=1000;
     public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
         this.x = x;
@@ -38,14 +42,19 @@ public class StarShip {
         this.currentStarSystem=currentStarSystem;
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
+        area=new Circle();
     }
 
-    public void draw(SpriteBatch spriteBatch)
+    public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
         spriteBatch.begin();
         spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
         spriteBatch.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.YELLOW);
+        shapeRenderer.circle(x,y, (float) texture.getWidth() /2);
+        shapeRenderer.end();
     }
 
     public void update(float deltaTime)
@@ -124,6 +133,8 @@ public class StarShip {
         {
             SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
         }
+
+        area.set(x,y,texture.getWidth()/2);
     }
 
     public void addItem(Stack stack)
