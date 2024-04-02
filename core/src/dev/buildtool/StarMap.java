@@ -17,10 +17,11 @@ public class StarMap extends ScreenAdapter {
 
     private final Array<StarSystem> starSystems;
     private final Stage stage;
-    private StarSystem currentStarSystem;
-    private float shipX,shipY;
-    private Viewport viewport;
-    private Camera camera;
+    private final StarSystem currentStarSystem;
+    private final float shipX;
+    private final float shipY;
+    private final Viewport viewport;
+    private final Camera camera;
 
     public StarMap(StarSystem currentSystem,StarShip starShip) {
         starSystems=SpaceGame.INSTANCE.starSystems;
