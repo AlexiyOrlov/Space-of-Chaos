@@ -25,15 +25,15 @@ public class SystemScreen extends ScreenAdapter {
     StarShip playerShip;
     StarSystem starSystem;
 
-    public SystemScreen(StarSystem starSystem, float x,float y) {
+    public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceGame spaceGame=SpaceGame.INSTANCE;
         this.spriteBatch = spaceGame.batch;
         this.starSystem = starSystem;
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
         playerShip=spaceGame.playerShip;
-        playerShip.x=x;
-        playerShip.y=y;
+        playerShip.x=xForPlayer;
+        playerShip.y=yForPlayer;
         camera=new OrthographicCamera();
 		viewport=new ScreenViewport(camera);
 		viewport.apply();

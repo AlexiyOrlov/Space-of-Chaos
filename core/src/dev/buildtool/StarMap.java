@@ -3,6 +3,7 @@ package dev.buildtool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -11,10 +12,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -29,16 +34,23 @@ public class StarMap extends ScreenAdapter {
     private final float shipY;
     private final Viewport viewport;
     private final Camera camera;
-    private StarShip starShip;
-    private ShapeRenderer shapeRenderer;
+    private final StarShip starShip;
+    private final ShapeRenderer shapeRenderer;
+    private final Image target;
+    private StarSystem selectedStarSystem;
+    private float targetAngle;
 
     public StarMap(StarSystem currentSystem,StarShip starShip) {
+        target=new Image(SpaceGame.INSTANCE.targetTexture);
+        target.setOrigin(target.getWidth()/2,target.getHeight()/2);
         starSystems=SpaceGame.INSTANCE.starSystems;
         viewport = new ScreenViewport();
         this.starShip=starShip;
         shapeRenderer=new ShapeRenderer();
         camera=viewport.getCamera();
         stage=new Stage(viewport);
+        target.setVisible(false);
+        stage.addActor(target);
         Texture starIcon = SpaceGame.INSTANCE.starIcon;
         starSystems.forEach(starSystem -> {
             Image image=new Image(starIcon);
@@ -55,6 +67,30 @@ public class StarMap extends ScreenAdapter {
                 cs.setPosition(starSystem.positionX- glyphLayout.width/2, starSystem.positionY+30);
                 stage.addActor(cs);
             }
+            image.addListener(new ClickListener(Input.Buttons.RIGHT){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(starSystem!=starShip.currentStarSystem) {
+                        if (Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= starShip.engine.jumpDistance) {
+                            if (!target.isVisible()) {
+                                target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
+                                target.setVisible(true);
+                                selectedStarSystem = starSystem;
+                            } else {
+                                if (starSystem == selectedStarSystem) {
+                                    starShip.currentStarSystem = starSystem;
+                                    SpaceGame.INSTANCE.setScreen(new SystemScreen(starSystem, 0, 0));
+                                } else {
+                                    selectedStarSystem = starSystem;
+                                    target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
+                                }
+                            }
+                        } else {
+                            target.setVisible(false);
+                        }
+                    }
+                }
+            });
         });
         camera.position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
         camera.position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
@@ -83,6 +119,9 @@ public class StarMap extends ScreenAdapter {
         int shipJumpDistance = starShip.engine.jumpDistance;
         shapeRenderer.ellipse(currentStarSystem.positionX-shipJumpDistance,currentStarSystem.positionY-shipJumpDistance, shipJumpDistance*2, shipJumpDistance*2);
         shapeRenderer.end();
+        target.rotateBy(targetAngle);
+        targetAngle+= MathUtils.degreesToRadians*12;
+        target.setRotation(targetAngle);
     }
 
     @Override
@@ -92,36 +131,46 @@ public class StarMap extends ScreenAdapter {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter(){
+
+        InputMultiplexer inputMultiplexer=new InputMultiplexer();
+        InputAdapter inputAdapter = new InputAdapter() {
             boolean dragging;
-            int prevX,prevY;
+            int prevX, prevY;
+
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                prevX=screenX;
-                prevY=screenY;
-                dragging=true;
-                return true;
+                if (button == 0) {
+                    prevX = screenX;
+                    prevY = screenY;
+                    dragging = true;
+                    return true;
+                }
+                return false;
             }
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                dragging=false;
+                dragging = false;
                 return true;
             }
 
             @Override
             public boolean touchDragged(int screenX, int screenY, int pointer) {
-                if(dragging) {
+                if (dragging) {
                     float distX = prevX - screenX;
                     float distY = prevY - screenY;
-                    camera.position.x+=distX;
-                    camera.position.y-=distY;
-                    prevX=screenX;
-                    prevY=screenY;
+                    camera.position.x += distX;
+                    camera.position.y -= distY;
+                    prevX = screenX;
+                    prevY = screenY;
+                    return true;
                 }
-                return true;
+                return false;
             }
-        });
+        };
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(inputAdapter);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
