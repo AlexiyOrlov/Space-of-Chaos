@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class StarMap extends ScreenAdapter {
 
@@ -17,10 +19,13 @@ public class StarMap extends ScreenAdapter {
     private final Stage stage;
     private StarSystem currentStarSystem;
     private float shipX,shipY;
+    private Viewport viewport;
+    private Camera camera;
 
     public StarMap(StarSystem currentSystem,StarShip starShip) {
         starSystems=SpaceGame.INSTANCE.starSystems;
-        ScreenViewport viewport = new ScreenViewport();
+        viewport = new ScreenViewport();
+        camera=viewport.getCamera();
         stage=new Stage(viewport);
         starSystems.forEach(starSystem -> {
             Image image=new Image(SpaceGame.INSTANCE.starIcon);
@@ -59,20 +64,33 @@ public class StarMap extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter(){
+            boolean dragging;
+            int prevX,prevY;
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                return super.touchDown(screenX, screenY, pointer, button);
+                prevX=screenX;
+                prevY=screenY;
+                dragging=true;
+                return true;
             }
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                return super.touchUp(screenX, screenY, pointer, button);
+                dragging=false;
+                return true;
             }
 
             @Override
             public boolean touchDragged(int screenX, int screenY, int pointer) {
-                System.out.println(screenX);
-                return super.touchDragged(screenX, screenY, pointer);
+                if(dragging) {
+                    float distX = prevX - screenX;
+                    float distY = prevY - screenY;
+                    camera.position.x+=distX;
+                    camera.position.y-=distY;
+                    prevX=screenX;
+                    prevY=screenY;
+                }
+                return true;
             }
         });
     }
