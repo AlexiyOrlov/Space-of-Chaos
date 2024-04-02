@@ -151,7 +151,6 @@ public class SpaceGame extends Game {
 			else
 				y+=yright;
 		}
-		playerShip=new StarShip(0,0,0,redStarshipTexture,starSystems.get(random.nextInt(starSystems.size)));
 	}
 
 	@Override

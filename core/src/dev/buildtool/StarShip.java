@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -51,10 +53,22 @@ public class StarShip {
         spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
         spriteBatch.end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.YELLOW);
-        shapeRenderer.circle(x,y, (float) texture.getWidth() /2);
-        shapeRenderer.end();
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(Color.YELLOW);
+//        shapeRenderer.circle(area.x,area.y, area.radius);
+//        shapeRenderer.end();
+        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
+        for (Planet planet : currentStarSystem.planets) {
+            if(planet.outline.overlaps(area))
+            {
+                GlyphLayout glyphLayout=new GlyphLayout(font,"Press 'L' to land");
+                uibatch.begin();
+                font.draw(uibatch,"Press 'L' to land", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2, (float) Gdx.graphics.getBackBufferHeight() /2-50);
+                uibatch.end();
+                break;
+            }
+        }
     }
 
     public void update(float deltaTime)
@@ -97,7 +111,7 @@ public class StarShip {
         if(Gdx.input.isKeyJustPressed(Input.Keys.L))
         {
             for (Planet planet : currentStarSystem.planets) {
-                if(planet.outline.contains(x,y))
+                if(planet.outline.overlaps(area))
                 {
                     SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet,this));
                     acceleration=0;
@@ -134,7 +148,7 @@ public class StarShip {
             SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
         }
 
-        area.set(x,y,texture.getWidth()/2);
+        area.set(x,y, (float) texture.getWidth() /2);
     }
 
     public void addItem(Stack stack)

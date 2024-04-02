@@ -33,11 +33,8 @@ public class Planet {
     public Inventory equipmentInventory;
 
     public Planet(Texture texture, int distance, float angle, float orbitSpeed, boolean inhabited) {
-        //TODO fix
         this.texture = texture;
         resources=new ArrayList<>();
-//        this.x = (float) (distance* Math.cos(angle));
-//        this.y = (float) (distance*Math.sin(angle));
         isInhabited=inhabited;
         this.x = (float) (distance* MathUtils.cos(angle))+ (float) texture.getWidth() /2;
         this.y = (float) (distance*MathUtils.sin(angle))+ (float) texture.getHeight() /2;
@@ -97,11 +94,10 @@ public class Planet {
         }
         spriteBatch.end();
 
-        //TODO correlate with outline
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.YELLOW);
-        shapeRenderer.circle(outline.x-radius,outline.y-radius, radius);
-        shapeRenderer.end();
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(Color.YELLOW);
+//        shapeRenderer.circle(outline.x,outline.y, radius);
+//        shapeRenderer.end();
     }
 
     public void update()

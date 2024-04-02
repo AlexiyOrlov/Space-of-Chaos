@@ -24,12 +24,12 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.initialize();
-                StarSystem starSystem = game.starSystems.get(0);
                 lable:
                 for (StarSystem system : game.starSystems) {
                     for (Planet planet : system.planets) {
                         if(planet.isInhabited){
-                            game.setScreen(new PlanetScreen(starSystem, planet,game.playerShip));
+                            game.playerShip=new StarShip(0,0,0,SpaceGame.INSTANCE.redStarshipTexture, system);
+                            game.setScreen(new PlanetScreen(system, planet,game.playerShip));
                             game.updateWorld=true;
                             break lable;
                         }

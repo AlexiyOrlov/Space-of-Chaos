@@ -33,9 +33,7 @@ public class PlanetScreen extends ScreenAdapter {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         viewport.apply();
         this.planet=planet;
-        ArrayList<Slot> inventorySlots = new ArrayList<>(40);
         stage = new Stage(viewport);
-        ArrayList<Slot> equipmentSlots = new ArrayList<>();
         Table table = new Table();
         table.setFillParent(true);
         Skin skin = SpaceGame.INSTANCE.skin;
@@ -228,8 +226,8 @@ public class PlanetScreen extends ScreenAdapter {
                     in++;
                 }
             }
+            planet.equipmentInventory.setVisible(false);
         }
-        planet.equipmentInventory.setVisible(false);
     }
 
     @Override
@@ -246,13 +244,15 @@ public class PlanetScreen extends ScreenAdapter {
         spriteBatch.begin();
         //draw slots and stacks first
         player.inventory.draw(spriteBatch);
-        planet.equipmentInventory.draw(spriteBatch);
-        //draw tooltips
-        player.inventory.drawSlotInfo(spriteBatch,viewport);
-        planet.equipmentInventory.drawSlotInfo(spriteBatch,viewport);
-        if(Gdx.input.justTouched()) {
-            stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
-            stackUnderMouse=planet.equipmentInventory.processClick(viewport,stackUnderMouse);
+        if(planet.isInhabited) {
+            planet.equipmentInventory.draw(spriteBatch);
+            //draw tooltips
+            player.inventory.drawSlotInfo(spriteBatch, viewport);
+            planet.equipmentInventory.drawSlotInfo(spriteBatch, viewport);
+            if (Gdx.input.justTouched()) {
+                stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
+                stackUnderMouse = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
+            }
         }
 
         //draw
