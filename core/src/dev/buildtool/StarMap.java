@@ -33,8 +33,8 @@ public class StarMap extends ScreenAdapter {
                 viewport.getCamera().position.y+=starSystem.positionY;
             }
         });
-        viewport.getCamera().position.x-=Gdx.graphics.getBackBufferWidth()/2;
-        viewport.getCamera().position.y-=Gdx.graphics.getBackBufferHeight()/2;
+        viewport.getCamera().position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
+        viewport.getCamera().position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
         currentStarSystem=currentSystem;
         shipX= starShip.x;
         shipY= starShip.y;
