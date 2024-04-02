@@ -21,6 +21,7 @@ public class Ware extends Item {
     public static Ware ALCOHOL=new Ware("alcohol",900,true,"Alcohol",SpaceGame.INSTANCE.alcoholTexture);
     public static Ware IRON_ORE=new Ware("iron ore",650,false,"Iron ore",SpaceGame.INSTANCE.ironOreTexture);
     public static Ware COPPER_ORE=new Ware("copper ore",650,false,"Copper ore",SpaceGame.INSTANCE.copperOreTexture);
+    public static final int MAXIMUM_WARE_AMOUNT=1000;
     public boolean needsLicense;
     static {
         WARES.add(TOOLS);

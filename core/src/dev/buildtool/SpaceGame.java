@@ -153,7 +153,7 @@ public class SpaceGame extends Game {
 				y+=yleft;
 			else
 				y+=yright;
-			System.out.println(i);
+//			System.out.println(i);
 		}
 	}
 

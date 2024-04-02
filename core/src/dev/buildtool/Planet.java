@@ -44,11 +44,11 @@ public class Planet {
         if(inhabited) {
             warePrices = new TreeMap<>();
             wareAmounts = new TreeMap<>();
-            Ware.WARES.forEach(ware -> {
-                int basePrice = Ware.BASE_PRICES.get(ware);
-                warePrices.put(ware, random.nextInt(basePrice / 3, basePrice * 3));
-                wareAmounts.put(ware, random.nextInt(10, 500));
-            });
+//            Ware.WARES.forEach(ware -> {
+//                int basePrice = Ware.BASE_PRICES.get(ware);
+//                warePrices.put(ware, random.nextInt(basePrice / 3, basePrice * 3));
+//                wareAmounts.put(ware, random.nextInt(10, 500));
+//            });
             equipmentInventory=new Inventory(9);
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
         }
