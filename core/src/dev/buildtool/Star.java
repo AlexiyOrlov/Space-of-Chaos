@@ -12,6 +12,8 @@ public class Star {
 
     public void draw(SpriteBatch spriteBatch)
     {
+        spriteBatch.begin();
         spriteBatch.draw(texture,0,0);
+        spriteBatch.end();
     }
 }

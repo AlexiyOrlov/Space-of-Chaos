@@ -42,17 +42,10 @@ public class StarShip {
 
     public void draw(SpriteBatch spriteBatch)
     {
+        spriteBatch.begin();
         spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
-        float angleToStar=MathUtils.atan2(y,x);
-        int halfScreenWidth=Gdx.graphics.getWidth()/2;
-        int halfScreenHeight=Gdx.graphics.getHeight()/2;
-        float absx=Math.abs(x);
-        float absy=Math.abs(y);
-        if(absx>halfScreenWidth && absy>halfScreenHeight)
-        {
-            float cx=1/MathUtils.tan(angleToStar)*MathUtils.tan(angleToStar);
-        }
+        spriteBatch.end();
     }
 
     public void update(float deltaTime)

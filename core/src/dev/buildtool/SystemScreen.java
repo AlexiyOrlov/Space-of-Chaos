@@ -46,11 +46,9 @@ public class SystemScreen extends ScreenAdapter {
         shapeRenderer.setProjectionMatrix(camera.combined);
         playerShip.update(delta);
 
-        spriteBatch.begin();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         starSystem.draw(spriteBatch, shapeRenderer);
         playerShip.draw(spriteBatch);
-        spriteBatch.end();
         shapeRenderer.end();
 
 		camera.position.set(playerShip.x,playerShip.y,0);

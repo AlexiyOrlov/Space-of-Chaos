@@ -36,13 +36,6 @@ public class StarSystem {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
-//        Texture skyTexture=SpaceGame.INSTANCE.skyTexture;
-//        SpriteBatch uiBatch = SpaceGame.INSTANCE.uiBatch;
-//        int swidth= Gdx.graphics.getBackBufferWidth();
-//        int sheight=Gdx.graphics.getBackBufferHeight();
-//        uiBatch.begin();
-//        uiBatch.draw(skyTexture,0,0,swidth,sheight);
-//        uiBatch.end();
         star.draw(spriteBatch);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer ));
     }

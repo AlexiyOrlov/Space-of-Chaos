@@ -79,6 +79,7 @@ public class Planet {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
+        spriteBatch.begin();
         Functions.drawScaled(spriteBatch,texture,1,x-radius,y-radius);
         shapeRenderer.setColor(Color.YELLOW);
         //TODO correlate with outline
@@ -97,6 +98,7 @@ public class Planet {
             font.draw(spriteBatch,"Uninhabited",-glyphLayout.width/2,0);
             spriteBatch.setTransformMatrix(oldMatrix);
         }
+        spriteBatch.end();
     }
 
     public void update()
