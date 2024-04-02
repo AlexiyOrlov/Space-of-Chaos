@@ -6,8 +6,12 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,6 +30,7 @@ public class StarMap extends ScreenAdapter {
     public StarMap(StarSystem currentSystem,StarShip starShip) {
         starSystems=SpaceGame.INSTANCE.starSystems;
         viewport = new ScreenViewport();
+        Skin skin=SpaceGame.INSTANCE.skin;
         camera=viewport.getCamera();
         stage=new Stage(viewport);
         starSystems.forEach(starSystem -> {
@@ -48,6 +53,7 @@ public class StarMap extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
         ScreenUtils.clear(Color.BLACK);
         stage.act(delta);
         stage.draw();
@@ -55,6 +61,10 @@ public class StarMap extends ScreenAdapter {
         {
             SpaceGame.INSTANCE.setScreen(new SystemScreen(currentStarSystem,shipX,shipY));
         }
+        GlyphLayout glyphLayout=new GlyphLayout(SpaceGame.INSTANCE.bitmapFont,"Galactic map");
+        spriteBatch.begin();
+        SpaceGame.INSTANCE.bitmapFont.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
+        spriteBatch.end();
     }
 
     @Override
