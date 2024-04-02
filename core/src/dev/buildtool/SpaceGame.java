@@ -30,7 +30,7 @@ public class SpaceGame extends Game {
 	public Texture scalesTexture,takeOffTexture,slotTexture,alcoholTexture,toolsTexture,carPartsTexture,firearmsTexture,
 			jewelleryTexture, clothesTexture,electronicsTexture,waterTexture,furnitureTexture,foodTexture,medicineTexture,
 		basicProjectile,ironOreTexture,copperOreTexture,diamondTexture,droneTexture1,gearTexture,slotTexture2,starIcon,
-		targetTexture,skyTexture;
+		targetTexture,skyTexture, tradingHull1Texture;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer;
@@ -65,6 +65,7 @@ public class SpaceGame extends Game {
 		assetManager.load("slot.png",Texture.class);
 		assetManager.load("star icon.png",Texture.class);
 		assetManager.load("target_indicator.png", Texture.class);
+		assetManager.load("trade hull 1.png", Texture.class);
 
 		assetManager.load("alcohol.png",Texture.class);
 		assetManager.load("tools.png",Texture.class);
@@ -103,6 +104,7 @@ public class SpaceGame extends Game {
 		targetTexture=assetManager.get("target_indicator.png");
 		skyTexture=assetManager.get("sky.png");
 		skyTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		tradingHull1Texture=assetManager.get("trade hull 1.png");
 
 		starTextures=new ArrayList<>(3);
 		starTextures.add(assetManager.get("star.png"));
