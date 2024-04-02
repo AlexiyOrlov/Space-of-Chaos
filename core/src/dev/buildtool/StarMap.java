@@ -47,8 +47,8 @@ public class StarMap extends ScreenAdapter {
             stage.addActor(image);
             if(starShip.currentStarSystem==starSystem)
             {
-                viewport.getCamera().position.x+= starSystem.positionX;
-                viewport.getCamera().position.y+=starSystem.positionY;
+                camera.position.x+= starSystem.positionX;
+                camera.position.y+=starSystem.positionY;
                 BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
                 Label cs=new Label("[YELLOW]Current system",new Label.LabelStyle(font, Color.WHITE));
                 GlyphLayout glyphLayout=new GlyphLayout(font,"Current system");
@@ -56,8 +56,8 @@ public class StarMap extends ScreenAdapter {
                 stage.addActor(cs);
             }
         });
-        viewport.getCamera().position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
-        viewport.getCamera().position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
+        camera.position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
+        camera.position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
         currentStarSystem=currentSystem;
         shipX= starShip.x;
         shipY= starShip.y;
