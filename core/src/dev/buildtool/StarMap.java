@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,6 +43,11 @@ public class StarMap extends ScreenAdapter {
             {
                 viewport.getCamera().position.x+= starSystem.positionX;
                 viewport.getCamera().position.y+=starSystem.positionY;
+                BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+                Label cs=new Label("[YELLOW]Current system",new Label.LabelStyle(font, Color.WHITE));
+                GlyphLayout glyphLayout=new GlyphLayout(font,"Current system");
+                cs.setPosition(starSystem.positionX- glyphLayout.width/2, starSystem.positionY+30);
+                stage.addActor(cs);
             }
         });
         viewport.getCamera().position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;

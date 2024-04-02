@@ -42,6 +42,7 @@ public class SpaceGame extends Game {
 		INSTANCE=this;
 		textMeasurer=new GlyphLayout();
 		bitmapFont=new BitmapFont();
+		bitmapFont.getData().markupEnabled=true;
 		assetManager=new AssetManager();
 		batch = new SpriteBatch();
 		uiBatch=new SpriteBatch();
