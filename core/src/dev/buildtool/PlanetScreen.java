@@ -260,12 +260,11 @@ public class PlanetScreen extends ScreenAdapter {
         GlyphLayout glyphLayout=new GlyphLayout(font, planet.name);
         font.draw(spriteBatch,planet.name, (float) Gdx.graphics.getBackBufferWidth() /2-glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
 
-        //draw
         if(stackUnderMouse!=null)
         {
             Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
             spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
-            SpaceGame.INSTANCE.bitmapFont.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
+            font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
         }
         spriteBatch.end();
     }
