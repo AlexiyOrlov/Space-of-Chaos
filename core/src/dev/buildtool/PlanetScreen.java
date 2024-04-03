@@ -352,6 +352,7 @@ public class PlanetScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        SpaceGame.INSTANCE.updateWorld=false;
     }
 
     @Override
@@ -399,5 +400,6 @@ public class PlanetScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        SpaceGame.INSTANCE.updateWorld=true;
     }
 }
