@@ -62,15 +62,25 @@ public class StarShip {
 //        shapeRenderer.end();
         BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
         SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
+        int backBufferWidth = Gdx.graphics.getBackBufferWidth();
+        int backBufferHeight = Gdx.graphics.getBackBufferHeight();
         for (Planet planet : currentStarSystem.planets) {
             if(planet.outline.overlaps(area))
             {
                 GlyphLayout glyphLayout=new GlyphLayout(font,"Press 'L' to land");
                 uibatch.begin();
-                font.draw(uibatch,"Press 'L' to land", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2, (float) Gdx.graphics.getBackBufferHeight() /2-50);
+                font.draw(uibatch,"Press 'L' to land", (float) backBufferWidth /2- glyphLayout.width/2, (float) backBufferHeight /2-50);
                 uibatch.end();
                 break;
             }
+        }
+
+        if(currentStarSystem.starGate.area.overlaps(area))
+        {
+            GlyphLayout glyphLayout=new GlyphLayout(font,"Press 'M' to open star map");
+            uibatch.begin();
+            font.draw(uibatch,"Press 'M' to open star map",backBufferWidth/2- glyphLayout.width/2,backBufferHeight/2-50);
+            uibatch.end();
         }
     }
 
@@ -146,7 +156,7 @@ public class StarShip {
         });
         projectiles.removeAll(toRemove,false);
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M))
+        if(Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area))
         {
             SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
         }

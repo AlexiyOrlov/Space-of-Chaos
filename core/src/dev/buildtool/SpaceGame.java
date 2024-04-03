@@ -23,14 +23,14 @@ public class SpaceGame extends Game {
 	SpriteBatch batch,uiBatch;
 	ArrayList<Texture> planetTextures;
 	AssetManager assetManager;
-	Array<StarSystem> starSystems;
+	ArrayList<StarSystem> starSystems;
 	ArrayList<Texture> starTextures;
 	StarShip playerShip;
 	Texture redStarshipTexture;
 	public Texture scalesTexture,takeOffTexture,slotTexture,alcoholTexture,toolsTexture,carPartsTexture,firearmsTexture,
 			jewelleryTexture, clothesTexture,electronicsTexture,waterTexture,furnitureTexture,foodTexture,medicineTexture,
 		basicProjectile,ironOreTexture,copperOreTexture,diamondTexture,droneTexture1,gearTexture,slotTexture2,starIcon,
-		targetTexture,skyTexture, tradingHull1Texture;
+		targetTexture,skyTexture, tradingHull1Texture,starGateTexture;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer;
@@ -79,6 +79,7 @@ public class SpaceGame extends Game {
 		assetManager.load("food.png",Texture.class);
 		assetManager.load("medicine.png",Texture.class);
 		assetManager.load("sky.png", Texture.class);
+		assetManager.load("star gate.png", Texture.class);
 		assetManager.finishLoading();
 
 		alcoholTexture=assetManager.get("alcohol.png");
@@ -105,6 +106,7 @@ public class SpaceGame extends Game {
 		skyTexture=assetManager.get("sky.png");
 		skyTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		tradingHull1Texture=assetManager.get("trade hull 1.png");
+		starGateTexture=assetManager.get("star gate.png");
 
 		starTextures=new ArrayList<>(3);
 		starTextures.add(assetManager.get("star.png"));
@@ -134,7 +136,7 @@ public class SpaceGame extends Game {
 
 	public void initialize()
 	{
-		starSystems=new Array<>();
+		starSystems=new ArrayList<>();
 		int x=0;
 		int y=0;
 		System.out.println(Star.starNames.size());

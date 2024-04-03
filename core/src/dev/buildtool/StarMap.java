@@ -25,9 +25,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class StarMap extends ScreenAdapter {
 
-    private final Array<StarSystem> starSystems;
+    private final ArrayList<StarSystem> starSystems;
     private final Stage stage;
     private final StarSystem currentStarSystem;
     private final float shipX;
