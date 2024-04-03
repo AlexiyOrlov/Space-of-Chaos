@@ -1,11 +1,9 @@
 package dev.buildtool;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
@@ -33,6 +31,8 @@ public class Planet {
     public Inventory equipmentInventory;
     public final String name;
     private static final ArrayList<String> planetNames=new ArrayList<>();
+    public ArrayList<NPCPilot> ships=new ArrayList<>();
+    public StarSystem starSystem;
     static {
         planetNames.add("Ankeigantu");
         planetNames.add("Caruta");
@@ -105,8 +105,12 @@ public class Planet {
 
     }
 
-    public Planet(Texture texture, int distance, float angle, float orbitSpeed, boolean inhabited) {
+    private ArrayList<NPCPilot> shipsToRemove;
+
+    public Planet(Texture texture, int distance, float angle, float orbitSpeed, boolean inhabited, StarSystem belongsTo) {
         this.texture = texture;
+        starSystem=belongsTo;
+        shipsToRemove=new ArrayList<>();
         String randomName=planetNames.get(random.nextInt(planetNames.size()));
         name=randomName;
         planetNames.remove(randomName);
@@ -120,13 +124,13 @@ public class Planet {
         if(inhabited) {
             warePrices = new TreeMap<>();
             wareAmounts = new TreeMap<>();
-//            Ware.WARES.forEach(ware -> {
-//                int basePrice = Ware.BASE_PRICES.get(ware);
-//                warePrices.put(ware, random.nextInt(basePrice / 3, basePrice * 3));
-//                wareAmounts.put(ware, random.nextInt(10, 500));
-//            });
             equipmentInventory=new Inventory(9);
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
+//            if(random.nextBoolean())
+            {
+                NPCPilot npcPilot=new NPCPilot(this);
+                ships.add(npcPilot);
+            }
         }
         else {
             int resources=SpaceGame.random.nextInt(1,3);
@@ -177,11 +181,19 @@ public class Planet {
 //        shapeRenderer.end();
     }
 
-    public void update()
+    public void update(float deltaTime)
     {
         currentAngle+=speed*MathUtils.degreesToRadians;
         this.x = (float) (distance* MathUtils.cos(currentAngle))+ (float) texture.getWidth() /2;
         this.y = (float) (distance*MathUtils.sin(currentAngle))+ (float) texture.getHeight() /2;
         outline.set(x,y,radius);
+        ships.forEach(npcPilot -> {
+            npcPilot.work(deltaTime);
+            if(!npcPilot.landed)
+                shipsToRemove.add(npcPilot);
+        });
+        ships.removeAll(shipsToRemove);
+        starSystem.ships.addAll(shipsToRemove);
+        shipsToRemove.clear();
     }
 }

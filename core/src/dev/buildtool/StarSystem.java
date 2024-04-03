@@ -16,6 +16,7 @@ public class StarSystem {
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
     public int positionX,positionY;
+    public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
         this.planets = new Array<>(3);
         int inhabitedPlanetCount=0;
@@ -29,7 +30,7 @@ public class StarSystem {
                 if(inhabited)
                     inhabitedPlanetCount++;
             }
-            planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI,MathUtils.PI), random.nextFloat(0.01f,0.1f), inhabited));
+            planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI,MathUtils.PI), random.nextFloat(0.01f,0.1f), inhabited, this));
 
             distance+=300;
         }
@@ -70,10 +71,14 @@ public class StarSystem {
     {
         star.draw(spriteBatch);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer ));
+        ships.forEach(npcPilot -> npcPilot.draw(spriteBatch));
     }
 
     public void update()
     {
-        planets.forEach(Planet::update);
+        float dt=Gdx.graphics.getDeltaTime();
+        planets.forEach(planet -> planet.update(dt));
+        ships.forEach(npcPilot -> npcPilot.work(dt));
     }
+
 }
