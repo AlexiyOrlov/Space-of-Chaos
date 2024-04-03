@@ -3,6 +3,8 @@ package dev.buildtool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -239,6 +241,7 @@ public class PlanetScreen extends ScreenAdapter {
     public void render(float delta) {
         ScreenUtils.clear(Color.LIGHT_GRAY);
         SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
+        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
         stage.act();
         stage.draw();
         spriteBatch.begin();
@@ -254,6 +257,8 @@ public class PlanetScreen extends ScreenAdapter {
                 stackUnderMouse = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
             }
         }
+        GlyphLayout glyphLayout=new GlyphLayout(font, planet.name);
+        font.draw(spriteBatch,planet.name, (float) Gdx.graphics.getBackBufferWidth() /2-glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
 
         //draw
         if(stackUnderMouse!=null)

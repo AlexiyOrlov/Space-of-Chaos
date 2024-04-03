@@ -154,20 +154,21 @@ public class Planet {
     {
         spriteBatch.begin();
         Functions.drawScaled(spriteBatch,texture,1,x-radius,y-radius);
+        Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
+        Matrix4 matrix4=new Matrix4();
+        matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
+        matrix4.trn(x,y,0);
+        BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+        GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
+        spriteBatch.setTransformMatrix(matrix4);
         if(!isInhabited)
         {
-            Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
-            Matrix4 matrix4=new Matrix4();
-            matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
-            matrix4.trn(x,y,0);
-
-            spriteBatch.setTransformMatrix(matrix4);
-            BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
-            GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
             glyphLayout.setText(font,"Uninhabited");
-            font.draw(spriteBatch,"Uninhabited",-glyphLayout.width/2,0);
-            spriteBatch.setTransformMatrix(oldMatrix);
+            font.draw(spriteBatch,"Uninhabited",-glyphLayout.width/2,-30);
         }
+        glyphLayout.setText(font,name);
+        font.draw(spriteBatch,name,-glyphLayout.width/2,0);
+        spriteBatch.setTransformMatrix(oldMatrix);
         spriteBatch.end();
 
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
