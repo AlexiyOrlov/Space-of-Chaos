@@ -159,6 +159,7 @@ public class StarShip {
         if(Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area))
         {
             SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
+            acceleration=0;
         }
 
         area.set(x,y, (float) texture.getWidth() /2);
