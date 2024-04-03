@@ -138,6 +138,7 @@ public class SpaceGame extends Game {
 		int x=0;
 		int y=0;
 		System.out.println(Star.starNames.size());
+		int planetCount=0;
 		for (int i = 0; i <10; i++) {
 			int xleft=random.nextInt(-300,-100);
 			int xright=random.nextInt(100,300);
@@ -153,8 +154,10 @@ public class SpaceGame extends Game {
 				y+=yleft;
 			else
 				y+=yright;
+			planetCount+=starSystem.planets.size;
 //			System.out.println(i);
 		}
+		System.out.println(planetCount+ " planets in total");
 	}
 
 	@Override
