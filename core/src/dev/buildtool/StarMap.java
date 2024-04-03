@@ -87,7 +87,7 @@ public class StarMap extends ScreenAdapter {
                             } else {
                                 if (starSystem == selectedStarSystem) {
                                     starShip.currentStarSystem = starSystem;
-                                    SpaceGame.INSTANCE.setScreen(new SystemScreen(starSystem, 0, 0));
+                                    SpaceGame.INSTANCE.setScreen(new SystemScreen(starSystem, starSystem.starGate.x, starSystem.starGate.y));
                                 } else {
                                     selectedStarSystem = starSystem;
                                     target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
