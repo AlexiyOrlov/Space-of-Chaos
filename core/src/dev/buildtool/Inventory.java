@@ -57,6 +57,24 @@ public class Inventory {
         }
     }
 
+    public void removeItem(Item item,int amount){
+        for (int i = 0; i < stacks.length; i++) {
+            Stack next=stacks[i];
+            if(next!=null && next.item==item)
+            {
+                int toRemove=Math.min(amount,next.count);
+                next.count-=toRemove;
+                if(next.count==0)
+                {
+                    stacks[i]=null;
+                }
+                amount-=toRemove;
+                if(amount==0)
+                    break;
+            }
+        }
+    }
+
     public void draw(SpriteBatch spriteBatch)
     {
         for (Slot slot : slots) {

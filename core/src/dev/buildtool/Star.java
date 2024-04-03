@@ -2,7 +2,6 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.sun.tools.javac.util.List;
 
 import java.util.ArrayList;
 

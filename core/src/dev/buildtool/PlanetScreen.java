@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PlanetScreen extends ScreenAdapter {
     private final Stage stage;
@@ -62,13 +63,19 @@ public class PlanetScreen extends ScreenAdapter {
             market.row();
 
             market.row();
-            planet.warePrices.forEach((ware, integer) -> {
+            planet.warePrices.forEach((ware, price) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
-                Label warePrice = new Label(integer.toString(), skin);
+                Label warePrice = new Label(price.toString(), skin);
                 warePrice.setColor(Color.SCARLET);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
-                Label wareAmount = new Label(wareAmountt.toString(), skin);
+                Label wareAmountLabel = new Label(wareAmountt.toString(), skin);
+
+                TextButton sell=new TextButton("Sell",skin);
+
+                //calculate ware count for player
+                HashMap<Ware,Integer> playerWareCount=new HashMap<>();
+                calculatePlayerWareCount(player, playerWareCount);
 
                 Button buy = new TextButton("Buy", skin);
                 buy.addListener(new ChangeListener() {
@@ -97,7 +104,7 @@ public class PlanetScreen extends ScreenAdapter {
                                         int toBuy = (int) amount.getValue();
                                         wareAm -= toBuy;
                                         planet.wareAmounts.put(ware, wareAm);
-                                        wareAmount.setText(String.valueOf(wareAm));
+                                        wareAmountLabel.setText(String.valueOf(wareAm));
                                         player.addItem(new Stack(ware, (int) toBuy));
                                         dialog.hide();
                                         player.money -= toBuy * price;
@@ -109,6 +116,8 @@ public class PlanetScreen extends ScreenAdapter {
                                         }
                                         player.warePurchases.add(warePurchase);
                                         updatePurchaseTable(player,purchaseHistoryTable,skin);
+                                        sell.setVisible(true);
+                                        calculatePlayerWareCount(player,playerWareCount);
                                     }
                                 });
                                 Button cancel = new TextButton("Cancel", skin);
@@ -123,9 +132,8 @@ public class PlanetScreen extends ScreenAdapter {
                                 table.add(accept, cancel);
                                 dialog.add(table);
                                 dialog.show(stage);
-                                dialog.setResizable(true);
                             } else {
-                                Dialog dialog=new Dialog("Can't affrod",skin);
+                                Dialog dialog=new Dialog("Can't afford",skin);
                                 Label message=new Label("Not enough money",skin);
                                 dialog.button(new TextButton("OK",skin));
                                 dialog.add(message);
@@ -141,17 +149,72 @@ public class PlanetScreen extends ScreenAdapter {
                     }
                 });
 
+                sell.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        int wareAmount=playerWareCount.get(ware);
+                        Dialog sellDialog=new Dialog("Sell "+ware.name,skin);
+                        Table table1=new Table();
+                        Slider amountSlider=new Slider(1,wareAmount,1,false,skin);
+                        Label countLabel=new Label("1",skin);
+                        Button accept=new TextButton("Accept",skin);
+                        amountSlider.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                countLabel.setText(amountSlider.getValue()+"");
+                            }
+                        });
+                        accept.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                int toSell= (int) amountSlider.getValue();
+                                player.inventory.removeItem(ware,toSell);
+                                int marketAmount=planet.wareAmounts.get(ware);
+                                marketAmount+=toSell;
+                                planet.wareAmounts.put(ware,marketAmount);
+                                int playerNowHas=playerWareCount.get(ware)-toSell;
+                                playerWareCount.put(ware,playerNowHas);
+                                if(playerNowHas==0)
+                                {
+                                    sell.setVisible(false);
+                                }
+                                wareAmountLabel.setText(marketAmount);
+                                player.money+=toSell*price;
+                                moneyLabel.setText("Money: "+player.money);
+                                sellDialog.hide();
+                            }
+                        });
+                        Button cancel=new TextButton("Cancel",skin);
+                        cancel.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                sellDialog.hide();
+                            }
+                        });
+                        table1.add(countLabel);
+                        table1.add(amountSlider).row();
+                        table1.add(accept,cancel);
+                        sellDialog.add(table1);
+                        sellDialog.show(stage);
+                    }
+                });
 
-                market.add(image, wareName, wareAmount,warePrice);
+                market.add(image, wareName, wareAmountLabel,warePrice);
                 if (ware.needsLicense) {
                     if (player.licences.get(ware)) {
                         market.add(buy);
+                        market.add(sell);
+                        if(playerWareCount.getOrDefault(ware,0)>0)
+                            sell.setVisible(false);
                     } else {
                         Label noLicense = new Label("No license", skin);
-                        market.add(noLicense);
+                        market.add(noLicense).colspan(2);
                     }
                 } else {
                     market.add(buy);
+                    market.add(sell);
+                    if(playerWareCount.getOrDefault(ware,0)==0)
+                        sell.setVisible(false);
                 }
                 market.row();
             });
@@ -249,6 +312,19 @@ public class PlanetScreen extends ScreenAdapter {
                 }
             }
             planet.equipmentInventory.setVisible(false);
+        }
+    }
+
+    private static void calculatePlayerWareCount(StarShip player, HashMap<Ware, Integer> playerWareCount) {
+        for (Stack stack : player.inventory.stacks) {
+            if(stack!=null) {
+                Item item = stack.item;
+                if (item instanceof Ware w) {
+                    int currentWareCount = playerWareCount.getOrDefault(w, 0);
+                    currentWareCount += stack.count;
+                    playerWareCount.put(w, currentWareCount);
+                }
+            }
         }
     }
 
