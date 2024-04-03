@@ -152,7 +152,7 @@ public class PlanetScreen extends ScreenAdapter {
                 sell.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        int wareAmount=playerWareCount.get(ware);
+                        int wareAmount=Math.min(Ware.MAXIMUM_WARE_AMOUNT,playerWareCount.get(ware));
                         Dialog sellDialog=new Dialog("Sell "+ware.name,skin);
                         Table table1=new Table();
                         Slider amountSlider=new Slider(1,wareAmount,1,false,skin);
