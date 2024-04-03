@@ -1,6 +1,10 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NPCPilot {
     public Hull hull=Hull.TRADING1;
@@ -34,9 +38,10 @@ public class NPCPilot {
             }
         }
         else {
-            rotation+=3;
-        }
+            StarSystem currentSystem=currentlyLandedOn.starSystem;
+            List<StarSystem> closestSystems= SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> Vector2.dst(starSystem.positionX,starSystem.positionY,currentSystem.positionX,currentSystem.positionY)<= engine.jumpDistance).collect(Collectors.toList());
 
+        }
     }
 
     public void draw(SpriteBatch spriteBatch)
