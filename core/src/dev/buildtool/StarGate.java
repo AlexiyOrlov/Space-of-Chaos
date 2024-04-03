@@ -25,9 +25,11 @@ public class StarGate {
         Texture starGateTexture = SpaceGame.INSTANCE.starGateTexture;
         Functions.drawRotated(spriteBatch, starGateTexture,x-starGateTexture.getWidth()/2,y-starGateTexture.getHeight()/2,rotation);
         spriteBatch.end();
-//        SpaceGame.INSTANCE.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        SpaceGame.INSTANCE.shapeRenderer.circle(x,y,128);
-//        SpaceGame.INSTANCE.shapeRenderer.end();
+        if(SpaceGame.debugDraw) {
+            SpaceGame.INSTANCE.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            SpaceGame.INSTANCE.shapeRenderer.circle(x,y,128);
+            SpaceGame.INSTANCE.shapeRenderer.end();
+        }
 
     }
 

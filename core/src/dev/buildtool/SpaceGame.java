@@ -2,6 +2,7 @@ package dev.buildtool;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,6 +38,7 @@ public class SpaceGame extends Game {
 	public BitmapFont bitmapFont;
 	public GlyphLayout textMeasurer;
 	public boolean updateWorld;
+	static boolean debugDraw;
 	
 	@Override
 	public void create () {
@@ -167,5 +169,9 @@ public class SpaceGame extends Game {
 		super.render();
 		if(updateWorld)
 			starSystems.forEach(StarSystem::update);
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F3))
+		{
+			debugDraw=!debugDraw;
+		}
 	}
 }

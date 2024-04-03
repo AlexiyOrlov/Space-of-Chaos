@@ -1,5 +1,6 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -177,10 +178,12 @@ public class Planet {
         spriteBatch.setTransformMatrix(oldMatrix);
         spriteBatch.end();
 
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setColor(Color.YELLOW);
-//        shapeRenderer.circle(outline.x,outline.y, radius);
-//        shapeRenderer.end();
+        if(SpaceGame.debugDraw) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.circle(outline.x, outline.y, radius);
+            shapeRenderer.end();
+        }
     }
 
     public void update(float deltaTime)

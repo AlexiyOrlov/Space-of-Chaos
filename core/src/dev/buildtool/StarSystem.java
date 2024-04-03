@@ -71,7 +71,7 @@ public class StarSystem {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
-        star.draw(spriteBatch);
+        star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer ));
         starGate.draw(spriteBatch);
         ships.forEach(npcPilot -> npcPilot.draw(spriteBatch));

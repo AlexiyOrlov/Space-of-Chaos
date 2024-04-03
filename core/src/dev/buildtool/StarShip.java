@@ -56,10 +56,14 @@ public class StarShip {
         spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
         spriteBatch.end();
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setColor(Color.YELLOW);
-//        shapeRenderer.circle(area.x,area.y, area.radius);
-//        shapeRenderer.end();
+
+        if(SpaceGame.debugDraw) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.circle(area.x, area.y, area.radius);
+            shapeRenderer.end();
+        }
+
         BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
         SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
         int backBufferWidth = Gdx.graphics.getBackBufferWidth();
