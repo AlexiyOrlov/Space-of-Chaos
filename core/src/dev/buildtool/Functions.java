@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Functions {
     public static void drawScaled(SpriteBatch spriteBatch, Texture texture,float scale,float x,float y)
@@ -18,6 +19,11 @@ public class Functions {
 
     public static void drawRotated(SpriteBatch spriteBatch,Texture texture,float x,float y,float rotationDegrees)
     {
-        spriteBatch.draw(new TextureRegion(texture),x,y, texture.getWidth() /2,texture.getHeight()/2,texture.getWidth(),texture.getHeight(),1,1,rotationDegrees*MathUtils.degreesToRadians);
+        spriteBatch.draw(new TextureRegion(texture),x-texture.getWidth()/2,y-texture.getHeight()/2, texture.getWidth() /2,texture.getHeight()/2,texture.getWidth(),texture.getHeight(),1,1,rotationDegrees);
+    }
+
+    public static float rotateTowards(float fromAngle,float xFrom,float yFrom,float xTo,float yTo,float correctionAngle,float rotationSpeed)
+    {
+        return MathUtils.lerp(fromAngle,MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle,rotationSpeed);
     }
 }

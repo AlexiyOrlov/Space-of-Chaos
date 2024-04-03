@@ -158,7 +158,7 @@ public class SpaceGame extends Game {
 				y+=yleft;
 			else
 				y+=yright;
-			planetCount+=starSystem.planets.size;
+			planetCount+=starSystem.planets.size();
 //			System.out.println(i);
 		}
 		System.out.println(planetCount+ " planets in total");

@@ -23,21 +23,20 @@ public class StarGate {
     {
         spriteBatch.begin();
         Texture starGateTexture = SpaceGame.INSTANCE.starGateTexture;
-        Functions.drawRotated(spriteBatch, starGateTexture,x-starGateTexture.getWidth()/2,y-starGateTexture.getHeight()/2,rotation);
+        Functions.drawRotated(spriteBatch, starGateTexture,x,y,rotation);
         spriteBatch.end();
         if(SpaceGame.debugDraw) {
             SpaceGame.INSTANCE.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             SpaceGame.INSTANCE.shapeRenderer.circle(x,y,128);
             SpaceGame.INSTANCE.shapeRenderer.end();
         }
-
     }
 
     public void update(float deltaTime)
     {
-        this.x = (float) (distanceFromStar * MathUtils.cos(currentAngle));
-        this.y = (float) (distanceFromStar *MathUtils.sin(currentAngle));
-        rotation-= 10;
+        this.x = distanceFromStar * MathUtils.cos(currentAngle);
+        this.y = distanceFromStar *MathUtils.sin(currentAngle);
+        rotation-= 10*MathUtils.degreesToRadians;
         currentAngle+=0.1f*MathUtils.degreesToRadians;
         area.set(x,y,128);
     }

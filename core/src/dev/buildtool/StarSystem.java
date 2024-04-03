@@ -5,21 +5,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class StarSystem {
-    public Array<Planet> planets;
+    public ArrayList<Planet> planets;
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
     public int positionX,positionY;
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarGate starGate;
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
-        this.planets = new Array<>(3);
+        this.planets = new ArrayList<>(7);
         Random random = SpaceGame.random;
         starGate=new StarGate(400, random.nextFloat(-MathUtils.PI,MathUtils.PI));
         int inhabitedPlanetCount=0;
@@ -72,9 +71,9 @@ public class StarSystem {
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
         star.draw(spriteBatch, shapeRenderer);
-        planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer ));
+        planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
-        ships.forEach(npcPilot -> npcPilot.draw(spriteBatch));
+        ships.forEach(npcPilot -> npcPilot.draw(spriteBatch,shapeRenderer));
     }
 
     public void update()

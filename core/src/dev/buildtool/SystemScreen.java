@@ -12,11 +12,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 public class SystemScreen extends ScreenAdapter {
 
     SpriteBatch spriteBatch;
     ShapeRenderer shapeRenderer;
-    Array<Planet> planets;
+    ArrayList<Planet> planets;
     Star star;
     Camera camera;
     Viewport viewport;
