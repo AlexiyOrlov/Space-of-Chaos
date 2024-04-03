@@ -1,5 +1,7 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class NPCPilot {
     public Hull hull=Hull.TRADING1;
-    public Engine engine=Engine.BASIC;
+    public Engine engine=Engine.SLOW;
     public Weapon weapon=WeaponRegistry.GUN;
 
     public float x,y;
@@ -23,6 +25,7 @@ public class NPCPilot {
 
     private Inventory inventory;
     private StarSystem navigatingTo;
+    private float acceleration;
     public int money=10000;
     public NPCPilot(Planet currentlyLandedOn) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -102,17 +105,19 @@ public class NPCPilot {
                 StarGate starGate=currentSystem.starGate;
 //                float xdist=starGate.x-x;
 //                float ydist=starGate.y-y;
-//                float dotProduct=Vector2.dot(xdist,ydist,x,y);
-//                if(dotProduct<0.1f)
-//                {
-//
-//                }
-//                else {
-//                    rotation= Functions.rotateTowards(rotation,x,y,starGate.x,starGate.y,-90,0.1f);
-//                }
+//                Vector2 vector2=new Vector2(xdist,ydist).nor();
+//                Vector2 vector21=new Vector2(MathUtils.cosDeg(rotationDegrees-90),MathUtils.sinDeg(rotationDegrees-90));
+
+//                float dotProduct=vector21.dot(vector2);
+//                float compare = 1 + dotProduct;
+                if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
+                {
+                    x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
+                    y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
+                }
+
+                rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, x, y, starGate.x, starGate.y, -MathUtils.degreesToRadians * 90, 0.1f) * MathUtils.radiansToDegrees;
             }
-            float rotated=Functions.rotateTowards(rotationDegrees*MathUtils.degreesToRadians,x,y,SpaceGame.INSTANCE.playerShip.x,SpaceGame.INSTANCE.playerShip.y,-MathUtils.degreesToRadians*90,1)*MathUtils.radiansToDegrees;
-            rotationDegrees=rotated;
         }
     }
 
