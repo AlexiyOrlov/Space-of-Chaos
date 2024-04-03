@@ -56,16 +56,17 @@ public class PlanetScreen extends ScreenAdapter {
             Table market = new Table(skin);
             market.setFillParent(true);
             market.setVisible(false);
-            market.add(new Label("", skin), new Label("Wares", skin), new Label("Price", skin), new Label(" | ", skin), new Label("Amount", skin), new Label(" | ", skin));
+            market.defaults().padRight(20).padBottom(10);
+            market.add(new Label("Wares", skin)).colspan(2);
+            market.add(new Label("Amount", skin),new Label("Price", skin));
             market.row();
-            market.add(new Label("====", skin), new Label("=======", skin), new Label("=====", skin), new Label(" | ", skin), new Label("======", skin), new Label(" | ", skin));
+
             market.row();
             planet.warePrices.forEach((ware, integer) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
                 Label warePrice = new Label(integer.toString(), skin);
                 warePrice.setColor(Color.SCARLET);
-                Label separator = new Label(" | ", skin);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
                 Label wareAmount = new Label(wareAmountt.toString(), skin);
 
@@ -141,7 +142,7 @@ public class PlanetScreen extends ScreenAdapter {
                 });
 
 
-                market.add(image, wareName, warePrice, separator, wareAmount, new Label(" | ", skin));
+                market.add(image, wareName, wareAmount,warePrice);
                 if (ware.needsLicense) {
                     if (player.licences.get(ware)) {
                         market.add(buy);
