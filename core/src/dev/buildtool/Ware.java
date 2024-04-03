@@ -22,6 +22,7 @@ public class Ware extends Item {
     public static Ware IRON_ORE=new Ware("iron ore",650,false,"Iron ore",SpaceGame.INSTANCE.ironOreTexture);
     public static Ware COPPER_ORE=new Ware("copper ore",650,false,"Copper ore",SpaceGame.INSTANCE.copperOreTexture);
     public static final int MAXIMUM_WARE_AMOUNT=1000;
+    public static final HashMap<Ware,Float> MANUFACTURING_SPEED=new HashMap<>();
     public boolean needsLicense;
     static {
         WARES.add(TOOLS);
@@ -48,8 +49,11 @@ public class Ware extends Item {
         BASE_PRICES.put(CAR_PARTS,1000);
         BASE_PRICES.put(FIREARMS,1100);
 
-        BASE_PRICES.put(IRON_ORE,350);
-        BASE_PRICES.put(COPPER_ORE,550);
+        BASE_PRICES.forEach((ware, integer) -> {
+            MANUFACTURING_SPEED.put(ware, (1 / (float) integer));
+        });
+
+
     }
 
     public Ware(String type, int maxSize, boolean needsLicenseToTrade, String name, Texture texture) {

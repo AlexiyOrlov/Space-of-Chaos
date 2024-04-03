@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.TreeMap;
@@ -21,6 +22,7 @@ public class Planet {
     private final int distance;
     public TreeMap<Ware,Integer> warePrices;
     public TreeMap<Ware,Integer> wareAmounts;
+    public HashMap<Ware,Float> wareManufactureProgress=new HashMap<>();
     public float radius;
     public Circle outline;
     public boolean isInhabited;
@@ -184,16 +186,35 @@ public class Planet {
     public void update(float deltaTime)
     {
         currentAngle+=speed*MathUtils.degreesToRadians;
-        this.x = (float) (distance* MathUtils.cos(currentAngle))+ (float) texture.getWidth() /2;
-        this.y = (float) (distance*MathUtils.sin(currentAngle))+ (float) texture.getHeight() /2;
+        this.x = (distance* MathUtils.cos(currentAngle))+ (float) texture.getWidth() /2;
+        this.y = (distance*MathUtils.sin(currentAngle))+ (float) texture.getHeight() /2;
         outline.set(x,y,radius);
-        ships.forEach(npcPilot -> {
-            npcPilot.work(deltaTime);
-            if(!npcPilot.landed)
-                shipsToRemove.add(npcPilot);
-        });
-        ships.removeAll(shipsToRemove);
-        starSystem.ships.addAll(shipsToRemove);
-        shipsToRemove.clear();
+        if(isInhabited) {
+            ships.forEach(npcPilot -> {
+                npcPilot.work(deltaTime);
+                if (!npcPilot.landed)
+                    shipsToRemove.add(npcPilot);
+            });
+            ships.removeAll(shipsToRemove);
+            starSystem.ships.addAll(shipsToRemove);
+            shipsToRemove.clear();
+
+            Ware.WARES.forEach(ware -> {
+                int currentWareCount=wareAmounts.get(ware);
+                if(currentWareCount<Ware.MAXIMUM_WARE_AMOUNT)
+                {
+                    float manufactureProgress=wareManufactureProgress.getOrDefault(ware,10f);
+                    if(manufactureProgress<=0)
+                    {
+                        wareAmounts.compute(ware,(ware1, integer) -> integer+1);
+                        manufactureProgress=10;
+                    }
+                    else {
+                        manufactureProgress-=Ware.MANUFACTURING_SPEED.get(ware)*deltaTime*60;
+                    }
+                    wareManufactureProgress.put(ware,manufactureProgress);
+                }
+            });
+        }
     }
 }
