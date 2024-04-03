@@ -40,6 +40,15 @@ public class PlanetScreen extends ScreenAdapter {
         table.setFillParent(true);
         Skin skin = SpaceGame.INSTANCE.skin;
         this.player = player;
+
+        Table purchaseHistoryTable=new Table();
+        purchaseHistoryTable.setVisible(false);
+        purchaseHistoryTable.setFillParent(true);
+        purchaseHistoryTable.defaults().padRight(20).padBottom(10);
+        updatePurchaseTable(player, purchaseHistoryTable, skin);
+        purchaseHistoryTable.right();
+        stage.addActor(purchaseHistoryTable);
+
         if(planet.isInhabited) {
             Label moneyLabel=new Label("Money: "+player.money,skin);
             table.add(moneyLabel);
@@ -84,14 +93,21 @@ public class PlanetScreen extends ScreenAdapter {
                                     @Override
                                     public void changed(ChangeEvent event, Actor actor) {
                                         int wareAm = planet.wareAmounts.get(ware);
-                                        float value = amount.getValue();
-                                        wareAm -= (int) value;
+                                        int toBuy = (int) amount.getValue();
+                                        wareAm -= toBuy;
                                         planet.wareAmounts.put(ware, wareAm);
                                         wareAmount.setText(String.valueOf(wareAm));
-                                        player.addItem(new Stack(ware, (int) value));
+                                        player.addItem(new Stack(ware, (int) toBuy));
                                         dialog.hide();
-                                        player.money -= maximumToBuy * price;
+                                        player.money -= toBuy * price;
                                         moneyLabel.setText("Money: "+player.money);
+                                        WarePurchase warePurchase=new WarePurchase(ware,toBuy,price,toBuy*price);
+                                        if(player.warePurchases.size()>10)
+                                        {
+                                            player.warePurchases.removeFirst();
+                                        }
+                                        player.warePurchases.add(warePurchase);
+                                        updatePurchaseTable(player,purchaseHistoryTable,skin);
                                     }
                                 });
                                 Button cancel = new TextButton("Cancel", skin);
@@ -146,18 +162,21 @@ public class PlanetScreen extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     market.setVisible(true);
+                    purchaseHistoryTable.setVisible(true);
                     planet.equipmentInventory.setVisible(false);
                 }
             });
             table.add(marketButton);
 
             Table equipmentShop=new Table();
+            equipmentShop.setFillParent(true);
             TextImageButton equipmentButton=new TextImageButton("Equipment",skin, SpaceGame.INSTANCE.gearTexture);
             equipmentButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     planet.equipmentInventory.setVisible(true);
                     market.setVisible(false);
+                    purchaseHistoryTable.setVisible(false);
                 }
             });
             table.add(equipmentButton);
@@ -229,6 +248,26 @@ public class PlanetScreen extends ScreenAdapter {
                 }
             }
             planet.equipmentInventory.setVisible(false);
+        }
+    }
+
+    private static void updatePurchaseTable(StarShip player, Table purchaseHistoryTable, Skin skin) {
+        if(!player.warePurchases.isEmpty()) {
+            purchaseHistoryTable.clearChildren();
+            purchaseHistoryTable.add(new Label("Market purchase history", skin)).colspan(5);
+            purchaseHistoryTable.row();
+            purchaseHistoryTable.add(new Label("Number", skin));
+            purchaseHistoryTable.add(new Label("Ware", skin));
+            purchaseHistoryTable.add(new Label("Price per unit", skin));
+            purchaseHistoryTable.add(new Label("Amount bought", skin));
+            purchaseHistoryTable.add(new Label("Total spent", skin));
+            purchaseHistoryTable.row();
+            int number = 1;
+            for (WarePurchase warePurchase : player.warePurchases) {
+                purchaseHistoryTable.add(new Label(number + ".", skin), new Label(warePurchase.ware.name, skin), new Label(warePurchase.pricePerUnit + "", skin), new Label(warePurchase.amountBought + "", skin), new Label(warePurchase.moneySpent + "", skin));
+                purchaseHistoryTable.row();
+                number++;
+            }
         }
     }
 

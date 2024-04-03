@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 
 public class StarShip {
@@ -32,6 +34,7 @@ public class StarShip {
     public Inventory inventory;
     private final Circle area;
     public int money=1000;
+    public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
