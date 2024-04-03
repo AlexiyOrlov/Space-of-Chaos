@@ -21,7 +21,7 @@ public class StarSystem {
         int inhabitedPlanetCount=0;
         int distance=600;
         Random random = SpaceGame.random;
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < random.nextInt(3,7); i++) {
             boolean inhabited=false;
             if(inhabitedPlanetCount<3)
             {
