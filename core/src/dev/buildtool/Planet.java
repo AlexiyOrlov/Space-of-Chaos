@@ -199,7 +199,7 @@ public class Planet {
         outline.set(x,y,radius);
         if(isInhabited) {
             ships.forEach(npcPilot -> {
-                npcPilot.work(deltaTime);
+                npcPilot.workOnPlanet(deltaTime);
                 if (npcPilot.currentlyLandedOn==null)
                     shipsToRemove.add(npcPilot);
             });
