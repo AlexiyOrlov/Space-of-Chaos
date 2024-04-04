@@ -148,15 +148,17 @@ public class NPCPilot {
                             //buy
                             int wareCount=currentlyLandedOn.wareAmounts.get(ware);
                             int canBuy=Math.min(wareCount,money/warePrice);
-                            money-=canBuy*warePrice;
-                            inventory.addItem(new Stack(ware,canBuy));
                             if(purchases.size()>10)
                             {
                                 purchases.removeFirst();
                             }
-                            purchases.add(new NPCPurchase(ware,warePrice));
                             if(canBuy>0)
+                            {
+                                money-=canBuy*warePrice;
+                                inventory.addItem(new Stack(ware,canBuy));
+                                purchases.add(new NPCPurchase(ware,warePrice));
                                 System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
+                            }
                             if(money<=0)
                             {
                                 break;
