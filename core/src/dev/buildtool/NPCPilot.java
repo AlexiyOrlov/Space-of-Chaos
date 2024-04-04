@@ -90,6 +90,7 @@ public class NPCPilot {
                     }
                     return false;
                 }).collect(Collectors.toList());
+                assert !planetsWithHigherPrices.isEmpty();
                 targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                 System.out.println("Going to " + targetPlanet.name);
             }
