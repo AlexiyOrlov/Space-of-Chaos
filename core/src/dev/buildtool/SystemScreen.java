@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -26,6 +28,7 @@ public class SystemScreen extends ScreenAdapter {
     Viewport viewport;
     StarShip playerShip;
     StarSystem starSystem;
+    Rectangle viewportBounds;
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceGame spaceGame=SpaceGame.INSTANCE;
@@ -40,6 +43,7 @@ public class SystemScreen extends ScreenAdapter {
 		viewport=new ScreenViewport(camera);
 		viewport.apply();
         shapeRenderer=spaceGame.shapeRenderer;
+        viewportBounds=new Rectangle(0,0,viewport.getScreenWidth(),viewport.getScreenHeight());
     }
 
     @Override
@@ -57,19 +61,18 @@ public class SystemScreen extends ScreenAdapter {
 		camera.up.set(0,1,0);
 		camera.rotate(Vector3.Z,playerShip.rotation);
 
-
-
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
-        drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+        if(!camera.frustum.pointInFrustum(0,0,0))
+            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
         planets.forEach(planet -> {
             Vector2 pos=new Vector2(planet.x,planet.y);
-            if(planet.isInhabited)
-            {
-                drawWaypoint(pos,SpaceGame.INSTANCE.inhabitedPlanetIcon);
-            }
-            else {
-                drawWaypoint(pos,SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+            if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
+                if (planet.isInhabited) {
+                    drawWaypoint(pos, SpaceGame.INSTANCE.inhabitedPlanetIcon);
+                } else {
+                    drawWaypoint(pos, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+                }
             }
         });
         spriteBatch.end();
