@@ -86,7 +86,7 @@ public class NPCPilot {
                 assert targetPlanet.starSystem==currentSystem;
                 rotateTowards(targetPlanet.x,targetPlanet.y);
                 move();
-                if(targetPlanet.outline.overlaps(this.area))
+                if(Vector2.dst(x,y,targetPlanet.x,targetPlanet.y)<20)
                 {
                     currentlyLandedOn=targetPlanet;
                     targetPlanet.ships.add(this);

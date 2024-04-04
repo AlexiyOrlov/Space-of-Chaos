@@ -85,8 +85,8 @@ public class StarSystem {
             npcPilot.work(dt);
             if(npcPilot.canJump)
             {
-                shipsToTransfer.add(npcPilot);
                 npcPilot.canJump=false;
+                shipsToTransfer.add(npcPilot);
             }
         });
         ships.removeAll(shipsToTransfer);
