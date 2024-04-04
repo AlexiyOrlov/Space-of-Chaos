@@ -71,16 +71,17 @@ public class SystemScreen extends ScreenAdapter {
 
         spriteBatch.begin();
         Vector2 left=lineLineIntersection(starPos,playerPos,lowerLeftCorner,upperLeftCorner);
-        spriteBatch.draw(SpaceGame.INSTANCE.starIcon, left.x,left.y);
-
         Vector2 right=lineLineIntersection(starPos,playerPos,rightLower,rightUpper);
-        spriteBatch.draw(SpaceGame.INSTANCE.starIcon, right.x,right.y);
-
         Vector2 bottom=lineLineIntersection(starPos,playerPos,lowerLeftCorner,rightLower);
-        spriteBatch.draw(SpaceGame.INSTANCE.starIcon, bottom.x,bottom.y);
-
         Vector2 top=lineLineIntersection(starPos,playerPos,upperLeftCorner,rightUpper);
-        spriteBatch.draw(SpaceGame.INSTANCE.starIcon, top.x,top.y);
+        if(left.len2()<right.len2())
+            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, left.x,left.y);
+        else
+            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, right.x,right.y);
+        if(bottom.len2()<top.len2())
+            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, bottom.x,bottom.y);
+        else
+            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, top.x,top.y);
         spriteBatch.end();
     }
 
