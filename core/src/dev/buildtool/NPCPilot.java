@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -133,6 +134,7 @@ public class NPCPilot {
             y=currentPlanet.y;
             landed=false;
             secondsOfRest=SpaceGame.random.nextInt(5,15);
+            timeSpentOnPlanet=0;
         }
         else {
             timeSpentOnPlanet+=deltaTime;
@@ -151,12 +153,38 @@ public class NPCPilot {
                             {
                                 purchases.removeFirst();
                             }
-                            purchases.add(new NPCPurchase(ware,canBuy));
+                            purchases.add(new NPCPurchase(ware,warePrice));
                             if(canBuy>0)
-                                System.out.println("Bought "+canBuy+" "+ware.name);
+                                System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
                             if(money<=0)
                             {
                                 break;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                    int price=currentlyLandedOn.warePrices.get(ware);
+                    int wareAmount=currentlyLandedOn.wareAmounts.get(ware);
+                    for (Stack stack : inventory.stacks) {
+                        if(stack!=null && stack.item==ware)
+                        {
+                            Iterator<NPCPurchase> it= purchases.iterator();
+                            while (it.hasNext())
+                            {
+                                NPCPurchase next=it.next();
+                                if(next.ware==ware && next.boughtFor<price)
+                                {
+                                    int toSell=Math.min(Ware.MAXIMUM_WARE_AMOUNT-wareAmount,stack.count);
+                                    if(toSell>0) {
+                                        inventory.removeItem(ware, toSell);
+                                        money += toSell * price;
+                                        System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
+                                        it.remove();
+                                    }
+                                }
                             }
                         }
                     }
