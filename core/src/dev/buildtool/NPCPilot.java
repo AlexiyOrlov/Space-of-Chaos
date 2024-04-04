@@ -58,7 +58,6 @@ public class NPCPilot {
             if(targetPlanet==null) {
                 List<Planet> planetsWithHigherPrices = filterPlanetsWithHigherPrices(currentSystem.planets);
                 assert !planetsWithHigherPrices.isEmpty():"No suitable planets found in "+currentSystem.getStarName();
-                System.out.println(planetsWithHigherPrices.size());
                 targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                 System.out.println("Going to " + targetPlanet.name);
             }
