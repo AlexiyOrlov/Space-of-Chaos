@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -32,10 +33,12 @@ public class NPCPilot {
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
     public StarSystem currentSystem;
     private Planet targetPlanet;
+    private Circle area;
     public NPCPilot(Planet currentlyLandedOn) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
+        area=new Circle();
     }
 
     public void work(float deltaTime)
@@ -134,6 +137,10 @@ public class NPCPilot {
                     assert targetPlanet.starSystem==currentSystem;
                     rotateTowards(targetPlanet.x,targetPlanet.y);
                     moveTo(targetPlanet.x, targetPlanet.y);
+                    if(targetPlanet.outline.overlaps(this.area))
+                    {
+
+                    }
                 }
             }
             else {
@@ -156,6 +163,8 @@ public class NPCPilot {
                 }
             }
         }
+
+        area.set(x,y,hull.look.getWidth()/2);
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
@@ -167,7 +176,7 @@ public class NPCPilot {
 
             if(SpaceGame.debugDraw) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.circle(x, y, this.hull.look.getWidth() / 2);
+                shapeRenderer.circle(area.x, area.y, area.radius);
                 shapeRenderer.end();
             }
         }
