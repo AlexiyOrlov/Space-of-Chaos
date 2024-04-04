@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -24,11 +26,16 @@ public class NPCPilot {
     private float rotationDegrees =SpaceGame.random.nextFloat(360);
 
     private Inventory inventory;
-    private StarSystem navigatingTo;
+    public StarSystem navigatingTo;
     private float acceleration;
+    public boolean canJump;
     public int money=10000;
+    private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
+    public StarSystem currentSystem;
+    private Planet targetPlanet;
     public NPCPilot(Planet currentlyLandedOn) {
         this.currentlyLandedOn = currentlyLandedOn;
+        currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
     }
 
@@ -68,6 +75,11 @@ public class NPCPilot {
                             int canBuy=Math.min(wareCount,money/warePrice);
                             money-=canBuy*warePrice;
                             inventory.addItem(new Stack(ware,canBuy));
+                            if(purchases.size()>10)
+                            {
+                                purchases.removeFirst();
+                            }
+                            purchases.add(new NPCPurchase(ware,canBuy));
                             if(money<=0)
                             {
                                 break;
@@ -78,28 +90,53 @@ public class NPCPilot {
             }
         }
         else {
-            StarSystem currentSystem=currentlyLandedOn.starSystem;
-            List<StarSystem> closestSystems= SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> Vector2.dst(starSystem.positionX,starSystem.positionY,currentSystem.positionX,currentSystem.positionY)<= engine.jumpDistance).collect(Collectors.toList());
-            List<StarSystem> systemsWithHigherPrices=closestSystems.stream().filter(starSystem -> {
-                List<Planet> planets=starSystem.planets;
-                List<Planet> planetsWithHigherPrices= planets.stream().filter(planet -> {
-                    if(planet.isInhabited) {
-                        for (Ware ware : planet.warePrices.keySet()) {
-                            int warePrice = planet.warePrices.get(ware);
-                            if (warePrice > Ware.BASE_PRICES.get(ware)) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                }).collect(Collectors.toList());
-                return !planetsWithHigherPrices.isEmpty();
-            }).collect(Collectors.toList());
-            assert !systemsWithHigherPrices.isEmpty();
-
             if(navigatingTo==null)
             {
+                List<StarSystem> closestSystems= SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> Vector2.dst(starSystem.positionX,starSystem.positionY,currentSystem.positionX,currentSystem.positionY)<= engine.jumpDistance).collect(Collectors.toList());
+                List<StarSystem> systemsWithHigherPrices=closestSystems.stream().filter(starSystem -> {
+                    List<Planet> planets=starSystem.planets;
+                    List<Planet> planetsWithHigherPrices= planets.stream().filter(planet -> {
+                        if(planet.isInhabited) {
+                            for (Ware ware : planet.warePrices.keySet()) {
+                                int warePrice = planet.warePrices.get(ware);
+                                if (warePrice > Ware.BASE_PRICES.get(ware)) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    }).collect(Collectors.toList());
+                    return !planetsWithHigherPrices.isEmpty();
+                }).collect(Collectors.toList());
+                assert !systemsWithHigherPrices.isEmpty();
                 navigatingTo=systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
+            }
+            else if(navigatingTo==currentSystem)
+            {
+                if(targetPlanet==null) {
+                    List<Planet> planetsWithHigherPrices = currentSystem.planets.stream().filter(planet -> {
+                        if (planet.isInhabited) {
+                            for (Ware ware : planet.warePrices.keySet()) {
+                                int price = planet.warePrices.get(ware);
+                                for (NPCPurchase purchase : purchases) {
+                                    if (ware == purchase.ware) {
+                                        if (purchase.boughtFor <= price) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return false;
+                    }).collect(Collectors.toList());
+                    targetPlanet=planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
+                    System.out.println("Going to "+targetPlanet.name);
+                }
+                else {
+                    assert targetPlanet.starSystem==currentSystem;
+                    rotateTowards(targetPlanet.x,targetPlanet.y);
+                    moveTo(targetPlanet.x, targetPlanet.y);
+                }
             }
             else {
                 StarGate starGate=currentSystem.starGate;
@@ -112,11 +149,13 @@ public class NPCPilot {
 //                float compare = 1 + dotProduct;
                 if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
                 {
-                    x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
-                    y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
+                    rotateTowards(starGate.x,starGate.y);
+                    moveTo(starGate.x,starGate.y);
+                    canJump=false;
                 }
-
-                rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, x, y, starGate.x, starGate.y, -MathUtils.degreesToRadians * 90, 0.02f) * MathUtils.radiansToDegrees;
+                else {
+                    canJump=true;
+                }
             }
         }
     }
@@ -134,5 +173,23 @@ public class NPCPilot {
                 shapeRenderer.end();
             }
         }
+    }
+
+    public void setPosition(float x,float y)
+    {
+        this.x=x;
+        this.y=y;
+    }
+
+    public void moveTo(float x,float y)
+    {
+        this.x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
+        this.y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
+    }
+
+    public void rotateTowards(float x,float y)
+    {
+        //0.02f
+        rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, 0.1f) * MathUtils.radiansToDegrees;
     }
 }

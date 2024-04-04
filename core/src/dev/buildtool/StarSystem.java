@@ -15,7 +15,7 @@ public class StarSystem {
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
     public int positionX,positionY;
-    public ArrayList<NPCPilot> ships=new ArrayList<>();
+    public ArrayList<NPCPilot> ships=new ArrayList<>(),shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
         this.planets = new ArrayList<>(7);
@@ -31,7 +31,7 @@ public class StarSystem {
                 if(inhabited)
                     inhabitedPlanetCount++;
             }
-            planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI,MathUtils.PI), random.nextFloat(0.01f,0.1f), inhabited, this));
+            planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI,MathUtils.PI), random.nextFloat(0.01f,0.08f), inhabited, this));
 
             distance+=300;
         }
@@ -80,7 +80,20 @@ public class StarSystem {
     {
         float dt=Gdx.graphics.getDeltaTime();
         planets.forEach(planet -> planet.update(dt));
-        ships.forEach(npcPilot -> npcPilot.work(dt));
+        ships.forEach(npcPilot -> {
+            npcPilot.work(dt);
+            if(npcPilot.canJump)
+                shipsToTransfer.add(npcPilot);
+        });
+        ships.removeAll(shipsToTransfer);
+        shipsToTransfer.forEach(npcPilot -> {
+            npcPilot.navigatingTo.ships.add(npcPilot);
+            npcPilot.currentSystem=npcPilot.navigatingTo;
+            System.out.println("Jumped to "+npcPilot.currentSystem.star.name);
+            npcPilot.setPosition(npcPilot.navigatingTo.starGate.x,npcPilot.navigatingTo.starGate.y);
+            npcPilot.canJump=false;
+        });
+        shipsToTransfer.clear();
         starGate.update(dt);
     }
 
