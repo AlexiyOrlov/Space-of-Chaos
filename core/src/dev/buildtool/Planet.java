@@ -201,10 +201,11 @@ public class Planet {
             ships.forEach(npcPilot -> {
                 npcPilot.workOnPlanet(deltaTime, this);
                 if (!npcPilot.landed)
+                {
                     shipsToRemove.add(npcPilot);
+                }
             });
             ships.removeAll(shipsToRemove);
-            starSystem.ships.addAll(shipsToRemove);
             shipsToRemove.clear();
 
             Ware.WARES.forEach(ware -> {

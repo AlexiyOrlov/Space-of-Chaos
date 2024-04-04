@@ -103,6 +103,7 @@ public class NPCPilot {
                     currentlyLandedOn=targetPlanet;
                     targetPlanet.ships.add(this);
                     landed=true;
+                    targetPlanet=null;
                 }
             }
         }
