@@ -76,7 +76,7 @@ public class NPCPilot {
                     }
                     return false;
                 }).collect(Collectors.toList());
-                assert !planetsWithHigherPrices.isEmpty();
+                assert !planetsWithHigherPrices.isEmpty():"No suitable planets found in "+currentSystem.getStarName();
                 System.out.println(planetsWithHigherPrices.size());
                 targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                 System.out.println("Going to " + targetPlanet.name);
@@ -117,11 +117,11 @@ public class NPCPilot {
         area.set(x,y,hull.look.getWidth()/2);
     }
 
-    private List<StarSystem> findClosestSystems() {
+    public List<StarSystem> findClosestSystems() {
         return SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= engine.jumpDistance).collect(Collectors.toList());
     }
 
-    private static List<StarSystem> filterSystemsWithHigherPrices(List<StarSystem> systems) {
+    public static List<StarSystem> filterSystemsWithHigherPrices(List<StarSystem> systems) {
         return systems.stream().filter(starSystem -> {
             List<Planet> planets = starSystem.planets;
             List<Planet> planetsWithHigherPrices = planets.stream().filter(planet -> {

@@ -203,6 +203,8 @@ public class Planet {
                 if (!npcPilot.landed)
                 {
                     shipsToRemove.add(npcPilot);
+                    var profitable=NPCPilot.filterSystemsWithHigherPrices(npcPilot.findClosestSystems());
+                    npcPilot.navigatingTo=profitable.get(random.nextInt(profitable.size()));
                 }
             });
             ships.removeAll(shipsToRemove);
