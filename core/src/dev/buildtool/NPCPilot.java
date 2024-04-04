@@ -36,6 +36,8 @@ public class NPCPilot {
     boolean landed;
     Random random=SpaceGame.random;
 
+    public PilotAI pilotAI=PilotAI.TRADER;
+
     public NPCPilot(Planet currentlyLandedOn) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
@@ -45,6 +47,14 @@ public class NPCPilot {
 
     public void work(float deltaTime)
     {
+        switch (pilotAI){
+            case TRADER -> useTraderAI();
+        }
+
+        area.set(x,y,hull.look.getWidth()/2);
+    }
+
+    private void useTraderAI() {
         if(navigatingTo==null)
         {
             List<StarSystem> closestSystems= findClosestSystems();
@@ -105,8 +115,6 @@ public class NPCPilot {
                 canJump=true;
             }
         }
-
-        area.set(x,y,hull.look.getWidth()/2);
     }
 
     public List<StarSystem> findClosestSystems() {
