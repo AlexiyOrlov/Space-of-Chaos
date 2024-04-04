@@ -116,7 +116,7 @@ public class NPCPilot {
                     y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
                 }
 
-                rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, x, y, starGate.x, starGate.y, -MathUtils.degreesToRadians * 90, 0.1f) * MathUtils.radiansToDegrees;
+                rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, x, y, starGate.x, starGate.y, -MathUtils.degreesToRadians * 90, 0.02f) * MathUtils.radiansToDegrees;
             }
         }
     }
