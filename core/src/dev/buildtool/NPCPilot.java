@@ -105,7 +105,7 @@ public class NPCPilot {
                 }).collect(Collectors.toList());
                 assert !systemsWithHigherPrices.isEmpty();
                 navigatingTo=systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
-                System.out.println("Going to planet "+navigatingTo.star.name);
+                System.out.println("Going to system "+navigatingTo.star.name);
             }
             else if(navigatingTo==currentSystem)
             {
