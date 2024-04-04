@@ -200,7 +200,7 @@ public class Planet {
         if(isInhabited) {
             ships.forEach(npcPilot -> {
                 npcPilot.workOnPlanet(deltaTime, this);
-                if (npcPilot.currentlyLandedOn==null)
+                if (!npcPilot.landed)
                     shipsToRemove.add(npcPilot);
             });
             ships.removeAll(shipsToRemove);
