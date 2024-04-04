@@ -119,8 +119,8 @@ public class Planet {
         planetNames.remove(randomName);
         resources=new ArrayList<>();
         isInhabited=inhabited;
-        this.x = (float) (distance* MathUtils.cos(angle))+ (float) texture.getWidth() /2;
-        this.y = (float) (distance*MathUtils.sin(angle))+ (float) texture.getHeight() /2;
+        this.x = (distance* MathUtils.cos(angle)) + (float) texture.getWidth() /2;
+        this.y = (distance*MathUtils.sin(angle)) + (float) texture.getHeight() /2;
         currentAngle=angle;
         this.distance=distance;
         speed=orbitSpeed;
@@ -203,8 +203,6 @@ public class Planet {
                 if (!npcPilot.landed)
                 {
                     shipsToRemove.add(npcPilot);
-                    var profitable=NPCPilot.filterSystemsWithHigherPrices(npcPilot.findClosestSystems());
-                    npcPilot.navigatingTo=profitable.get(random.nextInt(profitable.size()));
                 }
             });
             ships.removeAll(shipsToRemove);
