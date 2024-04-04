@@ -56,26 +56,7 @@ public class NPCPilot {
         else if(navigatingTo==currentSystem)
         {
             if(targetPlanet==null) {
-                List<Planet> planetsWithHigherPrices = currentSystem.planets.stream().filter(planet -> {
-                    if (planet.isInhabited) {
-                        for (Ware ware : planet.warePrices.keySet()) {
-                            int price = planet.warePrices.get(ware);
-                            if(!purchases.isEmpty()) {
-                                for (NPCPurchase purchase : purchases) {
-                                    if (ware == purchase.ware) {
-                                        if (purchase.boughtFor <= price) {
-                                            return true;
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                return price>Ware.BASE_PRICES.get(ware);
-                            }
-                        }
-                    }
-                    return false;
-                }).collect(Collectors.toList());
+                List<Planet> planetsWithHigherPrices = filterPlanetsWithHigherPrices(currentSystem.planets);
                 assert !planetsWithHigherPrices.isEmpty():"No suitable planets found in "+currentSystem.getStarName();
                 System.out.println(planetsWithHigherPrices.size());
                 targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
@@ -124,20 +105,25 @@ public class NPCPilot {
     public static List<StarSystem> filterSystemsWithHigherPrices(List<StarSystem> systems) {
         return systems.stream().filter(starSystem -> {
             List<Planet> planets = starSystem.planets;
-            List<Planet> planetsWithHigherPrices = planets.stream().filter(planet -> {
-                if (planet.isInhabited) {
-                    for (Ware ware : planet.warePrices.keySet()) {
-                        int warePrice = planet.warePrices.get(ware);
-                        if (warePrice > Ware.BASE_PRICES.get(ware)) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }).collect(Collectors.toList());
+            List<Planet> planetsWithHigherPrices = filterPlanetsWithHigherPrices(planets);
             return !planetsWithHigherPrices.isEmpty();
         }).collect(Collectors.toList());
     }
+
+    private static List<Planet> filterPlanetsWithHigherPrices(List<Planet> planets) {
+        return planets.stream().filter(planet -> {
+            if (planet.isInhabited) {
+                for (Ware ware : planet.warePrices.keySet()) {
+                    int warePrice = planet.warePrices.get(ware);
+                    if (warePrice > Ware.BASE_PRICES.get(ware)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }).collect(Collectors.toList());
+    }
+
 
     public void workOnPlanet(float deltaTime, Planet currentPlanet)
     {
