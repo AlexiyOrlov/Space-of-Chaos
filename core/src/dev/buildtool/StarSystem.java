@@ -97,4 +97,8 @@ public class StarSystem {
         starGate.update(dt);
     }
 
+    public String getStarName()
+    {
+        return star.name;
+    }
 }

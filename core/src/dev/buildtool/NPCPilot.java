@@ -19,7 +19,6 @@ public class NPCPilot {
     public Weapon weapon=WeaponRegistry.GUN;
 
     public float x,y;
-    public boolean landed=true;
     public Planet currentlyLandedOn;
     private int secondsOfRest=SpaceGame.random.nextInt(5,15);
     public float timeSpentOnPlanet=secondsOfRest;
@@ -42,47 +41,40 @@ public class NPCPilot {
     public void work(float deltaTime)
     {
         Random random=SpaceGame.random;
-        if(landed)
+        if(currentlyLandedOn!=null)
         {
             if(timeSpentOnPlanet>=secondsOfRest)
             {
                 //take off
                 x=currentlyLandedOn.x;
                 y=currentlyLandedOn.y;
-                landed=false;
+                currentlyLandedOn=null;
                 secondsOfRest=SpaceGame.random.nextInt(5,15);
+
             }
             else {
                 timeSpentOnPlanet+=deltaTime;
-            }
-
-            boolean inventoryEmpty=true;
-            for (Stack stack : inventory.stacks) {
-                if(stack!=null)
+                if(inventory.isEmpty())
                 {
-                    inventoryEmpty=false;
-                    break;
-                }
-            }
-            if(inventoryEmpty)
-            {
-                if(money>0) {
-                    for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
-                        int warePrice = currentlyLandedOn.warePrices.get(ware);
-                        if (warePrice < Ware.BASE_PRICES.get(ware)) {
-                            //buy
-                            int wareCount=currentlyLandedOn.wareAmounts.get(ware);
-                            int canBuy=Math.min(wareCount,money/warePrice);
-                            money-=canBuy*warePrice;
-                            inventory.addItem(new Stack(ware,canBuy));
-                            if(purchases.size()>10)
-                            {
-                                purchases.removeFirst();
-                            }
-                            purchases.add(new NPCPurchase(ware,canBuy));
-                            if(money<=0)
-                            {
-                                break;
+                    if(money>0) {
+                        for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                            int warePrice = currentlyLandedOn.warePrices.get(ware);
+                            if (warePrice < Ware.BASE_PRICES.get(ware)) {
+                                //buy
+                                int wareCount=currentlyLandedOn.wareAmounts.get(ware);
+                                int canBuy=Math.min(wareCount,money/warePrice);
+                                money-=canBuy*warePrice;
+                                inventory.addItem(new Stack(ware,canBuy));
+                                if(purchases.size()>10)
+                                {
+                                    purchases.removeFirst();
+                                }
+                                purchases.add(new NPCPurchase(ware,canBuy));
+                                System.out.println("Bought "+canBuy+" "+ware.name);
+                                if(money<=0)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -110,6 +102,7 @@ public class NPCPilot {
                 }).collect(Collectors.toList());
                 assert !systemsWithHigherPrices.isEmpty();
                 navigatingTo=systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
+                System.out.println("Going to planet "+navigatingTo.star.name);
             }
             else if(navigatingTo==currentSystem)
             {
@@ -118,19 +111,24 @@ public class NPCPilot {
                         if (planet.isInhabited) {
                             for (Ware ware : planet.warePrices.keySet()) {
                                 int price = planet.warePrices.get(ware);
-                                for (NPCPurchase purchase : purchases) {
-                                    if (ware == purchase.ware) {
-                                        if (purchase.boughtFor <= price) {
-                                            return true;
+                                if(!purchases.isEmpty()) {
+                                    for (NPCPurchase purchase : purchases) {
+                                        if (ware == purchase.ware) {
+                                            if (purchase.boughtFor <= price) {
+                                                return true;
+                                            }
                                         }
                                     }
+                                }
+                                else {
+                                    return price>Ware.BASE_PRICES.get(ware);
                                 }
                             }
                         }
                         return false;
                     }).collect(Collectors.toList());
-                    targetPlanet=planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
-                    System.out.println("Going to "+targetPlanet.name);
+                    targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
+                    System.out.println("Going to " + targetPlanet.name);
                 }
                 else {
                     assert targetPlanet.starSystem==currentSystem;
@@ -162,7 +160,7 @@ public class NPCPilot {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
-        if(!landed) {
+        if(currentlyLandedOn==null) {
             spriteBatch.begin();
             Functions.drawRotated(spriteBatch, hull.look,  x, y, rotationDegrees);
             spriteBatch.end();

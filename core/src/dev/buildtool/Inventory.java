@@ -119,4 +119,17 @@ public class Inventory {
             slot.visible=b;
         }
     }
+
+    public boolean isEmpty()
+    {
+        boolean inventoryEmpty=true;
+        for (Stack stack : stacks) {
+            if(stack!=null)
+            {
+                inventoryEmpty=false;
+                break;
+            }
+        }
+        return inventoryEmpty;
+    }
 }
