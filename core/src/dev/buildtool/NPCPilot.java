@@ -75,7 +75,7 @@ public class NPCPilot {
             else {
                 assert targetPlanet.starSystem==currentSystem;
                 rotateTowards(targetPlanet.x,targetPlanet.y);
-                moveTo(targetPlanet.x, targetPlanet.y);
+                move();
                 if(targetPlanet.outline.overlaps(this.area))
                 {
                     currentlyLandedOn=targetPlanet;
@@ -98,7 +98,7 @@ public class NPCPilot {
             if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
             {
                 rotateTowards(starGate.x,starGate.y);
-                moveTo(starGate.x,starGate.y);
+                move();
                 canJump=false;
             }
             else {
@@ -246,7 +246,7 @@ public class NPCPilot {
         this.y=y;
     }
 
-    public void moveTo(float x,float y)
+    public void move()
     {
         this.x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
         this.y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
