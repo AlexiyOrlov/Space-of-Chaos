@@ -60,6 +60,8 @@ public class SystemScreen extends ScreenAdapter {
 		camera.up.set(0,1,0);
 		camera.rotate(Vector3.Z,playerShip.rotation);
 
+
+
         final Vector2 starPos=new Vector2(0,0);
         final Vector2 playerPos=new Vector2(playerShip.x,playerShip.y);
         Vector2 lowerLeftCorner=viewport.unproject(new Vector2(0,0));
@@ -70,7 +72,6 @@ public class SystemScreen extends ScreenAdapter {
         spriteBatch.begin();
         Vector2 vector2=lineLineIntersection(starPos,playerPos,lowerLeftCorner,upperLeftCorner);
         spriteBatch.draw(SpaceGame.INSTANCE.starIcon, vector2.x,vector2.y);
-
 
         vector2=lineLineIntersection(starPos,playerPos,rightLower,rightUpper);
         spriteBatch.draw(SpaceGame.INSTANCE.starIcon, vector2.x,vector2.y);
