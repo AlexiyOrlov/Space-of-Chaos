@@ -1,23 +1,20 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class SystemScreen extends ScreenAdapter {
 
@@ -63,26 +60,46 @@ public class SystemScreen extends ScreenAdapter {
 
 
         final Vector2 starPos=new Vector2(0,0);
+        spriteBatch.begin();
+        drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+        planets.forEach(planet -> {
+            Vector2 pos=new Vector2(planet.x,planet.y);
+            if(planet.isInhabited)
+            {
+                drawWaypoint(pos,SpaceGame.INSTANCE.inhabitedPlanetIcon);
+            }
+            else {
+                drawWaypoint(pos,SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+            }
+        });
+        spriteBatch.end();
+    }
+
+    private void drawWaypoint(Vector2 to, Texture icon) {
         final Vector2 playerPos=new Vector2(playerShip.x,playerShip.y);
         Vector2 lowerLeftCorner=viewport.unproject(new Vector2(0,0));
         Vector2 upperLeftCorner=viewport.unproject(new Vector2(0,Gdx.graphics.getBackBufferHeight()-30));
         Vector2 rightLower=viewport.unproject(new Vector2(Gdx.graphics.getBackBufferWidth(),0));
         Vector2 rightUpper=viewport.unproject(new Vector2(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight()));
 
-        spriteBatch.begin();
-        Vector2 left=lineLineIntersection(starPos,playerPos,lowerLeftCorner,upperLeftCorner);
-        Vector2 right=lineLineIntersection(starPos,playerPos,rightLower,rightUpper);
-        Vector2 bottom=lineLineIntersection(starPos,playerPos,lowerLeftCorner,rightLower);
-        Vector2 top=lineLineIntersection(starPos,playerPos,upperLeftCorner,rightUpper);
+        Vector2 left=lineLineIntersection(to,playerPos,lowerLeftCorner,upperLeftCorner);
+        Vector2 right=lineLineIntersection(to,playerPos,rightLower,rightUpper);
+        Vector2 bottom=lineLineIntersection(to,playerPos,lowerLeftCorner,rightLower);
+        Vector2 top=lineLineIntersection(to,playerPos,upperLeftCorner,rightUpper);
+
         if(left.len2()<right.len2())
-            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, left.x,left.y);
+            spriteBatch.draw(icon, left.x,left.y);
         else
-            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, right.x,right.y);
+            spriteBatch.draw(icon, right.x,right.y);
         if(bottom.len2()<top.len2())
-            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, bottom.x,bottom.y);
+            spriteBatch.draw(icon, bottom.x,bottom.y);
         else
-            spriteBatch.draw(SpaceGame.INSTANCE.starIcon, top.x,top.y);
-        spriteBatch.end();
+            spriteBatch.draw(icon, top.x,top.y);
+    }
+
+    private void drawWaypoint()
+    {
+
     }
 
     @Override
