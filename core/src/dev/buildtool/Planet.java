@@ -161,6 +161,18 @@ public class Planet {
     {
         spriteBatch.begin();
         Functions.drawScaled(spriteBatch,texture,1,x-radius,y-radius);
+        spriteBatch.end();
+
+        if(SpaceGame.debugDraw) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.circle(outline.x, outline.y, radius);
+            shapeRenderer.end();
+        }
+    }
+
+    public void drawName(SpriteBatch spriteBatch){
+        spriteBatch.begin();
         Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
         Matrix4 matrix4=new Matrix4();
         matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
@@ -177,13 +189,6 @@ public class Planet {
         font.draw(spriteBatch,name,-glyphLayout.width/2,0);
         spriteBatch.setTransformMatrix(oldMatrix);
         spriteBatch.end();
-
-        if(SpaceGame.debugDraw) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.YELLOW);
-            shapeRenderer.circle(outline.x, outline.y, radius);
-            shapeRenderer.end();
-        }
     }
 
     public void update(float deltaTime)
