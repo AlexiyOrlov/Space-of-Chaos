@@ -1,7 +1,5 @@
 package dev.buildtool;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -130,16 +128,15 @@ public class NPCPilot {
         area.set(x,y,hull.look.getWidth()/2);
     }
 
-    public void workOnPlanet(float deltaTime)
+    public void workOnPlanet(float deltaTime, Planet currentPlanet)
     {
         if(timeSpentOnPlanet>=secondsOfRest)
         {
             //take off
-            x=currentlyLandedOn.x;
-            y=currentlyLandedOn.y;
-            currentlyLandedOn=null;
+            x=currentPlanet.x;
+            y=currentPlanet.y;
+            landed=false;
             secondsOfRest=SpaceGame.random.nextInt(5,15);
-
         }
         else {
             timeSpentOnPlanet+=deltaTime;
