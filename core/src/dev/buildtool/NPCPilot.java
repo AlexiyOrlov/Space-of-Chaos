@@ -66,7 +66,6 @@ public class NPCPilot {
                 return !planetsWithHigherPrices.isEmpty();
             }).collect(Collectors.toList());
             System.out.println("Found "+systemsWithHigherPrices.size()+" systems");
-            assert !systemsWithHigherPrices.isEmpty();
             navigatingTo=systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
             System.out.println("Going to system "+navigatingTo.star.name);
         }
