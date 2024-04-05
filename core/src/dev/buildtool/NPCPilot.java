@@ -28,7 +28,7 @@ public class NPCPilot {
     public StarSystem navigatingTo;
     private float acceleration;
     public boolean canJump;
-    public int money=10000;
+    public int money=1000;
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
     public StarSystem currentSystem;
     private Planet targetPlanet;
