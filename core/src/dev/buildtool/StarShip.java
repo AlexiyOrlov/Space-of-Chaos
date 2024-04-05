@@ -135,16 +135,16 @@ public class StarShip {
         }
         if(Gdx.input.isTouched())
         {
-
-            Projectile[] projectiles=weapon.createProjectiles(x,y,rotation);
-            if(projectiles!=null) {
-                currentStarSystem.projectiles.addAll(projectiles);
-                fireDelay = weapon.fireDelay;
+            if(fireDelay<=0) {
+                Projectile[] projectiles = weapon.shoot(x, y, rotation);
+                if (projectiles != null) {
+                    currentStarSystem.projectiles.addAll(projectiles);
+                    fireDelay = weapon.cooldown;
+                }
             }
         }
-        weapon.work(deltaTime);
 
-
+        fireDelay-=deltaTime;
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area))
         {
