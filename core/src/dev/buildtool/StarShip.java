@@ -166,4 +166,14 @@ public class StarShip implements Ship{
     {
         inventory.addItem(stack);
     }
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
 }

@@ -39,7 +39,7 @@ public class NPCPilot implements Ship {
     Random random=SpaceGame.random;
     private float fireCooldown;
     public PilotAI pilotAI;
-
+    public Ship target;
     public int integrity;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
@@ -134,26 +134,22 @@ public class NPCPilot implements Ship {
 
     private void guardAI(float deltaTime)
     {
-        StarShip playerShip = SpaceGame.INSTANCE.playerShip;
-        if(playerShip !=null)
-        {
-            rotateTowards(playerShip.x,playerShip.y);
-            if(Vector2.dst(playerShip.x,playerShip.y,x,y)> Gdx.graphics.getBackBufferHeight()/2)
-            {
+        if(target!=null) {
+            rotateTowards(target.getX(), target.getY());
+            if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
                 move();
             }
-            Vector2 forward=new Vector2(MathUtils.cosDeg(rotationDegrees),MathUtils.sinDeg(rotationDegrees));
-            Vector2 dist=new Vector2(playerShip.x,playerShip.y).sub(x,y).nor();
-            float dot=Vector2.dot(forward.x,forward.y,dist.x,dist.y);
-            if(Math.abs(dot)<0.05f) {
+            Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
+            Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
+            float dot = Vector2.dot(forward.x, forward.y, dist.x, dist.y);
+            if (Math.abs(dot) < 0.05f) {
                 if (fireCooldown <= 0) {
-                Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
-                currentSystem.projectiles.addAll(projectiles);
+                    Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
+                    currentSystem.projectiles.addAll(projectiles);
                     fireCooldown = weapon.cooldown;
                 }
             }
-            if(fireCooldown>0)
-            {
+            if (fireCooldown > 0) {
                 fireCooldown -= deltaTime;
             }
         }
@@ -305,5 +301,15 @@ public class NPCPilot implements Ship {
     public void rotateTowards(float x,float y)
     {
         rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed) * MathUtils.radiansToDegrees;
+    }
+
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
     }
 }
