@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +19,9 @@ public class StarSystem {
     public int positionX,positionY;
     public ArrayList<NPCPilot> ships=new ArrayList<>(),shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
+    public Array<Projectile> projectiles;
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
+        projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
         Random random = SpaceGame.random;
         starGate=new StarGate(400, random.nextFloat(-MathUtils.PI,MathUtils.PI));
@@ -75,6 +79,7 @@ public class StarSystem {
         starGate.draw(spriteBatch);
         ships.forEach(npcPilot -> npcPilot.draw(spriteBatch,shapeRenderer));
         planets.forEach(planet -> planet.drawName(spriteBatch));
+        projectiles.forEach(projectile -> projectile.render(spriteBatch));
     }
 
     public void update()
@@ -99,6 +104,16 @@ public class StarSystem {
         });
         shipsToTransfer.clear();
         starGate.update(dt);
+
+        Array<Projectile> toRemove=new Array<>(projectiles.size);
+        projectiles.forEach(projectile -> {
+            projectile.update();
+            if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
+            {
+                toRemove.add(projectile);
+            }
+        });
+        projectiles.removeAll(toRemove,true);
     }
 
     public String getStarName()

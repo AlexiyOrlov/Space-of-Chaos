@@ -3,6 +3,7 @@ package dev.buildtool;
 public class Engine {
     public static final Engine BASIC=new Engine("basic",5,60, 400);
     public static final Engine SLOW=new Engine("basic",2.5f,60, 400);
+    public static final Engine ENGINE_3=new Engine("mark3",7,80,400);
     public final float maxSpeed;
     public final float steering;
     public final String type;

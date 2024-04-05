@@ -29,7 +29,6 @@ public class StarShip {
     public Weapon weapon=WeaponRegistry.GUN;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
-    private final Array<Projectile> projectiles;
     private float fireDelay;
     public Inventory inventory;
     private final Circle area;
@@ -38,7 +37,6 @@ public class StarShip {
     public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
-        projectiles=new Array<>();
         this.rotation = rotation;
         this.texture=texture;
         textureRegion=new TextureRegion(texture);
@@ -54,7 +52,6 @@ public class StarShip {
     {
         spriteBatch.begin();
         spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
-        projectiles.forEach(projectile -> projectile.render(spriteBatch));
         spriteBatch.end();
 
         if(SpaceGame.debugDraw) {
@@ -136,29 +133,18 @@ public class StarShip {
                 }
             }
         }
-
         if(Gdx.input.isTouched())
         {
-            if(fireDelay<=0)
-            {
-                Projectile[] projectiles=weapon.shoot(this);
-                this.projectiles.addAll(projectiles);
-                fireDelay= weapon.fireDelay;
+
+            Projectile[] projectiles=weapon.createProjectiles(x,y,rotation);
+            if(projectiles!=null) {
+                currentStarSystem.projectiles.addAll(projectiles);
+                fireDelay = weapon.fireDelay;
             }
         }
-        if(fireDelay>0)
-        {
-            fireDelay-=deltaTime;
-        }
-        Array<Projectile> toRemove=new Array<>(projectiles.size);
-        projectiles.forEach(projectile -> {
-            projectile.update();
-            if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
-            {
-                toRemove.add(projectile);
-            }
-        });
-        projectiles.removeAll(toRemove,false);
+        weapon.work(deltaTime);
+
+
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area))
         {

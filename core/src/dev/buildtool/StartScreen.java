@@ -31,9 +31,11 @@ public class StartScreen extends ScreenAdapter {
                             game.playerShip=new StarShip(0,0,0,SpaceGame.INSTANCE.redStarshipTexture, system);
                             game.setScreen(new PlanetScreen(system, planet,game.playerShip));
                             game.updateWorld=true;
-                            NPCPilot pilot = new NPCPilot(planet);
-                            system.ships.add(pilot);
-                            planet.ships.add(pilot);
+//                            NPCPilot pilot = new NPCPilot(planet, PilotAI.TRADER, , , );
+//                            system.ships.add(pilot);
+//                            planet.ships.add(pilot);
+                            NPCPilot guard=new NPCPilot(planet,PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.BATTLE2, Engine.ENGINE_3);
+                            system.ships.add(guard);
                             game.playerShip.x=planet.x;
                             game.playerShip.y=planet.y;
                             break lable;

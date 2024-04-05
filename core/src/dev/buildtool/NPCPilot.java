@@ -14,9 +14,9 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class NPCPilot {
-    public Hull hull=Hull.TRADING1;
-    public Engine engine=Engine.SLOW;
-    public Weapon weapon=WeaponRegistry.GUN;
+    public Hull hull;
+    public Engine engine;
+    public Weapon weapon;
 
     public float x,y;
     public Planet currentlyLandedOn;
@@ -36,13 +36,17 @@ public class NPCPilot {
     boolean landed;
     Random random=SpaceGame.random;
 
-    public PilotAI pilotAI=PilotAI.TRADER;
+    public PilotAI pilotAI;
 
-    public NPCPilot(Planet currentlyLandedOn) {
+    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
         area=new Circle();
+        pilotAI=type;
+        this.weapon=weapon;
+        this.hull=hull;
+        this.engine=engine;
     }
 
     public void work(float deltaTime)

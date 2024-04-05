@@ -8,9 +8,9 @@ public class Gun extends Weapon{
     }
 
     @Override
-    public Projectile[] shoot(StarShip starShip) {
+    public Projectile[] createProjectiles(float originX, float originY, float rotation) {
         Projectile[] projectiles=new Projectile[1];
-        projectiles[0]=new Projectile(projectileTexture,damagePerProjectile,starShip.x,starShip.y,starShip.rotation,projectileSpeed );
+        projectiles[0]=new Projectile(projectileTexture,damagePerProjectile,originX,originY,rotation,projectileSpeed );
         return projectiles;
     }
 }
