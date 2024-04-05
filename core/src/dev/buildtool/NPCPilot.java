@@ -56,7 +56,7 @@ public class NPCPilot implements Ship {
     {
         switch (pilotAI){
             case TRADER -> useTraderAI();
-            case GUARD -> guardAI();
+            case GUARD -> guardAI(deltaTime);
         }
 
         area.set(x,y,hull.look.getWidth()/2);
@@ -129,7 +129,7 @@ public class NPCPilot implements Ship {
         }
     }
 
-    private void guardAI()
+    private void guardAI(float deltaTime)
     {
         StarShip playerShip = SpaceGame.INSTANCE.playerShip;
         if(playerShip !=null)
@@ -139,8 +139,14 @@ public class NPCPilot implements Ship {
             {
                 //move();
             }
-            Projectile[] projectiles= weapon.shoot(x,y,rotationDegrees, this);
-            currentSystem.projectiles.addAll(projectiles);
+            if(fireCooldown<=0) {
+                Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
+                currentSystem.projectiles.addAll(projectiles);
+                fireCooldown=weapon.cooldown;
+            }
+            else {
+                fireCooldown-=deltaTime;
+            }
         }
     }
 
