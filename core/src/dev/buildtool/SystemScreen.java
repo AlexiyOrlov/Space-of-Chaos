@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -53,7 +51,7 @@ public class SystemScreen extends ScreenAdapter {
 		spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
         if(playerShip!=null)
-            playerShip.update(delta);
+            playerShip.update(delta, viewport);
 
         starSystem.draw(spriteBatch, shapeRenderer);
         if(playerShip!=null)
@@ -61,8 +59,8 @@ public class SystemScreen extends ScreenAdapter {
 
         if(playerShip!=null) {
             camera.position.set(playerShip.x, playerShip.y, 0);
-            camera.up.set(0, 1, 0);
-            camera.rotate(Vector3.Z, playerShip.rotation);
+//            camera.up.set(0, 1, 0);
+//            camera.rotate(Vector3.Z, playerShip.rotation);
         }
 
         final Vector2 starPos=new Vector2(0,0);
