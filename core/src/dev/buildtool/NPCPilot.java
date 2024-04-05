@@ -35,7 +35,7 @@ public class NPCPilot {
     private Circle area;
     boolean landed;
     Random random=SpaceGame.random;
-
+    private float fireCooldown;
     public PilotAI pilotAI;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine) {
@@ -56,6 +56,10 @@ public class NPCPilot {
         }
 
         area.set(x,y,hull.look.getWidth()/2);
+        if(fireCooldown>0)
+        {
+            fireCooldown-=deltaTime;
+        }
     }
 
     private void useTraderAI() {
