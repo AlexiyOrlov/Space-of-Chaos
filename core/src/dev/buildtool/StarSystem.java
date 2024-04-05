@@ -1,8 +1,10 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -110,7 +112,7 @@ public class StarSystem {
         projectiles.forEach(projectile -> {
             projectile.update();
             for (NPCPilot ship : ships) {
-                if(ship.area.overlaps(projectile.area))
+                if(ship.area.overlaps(projectile.area) && projectile.shooter!=ship)
                 {
                     ship.integrity-=projectile.damage;
                     if(ship.integrity<=0)
@@ -118,6 +120,20 @@ public class StarSystem {
                         npcPilotsToRemove.add(ship);
                     }
                     toRemove.add(projectile);
+                }
+                StarShip playerShip = SpaceGame.INSTANCE.playerShip;
+                if(playerShip!=null) {
+                    if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip) {
+                        playerShip.integrity -= projectile.damage;
+                        if (playerShip.integrity <= 0) {
+                            SpaceGame.INSTANCE.playerShip = null;
+                            Screen screen= SpaceGame.INSTANCE.getScreen();
+                            if(screen instanceof SystemScreen systemScreen)
+                            {
+                                systemScreen.playerShip=null;
+                            }
+                        }
+                    }
                 }
             }
             if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)

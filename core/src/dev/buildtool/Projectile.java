@@ -14,7 +14,9 @@ public class Projectile {
     private final TextureRegion textureRegion;
     Circle area;
 
-    public Projectile(Texture texture, int damage, float x, float y, float rotation, int speed) {
+    public final Ship shooter;
+
+    public Projectile(Texture texture, int damage, float x, float y, float rotation, int speed, Ship shooter) {
         this.texture = texture;
         this.damage = damage;
         this.speed = new Vector2(MathUtils.cos((rotation +90)*MathUtils.degreesToRadians)*speed,MathUtils.sin((rotation +90)*MathUtils.degreesToRadians)*speed);
@@ -23,6 +25,7 @@ public class Projectile {
         this.rotation=rotation;
         textureRegion=new TextureRegion(texture);
         area=new Circle(x,y,texture.getWidth()/2);
+        this.shooter=shooter;
     }
 
     public Vector2 speed;

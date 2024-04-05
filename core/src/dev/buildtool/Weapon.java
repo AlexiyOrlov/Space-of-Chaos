@@ -16,10 +16,10 @@ public abstract class Weapon {
         cooldown=fireDelay;
     }
 
-    public Projectile[] shoot(float originX,float originY,float rotation)
+    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter)
     {
-        return createProjectiles(originX, originY, rotation);
+        return createProjectiles(originX, originY, rotation, shooter);
     }
 
-    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation);
+    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter);
 }

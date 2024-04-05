@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class NPCPilot {
+public class NPCPilot implements Ship {
     public Hull hull;
     public Engine engine;
     public Weapon weapon;
@@ -56,6 +56,7 @@ public class NPCPilot {
     {
         switch (pilotAI){
             case TRADER -> useTraderAI();
+            case GUARD -> guardAI();
         }
 
         area.set(x,y,hull.look.getWidth()/2);
@@ -130,7 +131,17 @@ public class NPCPilot {
 
     private void guardAI()
     {
-
+        StarShip playerShip = SpaceGame.INSTANCE.playerShip;
+        if(playerShip !=null)
+        {
+            rotateTowards(playerShip.x,playerShip.y);
+            if(Vector2.dst(playerShip.x,playerShip.y,x,y)>100)
+            {
+                //move();
+            }
+            Projectile[] projectiles= weapon.shoot(x,y,rotationDegrees, this);
+            currentSystem.projectiles.addAll(projectiles);
+        }
     }
 
     public List<StarSystem> findClosestSystems() {

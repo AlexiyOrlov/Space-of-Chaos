@@ -12,13 +12,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 
-public class StarShip{
+public class StarShip implements Ship{
     public float x,y;
     public float rotation,acceleration;
     private final Texture texture;
@@ -31,9 +30,10 @@ public class StarShip{
     public HashMap<Ware,Boolean> licences;
     private float fireDelay;
     public Inventory inventory;
-    private final Circle area;
+    public final Circle area;
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
+    public int integrity;
     public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
@@ -46,6 +46,7 @@ public class StarShip{
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
+        integrity=hull.integrity;
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
@@ -136,7 +137,7 @@ public class StarShip{
         if(Gdx.input.isTouched())
         {
             if(fireDelay<=0) {
-                Projectile[] projectiles = weapon.shoot(x, y, rotation);
+                Projectile[] projectiles = weapon.shoot(x, y, rotation,this );
                 if (projectiles != null) {
                     currentStarSystem.projectiles.addAll(projectiles);
                     fireDelay = weapon.cooldown;

@@ -52,26 +52,30 @@ public class SystemScreen extends ScreenAdapter {
         camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        playerShip.update(delta);
+        if(playerShip!=null)
+            playerShip.update(delta);
 
         starSystem.draw(spriteBatch, shapeRenderer);
-        playerShip.draw(spriteBatch,shapeRenderer );
+        if(playerShip!=null)
+            playerShip.draw(spriteBatch,shapeRenderer );
 
-		camera.position.set(playerShip.x,playerShip.y,0);
-		camera.up.set(0,1,0);
-		camera.rotate(Vector3.Z,playerShip.rotation);
+        if(playerShip!=null) {
+            camera.position.set(playerShip.x, playerShip.y, 0);
+            camera.up.set(0, 1, 0);
+            camera.rotate(Vector3.Z, playerShip.rotation);
+        }
 
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
-        if(!camera.frustum.pointInFrustum(0,0,0))
-            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+//        if(!camera.frustum.pointInFrustum(0,0,0))
+//            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
         planets.forEach(planet -> {
             Vector2 pos=new Vector2(planet.x,planet.y);
             if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
                 if (planet.isInhabited) {
-                    drawWaypoint(pos, SpaceGame.INSTANCE.inhabitedPlanetIcon);
+//                    drawWaypoint(pos, SpaceGame.INSTANCE.inhabitedPlanetIcon);
                 } else {
-                    drawWaypoint(pos, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+//                    drawWaypoint(pos, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
                 }
             }
         });
@@ -98,11 +102,6 @@ public class SystemScreen extends ScreenAdapter {
             spriteBatch.draw(icon, bottom.x,bottom.y);
         else
             spriteBatch.draw(icon, top.x,top.y);
-    }
-
-    private void drawWaypoint()
-    {
-
     }
 
     @Override

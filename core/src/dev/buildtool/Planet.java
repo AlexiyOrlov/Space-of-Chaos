@@ -175,7 +175,8 @@ public class Planet {
         spriteBatch.begin();
         Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
         Matrix4 matrix4=new Matrix4();
-        matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
+        if(SpaceGame.INSTANCE.playerShip!=null)
+            matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
         matrix4.trn(x,y,0);
         BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
         GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
