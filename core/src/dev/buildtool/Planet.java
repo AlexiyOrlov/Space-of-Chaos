@@ -173,22 +173,22 @@ public class Planet {
 
     public void drawName(SpriteBatch spriteBatch){
         spriteBatch.begin();
-        Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
-        Matrix4 matrix4=new Matrix4();
-        if(SpaceGame.INSTANCE.playerShip!=null)
-            matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
-        matrix4.trn(x,y,0);
+//        Matrix4 oldMatrix=spriteBatch.getTransformMatrix().cpy();
+//        Matrix4 matrix4=new Matrix4();
+//        if(SpaceGame.INSTANCE.playerShip!=null)
+//            matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
+//        matrix4.trn(x,y,0);
         BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
         GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
-        spriteBatch.setTransformMatrix(matrix4);
+//        spriteBatch.setTransformMatrix(matrix4);
         if(!isInhabited)
         {
             glyphLayout.setText(font,"Uninhabited");
-            font.draw(spriteBatch,"Uninhabited",-glyphLayout.width/2,-30);
+            font.draw(spriteBatch,"Uninhabited",x-glyphLayout.width/2,y-30);
         }
         glyphLayout.setText(font,name);
-        font.draw(spriteBatch,name,-glyphLayout.width/2,0);
-        spriteBatch.setTransformMatrix(oldMatrix);
+        font.draw(spriteBatch,name,x-glyphLayout.width/2,y);
+//        spriteBatch.setTransformMatrix(oldMatrix);
         spriteBatch.end();
     }
 
