@@ -18,7 +18,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 
-public class StarShip {
+public class StarShip{
     public float x,y;
     public float rotation,acceleration;
     private final Texture texture;

@@ -105,15 +105,28 @@ public class StarSystem {
         shipsToTransfer.clear();
         starGate.update(dt);
 
+        ArrayList<NPCPilot> npcPilotsToRemove=new ArrayList<>(ships.size());
         Array<Projectile> toRemove=new Array<>(projectiles.size);
         projectiles.forEach(projectile -> {
             projectile.update();
+            for (NPCPilot ship : ships) {
+                if(ship.area.overlaps(projectile.area))
+                {
+                    ship.integrity-=projectile.damage;
+                    if(ship.integrity<=0)
+                    {
+                        npcPilotsToRemove.add(ship);
+                    }
+                    toRemove.add(projectile);
+                }
+            }
             if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
             {
                 toRemove.add(projectile);
             }
         });
         projectiles.removeAll(toRemove,true);
+        ships.removeAll(npcPilotsToRemove);
     }
 
     public String getStarName()

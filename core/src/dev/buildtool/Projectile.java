@@ -3,6 +3,7 @@ package dev.buildtool;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -11,6 +12,7 @@ public class Projectile {
     public int damage;
     public float rotation;
     private final TextureRegion textureRegion;
+    Circle area;
 
     public Projectile(Texture texture, int damage, float x, float y, float rotation, int speed) {
         this.texture = texture;
@@ -20,6 +22,7 @@ public class Projectile {
         this.y = y;
         this.rotation=rotation;
         textureRegion=new TextureRegion(texture);
+        area=new Circle(x,y,texture.getWidth()/2);
     }
 
     public Vector2 speed;
@@ -28,6 +31,7 @@ public class Projectile {
     {
         x+=speed.x;
         y+=speed.y;
+        area.set(x,y,texture.getWidth()/2);
     }
 
     public void render(SpriteBatch spriteBatch)

@@ -32,11 +32,13 @@ public class NPCPilot {
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
     public StarSystem currentSystem;
     private Planet targetPlanet;
-    private Circle area;
+    public final Circle area;
     boolean landed;
     Random random=SpaceGame.random;
     private float fireCooldown;
     public PilotAI pilotAI;
+
+    public int integrity;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -47,6 +49,7 @@ public class NPCPilot {
         this.weapon=weapon;
         this.hull=hull;
         this.engine=engine;
+        integrity=hull.integrity;
     }
 
     public void work(float deltaTime)
@@ -123,6 +126,11 @@ public class NPCPilot {
                 canJump=true;
             }
         }
+    }
+
+    private void guardAI()
+    {
+
     }
 
     public List<StarSystem> findClosestSystems() {
