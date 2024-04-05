@@ -101,7 +101,6 @@ public class StarShip implements Ship{
             if(rightAcceleration<sideThrusters.strafingSpeed)
                 rightAcceleration+=0.15f;
         }
-        System.out.println(leftAcceleration);
         //to the left
         this.x+=MathUtils.cosDeg(rotation+90+90)*leftAcceleration;
         this.y+=MathUtils.sinDeg(rotation+90+90)*leftAcceleration;
