@@ -76,16 +76,21 @@ public class SystemScreen extends ScreenAdapter {
         spriteBatch.begin();
         if(!camera.frustum.pointInFrustum(0,0,0))
             drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
-        planets.forEach(planet -> {
-            Vector2 pos=new Vector2(planet.x,planet.y);
-            if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
-                if (planet.isInhabited) {
+//        Planet first=planets.get(0);
+//        if(!camera.frustum.pointInFrustum(first.x,first.y,0))
+//        {
+//            drawWaypoint(new Vector2(first.x,first.y),SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+//        }
+//        planets.forEach(planet -> {
+//            Vector2 pos=new Vector2(planet.x,planet.y);
+//            if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
+//                if (planet.isInhabited) {
 //                    drawWaypoint(pos, SpaceGame.INSTANCE.inhabitedPlanetIcon);
-                } else {
+//                } else {
 //                    drawWaypoint(pos, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
-                }
-            }
-        });
+//                }
+//            }
+//        });
         spriteBatch.end();
     }
 
@@ -101,18 +106,18 @@ public class SystemScreen extends ScreenAdapter {
         if(halfWidth.x<Math.abs(playerPos.x))
         {
             if(playerPos.x<to.x)
-                x+=backBufferWidth-32;
+                x+=backBufferWidth-icon.getWidth();
         }
         else {
-            x=-playerPos.x+backBufferWidth/2-16;
+            x=-playerPos.x+backBufferWidth/2-icon.getWidth()/2;
         }
         if(halfHeight.y<Math.abs(playerPos.y))
         {
             if(playerPos.y<to.y)
-                y+=backBufferHeight-32;
+                y+=backBufferHeight-icon.getHeight();
         }
         else {
-            y=-playerPos.y+backBufferHeight/2-16;
+            y=-playerPos.y+backBufferHeight/2-icon.getHeight()/2;
         }
 
         uiBatch.begin();
