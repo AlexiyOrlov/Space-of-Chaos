@@ -149,9 +149,6 @@ public class NPCPilot implements Ship {
                     fireCooldown = weapon.cooldown;
                 }
             }
-            if (fireCooldown > 0) {
-                fireCooldown -= deltaTime;
-            }
         }
     }
 
