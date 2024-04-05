@@ -26,4 +26,50 @@ public class Functions {
     {
         return MathUtils.lerpAngle(fromAngle,MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle,rotationSpeed);
     }
+
+    public static Vector2 intercept(Vector2 src,Vector2 dstPos,Vector2 dstVelocity,float v)
+    {
+        float tx=dstPos.x-src.x;
+        float ty=dstPos.y-src.y;
+        float tvx=dstVelocity.x;
+        float tvy=dstVelocity.y;
+        float a=tvx*tvx+tvy*tvy-v*v;
+        float b=2*(tvx*tx*tvy*ty);
+        float c=tx*tx+ty*ty;
+
+        float[] ts=quad(a,b,c);
+        Vector2 sol=null;
+        if(ts!=null)
+        {
+            float t0=ts[0];
+            float t1=ts[1];
+            float t=Math.min(t0,t1);
+            if(t<0)
+                t=Math.max(t0,t1);
+            if(t>0)
+            {
+                sol=new Vector2(dstPos.x+dstVelocity.x*t,dstPos.y+dstVelocity.y*t);
+            }
+        }
+        return sol;
+    }
+
+    public static float[] quad(float a, float b, float c)
+    {
+        float[] sol;
+        if(Math.abs(a)<1e-6)
+        {
+            if(Math.abs(b)<1e-6){
+                sol=Math.abs(c)<1e-6 ? new float[]{0,0}:null;
+            }
+            else {
+                sol=new float[]{-c/b,-c/b};
+            }
+        }else {
+            float disc=b*b-4*a*c;
+            a=2*a;
+            sol=new float[]{(-b-disc)/a,(-b+disc)/2};
+        }
+        return sol;
+    }
 }
