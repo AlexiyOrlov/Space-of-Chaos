@@ -74,13 +74,13 @@ public class SystemScreen extends ScreenAdapter {
         }
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
-        if(!camera.frustum.pointInFrustum(0,0,0))
-            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
-//        Planet first=planets.get(0);
+//        if(!camera.frustum.pointInFrustum(0,0,0))
+//            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+        Planet first=planets.get(0);
 //        if(!camera.frustum.pointInFrustum(first.x,first.y,0))
-//        {
-//            drawWaypoint(new Vector2(first.x,first.y),SpaceGame.INSTANCE.uninhabitedPlanetIcon);
-//        }
+        {
+            drawWaypoint(new Vector2(first.x,first.y),SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+        }
 //        planets.forEach(planet -> {
 //            Vector2 pos=new Vector2(planet.x,planet.y);
 //            if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
@@ -106,7 +106,13 @@ public class SystemScreen extends ScreenAdapter {
         if(halfWidth.x<Math.abs(playerPos.x))
         {
             if(playerPos.x<to.x)
+            {
                 x+=backBufferWidth-icon.getWidth();
+                System.out.println(1);
+            }
+            else {
+                System.out.println(2);
+            }
         }
         else {
             x=-playerPos.x+backBufferWidth/2-icon.getWidth()/2;
@@ -119,6 +125,9 @@ public class SystemScreen extends ScreenAdapter {
         else {
             y=-playerPos.y+backBufferHeight/2-icon.getHeight()/2;
         }
+
+        x+=to.x;
+        y+=to.y;
 
         uiBatch.begin();
         uiBatch.draw(icon, x,y);
