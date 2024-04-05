@@ -27,6 +27,7 @@ public class StarShip implements Ship{
     public Engine engine=Engine.BASIC;
     public Hull hull=Hull.BASIC;
     public Weapon weapon=WeaponRegistry.GUN;
+    public SideThrusters sideThrusters=SideThrusters.BASIC;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay;
@@ -89,10 +90,6 @@ public class StarShip implements Ship{
 
     public void update(float deltaTime, Viewport viewport)
     {
-
-
-
-        float rotationSpeed=engine.steering;
         if(Gdx.input.isKeyPressed(Input.Keys.A))
         {
             this.x+=MathUtils.cosDeg(rotation+90+90)*5;
@@ -162,7 +159,7 @@ public class StarShip implements Ship{
         area.set(x,y, (float) texture.getWidth() /2);
 
         Vector2 mouseWorld=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-        rotation=Functions.rotateTowards(rotation*MathUtils.degreesToRadians,x,y,mouseWorld.x,mouseWorld.y,-MathUtils.degreesToRadians*90,0.1f)*MathUtils.radiansToDegrees;
+        rotation=Functions.rotateTowards(rotation*MathUtils.degreesToRadians,x,y,mouseWorld.x,mouseWorld.y,-MathUtils.degreesToRadians*90,sideThrusters.steeringSpeed)*MathUtils.radiansToDegrees;
     }
 
     public void addItem(Stack stack)
