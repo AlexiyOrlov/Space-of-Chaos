@@ -142,7 +142,7 @@ public class NPCPilot implements Ship {
             Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
             Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
             float dot = Vector2.dot(forward.x, forward.y, dist.x, dist.y);
-            if (Math.abs(dot) < 0.05f) {
+            if (Math.abs(dot) < 0.1f) {
                 if (fireCooldown <= 0) {
                     Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
                     currentSystem.projectiles.addAll(projectiles);
@@ -297,7 +297,7 @@ public class NPCPilot implements Ship {
 
     public void rotateTowards(float x,float y)
     {
-        rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed) * MathUtils.radiansToDegrees;
+        rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed*3) * MathUtils.radiansToDegrees;
     }
 
     @Override

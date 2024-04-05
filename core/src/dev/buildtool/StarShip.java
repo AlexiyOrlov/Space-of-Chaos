@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class StarShip implements Ship{
     public float x,y;
-    public float rotation,acceleration;
+    public float rotation,acceleration,leftAcceleration,rightAcceleration;
     private final Texture texture;
     private final TextureRegion textureRegion;
     public final Vector2 direction;
@@ -92,14 +92,28 @@ public class StarShip implements Ship{
     {
         if(Gdx.input.isKeyPressed(Input.Keys.A))
         {
-            this.x+=MathUtils.cosDeg(rotation+90+90)*5;
-            this.y+=MathUtils.sinDeg(rotation+90+90)*5;
+            if(leftAcceleration< sideThrusters.strafingSpeed)
+                leftAcceleration+=0.15f;
         }
+
         if(Gdx.input.isKeyPressed(Input.Keys.D))
         {
-            this.x+=MathUtils.cosDeg(rotation+90-90)*5;
-            this.y+=MathUtils.sinDeg(rotation+90-90)*5;
+            if(rightAcceleration<sideThrusters.strafingSpeed)
+                rightAcceleration+=0.15f;
         }
+        System.out.println(leftAcceleration);
+        //to the left
+        this.x+=MathUtils.cosDeg(rotation+90+90)*leftAcceleration;
+        this.y+=MathUtils.sinDeg(rotation+90+90)*leftAcceleration;
+
+        //to the right
+        this.x+=MathUtils.cosDeg(rotation+90-90)*rightAcceleration;
+        this.y+=MathUtils.sinDeg(rotation+90-90)*rightAcceleration;
+
+        if(leftAcceleration>0)
+            leftAcceleration-=0.1f;
+        if(rightAcceleration>0)
+            rightAcceleration-=0.1f;
 
         direction.set(Vector2.Y).rotateDeg(rotation);
         direction.scl(acceleration);
