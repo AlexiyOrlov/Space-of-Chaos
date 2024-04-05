@@ -64,10 +64,18 @@ public class SystemScreen extends ScreenAdapter {
 //            camera.rotate(Vector3.Z, playerShip.rotation);
         }
 
+        if(playerShip!=null) {
+            uiShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            uiShapeRenderer.setColor(Color.SCARLET);
+            float ip = (float) playerShip.integrity / playerShip.hull.integrity;
+            float height=ip * Gdx.graphics.getBackBufferHeight()-200;
+            uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60, (Gdx.graphics.getBackBufferHeight()-height)/2,60 , height);
+            uiShapeRenderer.end();
+        }
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
-//        if(!camera.frustum.pointInFrustum(0,0,0))
-//            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+        if(!camera.frustum.pointInFrustum(0,0,0))
+            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
         planets.forEach(planet -> {
             Vector2 pos=new Vector2(planet.x,planet.y);
             if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
@@ -79,36 +87,37 @@ public class SystemScreen extends ScreenAdapter {
             }
         });
         spriteBatch.end();
-        if(playerShip!=null) {
-            uiShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            uiShapeRenderer.setColor(Color.SCARLET);
-            float ip = (float) playerShip.integrity / playerShip.hull.integrity;
-            float height=ip * Gdx.graphics.getBackBufferHeight()-200;
-            uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60, (Gdx.graphics.getBackBufferHeight()-height)/2,60 , height);
-            uiShapeRenderer.end();
-        }
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
+        SpriteBatch uiBatch=SpaceGame.INSTANCE.uiBatch;
         final Vector2 playerPos=new Vector2(playerShip.x,playerShip.y);
-        Vector2 lowerLeftCorner=viewport.unproject(new Vector2(0,0));
-        Vector2 upperLeftCorner=viewport.unproject(new Vector2(0,Gdx.graphics.getBackBufferHeight()-30));
-        Vector2 rightLower=viewport.unproject(new Vector2(Gdx.graphics.getBackBufferWidth(),0));
-        Vector2 rightUpper=viewport.unproject(new Vector2(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight()));
+        int backBufferWidth = Gdx.graphics.getBackBufferWidth();
+        Vector2 halfWidth=(new Vector2(backBufferWidth /2,0));
+        int backBufferHeight = Gdx.graphics.getBackBufferHeight();
+        Vector2 halfHeight=(new Vector2(0, backBufferHeight /2));
+        float x=0;
+        float y=0;
+        if(halfWidth.x<Math.abs(playerPos.x))
+        {
+            if(playerPos.x<to.x)
+                x+=backBufferWidth-32;
+        }
+        else {
+            x=-playerPos.x+backBufferWidth/2-16;
+        }
+        if(halfHeight.y<Math.abs(playerPos.y))
+        {
+            if(playerPos.y<to.y)
+                y+=backBufferHeight-32;
+        }
+        else {
+            y=-playerPos.y+backBufferHeight/2-16;
+        }
 
-        Vector2 left=lineLineIntersection(to,playerPos,lowerLeftCorner,upperLeftCorner);
-        Vector2 right=lineLineIntersection(to,playerPos,rightLower,rightUpper);
-        Vector2 bottom=lineLineIntersection(to,playerPos,lowerLeftCorner,rightLower);
-        Vector2 top=lineLineIntersection(to,playerPos,upperLeftCorner,rightUpper);
-
-        if(left.len2()<right.len2())
-            spriteBatch.draw(icon, left.x,left.y);
-        else
-            spriteBatch.draw(icon, right.x,right.y);
-        if(bottom.len2()<top.len2())
-            spriteBatch.draw(icon, bottom.x,bottom.y);
-        else
-            spriteBatch.draw(icon, top.x,top.y);
+        uiBatch.begin();
+        uiBatch.draw(icon, x,y);
+        uiBatch.end();
     }
 
     @Override
