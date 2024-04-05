@@ -125,6 +125,7 @@ public class StarSystem {
                 if(playerShip!=null) {
                     if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip) {
                         playerShip.integrity -= projectile.damage;
+                        toRemove.add(projectile);
                         if (playerShip.integrity <= 0) {
                             SpaceGame.INSTANCE.playerShip = null;
                             Screen screen= SpaceGame.INSTANCE.getScreen();
