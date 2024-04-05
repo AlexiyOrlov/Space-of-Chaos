@@ -35,7 +35,7 @@ public class SpaceGame extends Game {
 		battleHull2,pelletTexture;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
-	ShapeRenderer shapeRenderer;
+	ShapeRenderer shapeRenderer,uiShapeRenderer;
 	public BitmapFont bitmapFont;
 	public GlyphLayout textMeasurer;
 	public boolean updateWorld;
@@ -51,6 +51,7 @@ public class SpaceGame extends Game {
 		batch = new SpriteBatch();
 		uiBatch=new SpriteBatch();
 		shapeRenderer=new ShapeRenderer();
+		uiShapeRenderer=new ShapeRenderer();
 		assetManager.load("star.png",Texture.class);
 		assetManager.load("green planet.png",Texture.class);
 		assetManager.load("greenish planet.png",Texture.class);
