@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class NPCPilot implements Ship {
     public Hull hull;
+    public SideThrusters sideThrusters;
     public Engine engine;
     public Weapon weapon;
 
@@ -41,7 +42,7 @@ public class NPCPilot implements Ship {
 
     public int integrity;
 
-    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine) {
+    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
@@ -51,6 +52,7 @@ public class NPCPilot implements Ship {
         this.hull=hull;
         this.engine=engine;
         integrity=hull.integrity;
+        this.sideThrusters=sideThrusters;
     }
 
     public void work(float deltaTime)
@@ -302,7 +304,6 @@ public class NPCPilot implements Ship {
 
     public void rotateTowards(float x,float y)
     {
-        //0.02f
-        rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, engine.aiSteering) * MathUtils.radiansToDegrees;
+        rotationDegrees = Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed) * MathUtils.radiansToDegrees;
     }
 }

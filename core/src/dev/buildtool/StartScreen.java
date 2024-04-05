@@ -34,7 +34,7 @@ public class StartScreen extends ScreenAdapter {
 //                            NPCPilot pilot = new NPCPilot(planet, PilotAI.TRADER, , , );
 //                            system.ships.add(pilot);
 //                            planet.ships.add(pilot);
-                            NPCPilot guard=new NPCPilot(planet,PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.BATTLE2, Engine.ENGINE_3);
+                            NPCPilot guard=new NPCPilot(planet,PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.BATTLE2, Engine.ENGINE_3,SideThrusters.SLOW);
                             system.ships.add(guard);
                             game.playerShip.x=planet.x;
                             game.playerShip.y=planet.y;
