@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -33,6 +34,7 @@ public class NPCPilot implements Ship {
     public boolean canJump;
     public int money=1000;
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
+    private final HashMap<Ware,Integer> boughtFor=new HashMap<>();
     public StarSystem currentSystem;
     private Planet targetPlanet;
     public final Circle area;
@@ -235,10 +237,17 @@ public class NPCPilot implements Ship {
                 if (planet.isInhabited) {
                     for (Ware ware : planet.warePrices.keySet()) {
                         int warePrice = planet.warePrices.get(ware);
-                        if (warePrice > Ware.BASE_PRICES.get(ware)) {
-                            for (Stack stack : inventory.stacks) {
-                                if (stack != null && stack.item == ware) {
-                                    return true;
+                        Integer lastPurchasePrice=boughtFor.get(ware);
+                        if(lastPurchasePrice!=null && lastPurchasePrice<warePrice)
+                        {
+                            return true;
+                        }
+                        else {
+                            if (warePrice > Ware.BASE_PRICES.get(ware)) {
+                                for (Stack stack : inventory.stacks) {
+                                    if (stack != null && stack.item == ware) {
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -294,6 +303,7 @@ public class NPCPilot implements Ship {
                                 inventory.addItem(new Stack(ware,canBuy));
                                 purchases.add(new NPCPurchase(ware,warePrice));
                                 System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
+                                boughtFor.put(ware,warePrice);
                             }
                             if(money<=0)
                             {
@@ -322,6 +332,7 @@ public class NPCPilot implements Ship {
                                         money += toSell * price;
                                         System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
                                         it.remove();
+                                        boughtFor.remove(ware);
                                     }
                                 }
                             }
