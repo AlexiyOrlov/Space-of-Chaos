@@ -131,7 +131,7 @@ public class SystemScreen extends ScreenAdapter {
 
 
         uibatch.begin();
-        uibatch.draw(SpaceGame.INSTANCE.inhabitedPlanetIcon, rx,ry);
+        uibatch.draw(icon, rx,ry);
         uibatch.end();
     }
 

@@ -127,7 +127,7 @@ public class SpaceGame extends Game {
 		planetTextures.add(assetManager.get("mixed planet.png"));
 		inhabitedPlanetIcon=assetManager.get("inhabited planet.png");
 		uninhabitedPlanetIcon=assetManager.get("uninhabited planet.png");
-		starIcon=assetManager.get("star gate icon.png");
+		stargateIcon=assetManager.get("star gate icon.png");
 
 		takeOffTexture=assetManager.get("take off.png");
 		scalesTexture=assetManager.get("scales64.png");
