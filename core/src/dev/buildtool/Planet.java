@@ -247,6 +247,12 @@ public class Planet {
                     pirate.y=y;
                 }
             }
+
+            if(random.nextBoolean())
+            {
+                NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.TRADING1,Engine.SLOW,SideThrusters.SLOW);
+                ships.add(trader);
+            }
         }
     }
 

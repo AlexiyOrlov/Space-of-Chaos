@@ -146,15 +146,8 @@ public class NPCPilot implements Ship {
             if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
                 move();
             }
-            Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
-            Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
-            float dot = Vector2.dot(forward.x, forward.y, dist.x, dist.y);
-            if (Math.abs(dot) < 0.1f) {
-                if (fireCooldown <= 0) {
-                    Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
-                    currentSystem.projectiles.addAll(projectiles);
-                    fireCooldown = weapon.cooldown;
-                }
+            if(isLookingAt(target.getX(),target.getY())) {
+                fire();
             }
         }
         else {
@@ -164,6 +157,54 @@ public class NPCPilot implements Ship {
                 move();
             }
         }
+    }
+
+    private void fire() {
+        if (fireCooldown <= 0) {
+            Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
+            currentSystem.projectiles.addAll(projectiles);
+            fireCooldown = weapon.cooldown;
+        }
+    }
+
+    private void pirateAI()
+    {
+        if(target==null)
+        {
+            for (NPCPilot ship : currentSystem.ships) {
+                if(ship!=this)
+                {
+                    if(ship.pilotAI==PilotAI.TRADER)
+                    {
+                        if(!ship.inventory.isEmpty())
+                        {
+                            target=ship;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            int windowHeight=Gdx.graphics.getHeight();
+            if(Vector2.dst(x,y,target.getX(),target.getY())>windowHeight)
+            {
+                rotateTowards(target.getX(),target.getY());
+                move();
+                if (isLookingAt(target.getX(),target.getY()))
+                {
+                    fire();
+                }
+            }
+        }
+    }
+
+    public boolean isLookingAt(float x,float y)
+    {
+        Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
+        Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
+        float dot = Vector2.dot(forward.x, forward.y, dist.x, dist.y);
+        return Math.abs(dot) < 0.1f;
     }
 
     public List<StarSystem> findClosestSystems() {
