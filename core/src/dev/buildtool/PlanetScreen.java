@@ -68,8 +68,6 @@ public class PlanetScreen extends ScreenAdapter {
                 Image image = new Image(ware.texture);
                 Label warePrice;
                 warePrice = new Label(price.toString(), skin);
-
-//                    warePrice.setColor(Color.SCARLET);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
                 Label wareAmountLabel = new Label(wareAmountt.toString(), skin);
 
