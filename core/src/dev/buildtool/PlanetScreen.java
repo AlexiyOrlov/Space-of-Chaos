@@ -53,8 +53,8 @@ public class PlanetScreen extends ScreenAdapter {
         purchaseHistoryTable.right();
         stage.addActor(purchaseHistoryTable);
 
+        Label moneyLabel=new Label("Money: "+player.money,skin);
         if(planet.isInhabited) {
-            Label moneyLabel=new Label("Money: "+player.money,skin);
             table.add(moneyLabel);
             table.row();
             Table market = new Table(skin);
@@ -317,37 +317,10 @@ public class PlanetScreen extends ScreenAdapter {
 
                     Stack stack = planet.equipmentInventory.stacks[in];
 
-                    planet.equipmentInventory.setExtractionPredicateAndAction(playerShip -> playerShip.money>=stack.item.basePrice,playerShip -> playerShip.money-=stack.item.basePrice,in);
-//                    Dialog d=new Dialog("Buy?",skin);
-//                    Button accept=new TextButton("Accept",skin);
-//                    int finalIn = in;
-//                    accept.addListener(new ChangeListener() {
-//                        @Override
-//                        public void changed(ChangeEvent event, Actor actor) {
-//                             if(player.money>=stack.item.basePrice)
-//                             {
-//                                 player.money-=stack.item.basePrice;
-//                                 player.addItem(new Stack(stack.item,1));
-//                                 planet.equipmentInventory.stacks[finalIn]=null;
-//                             }
-//                             else {
-//                                 Dialog dialog=new Dialog("Can't afford",skin);
-//                                 Label message=new Label("Not enough money",skin);
-//                                 dialog.button(new TextButton("OK",skin));
-//                                 dialog.add(message);
-//                                 dialog.show(stage);
-//                             }
-//                        }
-//                    });
-//                    Button cancel=new TextButton("Cancel",skin);
-//                    cancel.addListener(new ChangeListener() {
-//                        @Override
-//                        public void changed(ChangeEvent event, Actor actor) {
-//                            d.hide();
-//                        }
-//                    });
-//                    d.add(accept,cancel);
-//                    d.show(stage);
+                    planet.equipmentInventory.setExtractionPredicateAndAction(playerShip -> playerShip.money>=stack.item.basePrice, playerShip -> {
+                        playerShip.money-=stack.item.basePrice;
+                        moneyLabel.setText("Money: "+playerShip.money);
+                    },in);
 
                     planet.equipmentInventory.slots[in] = slot;
                     in++;
@@ -443,5 +416,51 @@ public class PlanetScreen extends ScreenAdapter {
     public void hide() {
         Gdx.input.setInputProcessor(null);
         SpaceGame.INSTANCE.updateWorld=true;
+    }
+
+    private class TransactionConfirmation extends ChangeListener{
+        private PlayerShip playerShip;
+        private Label moneyLabel;
+        private Stack stack;
+        private Dialog buy;
+
+        public TransactionConfirmation(PlayerShip playerShip, Label moneyLabel,Stack stack) {
+            this.playerShip = playerShip;
+            this.moneyLabel = moneyLabel;
+            this.stack=stack;
+        }
+
+        public boolean accepted;
+        @Override
+        public void changed(ChangeEvent event, Actor actor) {
+            Skin skin=SpaceGame.INSTANCE.skin;
+//            Dialog buy=new Dialog("Buy?",skin);
+            TextButton confirm=new TextButton("Confirm purchase",skin);
+            confirm.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    playerShip.money -= stack.item.basePrice;
+                    buy.hide();
+                    moneyLabel.setText("Money: "+playerShip.money);
+                    accepted=true;
+                }
+            });
+            buy.add(confirm);
+            TextButton cancel=new TextButton("Cancel",skin);
+            cancel.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    buy.hide();
+                    accepted=false;
+                }
+            });
+            buy.add(cancel);
+            buy.show(stage);
+        }
+
+        public boolean purchased()
+        {
+            return accepted;
+        }
     }
 }
