@@ -6,6 +6,6 @@ public class Stack {
 
     public Stack(Item item, int count) {
         this.item = item;
-        this.count = count;
+        this.count = Math.min(count,item.maxSize);
     }
 }
