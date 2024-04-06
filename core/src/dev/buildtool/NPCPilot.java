@@ -157,6 +157,13 @@ public class NPCPilot implements Ship {
                 }
             }
         }
+        else {
+            rotateTowards(homePLanet.x, homePLanet.y);
+            if(Vector2.dst(x,y, homePLanet.x,homePLanet.y)>260)
+            {
+                move();
+            }
+        }
     }
 
     public List<StarSystem> findClosestSystems() {
