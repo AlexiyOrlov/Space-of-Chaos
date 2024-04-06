@@ -67,7 +67,10 @@ public class PlanetScreen extends ScreenAdapter {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
                 Label warePrice;
-                warePrice = new Label(price.toString(), skin);
+                if(price<Ware.BASE_PRICES.get(ware))
+                    warePrice = new Label(price+" (below average)", skin);
+                else
+                    warePrice = new Label(price.toString(), skin);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
                 Label wareAmountLabel = new Label(wareAmountt.toString(), skin);
 
