@@ -185,6 +185,11 @@ public class NPCPilot implements Ship {
                     }
                 }
             }
+            StarGate starGate = currentSystem.starGate;
+            if(Vector2.dst(starGate.x, starGate.y,x,y)>200){
+                rotateTowards(starGate.x,starGate.y);
+                move();
+            }
         }
         else {
             int windowHeight=Gdx.graphics.getHeight();
