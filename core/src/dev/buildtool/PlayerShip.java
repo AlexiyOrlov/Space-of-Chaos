@@ -18,7 +18,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 
-public class StarShip implements Ship{
+public class PlayerShip implements Ship{
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
     private final Texture texture;
@@ -36,7 +36,7 @@ public class StarShip implements Ship{
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;
-    public StarShip(float x, float y, float rotation,Texture texture,StarSystem currentStarSystem) {
+    public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
         this.rotation = rotation;

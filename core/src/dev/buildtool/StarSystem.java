@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -121,7 +120,7 @@ public class StarSystem {
                     }
                     toRemove.add(projectile);
                 }
-                StarShip playerShip = SpaceGame.INSTANCE.playerShip;
+                PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
                 if(playerShip!=null) {
                     if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip) {
                         playerShip.integrity -= projectile.damage;

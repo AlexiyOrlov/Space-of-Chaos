@@ -22,17 +22,16 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlanetScreen extends ScreenAdapter {
     private final Stage stage;
     private final Viewport viewport;
     private Stack stackUnderMouse;
-    private final StarShip player;
+    private final PlayerShip player;
     private final Planet planet;
 
-    public PlanetScreen(StarSystem system, Planet planet, StarShip player) {
+    public PlanetScreen(StarSystem system, Planet planet, PlayerShip player) {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         viewport.apply();
         this.planet=planet;
@@ -320,7 +319,7 @@ public class PlanetScreen extends ScreenAdapter {
         }
     }
 
-    private static void calculatePlayerWareCount(StarShip player, HashMap<Ware, Integer> playerWareCount) {
+    private static void calculatePlayerWareCount(PlayerShip player, HashMap<Ware, Integer> playerWareCount) {
         for (Stack stack : player.inventory.stacks) {
             if(stack!=null) {
                 Item item = stack.item;
@@ -333,7 +332,7 @@ public class PlanetScreen extends ScreenAdapter {
         }
     }
 
-    private static void updatePurchaseTable(StarShip player, Table purchaseHistoryTable, Skin skin) {
+    private static void updatePurchaseTable(PlayerShip player, Table purchaseHistoryTable, Skin skin) {
         if(!player.warePurchases.isEmpty()) {
             purchaseHistoryTable.clearChildren();
             purchaseHistoryTable.add(new Label("Market purchase history", skin)).colspan(5);
@@ -376,7 +375,8 @@ public class PlanetScreen extends ScreenAdapter {
             planet.equipmentInventory.drawSlotInfo(spriteBatch, viewport);
             if (Gdx.input.justTouched()) {
                 stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
-                stackUnderMouse = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
+                Stack fromEquipmentStore = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
+
             }
         }
         GlyphLayout glyphLayout=new GlyphLayout(font, planet.name);

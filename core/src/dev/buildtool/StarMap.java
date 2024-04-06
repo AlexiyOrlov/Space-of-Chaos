@@ -18,9 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -36,18 +34,18 @@ public class StarMap extends ScreenAdapter {
     private final float shipY;
     private final Viewport viewport;
     private final Camera camera;
-    private final StarShip starShip;
+    private final PlayerShip playerShip;
     private final ShapeRenderer shapeRenderer;
     private final Image target;
     private StarSystem selectedStarSystem;
     private float targetAngle;
 
-    public StarMap(StarSystem currentSystem,StarShip starShip) {
+    public StarMap(StarSystem currentSystem, PlayerShip playerShip) {
         target=new Image(SpaceGame.INSTANCE.targetTexture);
         target.setOrigin(target.getWidth()/2,target.getHeight()/2);
         starSystems=SpaceGame.INSTANCE.starSystems;
         viewport = new ScreenViewport();
-        this.starShip=starShip;
+        this.playerShip = playerShip;
         shapeRenderer=new ShapeRenderer();
         camera=viewport.getCamera();
         stage=new Stage(viewport);
@@ -60,7 +58,7 @@ public class StarMap extends ScreenAdapter {
             image.setY(starSystem.positionY- (float) starIcon.getHeight() /2);
             stage.addActor(image);
             BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
-            if(starShip.currentStarSystem==starSystem)
+            if(playerShip.currentStarSystem==starSystem)
             {
                 camera.position.x+= starSystem.positionX;
                 camera.position.y+=starSystem.positionY;
@@ -78,15 +76,15 @@ public class StarMap extends ScreenAdapter {
             image.addListener(new ClickListener(Input.Buttons.RIGHT){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(starSystem!=starShip.currentStarSystem) {
-                        if (Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= starShip.engine.jumpDistance) {
+                    if(starSystem!= playerShip.currentStarSystem) {
+                        if (Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= playerShip.engine.jumpDistance) {
                             if (!target.isVisible()) {
                                 target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
                                 target.setVisible(true);
                                 selectedStarSystem = starSystem;
                             } else {
                                 if (starSystem == selectedStarSystem) {
-                                    starShip.currentStarSystem = starSystem;
+                                    playerShip.currentStarSystem = starSystem;
                                     SpaceGame.INSTANCE.setScreen(new SystemScreen(starSystem, starSystem.starGate.x, starSystem.starGate.y));
                                 } else {
                                     selectedStarSystem = starSystem;
@@ -103,8 +101,8 @@ public class StarMap extends ScreenAdapter {
         camera.position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
         camera.position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
         currentStarSystem=currentSystem;
-        shipX= starShip.x;
-        shipY= starShip.y;
+        shipX= playerShip.x;
+        shipY= playerShip.y;
     }
 
     @Override
@@ -124,7 +122,7 @@ public class StarMap extends ScreenAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setColor(Color.GREEN);
-        int shipJumpDistance = starShip.engine.jumpDistance;
+        int shipJumpDistance = playerShip.engine.jumpDistance;
         shapeRenderer.ellipse(currentStarSystem.positionX-shipJumpDistance,currentStarSystem.positionY-shipJumpDistance, shipJumpDistance*2, shipJumpDistance*2);
         shapeRenderer.end();
         target.rotateBy(targetAngle);
