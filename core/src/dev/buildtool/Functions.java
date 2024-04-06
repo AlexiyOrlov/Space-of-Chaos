@@ -27,6 +27,11 @@ public class Functions {
         return MathUtils.lerpAngle(fromAngle,MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle,rotationSpeed);
     }
 
+    public static float rotationTowards(float xFrom,float yFrom,float xTo,float yTo,float correctionAngle)
+    {
+        return MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle;
+    }
+
     public static Vector2 intercept(Vector2 src,Vector2 dstPos,Vector2 dstVelocity,float v)
     {
         float tx=dstPos.x-src.x;

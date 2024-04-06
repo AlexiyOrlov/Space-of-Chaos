@@ -135,7 +135,8 @@ public class NPCPilot implements Ship {
     private void guardAI(float deltaTime)
     {
         if(target!=null) {
-            rotateTowards(target.getX(), target.getY());
+            Vector2 prediction=Functions.intercept(new Vector2(x,y),new Vector2(target.getX(),target.getY()),target.getVelocity(),weapon.projectileSpeed);
+            rotateTowards(prediction.x, prediction.y);
             if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
                 move();
             }
@@ -189,8 +190,7 @@ public class NPCPilot implements Ship {
                         int warePrice = planet.warePrices.get(ware);
                         if (warePrice > Ware.BASE_PRICES.get(ware)) {
                             return true;
-                        }
-                    }
+                        }}
                 }
                 return false;
             }).collect(Collectors.toList());
@@ -308,5 +308,10 @@ public class NPCPilot implements Ship {
     @Override
     public float getY() {
         return y;
+    }
+
+    @Override
+    public Vector2 getVelocity() {
+        return null;
     }
 }

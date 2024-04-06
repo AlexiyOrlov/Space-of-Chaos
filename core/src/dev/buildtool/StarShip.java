@@ -189,4 +189,9 @@ public class StarShip implements Ship{
     public float getY() {
         return y;
     }
+
+    @Override
+    public Vector2 getVelocity() {
+        return new Vector2(MathUtils.cosDeg(rotation+90+90)*(leftAcceleration-rightAcceleration),MathUtils.cosDeg(rotation+90-90)*(leftAcceleration-rightAcceleration));
+    }
 }
