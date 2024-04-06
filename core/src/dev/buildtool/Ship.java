@@ -7,4 +7,6 @@ public interface Ship {
     float getY();
 
     Vector2 getVelocity();
+
+    StarSystem getCurrentSystem();
 }

@@ -202,6 +202,8 @@ public class NPCPilot implements Ship {
                     fire();
                 }
             }
+            if(target.getCurrentSystem()!=currentSystem)
+                target=null;
         }
     }
 
@@ -373,5 +375,10 @@ public class NPCPilot implements Ship {
     @Override
     public Vector2 getVelocity() {
         return null;
+    }
+
+    @Override
+    public StarSystem getCurrentSystem() {
+        return currentSystem;
     }
 }
