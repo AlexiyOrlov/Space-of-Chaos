@@ -230,7 +230,7 @@ public class Planet {
         clockWise=random.nextBoolean();
         for (int i = 0; i < 2; i++) {
             if(random.nextBoolean()) {
-                NPCPilot guard = new NPCPilot( PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.BATTLE2, Engine.ENGINE_3, SideThrusters.SLOW,this);
+                NPCPilot guard = new NPCPilot( PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW,this);
                 starSystem.ships.add(guard);
                 guard.x=x;
                 guard.y=y;
