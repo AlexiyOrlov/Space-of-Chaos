@@ -82,7 +82,6 @@ public class PlanetScreen extends ScreenAdapter {
                 //calculate ware count for player
                 HashMap<Ware,Integer> playerWareCount=new HashMap<>();
                 calculatePlayerWareCount(player, playerWareCount);
-
                 Button buy = new TextButton("Buy", skin);
                 buy.addListener(new ChangeListener() {
                     @Override

@@ -52,6 +52,7 @@ public class SpaceGame extends Game {
 		assetManager.load("greenish planet.png",Texture.class);
 		assetManager.load("mixed planet.png",Texture.class);
 		assetManager.load("planet3.png", Texture.class);
+		assetManager.load("planet5.png", Texture.class);
 		assetManager.load("red ship.png",Texture.class);
 		assetManager.load("scales64.png",Texture.class);
 		assetManager.load("take off.png",Texture.class);
@@ -130,6 +131,7 @@ public class SpaceGame extends Game {
 		planetTextures.add(assetManager.get("greenish planet.png"));
 		planetTextures.add(assetManager.get("mixed planet.png"));
 		planetTextures.add(assetManager.get("planet3.png"));
+		planetTextures.add(assetManager.get("planet5.png"));
 		inhabitedPlanetIcon=assetManager.get("inhabited planet.png");
 		uninhabitedPlanetIcon=assetManager.get("uninhabited planet.png");
 		stargateIcon=assetManager.get("star gate icon.png");
