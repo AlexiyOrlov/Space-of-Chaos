@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -74,24 +75,61 @@ public class SystemScreen extends ScreenAdapter {
         }
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
-//        if(!camera.frustum.pointInFrustum(0,0,0))
-//            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
-        Planet first=planets.get(0);
-//        if(!camera.frustum.pointInFrustum(first.x,first.y,0))
-        {
-            drawWaypoint(new Vector2(first.x,first.y),SpaceGame.INSTANCE.uninhabitedPlanetIcon);
-        }
-//        planets.forEach(planet -> {
-//            Vector2 pos=new Vector2(planet.x,planet.y);
-//            if(!camera.frustum.pointInFrustum(pos.x,pos.y,0)) {
-//                if (planet.isInhabited) {
-//                    drawWaypoint(pos, SpaceGame.INSTANCE.inhabitedPlanetIcon);
-//                } else {
-//                    drawWaypoint(pos, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
-//                }
-//            }
-//        });
+        if(!camera.frustum.pointInFrustum(0,0,0))
+            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+        planets.forEach(planet -> {
+            if(!camera.frustum.pointInFrustum(planet.x,planet.y,0)) {
+                if (planet.isInhabited) {
+                    drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.inhabitedPlanetIcon);
+                } else {
+                    drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+                }
+            }
+        });
         spriteBatch.end();
+    }
+
+    private void drawWaypoint(float tox,float toy,Texture icon)
+    {
+        SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
+        float xdist=tox-playerShip.x;
+        float ydist=toy-playerShip.y;
+        assert !Float.isNaN(playerShip.x);
+        int backBufferWidth = Gdx.graphics.getBackBufferWidth();
+        int backBufferHeight = Gdx.graphics.getBackBufferHeight();
+
+        float halfWidth= backBufferWidth /2;
+        float halfHeight= backBufferHeight /2;
+        float rx;
+        float ry;
+        Vector2 uiCoords=viewport.project(new Vector2(tox,toy));
+        if(Math.abs(xdist)>halfWidth)
+        {
+            if(xdist>0)
+                rx= backBufferWidth -icon.getWidth();
+            else
+                rx=0;
+        }
+        else {
+            rx=uiCoords.x;
+        }
+
+        if(Math.abs(ydist)>halfHeight)
+        {
+            if(ydist>0)
+            {
+                ry= backBufferHeight -icon.getHeight();
+            }
+            else
+                ry=0;
+        }
+        else
+            ry=uiCoords.y;
+
+
+        uibatch.begin();
+        uibatch.draw(SpaceGame.INSTANCE.inhabitedPlanetIcon, rx,ry);
+        uibatch.end();
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
@@ -108,10 +146,6 @@ public class SystemScreen extends ScreenAdapter {
             if(playerPos.x<to.x)
             {
                 x+=backBufferWidth-icon.getWidth();
-                System.out.println(1);
-            }
-            else {
-                System.out.println(2);
             }
         }
         else {
@@ -125,9 +159,6 @@ public class SystemScreen extends ScreenAdapter {
         else {
             y=-playerPos.y+backBufferHeight/2-icon.getHeight()/2;
         }
-
-        x+=to.x;
-        y+=to.y;
 
         uiBatch.begin();
         uiBatch.draw(icon, x,y);
