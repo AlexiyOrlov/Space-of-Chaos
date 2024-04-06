@@ -298,7 +298,7 @@ public class PlanetScreen extends ScreenAdapter {
         int index = 0;
         for (int i = 4; i > 0; i--) {
             for (int j = 0; j < 10; j++) {
-                Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() + j * 64 - 64 * 10, i * 80);
+                Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() + j * 64 - 64 * 10, i * 80-60);
                 Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture, (int) slotPosition.x, (int) slotPosition.y, index, player.inventory);
                 player.inventory.slots[index]=slot;
                 index++;
