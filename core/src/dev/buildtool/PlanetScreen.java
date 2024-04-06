@@ -160,7 +160,8 @@ public class PlanetScreen extends ScreenAdapter {
                         Dialog sellDialog=new Dialog("Sell "+ware.name,skin);
                         Table table1=new Table();
                         Slider amountSlider=new Slider(1,wareAmount,1,false,skin);
-                        Label countLabel=new Label("1",skin);
+                        amountSlider.setValue(wareAmount);
+                        Label countLabel=new Label(wareAmount+"",skin);
                         Button accept=new TextButton("Accept",skin);
                         amountSlider.addListener(new ChangeListener() {
                             @Override
