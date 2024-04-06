@@ -86,6 +86,10 @@ public class SystemScreen extends ScreenAdapter {
                 }
             }
         });
+        if(!camera.frustum.pointInFrustum(starSystem.starGate.x,starSystem.starGate.y,0))
+        {
+            drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceGame.INSTANCE.stargateIcon);
+        }
         spriteBatch.end();
     }
 
@@ -94,7 +98,6 @@ public class SystemScreen extends ScreenAdapter {
         SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
         float xdist=tox-playerShip.x;
         float ydist=toy-playerShip.y;
-        assert !Float.isNaN(playerShip.x);
         int backBufferWidth = Gdx.graphics.getBackBufferWidth();
         int backBufferHeight = Gdx.graphics.getBackBufferHeight();
 
