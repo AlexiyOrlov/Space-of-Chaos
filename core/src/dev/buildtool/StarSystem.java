@@ -26,9 +26,8 @@ public class StarSystem {
         projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
         Random random = SpaceGame.random;
-        starGate=new StarGate(400, random.nextFloat(-MathUtils.PI,MathUtils.PI));
         int inhabitedPlanetCount=0;
-        int distance=600;
+        int distance=500;
         for (int i = 0; i < random.nextInt(3,7); i++) {
             boolean inhabited=false;
             if(inhabitedPlanetCount<3)
@@ -41,6 +40,7 @@ public class StarSystem {
 
             distance+=300;
         }
+        starGate=new StarGate(distance, random.nextFloat(-MathUtils.PI,MathUtils.PI));
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         positionX=x;
         positionY=y;
