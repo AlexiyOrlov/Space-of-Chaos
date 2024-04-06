@@ -37,7 +37,7 @@ public class StarGate {
         this.x = distanceFromStar * MathUtils.cos(currentAngle);
         this.y = distanceFromStar *MathUtils.sin(currentAngle);
         rotation-= 10*MathUtils.degreesToRadians;
-        currentAngle+=0.1f*MathUtils.degreesToRadians;
+        currentAngle+=0.025f*MathUtils.degreesToRadians;
         area.set(x,y,128);
     }
 }
