@@ -243,6 +243,8 @@ public class Planet {
                 if (random.nextBoolean()) {
                     NPCPilot pirate = new NPCPilot(PilotAI.PIRATE, WeaponRegistry.GUN, Hull.PIRATE1, Engine.BASIC, SideThrusters.BASIC, this);
                     starSystem.ships.add(pirate);
+                    pirate.x=x;
+                    pirate.y=y;
                 }
             }
         }
