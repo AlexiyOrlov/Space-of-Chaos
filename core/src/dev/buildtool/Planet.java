@@ -228,12 +228,22 @@ public class Planet {
         outline=new Circle();
         outline.set(x,y,radius);
         clockWise=random.nextBoolean();
-        for (int i = 0; i < 2; i++) {
-            if(random.nextBoolean()) {
-                NPCPilot guard = new NPCPilot( PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW,this);
-                starSystem.ships.add(guard);
-                guard.x=x;
-                guard.y=y;
+        int guardCount=0;
+        if(inhabited) {
+            for (int i = 0; i < 2; i++) {
+                if (random.nextBoolean()) {
+                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW, this);
+                    starSystem.ships.add(guard);
+                    guard.x = x;
+                    guard.y = y;
+                    guardCount++;
+                }
+            }
+            if (guardCount == 0) {
+                if (random.nextBoolean()) {
+                    NPCPilot pirate = new NPCPilot(PilotAI.PIRATE, WeaponRegistry.GUN, Hull.PIRATE1, Engine.BASIC, SideThrusters.BASIC, this);
+                    starSystem.ships.add(pirate);
+                }
             }
         }
     }

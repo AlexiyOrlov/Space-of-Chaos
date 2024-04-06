@@ -41,7 +41,7 @@ public class NPCPilot implements Ship {
     public PilotAI pilotAI;
     public Ship target;
     public int integrity;
-    Planet homePLanet;
+    Planet homePlanet;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -56,10 +56,10 @@ public class NPCPilot implements Ship {
         this.sideThrusters=sideThrusters;
     }
 
-    public NPCPilot(PilotAI type, Weapon weapon,Hull hull,Engine engine,SideThrusters sideThrusters,Planet homePLanet)
+    public NPCPilot(PilotAI type, Weapon weapon,Hull hull,Engine engine,SideThrusters sideThrusters,Planet homePlanet)
     {
-        this(homePLanet,type,weapon,hull,engine,sideThrusters);
-        this.homePLanet=homePLanet;
+        this(homePlanet,type,weapon,hull,engine,sideThrusters);
+        this.homePlanet = homePlanet;
     }
     public void work(float deltaTime)
     {
@@ -158,8 +158,8 @@ public class NPCPilot implements Ship {
             }
         }
         else {
-            rotateTowards(homePLanet.x, homePLanet.y);
-            if(Vector2.dst(x,y, homePLanet.x,homePLanet.y)>260)
+            rotateTowards(homePlanet.x, homePlanet.y);
+            if(Vector2.dst(x,y, homePlanet.x, homePlanet.y)>260)
             {
                 move();
             }
