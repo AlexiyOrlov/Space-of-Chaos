@@ -36,7 +36,7 @@ public class Planet {
     private static final ArrayList<String> planetNames=new ArrayList<>();
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
-    private boolean clockWise;
+    private final boolean clockWise;
     static {
         planetNames.add("Ankeigantu");
         planetNames.add("Caruta");
