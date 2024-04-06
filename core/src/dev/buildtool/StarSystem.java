@@ -121,7 +121,7 @@ public class StarSystem {
                     toRemove.add(projectile);
                 }
                 PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
-                if(playerShip!=null) {
+                if(playerShip!=null && playerShip.currentStarSystem==projectile.shooter.getCurrentSystem()) {
                     if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip) {
                         playerShip.integrity -= projectile.damage;
                         toRemove.add(projectile);
