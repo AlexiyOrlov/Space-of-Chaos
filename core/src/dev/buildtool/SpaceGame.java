@@ -136,6 +136,7 @@ public class SpaceGame extends Game {
 		redStarshipTexture=assetManager.get("red ship.png");
 		slotTexture=assetManager.get("blue square.png");
 		skin=new Skin(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
+		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
 		setScreen(new StartScreen(this));
 	}
 	
