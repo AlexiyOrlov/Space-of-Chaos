@@ -136,9 +136,9 @@ public class NPCPilot implements Ship {
     {
         if(target!=null) {
             Vector2 prediction=Functions.intercept(new Vector2(x,y),new Vector2(target.getX(),target.getY()),target.getVelocity(),weapon.projectileSpeed);
-            rotateTowards(prediction.x, prediction.y);
+            rotateTowards(target.getX(), target.getY());
             if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
-//                move();
+                move();
             }
             Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
             Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
@@ -297,7 +297,7 @@ public class NPCPilot implements Ship {
 
     public void rotateTowards(float x,float y)
     {
-        rotationDegrees =360-MathUtils.atan2(x-this.x,y-this.y)*MathUtils.radiansToDegrees;//Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed*3) * MathUtils.radiansToDegrees;
+        rotationDegrees =-MathUtils.atan2(x-this.x,y-this.y)*MathUtils.radiansToDegrees;//Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed*3) * MathUtils.radiansToDegrees;
     }
 
     @Override
