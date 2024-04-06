@@ -28,7 +28,7 @@ public class NPCPilot implements Ship {
     public float timeSpentOnPlanet=secondsOfRest;
     private float rotationDegrees =SpaceGame.random.nextFloat(360);
 
-    private Inventory inventory;
+    private final Inventory inventory;
     public StarSystem navigatingTo;
     private float acceleration;
     public boolean canJump;
