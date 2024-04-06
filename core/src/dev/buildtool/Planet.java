@@ -36,6 +36,7 @@ public class Planet {
     private static final ArrayList<String> planetNames=new ArrayList<>();
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
+    private boolean clockWise;
     static {
         planetNames.add("Ankeigantu");
         planetNames.add("Caruta");
@@ -155,6 +156,7 @@ public class Planet {
         radius= (float) texture.getWidth() /2;
         outline=new Circle();
         outline.set(x,y,radius);
+        clockWise=random.nextBoolean();
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
@@ -194,7 +196,10 @@ public class Planet {
 
     public void update(float deltaTime)
     {
-        currentAngle+=speed*MathUtils.degreesToRadians;
+        if(clockWise)
+            currentAngle+=speed*MathUtils.degreesToRadians;
+        else
+            currentAngle-=speed*MathUtils.degreesToRadians;
         this.x = (distance* MathUtils.cos(currentAngle))+ (float) texture.getWidth() /2;
         this.y = (distance*MathUtils.sin(currentAngle))+ (float) texture.getHeight() /2;
         outline.set(x,y,radius);
