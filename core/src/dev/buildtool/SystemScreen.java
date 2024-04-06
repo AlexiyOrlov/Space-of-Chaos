@@ -95,44 +95,40 @@ public class SystemScreen extends ScreenAdapter {
 
     private void drawWaypoint(float tox,float toy,Texture icon)
     {
-        SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
-        float xdist=tox-playerShip.x;
-        float ydist=toy-playerShip.y;
-        int backBufferWidth = Gdx.graphics.getBackBufferWidth();
-        int backBufferHeight = Gdx.graphics.getBackBufferHeight();
+        if(playerShip!=null) {
+            SpriteBatch uibatch = SpaceGame.INSTANCE.uiBatch;
+            float xdist = tox - playerShip.x;
+            float ydist = toy - playerShip.y;
+            int backBufferWidth = Gdx.graphics.getBackBufferWidth();
+            int backBufferHeight = Gdx.graphics.getBackBufferHeight();
 
-        float halfWidth= backBufferWidth /2;
-        float halfHeight= backBufferHeight /2;
-        float rx;
-        float ry;
-        Vector2 uiCoords=viewport.project(new Vector2(tox,toy));
-        if(Math.abs(xdist)>halfWidth)
-        {
-            if(xdist>0)
-                rx= backBufferWidth -icon.getWidth();
-            else
-                rx=0;
-        }
-        else {
-            rx=uiCoords.x;
-        }
-
-        if(Math.abs(ydist)>halfHeight)
-        {
-            if(ydist>0)
-            {
-                ry= backBufferHeight -icon.getHeight();
+            float halfWidth = backBufferWidth / 2;
+            float halfHeight = backBufferHeight / 2;
+            float rx;
+            float ry;
+            Vector2 uiCoords = viewport.project(new Vector2(tox, toy));
+            if (Math.abs(xdist) > halfWidth) {
+                if (xdist > 0)
+                    rx = backBufferWidth - icon.getWidth();
+                else
+                    rx = 0;
+            } else {
+                rx = uiCoords.x;
             }
-            else
-                ry=0;
+
+            if (Math.abs(ydist) > halfHeight) {
+                if (ydist > 0) {
+                    ry = backBufferHeight - icon.getHeight();
+                } else
+                    ry = 0;
+            } else
+                ry = uiCoords.y;
+
+
+            uibatch.begin();
+            uibatch.draw(icon, rx, ry);
+            uibatch.end();
         }
-        else
-            ry=uiCoords.y;
-
-
-        uibatch.begin();
-        uibatch.draw(icon, rx,ry);
-        uibatch.end();
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
