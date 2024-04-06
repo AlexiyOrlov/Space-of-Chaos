@@ -57,13 +57,13 @@ public class StarSystem {
                         int basePrice = Ware.BASE_PRICES.get(ware);
                         float priceMultiplier = 1;
                         if (randomWareAmount < 100) {
-                            priceMultiplier = 1.5f;
+                            priceMultiplier = 1.2f;
                         } else if (randomWareAmount < 250) {
-                            priceMultiplier = 1.25f;
+                            priceMultiplier = 1.1f;
                         } else if (randomWareAmount > 750) {
-                            priceMultiplier = 0.5f;
+                            priceMultiplier = 0.8f;
                         } else if (randomWareAmount > 500) {
-                            priceMultiplier = 0.75f;
+                            priceMultiplier = 0.9f;
                         }
                         int finalPrice = (int) (basePrice * priceMultiplier * priceFactors.get(ware));
                         planet.warePrices.put(ware, finalPrice);
