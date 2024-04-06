@@ -33,7 +33,7 @@ public class Planet {
     public int explorationProgress;
     public Inventory equipmentInventory;
     public final String name;
-    private static final ArrayList<String> planetNames=new ArrayList<>();
+    private static final HashSet<String> planetNames=new HashSet<>();
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
     private final boolean clockWise;
@@ -106,7 +106,11 @@ public class Planet {
         planetNames.add("Violara");
         planetNames.add("Cipso");
         planetNames.add("Strorix");
-
+        planetNames.add("Yenvaitun");
+        planetNames.add("Hallos");
+        planetNames.add("Nerth");
+        planetNames.add("Silles");
+        planetNames.add("Gephus");
     }
 
     private ArrayList<NPCPilot> shipsToRemove;
@@ -115,7 +119,7 @@ public class Planet {
         this.texture = texture;
         starSystem=belongsTo;
         shipsToRemove=new ArrayList<>();
-        String randomName=planetNames.get(random.nextInt(planetNames.size()));
+        String randomName=planetNames.iterator().next();
         name=randomName;
         planetNames.remove(randomName);
         resources=new ArrayList<>();
