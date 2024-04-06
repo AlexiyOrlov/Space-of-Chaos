@@ -15,7 +15,7 @@ public class Engine extends Item{
     public final int price;
 
     public Engine(String type, float maxSpeed, float steering, int jumpDistance, float aiSteering, Texture texture,int price) {
-        super(type,1,type,texture);
+        super(type,1,type,texture,price);
         this.maxSpeed = maxSpeed;
         this.type=type;
         this.steering = steering;

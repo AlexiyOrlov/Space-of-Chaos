@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -18,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -30,6 +33,7 @@ public class PlanetScreen extends ScreenAdapter {
     private Stack stackUnderMouse;
     private final PlayerShip player;
     private final Planet planet;
+    private HashMap<Integer, Predicate<PlayerShip>> predicates=new HashMap<>();
 
     public PlanetScreen(StarSystem system, Planet planet, PlayerShip player) {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
@@ -310,6 +314,40 @@ public class PlanetScreen extends ScreenAdapter {
                 for (int j = 0; j < 3; j++) {
                     Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() / 2 + j * 64 - 96, i * 64 + Gdx.graphics.getBackBufferHeight() / 2);
                     Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture2, (int) slotPosition.x, (int) slotPosition.y, in, planet.equipmentInventory);
+
+                    Stack stack = planet.equipmentInventory.stacks[in];
+
+                    planet.equipmentInventory.setExtractionPredicateAndAction(playerShip -> playerShip.money>=stack.item.basePrice,playerShip -> playerShip.money-=stack.item.basePrice,in);
+//                    Dialog d=new Dialog("Buy?",skin);
+//                    Button accept=new TextButton("Accept",skin);
+//                    int finalIn = in;
+//                    accept.addListener(new ChangeListener() {
+//                        @Override
+//                        public void changed(ChangeEvent event, Actor actor) {
+//                             if(player.money>=stack.item.basePrice)
+//                             {
+//                                 player.money-=stack.item.basePrice;
+//                                 player.addItem(new Stack(stack.item,1));
+//                                 planet.equipmentInventory.stacks[finalIn]=null;
+//                             }
+//                             else {
+//                                 Dialog dialog=new Dialog("Can't afford",skin);
+//                                 Label message=new Label("Not enough money",skin);
+//                                 dialog.button(new TextButton("OK",skin));
+//                                 dialog.add(message);
+//                                 dialog.show(stage);
+//                             }
+//                        }
+//                    });
+//                    Button cancel=new TextButton("Cancel",skin);
+//                    cancel.addListener(new ChangeListener() {
+//                        @Override
+//                        public void changed(ChangeEvent event, Actor actor) {
+//                            d.hide();
+//                        }
+//                    });
+//                    d.add(accept,cancel);
+//                    d.show(stage);
 
                     planet.equipmentInventory.slots[in] = slot;
                     in++;

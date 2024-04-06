@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.function.Consumer;
 
 public class Slot {
     Texture background;
@@ -16,6 +19,7 @@ public class Slot {
     private final Inventory inventory;
     BitmapFont bitmapFont=SpaceGame.INSTANCE.bitmapFont;
     public boolean visible=true;
+    Predicate<PlayerShip> actionCondition;
 
     public Slot(Texture background, int x, int y, int inventoryIndex, Inventory inventory) {
         this.background = background;
@@ -48,17 +52,21 @@ public class Slot {
             int mouseY = Gdx.input.getY();
             Vector2 mousePositionInWorld = viewport.unproject(new Vector2(mouseX, mouseY));
             Stack next = inventory.stacks[slotIndex];
+            PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
             if (next != null) {
                 if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
-                    if (Gdx.input.isTouched())
+
+                    if (Gdx.input.isTouched() && (actionCondition==null || actionCondition.evaluate(playerShip)))
                     {
                         return slotIndex;
                     }
                 }
             }
             if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
-                if (Gdx.input.justTouched())
+                if (Gdx.input.justTouched()&& (actionCondition==null || actionCondition.evaluate(playerShip)))
+                {
                     return slotIndex;
+                }
             }
         }
         return -1;

@@ -57,7 +57,7 @@ public class Ware extends Item {
     }
 
     public Ware(String type, int maxSize, boolean needsLicenseToTrade, String name, Texture texture) {
-        super(type, maxSize,name,texture);
+        super(type, maxSize,name,texture, -1);
         needsLicense=needsLicenseToTrade;
     }
 }

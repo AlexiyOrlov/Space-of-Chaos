@@ -3,9 +3,15 @@ package dev.buildtool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public class Inventory {
     public Stack[] stacks;
     public Slot[] slots;
+    public HashMap<Integer, Predicate<PlayerShip>> predicateHashMap=new HashMap<>();
+    public HashMap<Integer,Consumer<PlayerShip>> actionHashMap= new HashMap<>();
 
     public Inventory(int stackCount) {
         stacks=new Stack[stackCount];
@@ -94,20 +100,32 @@ public class Inventory {
         for (Slot slot : slots) {
             int clickedSlot=slot.processClick(viewport);
             if (clickedSlot != -1) {
+                Predicate<PlayerShip> predicate=predicateHashMap.get(clickedSlot);
+                Consumer<PlayerShip> consumer=actionHashMap.get(clickedSlot);
                 if (stackUnderMouse == null) {
-                    stackUnderMouse = stacks[clickedSlot];
-                    stacks[clickedSlot] = null;
+                    if(predicate!=null  ) {
+                        if(predicate.test(SpaceGame.INSTANCE.playerShip)) {
+                            stackUnderMouse = stacks[clickedSlot];
+                            stacks[clickedSlot] = null;
+                            consumer.accept(SpaceGame.INSTANCE.playerShip);
+                        }
+                    }
+                    else {
+                        stackUnderMouse = stacks[clickedSlot];
+                        stacks[clickedSlot] = null;
+                    }
                 } else {
                     Stack present = stacks[clickedSlot];
-                    if (present == null) {
+                    if (present == null && predicate==null) {
                         stacks[clickedSlot] = stackUnderMouse;
                         stackUnderMouse = null;
-                    } else if (present.item != stackUnderMouse.item) {
+                    } else if (predicate==null && present.item != stackUnderMouse.item) {
                         stacks[clickedSlot] = stackUnderMouse;
                         stackUnderMouse = present;
                     }
                 }
                 break;
+
             }
         }
         return stackUnderMouse;
@@ -131,5 +149,11 @@ public class Inventory {
             }
         }
         return inventoryEmpty;
+    }
+
+    public void setExtractionPredicateAndAction(Predicate<PlayerShip> playerShipPredicate,Consumer<PlayerShip> action,int slot)
+    {
+        actionHashMap.put(slot,action);
+        this.predicateHashMap.put(slot,playerShipPredicate);
     }
 }
