@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.Random;
+
 public class StartScreen extends ScreenAdapter {
     private final Stage stage;
 
@@ -19,6 +21,7 @@ public class StartScreen extends ScreenAdapter {
         stage=new Stage();
         Table table = new Table();
         table.setFillParent(true);
+        Random random=SpaceGame.random;
         Button button=new TextButton("Start new game",game.skin);
         button.addListener(new ChangeListener() {
             @Override
@@ -34,9 +37,6 @@ public class StartScreen extends ScreenAdapter {
 //                            NPCPilot pilot = new NPCPilot(planet, PilotAI.TRADER, , , );
 //                            system.ships.add(pilot);
 //                            planet.ships.add(pilot);
-                            NPCPilot guard=new NPCPilot(planet,PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.BATTLE2, Engine.ENGINE_3,SideThrusters.SLOW);
-//                            system.ships.add(guard);
-                            guard.target= game.playerShip;
                             game.playerShip.x=planet.x;
                             game.playerShip.y=planet.y;
                             break lable;

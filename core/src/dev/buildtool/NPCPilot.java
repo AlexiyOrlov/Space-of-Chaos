@@ -41,6 +41,7 @@ public class NPCPilot implements Ship {
     public PilotAI pilotAI;
     public Ship target;
     public int integrity;
+    Planet homePLanet;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -55,6 +56,11 @@ public class NPCPilot implements Ship {
         this.sideThrusters=sideThrusters;
     }
 
+    public NPCPilot(PilotAI type, Weapon weapon,Hull hull,Engine engine,SideThrusters sideThrusters,Planet homePLanet)
+    {
+        this(homePLanet,type,weapon,hull,engine,sideThrusters);
+        this.homePLanet=homePLanet;
+    }
     public void work(float deltaTime)
     {
         switch (pilotAI){
