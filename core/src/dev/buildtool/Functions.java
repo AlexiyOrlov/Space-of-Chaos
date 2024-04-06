@@ -54,7 +54,7 @@ public class Functions {
         return sol;
     }
 
-    public static float[] quad(float a, float b, float c)
+    private static float[] quad(float a, float b, float c)
     {
         float[] sol;
         if(Math.abs(a)<1e-6)
