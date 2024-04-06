@@ -114,7 +114,7 @@ public class PlanetScreen extends ScreenAdapter {
                                         player.money -= toBuy * price;
                                         moneyLabel.setText("Money: "+player.money);
                                         WarePurchase warePurchase=new WarePurchase(ware,toBuy,price,toBuy*price);
-                                        if(player.warePurchases.size()>10)
+                                        if(player.warePurchases.size()>9)
                                         {
                                             player.warePurchases.removeFirst();
                                         }
