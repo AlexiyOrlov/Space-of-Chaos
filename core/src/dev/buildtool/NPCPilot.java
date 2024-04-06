@@ -66,6 +66,7 @@ public class NPCPilot implements Ship {
         switch (pilotAI){
             case TRADER -> useTraderAI();
             case GUARD -> guardAI(deltaTime);
+            case PIRATE -> pirateAI();
         }
 
         area.set(x,y,hull.look.getWidth()/2);

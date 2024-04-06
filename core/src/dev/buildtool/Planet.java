@@ -228,8 +228,8 @@ public class Planet {
         outline=new Circle();
         outline.set(x,y,radius);
         clockWise=random.nextBoolean();
-        int guardCount=0;
         if(inhabited) {
+            int guardCount=0;
             for (int i = 0; i < 2; i++) {
                 if (random.nextBoolean()) {
                     NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW, this);
@@ -252,6 +252,7 @@ public class Planet {
             {
                 NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.TRADING1,Engine.SLOW,SideThrusters.SLOW);
                 ships.add(trader);
+                starSystem.ships.add(trader);
             }
         }
     }
