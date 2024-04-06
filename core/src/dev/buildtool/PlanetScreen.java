@@ -413,7 +413,7 @@ public class PlanetScreen extends ScreenAdapter {
             planet.equipmentInventory.drawSlotInfo(spriteBatch, viewport);
             if (Gdx.input.justTouched()) {
                 stackUnderMouse = player.inventory.processClick(viewport, stackUnderMouse);
-                Stack fromEquipmentStore = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
+                stackUnderMouse = planet.equipmentInventory.processClick(viewport, stackUnderMouse);
 
             }
         }
