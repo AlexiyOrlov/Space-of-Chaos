@@ -314,6 +314,7 @@ public class NPCPilot implements Ship {
                 }
             }
             else {
+                //sell
                 for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
                     int price=currentlyLandedOn.warePrices.get(ware);
                     int wareAmount=currentlyLandedOn.wareAmounts.get(ware);
