@@ -136,36 +136,33 @@ public class SystemScreen extends ScreenAdapter {
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
-        SpriteBatch uiBatch=SpaceGame.INSTANCE.uiBatch;
-        final Vector2 playerPos=new Vector2(playerShip.x,playerShip.y);
-        int backBufferWidth = Gdx.graphics.getBackBufferWidth();
-        Vector2 halfWidth=(new Vector2(backBufferWidth /2,0));
-        int backBufferHeight = Gdx.graphics.getBackBufferHeight();
-        Vector2 halfHeight=(new Vector2(0, backBufferHeight /2));
-        float x=0;
-        float y=0;
-        if(halfWidth.x<Math.abs(playerPos.x))
-        {
-            if(playerPos.x<to.x)
-            {
-                x+=backBufferWidth-icon.getWidth();
+        if(playerShip!=null) {
+            SpriteBatch uiBatch = SpaceGame.INSTANCE.uiBatch;
+            final Vector2 playerPos = new Vector2(playerShip.x, playerShip.y);
+            int backBufferWidth = Gdx.graphics.getBackBufferWidth();
+            Vector2 halfWidth = (new Vector2(backBufferWidth / 2, 0));
+            int backBufferHeight = Gdx.graphics.getBackBufferHeight();
+            Vector2 halfHeight = (new Vector2(0, backBufferHeight / 2));
+            float x = 0;
+            float y = 0;
+            if (halfWidth.x < Math.abs(playerPos.x)) {
+                if (playerPos.x < to.x) {
+                    x += backBufferWidth - icon.getWidth();
+                }
+            } else {
+                x = -playerPos.x + backBufferWidth / 2 - icon.getWidth() / 2;
             }
-        }
-        else {
-            x=-playerPos.x+backBufferWidth/2-icon.getWidth()/2;
-        }
-        if(halfHeight.y<Math.abs(playerPos.y))
-        {
-            if(playerPos.y<to.y)
-                y+=backBufferHeight-icon.getHeight();
-        }
-        else {
-            y=-playerPos.y+backBufferHeight/2-icon.getHeight()/2;
-        }
+            if (halfHeight.y < Math.abs(playerPos.y)) {
+                if (playerPos.y < to.y)
+                    y += backBufferHeight - icon.getHeight();
+            } else {
+                y = -playerPos.y + backBufferHeight / 2 - icon.getHeight() / 2;
+            }
 
-        uiBatch.begin();
-        uiBatch.draw(icon, x,y);
-        uiBatch.end();
+            uiBatch.begin();
+            uiBatch.draw(icon, x, y);
+            uiBatch.end();
+        }
     }
 
     @Override
