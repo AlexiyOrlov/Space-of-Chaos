@@ -27,12 +27,13 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.initialize();
+                StarSystem next=game.starSystems.get(random.nextInt(game.starSystems.size()));
                 lable:
-                for (StarSystem system : game.starSystems) {
-                    for (Planet planet : system.planets) {
+                while (true) {
+                    for (Planet planet : next.planets) {
                         if(planet.isInhabited){
-                            game.playerShip=new StarShip(0,0,0,SpaceGame.INSTANCE.redStarshipTexture, system);
-                            game.setScreen(new PlanetScreen(system, planet,game.playerShip));
+                            game.playerShip=new StarShip(0,0,0,SpaceGame.INSTANCE.redStarshipTexture, next);
+                            game.setScreen(new PlanetScreen(next, planet,game.playerShip));
                             game.updateWorld=true;
 //                            NPCPilot pilot = new NPCPilot(planet, PilotAI.TRADER, , , );
 //                            system.ships.add(pilot);
@@ -42,6 +43,7 @@ public class StartScreen extends ScreenAdapter {
                             break lable;
                         }
                     }
+                    next=game.starSystems.get(random.nextInt(game.starSystems.size()));
                 }
             }
         });

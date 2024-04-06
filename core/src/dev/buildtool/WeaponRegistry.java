@@ -2,6 +2,9 @@ package dev.buildtool;
 
 import java.util.TreeMap;
 
+import dev.buildtool.weapons.Gun;
+import dev.buildtool.weapons.Shotgun;
+
 public class WeaponRegistry {
     public static final TreeMap<String,Weapon> WEAPONS=new TreeMap<>();
     public static final Weapon GUN=new Gun(10,1,10,SpaceGame.INSTANCE.basicProjectile, "Basic gun");

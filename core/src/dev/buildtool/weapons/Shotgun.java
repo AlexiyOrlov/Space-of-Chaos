@@ -1,8 +1,12 @@
-package dev.buildtool;
+package dev.buildtool.weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class Shotgun extends Weapon{
+import dev.buildtool.Projectile;
+import dev.buildtool.Ship;
+import dev.buildtool.Weapon;
+
+public class Shotgun extends Weapon {
     public Shotgun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture projTexture, String name) {
         super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name);
     }
