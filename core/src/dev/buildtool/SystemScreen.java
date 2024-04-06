@@ -70,7 +70,7 @@ public class SystemScreen extends ScreenAdapter {
             uiShapeRenderer.setColor(Color.SCARLET);
             float ip = (float) playerShip.integrity / playerShip.hull.integrity;
             float height=ip * Gdx.graphics.getBackBufferHeight()-200;
-            uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60, (Gdx.graphics.getBackBufferHeight()-height)/2,60 , height);
+            uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60-34, (Gdx.graphics.getBackBufferHeight()-height)/2,60 , height);
             uiShapeRenderer.end();
         }
         final Vector2 starPos=new Vector2(0,0);
