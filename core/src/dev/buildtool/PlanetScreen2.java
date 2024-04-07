@@ -50,7 +50,7 @@ public class PlanetScreen2 extends ScreenAdapter {
 
     class MarketTab extends Tab{
 
-        private Table content=new Table();
+        private final Table content=new Table();
 
         public MarketTab(PlayerShip player, Label moneyLabel) {
             super(false,false);
@@ -77,7 +77,7 @@ public class PlanetScreen2 extends ScreenAdapter {
 
                 //calculate ware count for player
                 HashMap<Ware,Integer> playerWareCount=new HashMap<>();
-//                calculatePlayerWareCount(player, playerWareCount);
+                calculatePlayerWareCount(player, playerWareCount);
                 Button buy = new TextButton("Buy", skin);
                 buy.addListener(new ChangeListener() {
                     @Override
@@ -119,7 +119,7 @@ public class PlanetScreen2 extends ScreenAdapter {
                                         player.warePurchases.add(warePurchase);
 //                                        updatePurchaseTable(player,purchaseHistoryTable,skin);
                                         sell.setVisible(true);
-//                                        calculatePlayerWareCount(player,playerWareCount);
+                                        calculatePlayerWareCount(player,playerWareCount);
                                     }
                                 });
                                 Button cancel = new TextButton("Cancel", skin);
@@ -285,5 +285,38 @@ public class PlanetScreen2 extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+    }
+
+    private static void calculatePlayerWareCount(PlayerShip player, HashMap<Ware, Integer> playerWareCount) {
+        for (Stack stack : player.inventory.stacks) {
+            if(stack!=null) {
+                Item item = stack.item;
+                if (item instanceof Ware w) {
+                    int currentWareCount = playerWareCount.getOrDefault(w, 0);
+                    currentWareCount += stack.count;
+                    playerWareCount.put(w, currentWareCount);
+                }
+            }
+        }
+    }
+
+    private static void updatePurchaseTable(PlayerShip player, Table purchaseHistoryTable, Skin skin) {
+        if(!player.warePurchases.isEmpty()) {
+            purchaseHistoryTable.clearChildren();
+            purchaseHistoryTable.add(new Label("Market purchase history", skin)).colspan(5);
+            purchaseHistoryTable.row();
+            purchaseHistoryTable.add(new Label("Number", skin));
+            purchaseHistoryTable.add(new Label("Ware", skin));
+            purchaseHistoryTable.add(new Label("Price per unit", skin));
+            purchaseHistoryTable.add(new Label("Amount bought", skin));
+            purchaseHistoryTable.add(new Label("Total spent", skin));
+            purchaseHistoryTable.row();
+            int number = 1;
+            for (WarePurchase warePurchase : player.warePurchases) {
+                purchaseHistoryTable.add(new Label(number + ".", skin), new Label(warePurchase.ware.name, skin), new Label(warePurchase.pricePerUnit + "", skin), new Label(warePurchase.amountBought + "", skin), new Label(warePurchase.moneySpent + "", skin));
+                purchaseHistoryTable.row();
+                number++;
+            }
+        }
     }
 }
