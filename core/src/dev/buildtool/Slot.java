@@ -83,6 +83,7 @@ public class Slot {
             if (next != null) {
                 if (mouseOverSlot(viewport)) {
                     bitmapFont.draw(spriteBatch, next.item.name, mousePositionInWorld.x + 20, mousePositionInWorld.y + 10);
+                    bitmapFont.draw(spriteBatch,"Price: "+next.item.basePrice,mousePositionInWorld.x+20,mousePositionInWorld.y-10);
                 }
             }
         }
