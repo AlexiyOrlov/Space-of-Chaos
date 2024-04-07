@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -199,7 +200,13 @@ public class Planet {
         if(inhabited) {
             warePrices = new TreeMap<>();
             wareAmounts = new TreeMap<>();
-            equipmentInventory=new Inventory(9);
+            equipmentInventory=new Inventory(9){
+                @Override
+                public void drawSlotInfo(SpriteBatch spriteBatch, Viewport viewport) {
+                    super.drawSlotInfo(spriteBatch, viewport);
+
+                }
+            };
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
             equipmentInventory.addItem(new Stack(Engine.MARK2,1));
 //            if(random.nextBoolean())

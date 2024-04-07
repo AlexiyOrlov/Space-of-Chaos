@@ -48,13 +48,10 @@ public class Slot {
     public int processClick(Viewport viewport)
     {
         if(visible) {
-            int mouseX = Gdx.input.getX();
-            int mouseY = Gdx.input.getY();
-            Vector2 mousePositionInWorld = viewport.unproject(new Vector2(mouseX, mouseY));
             Stack next = inventory.stacks[slotIndex];
             PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
             if (next != null) {
-                if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
+                if (mouseOverSlot(viewport)) {
 
                     if (Gdx.input.isTouched() && (actionCondition==null || actionCondition.evaluate(playerShip)))
                     {
@@ -62,7 +59,7 @@ public class Slot {
                     }
                 }
             }
-            if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
+            if (mouseOverSlot(viewport)) {
                 if (Gdx.input.justTouched()&& (actionCondition==null || actionCondition.evaluate(playerShip)))
                 {
                     return slotIndex;
@@ -84,10 +81,23 @@ public class Slot {
             Vector2 mousePositionInWorld = viewport.unproject(new Vector2(mouseX, mouseY));
             Stack next=inventory.stacks[slotIndex];
             if (next != null) {
-                if (mousePositionInWorld.x > x && mousePositionInWorld.x < x + 64 && mousePositionInWorld.y > y && mousePositionInWorld.y < y + 64) {
+                if (mouseOverSlot(viewport)) {
                     bitmapFont.draw(spriteBatch, next.item.name, mousePositionInWorld.x + 20, mousePositionInWorld.y + 10);
                 }
             }
         }
+    }
+
+    public boolean mouseOverSlot(Viewport viewport)
+    {
+        int mx=Gdx.input.getX();
+        int my=Gdx.input.getY();
+        Vector2 mp=viewport.unproject(new Vector2(mx,my));
+        Stack stack=inventory.stacks[slotIndex];
+        if(stack!=null)
+        {
+            return mp.x > x && mp.x < x + 64 && mp.y > y && mp.y < y + 64;
+        }
+        return false;
     }
 }
