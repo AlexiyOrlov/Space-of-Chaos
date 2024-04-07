@@ -3,6 +3,7 @@ package dev.buildtool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,6 +35,7 @@ public class PlanetScreen extends ScreenAdapter {
     private final PlayerShip player;
     private final Planet planet;
     private HashMap<Integer, Predicate<PlayerShip>> predicates=new HashMap<>();
+    private Inventory shipParts;
 
     public PlanetScreen(StarSystem system, Planet planet, PlayerShip player) {
         viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
@@ -53,11 +55,11 @@ public class PlanetScreen extends ScreenAdapter {
         purchaseHistoryTable.right();
         stage.addActor(purchaseHistoryTable);
 
+        Table market = new Table(skin);
         Label moneyLabel=new Label("Money: "+player.money,skin);
         if(planet.isInhabited) {
             table.add(moneyLabel);
             table.row();
-            Table market = new Table(skin);
             market.setFillParent(true);
             market.setVisible(false);
             market.defaults().padRight(20).padBottom(10);
@@ -235,6 +237,7 @@ public class PlanetScreen extends ScreenAdapter {
                     market.setVisible(true);
                     purchaseHistoryTable.setVisible(true);
                     planet.equipmentInventory.setVisible(false);
+                    shipParts.setVisible(false);
                 }
             });
             table.add(marketButton);
@@ -248,6 +251,7 @@ public class PlanetScreen extends ScreenAdapter {
                     planet.equipmentInventory.setVisible(true);
                     market.setVisible(false);
                     purchaseHistoryTable.setVisible(false);
+                    shipParts.setVisible(false);
                 }
             });
             table.add(equipmentButton);
@@ -286,6 +290,7 @@ public class PlanetScreen extends ScreenAdapter {
             table.add(resourcesButton);
         }
 
+
         TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
         takeOffButton.addListener(new ChangeListener() {
             @Override
@@ -297,11 +302,39 @@ public class PlanetScreen extends ScreenAdapter {
         table.bottom();
         stage.addActor(table);
 
+        Texture slotTexture = SpaceGame.INSTANCE.slotTexture2;
+        int width=Gdx.graphics.getBackBufferWidth();
+        int height=Gdx.graphics.getBackBufferHeight();
+        shipParts=new Inventory(4);
+        Slot hullSlot=new Slot(slotTexture, width/2,height/2-64,0,shipParts);
+        shipParts.slots[0]=hullSlot;
+        Slot engineSlot=new Slot(slotTexture,width/2,height/2-128,1,shipParts);
+        shipParts.slots[1]=engineSlot;
+        Slot weapon=new Slot(slotTexture,width/2,height/2-192,2,shipParts);
+        shipParts.slots[2]=weapon;
+        Slot thrusters=new Slot(slotTexture,width/2,height/2-256,3,shipParts);
+        shipParts.slots[3]=thrusters;
+        shipParts.setVisible(false);
+
+        TextImageButton shipEquipment=new TextImageButton("Ship",skin,SpaceGame.INSTANCE.ship2icon);
+        shipEquipment.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                shipParts.setVisible(true);
+                if(planet.isInhabited){
+                    planet.equipmentInventory.setVisible(false);
+                    market.setVisible(false);
+                    purchaseHistoryTable.setVisible(false);
+                }
+            }
+        });
+        table.add(shipEquipment);
+
         int index = 0;
         for (int i = 4; i > 0; i--) {
             for (int j = 0; j < 10; j++) {
                 Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() + j * 64 - 64 * 10, i * 80-60);
-                Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture, (int) slotPosition.x, (int) slotPosition.y, index, player.inventory);
+                Slot slot = new Slot(slotTexture, (int) slotPosition.x, (int) slotPosition.y, index, player.inventory);
                 player.inventory.slots[index]=slot;
                 index++;
             }
@@ -378,6 +411,7 @@ public class PlanetScreen extends ScreenAdapter {
         spriteBatch.begin();
         //draw slots and stacks first
         player.inventory.draw(spriteBatch);
+        shipParts.draw(spriteBatch);
         if(planet.isInhabited) {
             planet.equipmentInventory.draw(spriteBatch);
             //draw tooltips
@@ -389,6 +423,9 @@ public class PlanetScreen extends ScreenAdapter {
 
             }
         }
+        shipParts.drawSlotInfo(spriteBatch,viewport);
+        stackUnderMouse=shipParts.processClick(viewport,stackUnderMouse);
+
         GlyphLayout glyphLayout=new GlyphLayout(font, planet.name);
         font.draw(spriteBatch,planet.name, (float) Gdx.graphics.getBackBufferWidth() /2-glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
 
