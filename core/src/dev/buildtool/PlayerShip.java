@@ -144,7 +144,7 @@ public class PlayerShip implements Ship{
             for (Planet planet : currentStarSystem.planets) {
                 if(planet.outline.overlaps(area))
                 {
-                    SpaceGame.INSTANCE.setScreen(new PlanetScreen2());
+                    SpaceGame.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem,planet,this));
 //                    SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet,this));
                     acceleration=0;
                     break;

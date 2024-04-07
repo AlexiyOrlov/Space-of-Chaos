@@ -67,7 +67,6 @@ public class PlanetScreen extends ScreenAdapter {
             market.add(new Label("Amount", skin),new Label("Price", skin));
             market.row();
 
-            market.row();
             planet.warePrices.forEach((ware, price) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
