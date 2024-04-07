@@ -247,6 +247,14 @@ public class PlanetScreen2 extends ScreenAdapter {
         Table outer=new Table();
         Label moneyLabel=new Label("Money: "+player.money,skin);
         outer.add(moneyLabel);
+        TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
+        takeOffButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceGame.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
+            }
+        });
+        outer.add(takeOffButton);
         outer.row();
         outer.setFillParent(true);
         this.planet=planet;
