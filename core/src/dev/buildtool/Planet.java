@@ -200,13 +200,7 @@ public class Planet {
         if(inhabited) {
             warePrices = new TreeMap<>();
             wareAmounts = new TreeMap<>();
-            equipmentInventory=new Inventory(9){
-                @Override
-                public void drawSlotInfo(SpriteBatch spriteBatch, Viewport viewport) {
-                    super.drawSlotInfo(spriteBatch, viewport);
-
-                }
-            };
+            equipmentInventory=new Inventory(9);
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
             equipmentInventory.addItem(new Stack(Engine.MARK2,1));
 //            if(random.nextBoolean())
