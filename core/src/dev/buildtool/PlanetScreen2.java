@@ -226,9 +226,17 @@ public class PlanetScreen2 extends ScreenAdapter {
                 }
                 marketWares.row();
             });
+            Table playerInventory=new Table();
+            for (int i = 4; i >0; i--) {
+                for (int j = 0; j < 10; j++) {
+                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3);
+                    playerInventory.add(slotButton);
+                }
+                playerInventory.row();
+            }
 
             //inner tables must not fill parent
-            content.add(marketWares,purchaseHistoryTable);
+            content.add(marketWares,purchaseHistoryTable,playerInventory);
         }
 
         @Override
