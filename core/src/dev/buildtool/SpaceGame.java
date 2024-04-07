@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -150,6 +151,7 @@ public class SpaceGame extends Game {
 		skin=new Skin(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
 		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
 		setScreen(new StartScreen(this));
+		VisUI.load();
 	}
 	
 	@Override
@@ -161,6 +163,7 @@ public class SpaceGame extends Game {
 		scalesTexture.dispose();
 		skin.dispose();
 		uiBatch.dispose();
+		VisUI.dispose();
 	}
 
 	public void initialize()
@@ -189,6 +192,7 @@ public class SpaceGame extends Game {
 //			System.out.println(i);
 		}
 		System.out.println(planetCount+ " planets in total");
+		updateWorld=false;
 	}
 
 	@Override
