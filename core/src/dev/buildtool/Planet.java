@@ -203,11 +203,6 @@ public class Planet {
             equipmentInventory=new Inventory(9);
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
             equipmentInventory.addItem(new Stack(Engine.MARK2,1));
-//            if(random.nextBoolean())
-//            {
-//                NPCPilot npcPilot=new NPCPilot(this);
-//                ships.add(npcPilot);
-//            }
         }
         else {
             int resources=SpaceGame.random.nextInt(1,3);
