@@ -94,11 +94,6 @@ public class Slot {
         int mx=Gdx.input.getX();
         int my=Gdx.input.getY();
         Vector2 mp=viewport.unproject(new Vector2(mx,my));
-        Stack stack=inventory.stacks[slotIndex];
-        if(stack!=null)
-        {
-            return mp.x > x && mp.x < x + 64 && mp.y > y && mp.y < y + 64;
-        }
-        return false;
+        return mp.x > x && mp.x < x + 64 && mp.y > y && mp.y < y + 64;
     }
 }
