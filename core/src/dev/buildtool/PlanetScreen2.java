@@ -62,6 +62,11 @@ public class PlanetScreen2 extends ScreenAdapter {
             marketWares.add(new Label("Amount", skin),new Label("Price", skin));
             marketWares.row();
 
+            Table purchaseHistoryTable=new Table();
+            purchaseHistoryTable.defaults().padRight(20).padBottom(10);
+            updatePurchaseTable(player, purchaseHistoryTable, skin);
+            purchaseHistoryTable.right();
+
             planet.warePrices.forEach((ware, price) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
@@ -117,7 +122,7 @@ public class PlanetScreen2 extends ScreenAdapter {
                                             player.warePurchases.removeFirst();
                                         }
                                         player.warePurchases.add(warePurchase);
-//                                        updatePurchaseTable(player,purchaseHistoryTable,skin);
+                                        updatePurchaseTable(player,purchaseHistoryTable,skin);
                                         sell.setVisible(true);
                                         calculatePlayerWareCount(player,playerWareCount);
                                     }
@@ -222,9 +227,8 @@ public class PlanetScreen2 extends ScreenAdapter {
                 marketWares.row();
             });
 
-            Table purchaseHistory=new Table();
             //inner tables must not fill parent
-            content.add(marketWares,purchaseHistory);
+            content.add(marketWares,purchaseHistoryTable);
         }
 
         @Override
