@@ -33,7 +33,6 @@ public class StartScreen extends ScreenAdapter {
                     for (Planet planet : next.planets) {
                         if(planet.isInhabited){
                             PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceGame.INSTANCE.redStarshipTexture, next);
-                            playerShip.money=40000;
                             game.playerShip= playerShip;
                             game.setScreen(new PlanetScreen(next, planet,game.playerShip));
                             game.updateWorld=true;
