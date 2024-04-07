@@ -11,19 +11,10 @@ public class Tabpane {
         pane=new ArrayList<>(tabCOunt);
     }
 
-    public void showTab(int i)
-    {
-        pane.get(i).setVisible(true);
-    }
-
     public void showTab(Table tab)
     {
         for (Table table : pane) {
-            if(tab==table)
-            {
-                tab.setVisible(true);
-                break;
-            }
+            tab.setVisible(tab == table);
         }
     }
 
