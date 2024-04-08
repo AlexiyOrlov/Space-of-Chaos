@@ -77,7 +77,7 @@ public class StarMap extends ScreenAdapter {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if(starSystem!= playerShip.currentStarSystem) {
-                        if (Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= playerShip.engine.jumpDistance) {
+                        if (Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= playerShip.getEngine().jumpDistance) {
                             if (!target.isVisible()) {
                                 target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
                                 target.setVisible(true);
@@ -122,7 +122,7 @@ public class StarMap extends ScreenAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setColor(Color.GREEN);
-        int shipJumpDistance = playerShip.engine.jumpDistance;
+        int shipJumpDistance = playerShip.getEngine().jumpDistance;
         shapeRenderer.ellipse(currentStarSystem.positionX-shipJumpDistance,currentStarSystem.positionY-shipJumpDistance, shipJumpDistance*2, shipJumpDistance*2);
         shapeRenderer.end();
         target.rotateBy(targetAngle);

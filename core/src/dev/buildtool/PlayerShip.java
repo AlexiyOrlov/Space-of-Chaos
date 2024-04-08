@@ -26,10 +26,6 @@ public class PlayerShip implements Ship{
     private final Texture texture;
     private final TextureRegion textureRegion;
     public final Vector2 direction;
-    public Engine engine=Engine.BASIC;
-    public Hull hull=Hull.BASIC;
-    public Weapon weapon=WeaponRegistry.GUN;
-    public SideThrusters sideThrusters=SideThrusters.BASIC;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay;
@@ -38,9 +34,14 @@ public class PlayerShip implements Ship{
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;
+    private Inventory shipParts=new Inventory(4);
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
+        setHull(new Stack(Hull.BASIC,1));
+        setWeapon(new Stack(WeaponRegistry.GUN,1));
+        setEngine(new Stack(Engine.BASIC,1));
+        setThrusters(new Stack(SideThrusters.BASIC,1));
         this.rotation = rotation;
         this.texture=texture;
         textureRegion=new TextureRegion(texture);
@@ -50,9 +51,60 @@ public class PlayerShip implements Ship{
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
-        integrity=hull.integrity;
+        integrity=getHull().integrity;
     }
 
+    public void setWeapon(Stack weapon)
+    {
+        if(!(weapon.item instanceof Weapon))
+            throw new RuntimeException("Must be a weapon");
+        shipParts.stacks[1]=new Stack(weapon.item,1);
+    }
+
+    public Weapon getWeapon()
+    {
+        return (Weapon) shipParts.stacks[1].item;
+    }
+
+    public void setHull(Stack hull)
+    {
+        if(!(hull.item instanceof Hull))
+            throw new RuntimeException("Must be a hull");
+        shipParts.stacks[0]=new Stack(hull.item,1);
+    }
+
+    public Hull getHull()
+    {
+        return (Hull) shipParts.stacks[0].item;
+    }
+
+    public Inventory getShipParts() {
+        return shipParts;
+    }
+
+    public void setEngine(Stack engine)
+    {
+        if(!(engine.item instanceof Engine))
+            throw new RuntimeException("Must be an engine");
+        shipParts.stacks[2]=new Stack(engine.item,1);
+    }
+
+    public Engine getEngine()
+    {
+        return (Engine) shipParts.stacks[2].item;
+    }
+
+    public void setThrusters(Stack thrusters)
+    {
+        if(!(thrusters.item instanceof SideThrusters))
+            throw new RuntimeException("Must be side thrusters");
+        shipParts.stacks[3]=new Stack(thrusters.item,1);
+    }
+
+    public SideThrusters getSideThrusters()
+    {
+        return (SideThrusters) shipParts.stacks[3].item;
+    }
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
         spriteBatch.begin();
@@ -94,13 +146,13 @@ public class PlayerShip implements Ship{
     {
         if(Gdx.input.isKeyPressed(Input.Keys.A))
         {
-            if(leftAcceleration< sideThrusters.strafingSpeed)
+            if(leftAcceleration< getSideThrusters().strafingSpeed)
                 leftAcceleration+=0.15f;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D))
         {
-            if(rightAcceleration<sideThrusters.strafingSpeed)
+            if(rightAcceleration<getSideThrusters().strafingSpeed)
                 rightAcceleration+=0.15f;
         }
         //to the left
@@ -123,7 +175,7 @@ public class PlayerShip implements Ship{
 
         if(Gdx.input.isKeyPressed(Input.Keys.S))
         {
-            if(acceleration>-engine.maxSpeed)
+            if(acceleration>-getEngine().maxSpeed)
                 acceleration-=0.1f;
         }
         else if(acceleration<0)
@@ -133,7 +185,7 @@ public class PlayerShip implements Ship{
 
         if(Gdx.input.isKeyPressed(Input.Keys.W))
         {
-            if(acceleration< engine.maxSpeed)
+            if(acceleration< getEngine().maxSpeed)
                 acceleration+=0.1f;
         }
         else if(acceleration>0)
@@ -156,10 +208,10 @@ public class PlayerShip implements Ship{
         if(Gdx.input.isTouched())
         {
             if(fireDelay<=0) {
-                Projectile[] projectiles = weapon.shoot(x, y, rotation,this );
+                Projectile[] projectiles = getWeapon().shoot(x, y, rotation,this );
                 if (projectiles != null) {
                     currentStarSystem.projectiles.addAll(projectiles);
-                    fireDelay = weapon.cooldown;
+                    fireDelay = getWeapon().cooldown;
                 }
             }
         }
@@ -175,7 +227,7 @@ public class PlayerShip implements Ship{
         area.set(x,y, (float) texture.getWidth() /2);
 
         Vector2 mouseWorld=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-        rotation=Functions.rotateTowards(rotation*MathUtils.degreesToRadians,x,y,mouseWorld.x,mouseWorld.y,-MathUtils.degreesToRadians*90,sideThrusters.steeringSpeed)*MathUtils.radiansToDegrees;
+        rotation=Functions.rotateTowards(rotation*MathUtils.degreesToRadians,x,y,mouseWorld.x,mouseWorld.y,-MathUtils.degreesToRadians*90,getSideThrusters().steeringSpeed)*MathUtils.radiansToDegrees;
     }
 
     public void addItem(Stack stack)
