@@ -71,9 +71,8 @@ public class SlotButton extends Table {
     {
         int mx=Gdx.input.getX();
         int my=Gdx.input.getY();
-        Vector2 mp=viewport.unproject(new Vector2(mx,my));
         Vector2 sc= this.localToScreenCoordinates(new Vector2(0,0));
-        return mp.x > sc.x && mp.x < sc.x + getWidth() && mp.y > sc.y-getHeight() && mp.y < sc.y;
+        return mx > sc.x && mx < sc.x + getWidth() && my > sc.y-getHeight() && my < sc.y;
     }
 
     public void drawInfo()
@@ -81,17 +80,15 @@ public class SlotButton extends Table {
         int mx=Gdx.input.getX();
         int my=Gdx.input.getY();
         Vector2 mp=viewport.unproject(new Vector2(mx,my));
-        if(index==0) {
-            if (isOverSlot()) {
-                if (inventory.stacks[index] != null) {
-                    SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
-                    BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
-                    spriteBatch.begin();
-                    font.draw(spriteBatch, inventory.stacks[index].item.name, mp.x+20, mp.y+20);
-                    spriteBatch.end();
-                }
-            }
 
+        if (isOverSlot()) {
+            if (inventory.stacks[index] != null) {
+                SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
+                BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+                spriteBatch.begin();
+                font.draw(spriteBatch, inventory.stacks[index].item.name, mp.x+20, mp.y+20);
+                spriteBatch.end();
+            }
         }
     }
 }
