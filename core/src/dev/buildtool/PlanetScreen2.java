@@ -34,6 +34,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private Stack stackUnderMouse;
     private ArrayList<SlotButton> slotButtons=new ArrayList<>();
 
+    private Label moneyLabel;
+
     @Override
     public Stack getStackUnderMouse() {
         return stackUnderMouse;
@@ -48,13 +50,49 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         private final Table content=new Table();
 
-        public EquipmentTab(Viewport viewport) {
+        public EquipmentTab(Viewport viewport,PlayerShip player) {
             super(false,false);
             Skin skin=SpaceGame.INSTANCE.skin;
             int in=0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, in,PlanetScreen2.this,planet.equipmentInventory,viewport);
+                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
+                        @Override
+                        protected boolean handleClick(int button, StackHandler stackHandler) {
+                            Stack stack = inventory.stacks[index];
+                            Dialog dialog=new Dialog("Buy?",skin);
+                            TextButton accept=new TextButton("Confirm",skin);
+                            accept.addListener(new ChangeListener() {
+                                @Override
+                                public void changed(ChangeEvent event, Actor actor) {
+                                    if(player.money>= stack.item.basePrice)
+                                    {
+                                        player.addItem(new Stack(stack.item,1));
+                                        inventory.removeItem(stack.item,1);
+                                        player.money-=stack.item.basePrice;
+                                        updateMoney();
+                                        dialog.hide();
+                                    }
+                                    else {
+                                        Dialog no=new Dialog("Not enough money",skin);
+                                        no.button("Ok");
+                                        no.show(stage);
+                                    }
+                                }
+                            });
+                            TextButton cancel=new TextButton("Cancel",skin);
+                            cancel.addListener(new ChangeListener() {
+                                @Override
+                                public void changed(ChangeEvent event, Actor actor) {
+                                    dialog.hide();
+                                }
+                            });
+                            dialog.add(accept,cancel);
+                            if(stack!=null)
+                                dialog.show(stage);
+                            return true;
+                        }
+                    };
                     content.add(slotButton);
                     slotButtons.add(slotButton);
                     in++;
@@ -141,7 +179,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                                         player.addItem(new Stack(ware, (int) toBuy));
                                         dialog.hide();
                                         player.money -= toBuy * price;
-                                        moneyLabel.setText("Money: "+player.money);
+                                        updateMoney();
                                         WarePurchase warePurchase=new WarePurchase(ware,toBuy,price,toBuy*price);
                                         if(player.warePurchases.size()>9)
                                         {
@@ -271,12 +309,14 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         }
     }
     private Planet planet;
+    private PlayerShip playerShip;
     public PlanetScreen2(StarSystem system, Planet planet, PlayerShip player) {
         Skin skin=SpaceGame.INSTANCE.skin;
+        playerShip=player;
         this.viewport =new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         this.viewport.apply();
         Table outer=new Table();
-        Label moneyLabel=new Label("Money: "+player.money,skin);
+        moneyLabel=new Label("Money: "+player.money,skin);
         outer.add(moneyLabel);
         TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
         takeOffButton.addListener(new ChangeListener() {
@@ -290,7 +330,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         outer.setFillParent(true);
         this.planet=planet;
         tabbedPane=new TabbedPane();
-        tabbedPane.add(new EquipmentTab(viewport));
+        tabbedPane.add(new EquipmentTab(viewport,player));
         tabbedPane.add(new MarketTab(player,moneyLabel));
 
         stage=new Stage(this.viewport);
@@ -389,5 +429,10 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 number++;
             }
         }
+    }
+
+    void updateMoney()
+    {
+        moneyLabel.setText("Money: "+playerShip.money);
     }
 }

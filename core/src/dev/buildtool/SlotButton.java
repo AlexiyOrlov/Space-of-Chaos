@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SlotButton extends Table {
-    private final int index;
-    private final Inventory inventory;
+    protected final int index;
+    protected final Inventory inventory;
     private final Viewport viewport;
 
     public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport) {
@@ -27,31 +27,36 @@ public class SlotButton extends Table {
         addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(button==0)
-                {
-                    if(stackHandler!=null) {
-                        Stack stackUnderMouse = stackHandler.getStackUnderMouse();
-                        if(stackUnderMouse==null)
-                        {
-                            stackHandler.setStackUnderMouse(inventory.stacks[index]);
-                            inventory.stacks[index]=null;
-                        }
-                        else {
-                            Stack present = inventory.stacks[index];
-                            if (present == null) {
-                                inventory.stacks[index] = stackUnderMouse;
-                                stackHandler.setStackUnderMouse(null);
-                            } else if (present.item != stackUnderMouse.item) {
-                                inventory.stacks[index] = stackUnderMouse;
-                                stackHandler.setStackUnderMouse(present);
-                            }
-                        }
-                        return true;
-                    }
-                }
+                if (handleClick(button,stackHandler)) return true;
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+    }
+
+    protected boolean handleClick(int button,StackHandler stackHandler) {
+        if(button ==0)
+        {
+            if(stackHandler!=null) {
+                Stack stackUnderMouse = stackHandler.getStackUnderMouse();
+                if(stackUnderMouse==null)
+                {
+                    stackHandler.setStackUnderMouse(inventory.stacks[index]);
+                    inventory.stacks[index]=null;
+                }
+                else {
+                    Stack present = inventory.stacks[index];
+                    if (present == null) {
+                        inventory.stacks[index] = stackUnderMouse;
+                        stackHandler.setStackUnderMouse(null);
+                    } else if (present.item != stackUnderMouse.item) {
+                        inventory.stacks[index] = stackUnderMouse;
+                        stackHandler.setStackUnderMouse(present);
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -63,7 +68,7 @@ public class SlotButton extends Table {
             BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
             batch.draw(stack.item.texture,getX(),getY());
             if(stack.count>1)
-                font.draw(batch,stack.count+"",getX()+10,getY()+14);
+                font.draw(batch,stack.count+"",getX()+20,getY()+14);
         }
     }
 
@@ -87,7 +92,7 @@ public class SlotButton extends Table {
                 SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
                 BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
                 spriteBatch.begin();
-                font.draw(spriteBatch, stack.item.name, mp.x+40, mp.y+20);
+                font.draw(spriteBatch, stack.item.name, mp.x+20, mp.y+20);
                 if(stack.item.basePrice>0)
                     font.draw(spriteBatch,"Price: "+ stack.item.basePrice, mp.x+20, mp.y);
                 spriteBatch.end();
