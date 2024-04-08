@@ -2,6 +2,8 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.List;
+
 public class Engine extends Item{
     public static final Engine BASIC=new Engine("Basic engine",5,60, 400, 0.02f,SpaceGame.INSTANCE.engine1Texture,3000);
     public static final Engine SLOW=new Engine("Slow engine",2.5f,60, 400, 0.15f,null,0);
@@ -22,5 +24,13 @@ public class Engine extends Item{
         this.jumpDistance=jumpDistance;
         this.aiSteering = aiSteering;
         this.price=price;
+    }
+
+    @Override
+    public List<String> getTooltip() {
+        List<String> tooltip= super.getTooltip();
+        tooltip.add("Max speed: "+maxSpeed);
+        tooltip.add("Jump distance: "+jumpDistance);
+        return tooltip;
     }
 }

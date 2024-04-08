@@ -3,6 +3,7 @@ package dev.buildtool;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hull extends Item{
     public static final Hull BASIC=new Hull(300, SpaceGame.INSTANCE.redStarshipTexture ,100,"Basic hull",3000);
@@ -25,5 +26,13 @@ public class Hull extends Item{
         this.capacity = capacity;
         look=texture;
         this.integrity=integrity;
+    }
+
+    @Override
+    public List<String> getTooltip() {
+        List<String> tooltip= super.getTooltip();
+        tooltip.add("Integrity: "+integrity);
+        tooltip.add("Capacity: "+capacity);
+        return tooltip;
     }
 }

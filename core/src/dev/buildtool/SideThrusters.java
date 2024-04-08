@@ -2,6 +2,8 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.List;
+
 public class SideThrusters extends Item{
     final float steeringSpeed;
     final float strafingSpeed;
@@ -11,5 +13,12 @@ public class SideThrusters extends Item{
         super(name,1,name,texture,basePrice);
         this.steeringSpeed = steeringSpeed;
         this.strafingSpeed = strafingSpeed;
+    }
+
+    @Override
+    public List<String> getTooltip() {
+        List<String> tooltip= super.getTooltip();
+        tooltip.add("Strafing speed: "+strafingSpeed);
+        return tooltip;
     }
 }
