@@ -11,20 +11,26 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SlotButton extends Table {
     protected final int index;
     protected final Inventory inventory;
     private final Viewport viewport;
+    private Predicate<Stack> incomingStackPredicate;
 
     public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport) {
-        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport);
+        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,null);
+    }
+    public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport,Predicate<Stack> incomingStackPredicate) {
+        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,incomingStackPredicate);
     }
 
-    public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport) {
+    public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport, Predicate<Stack> incomingStackPredicate) {
         super(skin);
         this.inventory=inventory;
+        this.incomingStackPredicate=incomingStackPredicate;
         add(new Image(background));
         this.index=index;
         this.viewport=viewport;
@@ -42,19 +48,19 @@ public class SlotButton extends Table {
         {
             if(stackHandler!=null) {
                 Stack stackUnderMouse = stackHandler.getStackUnderMouse();
-                if(stackUnderMouse==null)
-                {
-                    stackHandler.setStackUnderMouse(inventory.stacks[index]);
-                    inventory.stacks[index]=null;
-                }
-                else {
-                    Stack present = inventory.stacks[index];
-                    if (present == null) {
-                        inventory.stacks[index] = stackUnderMouse;
-                        stackHandler.setStackUnderMouse(null);
-                    } else if (present.item != stackUnderMouse.item) {
-                        inventory.stacks[index] = stackUnderMouse;
-                        stackHandler.setStackUnderMouse(present);
+                if(incomingStackPredicate==null || incomingStackPredicate.evaluate(stackUnderMouse)) {
+                    if (stackUnderMouse == null) {
+                        stackHandler.setStackUnderMouse(inventory.stacks[index]);
+                        inventory.stacks[index] = null;
+                    } else {
+                        Stack present = inventory.stacks[index];
+                        if (present == null) {
+                            inventory.stacks[index] = stackUnderMouse;
+                            stackHandler.setStackUnderMouse(null);
+                        } else if (present.item != stackUnderMouse.item) {
+                            inventory.stacks[index] = stackUnderMouse;
+                            stackHandler.setStackUnderMouse(present);
+                        }
                     }
                 }
                 return true;

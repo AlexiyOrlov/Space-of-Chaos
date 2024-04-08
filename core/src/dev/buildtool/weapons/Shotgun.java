@@ -8,7 +8,7 @@ import dev.buildtool.SpaceGame;
 
 public class Shotgun extends Weapon {
     public Shotgun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture projTexture, String name) {
-        super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name, SpaceGame.INSTANCE.shotgunTexture, 70000);
+        super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name, SpaceGame.INSTANCE.shotgunTexture, 40000);
     }
 
     @Override

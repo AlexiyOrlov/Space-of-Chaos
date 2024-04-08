@@ -27,6 +27,8 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dev.buildtool.weapons.Weapon;
+
 public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private final Stage stage;
     private final Viewport viewport;
@@ -58,13 +60,13 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             inventory.stacks[1]=new Stack(playerShip.engine,1);
             inventory.stacks[2]=new Stack(playerShip.sideThrusters,1);
             inventory.stacks[3]=new Stack(playerShip.weapon,1);
-            SlotButton hull=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, 0,PlanetScreen2.this,inventory,viewport);
+            SlotButton hull=new SlotButton(skin, 0,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
             slotButtons.add(hull);
-            SlotButton engine=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport);
+            SlotButton engine=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Engine);
             slotButtons.add(engine);
-            SlotButton thrusters=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport);
+            SlotButton thrusters=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof SideThrusters);
             slotButtons.add(thrusters);
-            SlotButton weapon=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport);
+            SlotButton weapon=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&  arg0.item instanceof Weapon);
             slotButtons.add(weapon);
             content.add(new Label("Hull",skin));
             content.add(hull);
@@ -101,7 +103,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             int in=0;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
+                    SlotButton slotButton=new SlotButton(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
                         @Override
                         protected boolean handleClick(int button, StackHandler stackHandler) {
                             Stack stack = inventory.stacks[index];
@@ -409,7 +411,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         int slotIndex=0;
         for (int i = 4; i >0; i--) {
             for (int j = 0; j < 10; j++) {
-                SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory, viewport);
+                SlotButton slotButton=new SlotButton(skin,slotIndex,PlanetScreen2.this,player.inventory, viewport);
                 playerInventory.add(slotButton);
                 slotButtons.add(slotButton);
                 slotIndex++;
