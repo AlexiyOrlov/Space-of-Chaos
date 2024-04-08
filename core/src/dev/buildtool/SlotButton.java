@@ -82,11 +82,14 @@ public class SlotButton extends Table {
         Vector2 mp=viewport.unproject(new Vector2(mx,my));
 
         if (isOverSlot()) {
-            if (inventory.stacks[index] != null) {
+            Stack stack = inventory.stacks[index];
+            if (stack != null) {
                 SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
                 BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
                 spriteBatch.begin();
-                font.draw(spriteBatch, inventory.stacks[index].item.name, mp.x+20, mp.y+20);
+                font.draw(spriteBatch, stack.item.name, mp.x+40, mp.y+20);
+                if(stack.item.basePrice>0)
+                    font.draw(spriteBatch,"Price: "+ stack.item.basePrice, mp.x+20, mp.y);
                 spriteBatch.end();
             }
         }

@@ -48,9 +48,19 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         private final Table content=new Table();
 
-        public EquipmentTab() {
+        public EquipmentTab(Viewport viewport) {
             super(false,false);
-
+            Skin skin=SpaceGame.INSTANCE.skin;
+            int in=0;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, in,PlanetScreen2.this,planet.equipmentInventory,viewport);
+                    content.add(slotButton);
+                    slotButtons.add(slotButton);
+                    in++;
+                }
+                content.row();
+            }
         }
 
         @Override
@@ -280,7 +290,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         outer.setFillParent(true);
         this.planet=planet;
         tabbedPane=new TabbedPane();
-        tabbedPane.add(new EquipmentTab());
+        tabbedPane.add(new EquipmentTab(viewport));
         tabbedPane.add(new MarketTab(player,moneyLabel));
 
         stage=new Stage(this.viewport);
