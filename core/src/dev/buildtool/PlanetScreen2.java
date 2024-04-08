@@ -97,6 +97,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             super(false,false);
             Skin skin=SpaceGame.INSTANCE.skin;
             int in=0;
+            content.padTop(20);
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     SlotButton slotButton=new SlotButton(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
@@ -154,6 +155,14 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 }
                 content.row();
             }
+            content.padBottom(40);
+            Label sellLabel=new Label("Sell",skin);
+            Image sellSlot=new Image(SpaceGame.INSTANCE.cashTexture);
+            content.add(sellLabel).colspan(3);
+            content.row();
+            content.add(sellSlot).colspan(3);
+            content.row();
+            content.padRight(30);
         }
 
         @Override
