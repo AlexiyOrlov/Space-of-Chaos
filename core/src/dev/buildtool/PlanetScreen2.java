@@ -45,6 +45,52 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         stackUnderMouse=stack;
     }
 
+    class ShipTab extends Tab{
+        private Table content;
+
+        public ShipTab(Viewport viewport,PlayerShip playerShip) {
+            super(false,false);
+            Skin skin=SpaceGame.INSTANCE.skin;
+            content=new Table();
+            content.defaults().padTop(20);
+            Inventory inventory=new Inventory(4);
+            inventory.stacks[0]=new Stack(playerShip.hull,1);
+            inventory.stacks[1]=new Stack(playerShip.engine,1);
+            inventory.stacks[2]=new Stack(playerShip.sideThrusters,1);
+            inventory.stacks[3]=new Stack(playerShip.weapon,1);
+            SlotButton hull=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3, 0,PlanetScreen2.this,inventory,viewport);
+            slotButtons.add(hull);
+            SlotButton engine=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport);
+            slotButtons.add(engine);
+            SlotButton thrusters=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport);
+            slotButtons.add(thrusters);
+            SlotButton weapon=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport);
+            slotButtons.add(weapon);
+            content.add(new Label("Hull",skin));
+            content.add(hull);
+            content.row();
+            content.add(new Label("Engine",skin));
+            content.add(engine);
+            content.row();
+            content.add(new Label("Side thrusters",skin));
+            content.add(thrusters);
+            content.row();
+            content.add(new Label("Weapon",skin));
+            content.add(weapon);
+            content.row();
+        }
+
+        @Override
+        public String getTabTitle() {
+            return "Ship";
+        }
+
+        @Override
+        public Table getContentTable() {
+            return content;
+        }
+    }
+
     class EquipmentTab extends Tab{
 
         private final Table content=new Table();
@@ -339,6 +385,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         TabbedPane tabbedPane = new TabbedPane();
         tabbedPane.add(new EquipmentTab(viewport,player));
         tabbedPane.add(new MarketTab(player,moneyLabel));
+        tabbedPane.add(new ShipTab(viewport,player));
 
         stage=new Stage(this.viewport);
         Table tabs= tabbedPane.getTable();

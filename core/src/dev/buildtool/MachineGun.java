@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class MachineGun extends Weapon{
     public MachineGun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture projTexture, String name) {
-        super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name);
+        super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name,null,100000);
     }
 
     @Override

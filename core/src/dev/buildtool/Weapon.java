@@ -2,13 +2,14 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public abstract class Weapon {
+public abstract class Weapon extends Item{
     public final int damagePerProjectile;
     public final int projectileSpeed;
     public final Texture projectileTexture;
     public final String name;
     public final int cooldown;
-    public Weapon(int damagePerProjectile,int fireDelay, int projectileSpeed, Texture projTexture, String name) {
+    public Weapon(int damagePerProjectile,int fireDelay, int projectileSpeed, Texture projTexture, String name,Texture texture,int basePrice) {
+        super(name,1,name,texture,basePrice);
         this.damagePerProjectile = damagePerProjectile;
         this.projectileSpeed = projectileSpeed;
         projectileTexture=projTexture;

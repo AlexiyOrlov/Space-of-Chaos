@@ -18,6 +18,10 @@ public class SlotButton extends Table {
     protected final Inventory inventory;
     private final Viewport viewport;
 
+    public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport) {
+        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport);
+    }
+
     public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport) {
         super(skin);
         this.inventory=inventory;

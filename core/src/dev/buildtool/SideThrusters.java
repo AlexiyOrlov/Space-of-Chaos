@@ -1,11 +1,14 @@
 package dev.buildtool;
 
-public class SideThrusters {
+import com.badlogic.gdx.graphics.Texture;
+
+public class SideThrusters extends Item{
     final float steeringSpeed;
     final float strafingSpeed;
-    public static final SideThrusters SLOW=new SideThrusters(0.02f, 0.2f);
-    public static final SideThrusters BASIC=new SideThrusters(0.03f, 3f);
-    public SideThrusters(float steeringSpeed, float strafingSpeed) {
+    public static final SideThrusters SLOW=new SideThrusters(0.02f, 0.2f,"Slow thrusters",SpaceGame.INSTANCE.thrusters1Texture, 3000);
+    public static final SideThrusters BASIC=new SideThrusters(0.03f, 3f,"Basic thrusters",SpaceGame.INSTANCE.thrusters2Texture, 4000);
+    public SideThrusters(float steeringSpeed, float strafingSpeed, String name, Texture texture,int basePrice) {
+        super(name,1,name,texture,basePrice);
         this.steeringSpeed = steeringSpeed;
         this.strafingSpeed = strafingSpeed;
     }

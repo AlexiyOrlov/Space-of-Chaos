@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
-public class Hull {
-    public static final Hull BASIC=new Hull(300, SpaceGame.INSTANCE.redStarshipTexture ,100);
-    public static final Hull TRADING1=new Hull(600, SpaceGame.INSTANCE.tradingHull1Texture,200);
-    public static final Hull BATTLE3=new Hull(450,SpaceGame.INSTANCE.battleHull3, 400);
-    public static final Hull BATTLE2=new Hull(450,SpaceGame.INSTANCE.battleHull2,300);
-    public static final Hull PIRATE1=new Hull(300,SpaceGame.INSTANCE.pirateHull1, 160);
+public class Hull extends Item{
+    public static final Hull BASIC=new Hull(300, SpaceGame.INSTANCE.redStarshipTexture ,100,"Basic hull",3000);
+    public static final Hull TRADING1=new Hull(600, SpaceGame.INSTANCE.tradingHull1Texture,200,"Trading hull",6000);
+    public static final Hull BATTLE3=new Hull(450,SpaceGame.INSTANCE.battleHull3, 400,"Battle hull 3",50000);
+    public static final Hull BATTLE2=new Hull(450,SpaceGame.INSTANCE.battleHull2,300,"Battle hull 2",40000);
+    public static final Hull PIRATE1=new Hull(300,SpaceGame.INSTANCE.pirateHull1, 160,"Pirate hull 1",5000);
     public static ArrayList<Hull> battleHulls=new ArrayList<>();
     static {
         battleHulls.add(BATTLE2);
@@ -20,7 +20,8 @@ public class Hull {
 
     public int integrity;
 
-    public Hull(int capacity, Texture texture,int integrity) {
+    public Hull(int capacity, Texture texture,int integrity,String name,int basePrice) {
+        super(name,1,name,texture,basePrice);
         this.capacity = capacity;
         look=texture;
         this.integrity=integrity;
