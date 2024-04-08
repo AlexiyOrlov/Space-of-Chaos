@@ -114,6 +114,7 @@ public class StarSystem {
                 if(ship.area.overlaps(projectile.area) && projectile.shooter!=ship)
                 {
                     ship.integrity-=projectile.damage;
+                    ship.onProjectileImpact(projectile);
                     if(ship.integrity<=0)
                     {
                         npcPilotsToRemove.add(ship);

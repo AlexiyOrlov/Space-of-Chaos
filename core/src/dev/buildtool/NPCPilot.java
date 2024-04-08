@@ -378,7 +378,7 @@ public class NPCPilot implements Ship {
 
     public void rotateTowards(float x,float y)
     {
-        rotationDegrees =-MathUtils.atan2(x-this.x,y-this.y)*MathUtils.radiansToDegrees;//Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed*3) * MathUtils.radiansToDegrees;
+        rotationDegrees =Functions.rotateTowards(rotationDegrees * MathUtils.degreesToRadians, this.x, this.y, x, y, -MathUtils.degreesToRadians * 90, sideThrusters.steeringSpeed*3) * MathUtils.radiansToDegrees;
     }
 
     @Override
@@ -399,6 +399,15 @@ public class NPCPilot implements Ship {
     @Override
     public StarSystem getCurrentSystem() {
         return currentSystem;
+    }
+
+    public void onProjectileImpact(Projectile projectile)
+    {
+        if((float) integrity /hull.integrity <=0.8f)
+        {
+            if(target==null)
+                target=projectile.shooter;
+        }
     }
 
 //    private float findPlayerIntercept(Vector2 playerPos, Vector2 playerVel, int delta,Vector2 position,float projectileVelocity)
