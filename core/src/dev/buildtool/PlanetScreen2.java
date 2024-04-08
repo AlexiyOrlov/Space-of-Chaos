@@ -73,11 +73,11 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                                         updateMoney();
                                         dialog.hide();
                                     }
-                                    else {
-                                        Dialog no=new Dialog("Not enough money",skin);
-                                        no.button("Ok");
-                                        no.show(stage);
-                                    }
+//                                    else {
+//                                        Dialog no=new Dialog("Not enough money",skin);
+//                                        no.button("Ok");
+//                                        no.show(stage);
+//                                    }
                                 }
                             });
                             TextButton cancel=new TextButton("Cancel",skin);
@@ -89,7 +89,15 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             });
                             dialog.add(accept,cancel);
                             if(stack!=null)
-                                dialog.show(stage);
+                            {
+                                if(stack.item.basePrice<=player.money)
+                                    dialog.show(stage);
+                                else {
+                                    Dialog no=new Dialog("Not enough money",skin);
+                                    no.button("Ok");
+                                    no.show(stage);
+                                }
+                            }
                             return true;
                         }
                     };
