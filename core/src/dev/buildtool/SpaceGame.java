@@ -17,7 +17,8 @@ import java.util.Random;
 
 public class SpaceGame extends Game {
 	static Random random=new Random();
-	SpriteBatch batch,uiBatch;
+	SpriteBatch worldBatch;
+	SpriteBatch uiBatch;
 	ArrayList<Texture> planetTextures;
 	AssetManager assetManager;
 	ArrayList<StarSystem> starSystems;
@@ -45,7 +46,7 @@ public class SpaceGame extends Game {
 		bitmapFont=new BitmapFont();
 		bitmapFont.getData().markupEnabled=true;
 		assetManager=new AssetManager();
-		batch = new SpriteBatch();
+		worldBatch = new SpriteBatch();
 		uiBatch=new SpriteBatch();
 		shapeRenderer=new ShapeRenderer();
 		uiShapeRenderer=new ShapeRenderer();
@@ -166,7 +167,7 @@ public class SpaceGame extends Game {
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
+		worldBatch.dispose();
 		starTextures.forEach(Texture::dispose);
 		planetTextures.forEach(Texture::dispose);
 		redStarshipTexture.dispose();

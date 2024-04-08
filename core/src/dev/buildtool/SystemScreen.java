@@ -30,7 +30,7 @@ public class SystemScreen extends ScreenAdapter {
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceGame spaceGame=SpaceGame.INSTANCE;
-        this.spriteBatch = spaceGame.batch;
+        this.spriteBatch = spaceGame.worldBatch;
         this.starSystem = starSystem;
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
