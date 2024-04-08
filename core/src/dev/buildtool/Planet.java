@@ -238,7 +238,7 @@ public class Planet {
             }
             if (guardCount == 0) {
                 if (random.nextBoolean()) {
-                    NPCPilot pirate = new NPCPilot(PilotAI.PIRATE, WeaponRegistry.GUN, Hull.PIRATE1, Engine.BASIC, SideThrusters.BASIC, this);
+                    NPCPilot pirate = new NPCPilot(PilotAI.PIRATE, WeaponRegistry.AI_GUN1, Hull.PIRATE1, Engine.BASIC, SideThrusters.BASIC, this);
                     starSystem.ships.add(pirate);
                     pirate.x=x;
                     pirate.y=y;
