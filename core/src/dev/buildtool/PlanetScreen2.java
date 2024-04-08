@@ -337,11 +337,13 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        SpaceGame.INSTANCE.updateWorld=false;
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        SpaceGame.INSTANCE.updateWorld=true;
     }
 
     private static void calculatePlayerWareCount(PlayerShip player, HashMap<Ware, Integer> playerWareCount) {
