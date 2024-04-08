@@ -250,9 +250,12 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 }
                 playerInventory.row();
             }
-
+            Table container=new Table();
+            container.add(purchaseHistoryTable);
+            container.row();
+            container.add(playerInventory);
             //inner tables must not fill parent
-            content.add(marketWares,purchaseHistoryTable,playerInventory);
+            content.add(marketWares,container);
         }
 
         @Override
