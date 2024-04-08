@@ -2,6 +2,8 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.List;
+
 public class Item implements Comparable<Item>{
     public String type,name;
     public final int maxSize;
@@ -18,5 +20,15 @@ public class Item implements Comparable<Item>{
     @Override
     public int compareTo(Item item) {
         return type.compareTo(item.type);
+    }
+
+    public List<String> getTooltip()
+    {
+        List<String> info= new java.util.ArrayList<>(List.of(name));
+        if(basePrice>0)
+        {
+            info.add("Price: "+basePrice);
+        }
+        return info;
     }
 }

@@ -2,6 +2,8 @@ package dev.buildtool.weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.List;
+
 import dev.buildtool.Item;
 import dev.buildtool.Projectile;
 import dev.buildtool.Ship;
@@ -27,4 +29,12 @@ public abstract class Weapon extends Item {
     }
 
     public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter);
+
+    @Override
+    public List<String> getTooltip() {
+        List<String> tooltip= super.getTooltip();
+        tooltip.add("Damage per projectile: "+damagePerProjectile);
+        tooltip.add("Damage per minute: "+(60/cooldown*damagePerProjectile));
+        return tooltip;
+    }
 }

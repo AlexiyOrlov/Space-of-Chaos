@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.List;
+
 public class SlotButton extends Table {
     protected final int index;
     protected final Inventory inventory;
@@ -102,9 +104,12 @@ public class SlotButton extends Table {
                 SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
                 BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
                 spriteBatch.begin();
-                font.draw(spriteBatch, stack.item.name, mp.x+20, mp.y+20);
-                if(stack.item.basePrice>0)
-                    font.draw(spriteBatch,"Price: "+ stack.item.basePrice, mp.x+20, mp.y);
+                List<String> itemInfo=stack.item.getTooltip();
+                for (int i = 0; i < itemInfo.size(); i++) {
+                    String next=itemInfo.get(i);
+                    font.draw(spriteBatch,next, mp.x+20, mp.y-20*i+20);
+
+                }
                 spriteBatch.end();
             }
         }
