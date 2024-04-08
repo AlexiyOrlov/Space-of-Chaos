@@ -20,7 +20,7 @@ public class SlotButton extends Table {
     protected final int index;
     protected final Inventory inventory;
     private final Viewport viewport;
-    private Predicate<Stack> incomingStackPredicate;
+    private final Predicate<Stack> incomingStackPredicate;
 
     public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport) {
         this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,null);
@@ -101,7 +101,7 @@ public class SlotButton extends Table {
         if (isOverSlot()) {
             Stack stack = inventory.stacks[index];
             if (stack != null) {
-                SpriteBatch spriteBatch = SpaceGame.INSTANCE.batch;
+                SpriteBatch spriteBatch = SpaceGame.INSTANCE.uiBatch;
                 BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
                 spriteBatch.begin();
                 List<String> itemInfo=stack.item.getTooltip();
