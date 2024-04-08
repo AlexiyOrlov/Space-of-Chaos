@@ -102,46 +102,47 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                     SlotButton slotButton=new SlotButton(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
                         @Override
                         protected boolean handleClick(int button, StackHandler stackHandler) {
-                            Stack stack = inventory.stacks[index];
-                            Dialog dialog=new Dialog("Buy?",skin);
-                            TextButton accept=new TextButton("Confirm",skin);
-                            accept.addListener(new ChangeListener() {
-                                @Override
-                                public void changed(ChangeEvent event, Actor actor) {
-                                    if(player.money>= stack.item.basePrice)
-                                    {
-                                        player.addItem(new Stack(stack.item,1));
-                                        inventory.removeItem(stack.item,1);
-                                        player.money-=stack.item.basePrice;
-                                        updateMoney();
-                                        dialog.hide();
-                                    }
+                            if(stackHandler.getStackUnderMouse()==null) {
+                                Stack stack = inventory.stacks[index];
+                                Dialog dialog = new Dialog("Buy?", skin);
+                                TextButton accept = new TextButton("Confirm", skin);
+                                accept.addListener(new ChangeListener() {
+                                    @Override
+                                    public void changed(ChangeEvent event, Actor actor) {
+                                        if (player.money >= stack.item.basePrice) {
+                                            player.addItem(new Stack(stack.item, 1));
+                                            inventory.removeItem(stack.item, 1);
+                                            player.money -= stack.item.basePrice;
+                                            updateMoney();
+                                            dialog.hide();
+                                        }
 //                                    else {
 //                                        Dialog no=new Dialog("Not enough money",skin);
 //                                        no.button("Ok");
 //                                        no.show(stage);
 //                                    }
+                                    }
+                                });
+                                TextButton cancel = new TextButton("Cancel", skin);
+                                cancel.addListener(new ChangeListener() {
+                                    @Override
+                                    public void changed(ChangeEvent event, Actor actor) {
+                                        dialog.hide();
+                                    }
+                                });
+                                dialog.add(accept, cancel);
+                                if (stack != null) {
+                                    if (stack.item.basePrice <= player.money)
+                                        dialog.show(stage);
+                                    else {
+                                        Dialog no = new Dialog("Not enough money", skin);
+                                        no.button("Ok");
+                                        no.show(stage);
+                                    }
                                 }
-                            });
-                            TextButton cancel=new TextButton("Cancel",skin);
-                            cancel.addListener(new ChangeListener() {
-                                @Override
-                                public void changed(ChangeEvent event, Actor actor) {
-                                    dialog.hide();
-                                }
-                            });
-                            dialog.add(accept,cancel);
-                            if(stack!=null)
-                            {
-                                if(stack.item.basePrice<=player.money)
-                                    dialog.show(stage);
-                                else {
-                                    Dialog no=new Dialog("Not enough money",skin);
-                                    no.button("Ok");
-                                    no.show(stage);
-                                }
+                                return true;
                             }
-                            return true;
+                            return false;
                         }
                     };
                     content.add(slotButton);
