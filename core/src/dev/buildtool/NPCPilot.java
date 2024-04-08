@@ -88,11 +88,13 @@ public class NPCPilot implements Ship {
             if(systemsWithHigherPrices.isEmpty())
             {
                 navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
-                System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
+                if(SpaceGame.debugDraw)
+                    System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
             }
             else {
                 navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
-                System.out.println("Going to system " + navigatingTo.star.name);
+                if(SpaceGame.debugDraw)
+                    System.out.println("Going to system " + navigatingTo.star.name);
             }
         }
         else if(navigatingTo==currentSystem)
@@ -104,7 +106,8 @@ public class NPCPilot implements Ship {
                     targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                 }
                 else{
-                    System.out.println("No suitable planets");
+                    if(SpaceGame.debugDraw)
+                        System.out.println("No suitable planets");
                     navigatingTo=null;
                 }
             }
@@ -117,7 +120,8 @@ public class NPCPilot implements Ship {
                     currentlyLandedOn=targetPlanet;
                     targetPlanet.ships.add(this);
                     landed=true;
-                    System.out.println("Landed on "+targetPlanet.name);
+                    if(SpaceGame.debugDraw)
+                        System.out.println("Landed on "+targetPlanet.name);
                     targetPlanet=null;
                 }
             }
