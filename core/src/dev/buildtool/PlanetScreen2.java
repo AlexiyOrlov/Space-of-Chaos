@@ -28,13 +28,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
-    private Stage stage;
-    private Viewport viewport;
-    private TabbedPane tabbedPane;
+    private final Stage stage;
+    private final Viewport viewport;
     private Stack stackUnderMouse;
-    private ArrayList<SlotButton> slotButtons=new ArrayList<>();
+    private final ArrayList<SlotButton> slotButtons=new ArrayList<>();
 
-    private Label moneyLabel;
+    private final Label moneyLabel;
 
     @Override
     public Stack getStackUnderMouse() {
@@ -337,12 +336,12 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         outer.row();
         outer.setFillParent(true);
         this.planet=planet;
-        tabbedPane=new TabbedPane();
+        TabbedPane tabbedPane = new TabbedPane();
         tabbedPane.add(new EquipmentTab(viewport,player));
         tabbedPane.add(new MarketTab(player,moneyLabel));
 
         stage=new Stage(this.viewport);
-        Table tabs=tabbedPane.getTable();
+        Table tabs= tabbedPane.getTable();
         outer.add(tabs);
         outer.row();
         Table tabContainer=new Table();
