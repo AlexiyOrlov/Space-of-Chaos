@@ -3,6 +3,9 @@ package dev.buildtool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -23,10 +26,21 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 import java.util.HashMap;
 
-public class PlanetScreen2 extends ScreenAdapter {
+public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private Stage stage;
     private Viewport viewport;
     private TabbedPane tabbedPane;
+    private Stack stackUnderMouse;
+
+    @Override
+    public Stack getStackUnderMouse() {
+        return stackUnderMouse;
+    }
+
+    @Override
+    public void setStackUnderMouse(Stack stack) {
+        stackUnderMouse=stack;
+    }
 
     class EquipmentTab extends Tab{
 
@@ -227,10 +241,12 @@ public class PlanetScreen2 extends ScreenAdapter {
                 marketWares.row();
             });
             Table playerInventory=new Table();
+            int slotIndex=0;
             for (int i = 4; i >0; i--) {
                 for (int j = 0; j < 10; j++) {
-                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3);
+                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory);
                     playerInventory.add(slotButton);
+                    slotIndex++;
                 }
                 playerInventory.row();
             }
@@ -288,6 +304,7 @@ public class PlanetScreen2 extends ScreenAdapter {
         });
 
         stage.addActor(outer);
+        tabbedPane.switchTab(tabbedPane.getTabs().get(0));
     }
 
     @Override
@@ -295,6 +312,16 @@ public class PlanetScreen2 extends ScreenAdapter {
         ScreenUtils.clear(Color.GRAY);
         stage.act(delta);
         stage.draw();
+        SpriteBatch spriteBatch=SpaceGame.INSTANCE.batch;
+        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        if(stackUnderMouse!=null)
+        {
+            spriteBatch.begin();
+            Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+            spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
+            font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
+            spriteBatch.end();
+        }
     }
 
     @Override
