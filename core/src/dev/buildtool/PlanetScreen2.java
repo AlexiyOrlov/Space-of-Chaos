@@ -116,11 +116,6 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                                             updateMoney();
                                             dialog.hide();
                                         }
-//                                    else {
-//                                        Dialog no=new Dialog("Not enough money",skin);
-//                                        no.button("Ok");
-//                                        no.show(stage);
-//                                    }
                                     }
                                 });
                                 TextButton cancel = new TextButton("Cancel", skin);
