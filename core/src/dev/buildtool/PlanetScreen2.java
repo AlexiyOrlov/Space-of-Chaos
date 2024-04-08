@@ -1,12 +1,14 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -17,9 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
+import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
@@ -158,6 +164,21 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content.padBottom(40);
             Label sellLabel=new Label("Sell",skin);
             Image sellSlot=new Image(SpaceGame.INSTANCE.cashTexture);
+            sellSlot.addListener(new ClickListener(Input.Buttons.LEFT){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(stackUnderMouse!=null && stackUnderMouse.count==1) {
+                        Dialogs.showOptionDialog(stage, "Sell?", "Confirm selling " + stackUnderMouse.item.name, Dialogs.OptionDialogType.YES_CANCEL, new OptionDialogAdapter() {
+                            @Override
+                            public void yes() {
+                                player.money+=stackUnderMouse.item.basePrice;
+                                stackUnderMouse=null;
+                                updateMoney();
+                            }
+                        });
+                    }
+                }
+            });
             content.add(sellLabel).colspan(3);
             content.row();
             content.add(sellSlot).colspan(3);
