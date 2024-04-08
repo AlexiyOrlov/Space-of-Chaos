@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import dev.buildtool.Projectile;
 import dev.buildtool.Ship;
 import dev.buildtool.SpaceGame;
-import dev.buildtool.Weapon;
 
 public class Gun extends Weapon {
     public Gun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture texture,String name) {

@@ -1,8 +1,12 @@
-package dev.buildtool;
+package dev.buildtool.weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public abstract class Weapon extends Item{
+import dev.buildtool.Item;
+import dev.buildtool.Projectile;
+import dev.buildtool.Ship;
+
+public abstract class Weapon extends Item {
     public final int damagePerProjectile;
     public final int projectileSpeed;
     public final Texture projectileTexture;

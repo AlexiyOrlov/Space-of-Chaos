@@ -13,8 +13,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 import java.util.stream.Collectors;
+
+import dev.buildtool.weapons.Weapon;
 
 public class NPCPilot implements Ship {
     public Hull hull;

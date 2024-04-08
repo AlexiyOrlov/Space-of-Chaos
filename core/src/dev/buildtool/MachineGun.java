@@ -2,7 +2,9 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class MachineGun extends Weapon{
+import dev.buildtool.weapons.Weapon;
+
+public class MachineGun extends Weapon {
     public MachineGun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture projTexture, String name) {
         super(damagePerProjectile, fireDelay, projectileSpeed, projTexture, name,null,100000);
     }
