@@ -264,4 +264,9 @@ public class PlayerShip implements Ship{
         }
         return occupied;
     }
+
+    @Override
+    public int getIntegrity() {
+        return integrity;
+    }
 }

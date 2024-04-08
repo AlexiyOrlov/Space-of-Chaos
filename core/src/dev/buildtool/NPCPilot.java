@@ -159,6 +159,10 @@ public class NPCPilot implements Ship {
             if(isLookingAt(target.getX(),target.getY())) {
                 fire();
             }
+            if(target.getIntegrity()<=0)
+            {
+                target=null;
+            }
         }
         else {
             rotateTowards(homePlanet.x, homePlanet.y);
@@ -399,6 +403,11 @@ public class NPCPilot implements Ship {
     @Override
     public StarSystem getCurrentSystem() {
         return currentSystem;
+    }
+
+    @Override
+    public int getIntegrity() {
+        return integrity;
     }
 
     public void onProjectileImpact(Projectile projectile)

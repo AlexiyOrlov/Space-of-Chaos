@@ -9,4 +9,6 @@ public interface Ship {
     Vector2 getVelocity();
 
     StarSystem getCurrentSystem();
+
+    int getIntegrity();
 }
