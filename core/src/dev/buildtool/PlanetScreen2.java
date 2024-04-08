@@ -73,7 +73,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content.add(new Label("Engine",skin));
             content.add(engine);
             content.row();
-            content.add(new Label("Side engine",skin));
+            content.add(new Label("Side thrusters",skin));
             content.add(sideThrusters);
             content.row();
         }
