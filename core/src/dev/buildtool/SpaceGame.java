@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.kotcrab.vis.ui.VisUI;
 
@@ -189,16 +190,26 @@ public class SpaceGame extends Game {
 			int xright=random.nextInt(100,300);
 			int yleft=random.nextInt(-300,-100);
 			int yright=random.nextInt(100,300);
+			while (true) {
+				boolean recalculate=false;
+				for (StarSystem starSystem : starSystems) {
+					if (Vector2.dst(starSystem.positionX, starSystem.positionY, x, y) < 100) {
+						if (random.nextBoolean())
+							x += xleft;
+						else
+							x += xright;
+						if (random.nextBoolean())
+							y += yleft;
+						else
+							y += yright;
+						recalculate=true;
+					}
+				}
+				if(!recalculate)
+					break;
+			}
 			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y);
 			starSystems.add(starSystem);
-			if(random.nextBoolean())
-				x+=xleft;
-			else
-				x+=xright;
-			if(random.nextBoolean())
-				y+=yleft;
-			else
-				y+=yright;
 			planetCount+=starSystem.planets.size();
 //			System.out.println(i);
 		}
