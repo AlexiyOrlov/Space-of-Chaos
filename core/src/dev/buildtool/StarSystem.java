@@ -111,15 +111,27 @@ public class StarSystem {
         projectiles.forEach(projectile -> {
             projectile.update();
             for (NPCPilot ship : ships) {
-                if(ship.area.overlaps(projectile.area) && projectile.shooter!=ship)
-                {
-                    ship.integrity-=projectile.damage;
-                    ship.onProjectileImpact(projectile);
-                    if(ship.integrity<=0)
-                    {
-                        npcPilotsToRemove.add(ship);
+                if(projectile.shooter!=ship) {
+
+                    if (ship.area.overlaps(projectile.area)) {
+                        ship.integrity -= projectile.damage;
+                        ship.onProjectileImpact(projectile);
+                        if (ship.integrity <= 0) {
+                            npcPilotsToRemove.add(ship);
+                        }
+                        toRemove.add(projectile);
+                    } else  {
+                        Vector2 backVector=new Vector2(projectile.x+projectile.speed.x,projectile.y+projectile.speed.y);
+                        if(ship.area.contains(backVector))
+                        {
+                            ship.integrity -= projectile.damage;
+                            ship.onProjectileImpact(projectile);
+                            if (ship.integrity <= 0) {
+                                npcPilotsToRemove.add(ship);
+                            }
+                            toRemove.add(projectile);
+                        }
                     }
-                    toRemove.add(projectile);
                 }
                 PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
                 if(playerShip!=null && playerShip.currentStarSystem==projectile.shooter.getCurrentSystem()) {
