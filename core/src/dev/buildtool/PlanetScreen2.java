@@ -242,21 +242,10 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 }
                 marketWares.row();
             });
-            Table playerInventory=new Table();
-            int slotIndex=0;
-            for (int i = 4; i >0; i--) {
-                for (int j = 0; j < 10; j++) {
-                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory, viewport);
-                    playerInventory.add(slotButton);
-                    slotButtons.add(slotButton);
-                    slotIndex++;
-                }
-                playerInventory.row();
-            }
+
             Table container=new Table();
             container.add(purchaseHistoryTable);
             container.row();
-            container.add(playerInventory);
             //inner tables must not fill parent
             content.add(marketWares,container);
         }
@@ -311,6 +300,19 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         stage.addActor(outer);
         tabbedPane.switchTab(tabbedPane.getTabs().get(0));
+
+        Table playerInventory=new Table();
+        int slotIndex=0;
+        for (int i = 4; i >0; i--) {
+            for (int j = 0; j < 10; j++) {
+                SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory, viewport);
+                playerInventory.add(slotButton);
+                slotButtons.add(slotButton);
+                slotIndex++;
+            }
+            playerInventory.row();
+        }
+        outer.add(playerInventory);
     }
 
     @Override
