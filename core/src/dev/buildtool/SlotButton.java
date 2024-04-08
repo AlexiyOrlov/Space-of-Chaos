@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SlotButton extends Table {
-    private int index;
+    private final int index;
     private final Inventory inventory;
-    private Viewport viewport;
+    private final Viewport viewport;
 
     public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport) {
         super(skin);
