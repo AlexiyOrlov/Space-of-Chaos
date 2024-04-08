@@ -441,6 +441,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         SpriteBatch spriteBatch=SpaceGame.INSTANCE.batch;
         BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
         Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+        //TODO fix
         if(stackUnderMouse!=null)
         {
             spriteBatch.begin();
