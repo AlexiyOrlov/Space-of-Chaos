@@ -24,6 +24,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
@@ -31,6 +32,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private Viewport viewport;
     private TabbedPane tabbedPane;
     private Stack stackUnderMouse;
+    private ArrayList<SlotButton> slotButtons=new ArrayList<>();
 
     @Override
     public Stack getStackUnderMouse() {
@@ -244,8 +246,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             int slotIndex=0;
             for (int i = 4; i >0; i--) {
                 for (int j = 0; j < 10; j++) {
-                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory);
+                    SlotButton slotButton=new SlotButton(skin,SpaceGame.INSTANCE.slotTexture3,slotIndex,PlanetScreen2.this,player.inventory, viewport);
                     playerInventory.add(slotButton);
+                    slotButtons.add(slotButton);
                     slotIndex++;
                 }
                 playerInventory.row();
@@ -271,6 +274,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private Planet planet;
     public PlanetScreen2(StarSystem system, Planet planet, PlayerShip player) {
         Skin skin=SpaceGame.INSTANCE.skin;
+        this.viewport =new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
+        this.viewport.apply();
         Table outer=new Table();
         Label moneyLabel=new Label("Money: "+player.money,skin);
         outer.add(moneyLabel);
@@ -289,9 +294,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         tabbedPane.add(new EquipmentTab());
         tabbedPane.add(new MarketTab(player,moneyLabel));
 
-        viewport=new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
-        viewport.apply();
-        stage=new Stage(viewport);
+        stage=new Stage(this.viewport);
         Table tabs=tabbedPane.getTable();
         outer.add(tabs);
         outer.row();
@@ -317,13 +320,16 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         stage.draw();
         SpriteBatch spriteBatch=SpaceGame.INSTANCE.batch;
         BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
         if(stackUnderMouse!=null)
         {
             spriteBatch.begin();
-            Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
             spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
             font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
             spriteBatch.end();
+        }
+        for (SlotButton slotButton : slotButtons) {
+            slotButton.drawInfo();
         }
     }
 
