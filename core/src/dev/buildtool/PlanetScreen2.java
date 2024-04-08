@@ -325,7 +325,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         {
             spriteBatch.begin();
             spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
-            font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
+            if(stackUnderMouse.count>1)
+                font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
             spriteBatch.end();
         }
         for (SlotButton slotButton : slotButtons) {
