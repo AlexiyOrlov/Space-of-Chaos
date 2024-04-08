@@ -254,4 +254,14 @@ public class PlayerShip implements Ship{
     public StarSystem getCurrentSystem() {
         return currentStarSystem;
     }
+
+    public int occupiedCapacity()
+    {
+        int occupied=0;
+        for (Stack stack : inventory.stacks) {
+            if(stack!=null)
+                occupied+=stack.count;
+        }
+        return occupied;
+    }
 }

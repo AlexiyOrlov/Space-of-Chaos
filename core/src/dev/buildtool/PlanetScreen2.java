@@ -109,12 +109,20 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                                 accept.addListener(new ChangeListener() {
                                     @Override
                                     public void changed(ChangeEvent event, Actor actor) {
-                                        if (player.money >= stack.item.basePrice) {
-                                            player.addItem(new Stack(stack.item, 1));
-                                            inventory.removeItem(stack.item, 1);
-                                            player.money -= stack.item.basePrice;
-                                            updateMoney();
-                                            dialog.hide();
+                                        if(player.occupiedCapacity()>=player.getHull().capacity){
+                                            Dialog cant=new Dialog("No space on ship",skin);
+                                            cant.button("Ok");
+                                            cant.show(stage);
+                                        }
+                                        else {
+                                            if (player.money >= stack.item.basePrice) {
+                                                player.addItem(new Stack(stack.item, 1));
+                                                inventory.removeItem(stack.item, 1);
+                                                player.money -= stack.item.basePrice;
+                                                updateMoney();
+                                                dialog.hide();
+                                                calculateCapacity();
+                                            }
                                         }
                                     }
                                 });
@@ -204,52 +212,59 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             //TODO take into account ship capacity
                             int maximumToBuy = Math.min(currentAmount, player.money / price);
                             if (maximumToBuy > 0) {
-                                Dialog dialog = new Dialog("Buying", skin);
-                                Table table = new Table();
-                                Label amountLabel = new Label("1", skin);
-                                Slider amount = new Slider(1, maximumToBuy, 1, false, skin);
-                                amount.addListener(new ChangeListener() {
-                                    @Override
-                                    public void changed(ChangeEvent event, Actor actor) {
-                                        amountLabel.setText("" + amount.getValue());
-                                    }
-                                });
-                                Button accept = new TextButton("Accept", skin);
-                                accept.addListener(new ChangeListener() {
-                                    @Override
-                                    public void changed(ChangeEvent event, Actor actor) {
-                                        int wareAm = planet.wareAmounts.get(ware);
-                                        int toBuy = (int) amount.getValue();
-                                        wareAm -= toBuy;
-                                        planet.wareAmounts.put(ware, wareAm);
-                                        wareAmountLabel.setText(String.valueOf(wareAm));
-                                        player.addItem(new Stack(ware, (int) toBuy));
-                                        dialog.hide();
-                                        player.money -= toBuy * price;
-                                        updateMoney();
-                                        WarePurchase warePurchase=new WarePurchase(ware,toBuy,price,toBuy*price);
-                                        if(player.warePurchases.size()>9)
-                                        {
-                                            player.warePurchases.removeFirst();
+                                if(player.getHull().capacity-player.occupiedCapacity()>0) {
+                                    Dialog dialog = new Dialog("Buying", skin);
+                                    Table table = new Table();
+                                    Label amountLabel = new Label("1", skin);
+                                    Slider amount = new Slider(1, Math.min(maximumToBuy, player.getHull().capacity - player.occupiedCapacity()), 1, false, skin);
+                                    amount.addListener(new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent event, Actor actor) {
+                                            amountLabel.setText("" + amount.getValue());
                                         }
-                                        player.warePurchases.add(warePurchase);
-                                        updatePurchaseTable(player,purchaseHistoryTable,skin);
-                                        sell.setVisible(true);
-                                        calculatePlayerWareCount(player,playerWareCount);
-                                    }
-                                });
-                                Button cancel = new TextButton("Cancel", skin);
-                                cancel.addListener(new ChangeListener() {
-                                    @Override
-                                    public void changed(ChangeEvent event, Actor actor) {
-                                        dialog.hide();
-                                    }
-                                });
-                                table.add(amountLabel, amount);
-                                table.row();
-                                table.add(accept, cancel);
-                                dialog.add(table);
-                                dialog.show(stage);
+                                    });
+                                    Button accept = new TextButton("Accept", skin);
+                                    accept.addListener(new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent event, Actor actor) {
+                                            int wareAm = planet.wareAmounts.get(ware);
+                                            int toBuy = (int) amount.getValue();
+                                            wareAm -= toBuy;
+                                            planet.wareAmounts.put(ware, wareAm);
+                                            wareAmountLabel.setText(String.valueOf(wareAm));
+                                            player.addItem(new Stack(ware, (int) toBuy));
+                                            dialog.hide();
+                                            player.money -= toBuy * price;
+                                            updateMoney();
+                                            WarePurchase warePurchase = new WarePurchase(ware, toBuy, price, toBuy * price);
+                                            if (player.warePurchases.size() > 9) {
+                                                player.warePurchases.removeFirst();
+                                            }
+                                            player.warePurchases.add(warePurchase);
+                                            updatePurchaseTable(player, purchaseHistoryTable, skin);
+                                            sell.setVisible(true);
+                                            calculatePlayerWareCount(player, playerWareCount);
+                                            calculateCapacity();
+                                        }
+                                    });
+                                    Button cancel = new TextButton("Cancel", skin);
+                                    cancel.addListener(new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent event, Actor actor) {
+                                            dialog.hide();
+                                        }
+                                    });
+                                    table.add(amountLabel, amount);
+                                    table.row();
+                                    table.add(accept, cancel);
+                                    dialog.add(table);
+                                    dialog.show(stage);
+                                }
+                                else {
+                                    Dialog cant=new Dialog("No space on ship",skin);
+                                    cant.button("Ok");
+                                    cant.show(stage);
+                                }
                             } else {
                                 Dialog dialog=new Dialog("Can't afford",skin);
                                 Label message=new Label("Not enough money",skin);
@@ -301,6 +316,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                                 player.money+=toSell*price;
                                 moneyLabel.setText("Money: "+player.money);
                                 sellDialog.hide();
+                                calculateCapacity();
                             }
                         });
                         Button cancel=new TextButton("Cancel",skin);
@@ -485,11 +501,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
     private void calculateCapacity()
     {
-        int occupied=0;
-        for (Stack stack : playerShip.inventory.stacks) {
-            if(stack!=null)
-                occupied+=stack.count;
-        }
+        int occupied= playerShip.occupiedCapacity();
         capacityLabel.setText("Capacity: "+occupied+"/"+playerShip.getHull().capacity);
     }
 
