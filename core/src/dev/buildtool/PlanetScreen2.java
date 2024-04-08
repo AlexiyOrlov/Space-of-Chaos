@@ -357,6 +357,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     }
     private Planet planet;
     private PlayerShip playerShip;
+    private Label capacityLabel;
     public PlanetScreen2(StarSystem system, Planet planet, PlayerShip player) {
         Skin skin=SpaceGame.INSTANCE.skin;
         playerShip=player;
@@ -364,7 +365,10 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         this.viewport.apply();
         Table outer=new Table();
         moneyLabel=new Label("Money: "+player.money,skin);
+        capacityLabel=new Label("",skin);
+        calculateCapacity();
         outer.add(moneyLabel);
+        outer.add(capacityLabel);
         TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
         takeOffButton.addListener(new ChangeListener() {
             @Override
@@ -477,6 +481,16 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 number++;
             }
         }
+    }
+
+    private void calculateCapacity()
+    {
+        int occupied=0;
+        for (Stack stack : playerShip.inventory.stacks) {
+            if(stack!=null)
+                occupied+=stack.count;
+        }
+        capacityLabel.setText("Capacity: "+occupied+"/"+playerShip.getHull().capacity);
     }
 
     void updateMoney()
