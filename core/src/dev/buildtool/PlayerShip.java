@@ -292,4 +292,9 @@ public class PlayerShip implements Ship{
     public boolean contains(Vector2 vector2) {
         return area.contains(vector2);
     }
+
+    @Override
+    public boolean isLanded() {
+        return false;
+    }
 }

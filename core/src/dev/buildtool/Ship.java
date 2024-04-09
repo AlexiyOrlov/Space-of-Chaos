@@ -17,4 +17,5 @@ public interface Ship {
 
     boolean overlaps(Circle with);
     boolean contains(Vector2 vector2);
+    boolean isLanded();
 }

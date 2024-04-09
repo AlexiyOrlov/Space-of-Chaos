@@ -267,7 +267,7 @@ public class NPCPilot implements Ship {
                     fire();
                 }
             }
-            if(target.getCurrentSystem()!=currentSystem || target.getIntegrity()<=0)
+            if(target.getCurrentSystem()!=currentSystem || target.getIntegrity()<=0 || target.isLanded())
                 target=null;
         }
     }
@@ -489,6 +489,11 @@ public class NPCPilot implements Ship {
     @Override
     public boolean contains(Vector2 vector2) {
         return area.contains(vector2);
+    }
+
+    @Override
+    public boolean isLanded() {
+        return landed;
     }
 
     @Override
