@@ -122,7 +122,7 @@ public class StarSystem {
                 if(ship instanceof NPCPilot npcPilot) {
                     if (projectile.shooter != ship) {
 
-                        if ((projectile.target == null || projectile.target == ship) && npcPilot.area.overlaps(projectile.area)) {
+                        if ((projectile.target == null || projectile.target == npcPilot) && npcPilot.area.overlaps(projectile.area)) {
                             npcPilot.integrity -= projectile.damage;
                             npcPilot.onProjectileImpact(projectile);
                             if (npcPilot.integrity <= 0) {
@@ -144,7 +144,7 @@ public class StarSystem {
                 }
                 PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
                 if(playerShip!=null && playerShip.currentStarSystem==projectile.shooter.getCurrentSystem()) {
-                    if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip) {
+                    if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip && projectile.target==playerShip) {
                         playerShip.integrity -= projectile.damage;
                         toRemove.add(projectile);
                         if (playerShip.integrity <= 0) {
