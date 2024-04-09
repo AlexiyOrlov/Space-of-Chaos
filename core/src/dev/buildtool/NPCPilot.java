@@ -414,11 +414,23 @@ public class NPCPilot implements Ship {
     {
         if((float) integrity /hull.integrity <=0.8f)
         {
-            if(target==null)
-                target=projectile.shooter;
+            setNewTarget(projectile.shooter);
+            currentSystem.ships.forEach(npcPilot -> {
+                if(npcPilot.pilotAI==PilotAI.GUARD)
+                {
+                    npcPilot.setNewTarget(projectile.shooter);
+                }
+            });
         }
     }
 
+    public void setNewTarget(Ship ship)
+    {
+        if(target==null)
+        {
+            target=ship;
+        }
+    }
 //    private float findPlayerIntercept(Vector2 playerPos, Vector2 playerVel, int delta,Vector2 position,float projectileVelocity)
 //    {
 //        // calculate the speeds
