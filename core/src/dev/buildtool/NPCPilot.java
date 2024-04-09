@@ -453,16 +453,39 @@ public class NPCPilot implements Ship {
 
     public void onProjectileImpact(Projectile projectile)
     {
-        if((float) integrity /hull.integrity <=0.8f)
+
+        float integrityPercent = (float) integrity / hull.integrity;
+        if(integrityPercent<=0.3f)
+        {
+            Planet closestPlanet=null;
+            for (Planet planet : currentSystem.planets) {
+                if(closestPlanet==null || Vector2.dst(x,y,planet.x,planet.y)<Vector2.dst(x,y,closestPlanet.x,closestPlanet.y))
+                {
+                    closestPlanet=planet;
+                }
+            }
+            boolean goToPlanet= !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
+            if(goToPlanet)
+            {
+                rotateTowards(closestPlanet.x,closestPlanet.y);
+            }
+            else {
+                rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
+            }
+            move();
+        }
+        else if(integrityPercent <=0.8f)
         {
             setNewTarget(projectile.shooter);
-            currentSystem.ships.forEach(ship -> {
-                if(ship instanceof NPCPilot npcPilot) {
-                    if (npcPilot.pilotAI == PilotAI.GUARD) {
-                        npcPilot.setNewTarget(projectile.shooter);
+            if(pilotAI==PilotAI.GUARD) {
+                currentSystem.ships.forEach(ship -> {
+                    if (ship instanceof NPCPilot npcPilot) {
+                        if (npcPilot.pilotAI == PilotAI.GUARD) {
+                            npcPilot.setNewTarget(projectile.shooter);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
