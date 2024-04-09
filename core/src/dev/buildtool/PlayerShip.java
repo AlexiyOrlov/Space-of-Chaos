@@ -19,6 +19,7 @@ import java.util.Deque;
 import java.util.HashMap;
 
 import dev.buildtool.weapons.Weapon;
+import dev.buildtool.weapons.WeaponRegistry;
 
 public class PlayerShip implements Ship{
     public float x,y;
