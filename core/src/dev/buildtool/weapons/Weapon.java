@@ -23,12 +23,12 @@ public abstract class Weapon extends Item {
         cooldown=fireDelay;
     }
 
-    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter)
+    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter,Ship target)
     {
-        return createProjectiles(originX, originY, rotation, shooter);
+        return createProjectiles(originX, originY, rotation, shooter, target);
     }
 
-    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter);
+    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target);
 
     @Override
     public List<String> getTooltip() {

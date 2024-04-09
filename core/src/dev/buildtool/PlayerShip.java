@@ -209,7 +209,7 @@ public class PlayerShip implements Ship{
         if(Gdx.input.isTouched())
         {
             if(fireDelay<=0) {
-                Projectile[] projectiles = getWeapon().shoot(x, y, rotation,this );
+                Projectile[] projectiles = getWeapon().shoot(x, y, rotation,this ,null);
                 if (projectiles != null) {
                     currentStarSystem.projectiles.addAll(projectiles);
                     fireDelay = getWeapon().cooldown;

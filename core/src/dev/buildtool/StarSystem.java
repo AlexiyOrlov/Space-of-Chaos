@@ -113,7 +113,7 @@ public class StarSystem {
             for (NPCPilot ship : ships) {
                 if(projectile.shooter!=ship) {
 
-                    if (ship.area.overlaps(projectile.area)) {
+                    if ((projectile.target==null ||projectile.target==ship) && ship.area.overlaps(projectile.area)) {
                         ship.integrity -= projectile.damage;
                         ship.onProjectileImpact(projectile);
                         if (ship.integrity <= 0) {

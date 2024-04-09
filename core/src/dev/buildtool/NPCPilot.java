@@ -175,7 +175,7 @@ public class NPCPilot implements Ship {
 
     private void fire() {
         if (fireCooldown <= 0) {
-            Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this);
+            Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this,target);
             currentSystem.projectiles.addAll(projectiles);
             fireCooldown = weapon.cooldown;
         }

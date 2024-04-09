@@ -10,7 +10,7 @@ public class MachineGun extends Weapon {
     }
 
     @Override
-    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter) {
+    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target) {
         return new Projectile[0];
     }
 }
