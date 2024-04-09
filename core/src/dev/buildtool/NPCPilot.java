@@ -254,8 +254,9 @@ public class NPCPilot implements Ship {
             if(Vector2.dst(x,y,target.getX(),target.getY())>200)
             {
                 move();
-                if (isLookingAt(target.getX(),target.getY()))
-                {
+            }
+            if(Vector2.dst(x,y,target.getX(),target.getY())<Gdx.graphics.getBackBufferHeight()/2) {
+                if (isLookingAt(target.getX(), target.getY())) {
                     fire();
                 }
             }
