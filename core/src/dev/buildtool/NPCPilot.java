@@ -201,6 +201,10 @@ public class NPCPilot implements Ship {
 
     private void fire() {
         if (fireCooldown <= 0) {
+            if(target==null)
+            {
+                throw new RuntimeException("Target is null");
+            }
             Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this,target);
             currentSystem.projectiles.addAll(projectiles);
             fireCooldown = weapon.cooldown;
