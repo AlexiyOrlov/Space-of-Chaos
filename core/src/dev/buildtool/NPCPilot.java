@@ -211,15 +211,14 @@ public class NPCPilot implements Ship {
     {
         if(target==null)
         {
-            for (NPCPilot ship : currentSystem.ships) {
-                if(ship!=this)
-                {
-                    if(ship.pilotAI==PilotAI.TRADER)
-                    {
-                        if(!ship.inventory.isEmpty())
-                        {
-                            target=ship;
-                            break;
+            for (Ship ship : currentSystem.ships) {
+                if(ship instanceof NPCPilot npcPilot) {
+                    if (ship != this) {
+                        if (npcPilot.pilotAI == PilotAI.TRADER) {
+                            if (!npcPilot.inventory.isEmpty()) {
+                                target = ship;
+                                break;
+                            }
                         }
                     }
                 }
@@ -460,10 +459,11 @@ public class NPCPilot implements Ship {
         if((float) integrity /hull.integrity <=0.8f)
         {
             setNewTarget(projectile.shooter);
-            currentSystem.ships.forEach(npcPilot -> {
-                if(npcPilot.pilotAI==PilotAI.GUARD)
-                {
-                    npcPilot.setNewTarget(projectile.shooter);
+            currentSystem.ships.forEach(ship -> {
+                if(ship instanceof NPCPilot npcPilot) {
+                    if (npcPilot.pilotAI == PilotAI.GUARD) {
+                        npcPilot.setNewTarget(projectile.shooter);
+                    }
                 }
             });
         }

@@ -18,7 +18,8 @@ public class StarSystem {
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
     public int positionX,positionY;
-    public ArrayList<NPCPilot> ships=new ArrayList<>(),shipsToTransfer=new ArrayList<>();
+    public ArrayList<Ship> ships=new ArrayList<>();
+    public ArrayList<Ship> shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
     public Array<Projectile> projectiles;
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
@@ -78,7 +79,10 @@ public class StarSystem {
         star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
-        ships.forEach(npcPilot -> npcPilot.draw(spriteBatch,shapeRenderer));
+        ships.forEach(ship -> {
+            if(ship instanceof NPCPilot npcPilot)
+                npcPilot.draw(spriteBatch,shapeRenderer);
+        });
         planets.forEach(planet -> planet.drawName(spriteBatch));
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
     }
@@ -87,50 +91,54 @@ public class StarSystem {
     {
         float dt=Gdx.graphics.getDeltaTime();
         planets.forEach(planet -> planet.update(dt));
-        ships.forEach(npcPilot -> {
-            npcPilot.work(dt);
-            if(npcPilot.canJump)
-            {
-                npcPilot.canJump=false;
-                shipsToTransfer.add(npcPilot);
+        ships.forEach(ship -> {
+            if(ship instanceof NPCPilot npcPilot) {
+                npcPilot.work(dt);
+                if (npcPilot.canJump) {
+                    npcPilot.canJump = false;
+                    shipsToTransfer.add(ship);
+                }
             }
         });
         ships.removeAll(shipsToTransfer);
-        shipsToTransfer.forEach(npcPilot -> {
-            npcPilot.navigatingTo.ships.add(npcPilot);
-            npcPilot.currentSystem=npcPilot.navigatingTo;
-            if(SpaceGame.debugDraw)
-                System.out.println("Jumped to "+npcPilot.currentSystem.star.name);
-            npcPilot.setPosition(npcPilot.navigatingTo.starGate.x,npcPilot.navigatingTo.starGate.y);
-            npcPilot.canJump=false;
+        shipsToTransfer.forEach(ship -> {
+            if(ship instanceof NPCPilot npcPilot) {
+                npcPilot.navigatingTo.ships.add(ship);
+                npcPilot.currentSystem = npcPilot.navigatingTo;
+                if (SpaceGame.debugDraw)
+                    System.out.println("Jumped to " + npcPilot.currentSystem.star.name);
+                npcPilot.setPosition(npcPilot.navigatingTo.starGate.x, npcPilot.navigatingTo.starGate.y);
+                npcPilot.canJump = false;
+            }
         });
         shipsToTransfer.clear();
         starGate.update(dt);
 
-        ArrayList<NPCPilot> npcPilotsToRemove=new ArrayList<>(ships.size());
+        ArrayList<Ship> npcPilotsToRemove=new ArrayList<>(ships.size());
         Array<Projectile> toRemove=new Array<>(projectiles.size);
         projectiles.forEach(projectile -> {
             projectile.update();
-            for (NPCPilot ship : ships) {
-                if(projectile.shooter!=ship) {
+            for (Ship ship : ships) {
+                if(ship instanceof NPCPilot npcPilot) {
+                    if (projectile.shooter != ship) {
 
-                    if ((projectile.target==null ||projectile.target==ship) && ship.area.overlaps(projectile.area)) {
-                        ship.integrity -= projectile.damage;
-                        ship.onProjectileImpact(projectile);
-                        if (ship.integrity <= 0) {
-                            npcPilotsToRemove.add(ship);
-                        }
-                        toRemove.add(projectile);
-                    } else  {
-                        Vector2 backVector=new Vector2(projectile.x+projectile.speed.x,projectile.y+projectile.speed.y);
-                        if(ship.area.contains(backVector))
-                        {
-                            ship.integrity -= projectile.damage;
-                            ship.onProjectileImpact(projectile);
-                            if (ship.integrity <= 0) {
+                        if ((projectile.target == null || projectile.target == ship) && npcPilot.area.overlaps(projectile.area)) {
+                            npcPilot.integrity -= projectile.damage;
+                            npcPilot.onProjectileImpact(projectile);
+                            if (npcPilot.integrity <= 0) {
                                 npcPilotsToRemove.add(ship);
                             }
                             toRemove.add(projectile);
+                        } else {
+                            Vector2 backVector = new Vector2(projectile.x + projectile.speed.x, projectile.y + projectile.speed.y);
+                            if (npcPilot.area.contains(backVector)) {
+                                npcPilot.integrity -= projectile.damage;
+                                npcPilot.onProjectileImpact(projectile);
+                                if (npcPilot.integrity <= 0) {
+                                    npcPilotsToRemove.add(ship);
+                                }
+                                toRemove.add(projectile);
+                            }
                         }
                     }
                 }
