@@ -1,5 +1,6 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 public interface Ship {
@@ -10,5 +11,10 @@ public interface Ship {
 
     StarSystem getCurrentSystem();
 
+    void damage(int damage);
+    void onProjectileImpact(Projectile projectile);
     int getIntegrity();
+
+    boolean overlaps(Circle with);
+    boolean contains(Vector2 vector2);
 }

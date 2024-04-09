@@ -26,6 +26,7 @@ public class StarSystem {
         projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
         Random random = SpaceGame.random;
+        star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         int inhabitedPlanetCount=0;
         int distance=500;
         for (int i = 0; i < random.nextInt(3,7); i++) {
@@ -41,7 +42,6 @@ public class StarSystem {
             distance+=300;
         }
         starGate=new StarGate(distance, random.nextFloat(-MathUtils.PI,MathUtils.PI));
-        star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         positionX=x;
         positionY=y;
         if(inhabitedPlanetCount>0)
@@ -114,57 +114,42 @@ public class StarSystem {
         shipsToTransfer.clear();
         starGate.update(dt);
 
-        ArrayList<Ship> npcPilotsToRemove=new ArrayList<>(ships.size());
+        ArrayList<Ship> shipsToRemove=new ArrayList<>(ships.size());
         Array<Projectile> toRemove=new Array<>(projectiles.size);
-        projectiles.forEach(projectile -> {
-            projectile.update();
-            for (Ship ship : ships) {
-                if(ship instanceof NPCPilot npcPilot) {
-                    if (projectile.shooter != ship) {
-
-                        if ((projectile.target == null || projectile.target == npcPilot) && npcPilot.area.overlaps(projectile.area)) {
-                            npcPilot.integrity -= projectile.damage;
-                            npcPilot.onProjectileImpact(projectile);
-                            if (npcPilot.integrity <= 0) {
-                                npcPilotsToRemove.add(ship);
+        projectiles.forEach(Projectile::update);
+        for (Ship ship : ships) {
+            for (Projectile projectile : projectiles) {
+                if(projectile.shooter!=ship)
+                {
+                    if(projectile.target==null || (projectile.target==ship))
+                    {
+                        if(ship.overlaps(projectile.area)) {
+                            ship.damage(projectile.damage);
+                            if (ship.getIntegrity() <= 0) {
+                                shipsToRemove.add(ship);
                             }
                             toRemove.add(projectile);
-                        } else {
+                        }else {
                             Vector2 backVector = new Vector2(projectile.x + projectile.speed.x, projectile.y + projectile.speed.y);
-                            if (npcPilot.area.contains(backVector)) {
-                                npcPilot.integrity -= projectile.damage;
-                                npcPilot.onProjectileImpact(projectile);
-                                if (npcPilot.integrity <= 0) {
-                                    npcPilotsToRemove.add(ship);
+                            if (ship.contains(backVector)) {
+                                ship.damage(projectile.damage);
+                                ship.onProjectileImpact(projectile);
+                                if (ship.getIntegrity() <= 0) {
+                                    shipsToRemove.add(ship);
                                 }
                                 toRemove.add(projectile);
                             }
                         }
                     }
                 }
-                PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
-                if(playerShip!=null && playerShip.currentStarSystem==projectile.shooter.getCurrentSystem()) {
-                    if (projectile.area.overlaps(playerShip.area) && projectile.shooter != playerShip && projectile.target==playerShip) {
-                        playerShip.integrity -= projectile.damage;
-                        toRemove.add(projectile);
-                        if (playerShip.integrity <= 0) {
-                            SpaceGame.INSTANCE.playerShip = null;
-                            Screen screen= SpaceGame.INSTANCE.getScreen();
-                            if(screen instanceof SystemScreen systemScreen)
-                            {
-                                systemScreen.playerShip=null;
-                            }
-                        }
-                    }
+                if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
+                {
+                    toRemove.add(projectile);
                 }
             }
-            if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
-            {
-                toRemove.add(projectile);
-            }
-        });
+        }
         projectiles.removeAll(toRemove,true);
-        ships.removeAll(npcPilotsToRemove);
+        ships.removeAll(shipsToRemove);
     }
 
     public String getStarName()

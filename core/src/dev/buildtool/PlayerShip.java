@@ -258,6 +258,16 @@ public class PlayerShip implements Ship{
         return currentStarSystem;
     }
 
+    @Override
+    public void damage(int damage) {
+        integrity-=damage;
+    }
+
+    @Override
+    public void onProjectileImpact(Projectile projectile) {
+
+    }
+
     public int occupiedCapacity()
     {
         int occupied=0;
@@ -271,5 +281,15 @@ public class PlayerShip implements Ship{
     @Override
     public int getIntegrity() {
         return integrity;
+    }
+
+    @Override
+    public boolean overlaps(Circle with) {
+        return area.overlaps(with);
+    }
+
+    @Override
+    public boolean contains(Vector2 vector2) {
+        return area.contains(vector2);
     }
 }

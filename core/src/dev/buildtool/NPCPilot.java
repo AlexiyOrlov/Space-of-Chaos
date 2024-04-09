@@ -481,6 +481,21 @@ public class NPCPilot implements Ship {
         return integrity;
     }
 
+    @Override
+    public boolean overlaps(Circle with) {
+        return area.overlaps(with);
+    }
+
+    @Override
+    public boolean contains(Vector2 vector2) {
+        return area.contains(vector2);
+    }
+
+    @Override
+    public void damage(int damage) {
+        integrity-=damage;
+    }
+
     public void onProjectileImpact(Projectile projectile)
     {
 
