@@ -94,6 +94,27 @@ public class NPCPilot implements Ship {
         {
             frontAcceleration-=0.03f;
         }
+
+        float integrityPercent = (float) integrity / hull.integrity;
+        if(integrityPercent<=0.3f)
+        {
+            Planet closestPlanet=null;
+            for (Planet planet : currentSystem.planets) {
+                if(closestPlanet==null || Vector2.dst(x,y,planet.x,planet.y)<Vector2.dst(x,y,closestPlanet.x,closestPlanet.y))
+                {
+                    closestPlanet=planet;
+                }
+            }
+            boolean goToPlanet= !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
+            if(goToPlanet)
+            {
+                rotateTowards(closestPlanet.x,closestPlanet.y);
+            }
+            else {
+                rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
+            }
+            move();
+        }
     }
 
     private void useTraderAI() {
@@ -455,26 +476,7 @@ public class NPCPilot implements Ship {
     {
 
         float integrityPercent = (float) integrity / hull.integrity;
-        if(integrityPercent<=0.3f)
-        {
-            Planet closestPlanet=null;
-            for (Planet planet : currentSystem.planets) {
-                if(closestPlanet==null || Vector2.dst(x,y,planet.x,planet.y)<Vector2.dst(x,y,closestPlanet.x,closestPlanet.y))
-                {
-                    closestPlanet=planet;
-                }
-            }
-            boolean goToPlanet= !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
-            if(goToPlanet)
-            {
-                rotateTowards(closestPlanet.x,closestPlanet.y);
-            }
-            else {
-                rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
-            }
-            move();
-        }
-        else if(integrityPercent <=0.8f)
+        if(integrityPercent <=0.8f)
         {
             setNewTarget(projectile.shooter);
             if(pilotAI==PilotAI.GUARD) {
