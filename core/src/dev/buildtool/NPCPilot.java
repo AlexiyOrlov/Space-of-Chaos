@@ -169,13 +169,6 @@ public class NPCPilot implements Ship {
         }
         else {
             StarGate starGate=currentSystem.starGate;
-//                float xdist=starGate.x-x;
-//                float ydist=starGate.y-y;
-//                Vector2 vector2=new Vector2(xdist,ydist).nor();
-//                Vector2 vector21=new Vector2(MathUtils.cosDeg(rotationDegrees-90),MathUtils.sinDeg(rotationDegrees-90));
-
-//                float dotProduct=vector21.dot(vector2);
-//                float compare = 1 + dotProduct;
             if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
             {
                 rotateTowards(starGate.x,starGate.y);
