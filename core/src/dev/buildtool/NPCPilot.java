@@ -106,7 +106,13 @@ public class NPCPilot implements Ship {
                 targetPlanet=closestPlanet;
             }
             else {
-                rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
+                StarGate starGate=currentSystem.starGate;
+                rotateTowards(starGate.x,starGate.y);
+                if(navigatingTo==null)
+                {
+                    findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo=starSystem);
+                }
+                canJump= !(Vector2.dst(x, y, starGate.x, starGate.y) > 20);
             }
             move();
         }
