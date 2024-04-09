@@ -46,6 +46,9 @@ public class NPCPilot implements Ship {
     public Ship target;
     public int integrity;
     Planet homePlanet;
+    private boolean strafeDirection;
+    private float sideMovementTime;
+    private float leftAcceleration,rightAcceleration;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -77,6 +80,14 @@ public class NPCPilot implements Ship {
         if(fireCooldown>0)
         {
             fireCooldown-=deltaTime;
+        }
+        if(leftAcceleration>0)
+        {
+            leftAcceleration-=0.1f;
+        }
+        if(rightAcceleration>0)
+        {
+            rightAcceleration-=0.1f;
         }
     }
 
@@ -155,6 +166,17 @@ public class NPCPilot implements Ship {
             rotateTowards(target.getX(), target.getY());
             if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
                 move();
+            }
+            else {
+                if(sideMovementTime<=0)
+                {
+                    sideMovementTime=random.nextInt(3,6);
+                    strafeDirection= random.nextBoolean();
+                }
+                else {
+                    sideMovementTime-=deltaTime;
+                }
+                strafe(strafeDirection);
             }
             if(isLookingAt(target.getX(),target.getY())) {
                 fire();
@@ -378,6 +400,25 @@ public class NPCPilot implements Ship {
     {
         this.x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
         this.y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
+    }
+
+    public void strafe(boolean left)
+    {
+        if(left) {
+            if(leftAcceleration<sideThrusters.strafingSpeed)
+            {
+                leftAcceleration+=0.15f;
+            }
+            this.x += MathUtils.cosDeg(rotationDegrees + 90 + 90) * leftAcceleration;
+            this.y += MathUtils.sinDeg(rotationDegrees + 90 + 90) * leftAcceleration;
+        }else {
+            if(rightAcceleration<sideThrusters.strafingSpeed)
+            {
+                rightAcceleration+=0.15f;
+            }
+            this.x += MathUtils.cosDeg(rotationDegrees + 90 - 90) * rightAcceleration;
+            this.y += MathUtils.sinDeg(rotationDegrees + 90 - 90) * rightAcceleration;
+        }
     }
 
     public void rotateTowards(float x,float y)
