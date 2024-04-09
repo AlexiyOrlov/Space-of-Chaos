@@ -48,7 +48,7 @@ public class NPCPilot implements Ship {
     Planet homePlanet;
     private boolean strafeDirection;
     private float sideMovementTime;
-    private float leftAcceleration,rightAcceleration;
+    private float leftAcceleration,rightAcceleration,frontAcceleration;
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -88,6 +88,10 @@ public class NPCPilot implements Ship {
         if(rightAcceleration>0)
         {
             rightAcceleration-=0.1f;
+        }
+        if(frontAcceleration>0)
+        {
+            frontAcceleration-=0.03f;
         }
     }
 
@@ -398,8 +402,12 @@ public class NPCPilot implements Ship {
 
     public void move()
     {
-        this.x+=MathUtils.cosDeg(rotationDegrees+90)*engine.maxSpeed;
-        this.y+=MathUtils.sinDeg(rotationDegrees+90)*engine.maxSpeed;
+        if(frontAcceleration<engine.maxSpeed)
+        {
+            frontAcceleration+=0.1f;
+        }
+        this.x+=MathUtils.cosDeg(rotationDegrees+90)*frontAcceleration;
+        this.y+=MathUtils.sinDeg(rotationDegrees+90)*frontAcceleration;
     }
 
     public void strafe(boolean left)
