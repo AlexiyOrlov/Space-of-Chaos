@@ -319,58 +319,52 @@ public class NPCPilot implements Ship {
         }
         else {
             timeSpentOnPlanet+=deltaTime;
-            if(inventory.isEmpty())
-            {
-                if(money>0) {
-                    for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
-                        int warePrice = currentlyLandedOn.warePrices.get(ware);
-                        if (warePrice < Ware.BASE_PRICES.get(ware)) {
-                            //buy
-                            int wareCount=currentlyLandedOn.wareAmounts.get(ware);
-                            int canBuy=Math.min(wareCount,money/warePrice);
-                            if(purchases.size()>10)
-                            {
-                                purchases.removeFirst();
-                            }
-                            if(canBuy>0)
-                            {
-                                money-=canBuy*warePrice;
-                                inventory.addItem(new Stack(ware,canBuy));
-                                purchases.add(new NPCPurchase(ware,warePrice));
-                                if(SpaceGame.debugDraw)
-                                    System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
-                                boughtFor.put(ware,warePrice);
-                            }
-                            if(money<=0)
-                            {
-                                break;
+            if(pilotAI==PilotAI.TRADER) {
+                if (inventory.isEmpty()) {
+                    if (money > 0) {
+                        for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                            int warePrice = currentlyLandedOn.warePrices.get(ware);
+                            if (warePrice < Ware.BASE_PRICES.get(ware)) {
+                                //buy
+                                int wareCount = currentlyLandedOn.wareAmounts.get(ware);
+                                int canBuy = Math.min(wareCount, money / warePrice);
+                                if (purchases.size() > 10) {
+                                    purchases.removeFirst();
+                                }
+                                if (canBuy > 0) {
+                                    money -= canBuy * warePrice;
+                                    inventory.addItem(new Stack(ware, canBuy));
+                                    purchases.add(new NPCPurchase(ware, warePrice));
+                                    if (SpaceGame.debugDraw)
+                                        System.out.println("Bought " + canBuy + " " + ware.name + ". Money: " + money);
+                                    boughtFor.put(ware, warePrice);
+                                }
+                                if (money <= 0) {
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-            }
-            else {
-                //sell
-                for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
-                    int price=currentlyLandedOn.warePrices.get(ware);
-                    int wareAmount=currentlyLandedOn.wareAmounts.get(ware);
-                    for (Stack stack : inventory.stacks) {
-                        if(stack!=null && stack.item==ware)
-                        {
-                            Iterator<NPCPurchase> it= purchases.iterator();
-                            while (it.hasNext())
-                            {
-                                NPCPurchase next=it.next();
-                                if(next.ware==ware && next.boughtFor<price)
-                                {
-                                    int toSell=Math.min(Ware.MAXIMUM_WARE_AMOUNT-wareAmount,stack.count);
-                                    if(toSell>0) {
-                                        inventory.removeItem(ware, toSell);
-                                        money += toSell * price;
-                                        if(SpaceGame.debugDraw)
-                                            System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
-                                        it.remove();
-                                        boughtFor.remove(ware);
+                } else {
+                    //sell
+                    for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                        int price = currentlyLandedOn.warePrices.get(ware);
+                        int wareAmount = currentlyLandedOn.wareAmounts.get(ware);
+                        for (Stack stack : inventory.stacks) {
+                            if (stack != null && stack.item == ware) {
+                                Iterator<NPCPurchase> it = purchases.iterator();
+                                while (it.hasNext()) {
+                                    NPCPurchase next = it.next();
+                                    if (next.ware == ware && next.boughtFor < price) {
+                                        int toSell = Math.min(Ware.MAXIMUM_WARE_AMOUNT - wareAmount, stack.count);
+                                        if (toSell > 0) {
+                                            inventory.removeItem(ware, toSell);
+                                            money += toSell * price;
+                                            if (SpaceGame.debugDraw)
+                                                System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
+                                            it.remove();
+                                            boughtFor.remove(ware);
+                                        }
                                     }
                                 }
                             }
