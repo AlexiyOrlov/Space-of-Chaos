@@ -228,9 +228,9 @@ public class NPCPilot implements Ship {
             }
         }
         else {
+            rotateTowards(target.getX(),target.getY());
             if(Vector2.dst(x,y,target.getX(),target.getY())>200)
             {
-                rotateTowards(target.getX(),target.getY());
                 move();
                 if (isLookingAt(target.getX(),target.getY()))
                 {
