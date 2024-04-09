@@ -99,7 +99,8 @@ public class StarSystem {
         shipsToTransfer.forEach(npcPilot -> {
             npcPilot.navigatingTo.ships.add(npcPilot);
             npcPilot.currentSystem=npcPilot.navigatingTo;
-            System.out.println("Jumped to "+npcPilot.currentSystem.star.name);
+            if(SpaceGame.debugDraw)
+                System.out.println("Jumped to "+npcPilot.currentSystem.star.name);
             npcPilot.setPosition(npcPilot.navigatingTo.starGate.x,npcPilot.navigatingTo.starGate.y);
             npcPilot.canJump=false;
         });

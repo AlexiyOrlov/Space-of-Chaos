@@ -337,7 +337,8 @@ public class NPCPilot implements Ship {
                                 money-=canBuy*warePrice;
                                 inventory.addItem(new Stack(ware,canBuy));
                                 purchases.add(new NPCPurchase(ware,warePrice));
-                                System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
+                                if(SpaceGame.debugDraw)
+                                    System.out.println("Bought "+canBuy+" "+ware.name+". Money: "+money);
                                 boughtFor.put(ware,warePrice);
                             }
                             if(money<=0)
@@ -366,7 +367,8 @@ public class NPCPilot implements Ship {
                                     if(toSell>0) {
                                         inventory.removeItem(ware, toSell);
                                         money += toSell * price;
-                                        System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
+                                        if(SpaceGame.debugDraw)
+                                            System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
                                         it.remove();
                                         boughtFor.remove(ware);
                                     }
