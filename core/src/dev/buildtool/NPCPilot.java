@@ -237,7 +237,7 @@ public class NPCPilot implements Ship {
                     fire();
                 }
             }
-            if(target.getCurrentSystem()!=currentSystem)
+            if(target.getCurrentSystem()!=currentSystem || target.getIntegrity()<=0)
                 target=null;
         }
     }
