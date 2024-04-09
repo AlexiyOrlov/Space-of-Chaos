@@ -1,6 +1,7 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -10,6 +11,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,6 +34,8 @@ public class SystemScreen extends ScreenAdapter {
     PlayerShip playerShip;
     StarSystem starSystem;
     Rectangle viewportBounds;
+    private Stage stage;
+    private Table pauseMenu;
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceGame spaceGame=SpaceGame.INSTANCE;
@@ -43,6 +52,20 @@ public class SystemScreen extends ScreenAdapter {
         shapeRenderer=spaceGame.shapeRenderer;
         viewportBounds=new Rectangle(0,0,viewport.getScreenWidth(),viewport.getScreenHeight());
         uiShapeRenderer=SpaceGame.INSTANCE.uiShapeRenderer;
+        stage=new Stage();
+        pauseMenu=new Table();
+        pauseMenu.setFillParent(true);
+        Skin skin=SpaceGame.INSTANCE.skin;
+        TextButton quit=new TextButton("Quit",skin);
+        quit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+        pauseMenu.add(quit);
+        pauseMenu.setVisible(false);
+        stage.addActor(pauseMenu);
     }
 
     @Override
@@ -60,8 +83,6 @@ public class SystemScreen extends ScreenAdapter {
 
         if(playerShip!=null) {
             camera.position.set(playerShip.x, playerShip.y, 0);
-//            camera.up.set(0, 1, 0);
-//            camera.rotate(Vector3.Z, playerShip.rotation);
         }
 
         if(playerShip!=null) {
@@ -90,6 +111,15 @@ public class SystemScreen extends ScreenAdapter {
             drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceGame.INSTANCE.stargateIcon);
         }
         spriteBatch.end();
+
+        stage.act(delta);
+        stage.draw();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+            SpaceGame.INSTANCE.updateWorld=!SpaceGame.INSTANCE.updateWorld;
+            pauseMenu.setVisible(!SpaceGame.INSTANCE.updateWorld);
+        }
     }
 
     private void drawWaypoint(float tox,float toy,Texture icon)
@@ -163,6 +193,7 @@ public class SystemScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+        stage.getViewport().update(width,height);
     }
 
     static Vector2 lineLineIntersection(Vector2 X1, Vector2 Y1, Vector2 X2, Vector2 Y2)
@@ -191,5 +222,20 @@ public class SystemScreen extends ScreenAdapter {
             float y = (a1*c2 - a2*c1)/determinant;
             return new Vector2(x, y);
         }
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
     }
 }

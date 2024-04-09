@@ -151,92 +151,82 @@ public class PlayerShip implements Ship{
 
     public void update(float deltaTime, Viewport viewport)
     {
-        if(Gdx.input.isKeyPressed(Input.Keys.A))
-        {
-            if(leftAcceleration< getSideThrusters().strafingSpeed)
-                leftAcceleration+=0.15f;
-        }
+        if(SpaceGame.INSTANCE.updateWorld) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                if (leftAcceleration < getSideThrusters().strafingSpeed)
+                    leftAcceleration += 0.15f;
+            }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-        {
-            if(rightAcceleration<getSideThrusters().strafingSpeed)
-                rightAcceleration+=0.15f;
-        }
-        //to the left
-        this.x+=MathUtils.cosDeg(rotation+90+90)*leftAcceleration;
-        this.y+=MathUtils.sinDeg(rotation+90+90)*leftAcceleration;
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                if (rightAcceleration < getSideThrusters().strafingSpeed)
+                    rightAcceleration += 0.15f;
+            }
+            //to the left
+            this.x += MathUtils.cosDeg(rotation + 90 + 90) * leftAcceleration;
+            this.y += MathUtils.sinDeg(rotation + 90 + 90) * leftAcceleration;
 
-        //to the right
-        this.x+=MathUtils.cosDeg(rotation+90-90)*rightAcceleration;
-        this.y+=MathUtils.sinDeg(rotation+90-90)*rightAcceleration;
+            //to the right
+            this.x += MathUtils.cosDeg(rotation + 90 - 90) * rightAcceleration;
+            this.y += MathUtils.sinDeg(rotation + 90 - 90) * rightAcceleration;
 
-        if(leftAcceleration>0)
-            leftAcceleration-=0.1f;
-        if(rightAcceleration>0)
-            rightAcceleration-=0.1f;
+            if (leftAcceleration > 0)
+                leftAcceleration -= 0.1f;
+            if (rightAcceleration > 0)
+                rightAcceleration -= 0.1f;
 
-        direction.set(Vector2.Y).rotateDeg(rotation);
-        direction.scl(acceleration);
-        x+=direction.x;
-        y+=direction.y;
+            direction.set(Vector2.Y).rotateDeg(rotation);
+            direction.scl(acceleration);
+            x += direction.x;
+            y += direction.y;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-        {
-            if(acceleration>-getEngine().maxSpeed)
-                acceleration-=0.1f;
-        }
-        else if(acceleration<0)
-        {
-            acceleration+=0.03f;
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                if (acceleration > -getEngine().maxSpeed)
+                    acceleration -= 0.1f;
+            } else if (acceleration < 0) {
+                acceleration += 0.03f;
+            }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W))
-        {
-            if(acceleration< getEngine().maxSpeed)
-                acceleration+=0.1f;
-        }
-        else if(acceleration>0)
-        {
-            acceleration-=0.03f;
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                if (acceleration < getEngine().maxSpeed)
+                    acceleration += 0.1f;
+            } else if (acceleration > 0) {
+                acceleration -= 0.03f;
+            }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L))
-        {
-            for (Planet planet : currentStarSystem.planets) {
-                if(planet.outline.overlaps(area))
-                {
-                    if(planet.isInhabited)
-                        SpaceGame.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem,planet,this));
-                    else
-                        SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet,this));
-                    acceleration=0;
-                    break;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+                for (Planet planet : currentStarSystem.planets) {
+                    if (planet.outline.overlaps(area)) {
+                        if (planet.isInhabited)
+                            SpaceGame.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem, planet, this));
+                        else
+                            SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet, this));
+                        acceleration = 0;
+                        break;
+                    }
                 }
             }
-        }
-        if(Gdx.input.isTouched())
-        {
-            if(fireDelay<=0) {
-                Projectile[] projectiles = getWeapon().shoot(x, y, rotation,this ,null);
-                if (projectiles != null) {
-                    currentStarSystem.projectiles.addAll(projectiles);
-                    fireDelay = getWeapon().cooldown;
+            if (Gdx.input.isTouched()) {
+                if (fireDelay <= 0) {
+                    Projectile[] projectiles = getWeapon().shoot(x, y, rotation, this, null);
+                    if (projectiles != null) {
+                        currentStarSystem.projectiles.addAll(projectiles);
+                        fireDelay = getWeapon().cooldown;
+                    }
                 }
             }
+
+            fireDelay -= deltaTime;
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area)) {
+                SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem, this));
+                acceleration = 0;
+            }
+
+            area.set(x, y, (float) texture.getWidth() / 2);
+
+            Vector2 mouseWorld = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            rotation = Functions.rotateTowards(rotation * MathUtils.degreesToRadians, x, y, mouseWorld.x, mouseWorld.y, -MathUtils.degreesToRadians * 90, getSideThrusters().steeringSpeed) * MathUtils.radiansToDegrees;
         }
-
-        fireDelay-=deltaTime;
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area))
-        {
-            SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem,this));
-            acceleration=0;
-        }
-
-        area.set(x,y, (float) texture.getWidth() /2);
-
-        Vector2 mouseWorld=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
-        rotation=Functions.rotateTowards(rotation*MathUtils.degreesToRadians,x,y,mouseWorld.x,mouseWorld.y,-MathUtils.degreesToRadians*90,getSideThrusters().steeringSpeed)*MathUtils.radiansToDegrees;
     }
 
     public void addItem(Stack stack)
