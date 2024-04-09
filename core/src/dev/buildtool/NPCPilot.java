@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -215,18 +216,11 @@ public class NPCPilot implements Ship {
     {
         if(target==null)
         {
-            for (Ship ship : currentSystem.ships) {
-                if(ship instanceof NPCPilot npcPilot) {
-                    if (ship != this) {
-                        if (npcPilot.pilotAI == PilotAI.TRADER) {
-                            if (!npcPilot.inventory.isEmpty()) {
-                                target = ship;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+
+            Optional<Ship> randomShip=currentSystem.ships.stream().filter(ship -> (ship instanceof PlayerShip playerShip && !playerShip.inventory.isEmpty()) ||
+                    (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.TRADER && !npcPilot.inventory.isEmpty())).findAny();
+            randomShip.ifPresent(ship -> target = ship);
+
             StarGate starGate = currentSystem.starGate;
             if(Vector2.dst(starGate.x, starGate.y,x,y)>200){
                 rotateTowards(starGate.x,starGate.y);
@@ -234,8 +228,7 @@ public class NPCPilot implements Ship {
             }
         }
         else {
-            int windowHeight=Gdx.graphics.getHeight();
-            if(Vector2.dst(x,y,target.getX(),target.getY())>windowHeight)
+            if(Vector2.dst(x,y,target.getX(),target.getY())>200)
             {
                 rotateTowards(target.getX(),target.getY());
                 move();
