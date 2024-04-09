@@ -103,6 +103,7 @@ public class NPCPilot implements Ship {
             if(goToPlanet)
             {
                 rotateTowards(closestPlanet.x,closestPlanet.y);
+                targetPlanet=closestPlanet;
             }
             else {
                 rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
@@ -114,6 +115,22 @@ public class NPCPilot implements Ship {
                 case TRADER -> useTraderAI();
                 case GUARD -> guardAI(deltaTime);
                 case PIRATE -> pirateAI();
+            }
+        }
+
+        if(targetPlanet!=null) {
+            if (targetPlanet.starSystem != currentSystem) {
+                throw new RuntimeException("System mismatch");
+            }
+            rotateTowards(targetPlanet.x, targetPlanet.y);
+            move();
+            if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
+                currentlyLandedOn = targetPlanet;
+                targetPlanet.ships.add(this);
+                landed = true;
+                if (SpaceGame.debugDraw)
+                    System.out.println("Landed on " + targetPlanet.name);
+                targetPlanet = null;
             }
         }
     }
@@ -149,20 +166,6 @@ public class NPCPilot implements Ship {
                     navigatingTo=null;
                 }
             }
-            else {
-                assert targetPlanet.starSystem==currentSystem;
-                rotateTowards(targetPlanet.x,targetPlanet.y);
-                move();
-                if(Vector2.dst(x,y,targetPlanet.x,targetPlanet.y)<20)
-                {
-                    currentlyLandedOn=targetPlanet;
-                    targetPlanet.ships.add(this);
-                    landed=true;
-                    if(SpaceGame.debugDraw)
-                        System.out.println("Landed on "+targetPlanet.name);
-                    targetPlanet=null;
-                }
-            }
         }
         else {
             StarGate starGate=currentSystem.starGate;
@@ -183,6 +186,11 @@ public class NPCPilot implements Ship {
                 canJump=true;
             }
         }
+    }
+
+    private void land()
+    {
+
     }
 
     private void guardAI(float deltaTime)
