@@ -71,12 +71,6 @@ public class NPCPilot implements Ship {
     }
     public void work(float deltaTime)
     {
-        switch (pilotAI){
-            case TRADER -> useTraderAI();
-            case GUARD -> guardAI(deltaTime);
-            case PIRATE -> pirateAI();
-        }
-
         area.set(x,y,hull.look.getWidth()/2);
         if(fireCooldown>0)
         {
@@ -114,6 +108,13 @@ public class NPCPilot implements Ship {
                 rotateTowards(currentSystem.starGate.x,currentSystem.starGate.y);
             }
             move();
+        }
+        else {
+            switch (pilotAI){
+                case TRADER -> useTraderAI();
+                case GUARD -> guardAI(deltaTime);
+                case PIRATE -> pirateAI();
+            }
         }
     }
 
