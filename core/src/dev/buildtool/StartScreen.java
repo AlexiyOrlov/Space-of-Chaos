@@ -35,10 +35,8 @@ public class StartScreen extends ScreenAdapter {
                             PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceGame.INSTANCE.redStarshipTexture, next);
                             game.playerShip= playerShip;
                             playerShip.money=1000;
-                            game.setScreen(new PlanetScreen2(next, planet,game.playerShip));
-//                            NPCPilot pilot = new NPCPilot(planet, PilotAI.TRADER, , , );
-//                            system.ships.add(pilot);
-//                            planet.ships.add(pilot);
+                            game.setScreen(new PlanetScreen2(next, planet,playerShip));
+                            next.ships.add(playerShip);
                             game.playerShip.x=planet.x;
                             game.playerShip.y=planet.y;
                             break lable;
