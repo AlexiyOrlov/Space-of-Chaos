@@ -6,17 +6,21 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -63,9 +67,17 @@ public class SystemScreen extends ScreenAdapter {
                 Gdx.app.exit();
             }
         });
+        Label label=new Label("Game paused",skin);
+        pauseMenu.add(label);
+        pauseMenu.row();
         pauseMenu.add(quit);
         pauseMenu.setVisible(false);
         stage.addActor(pauseMenu);
+        Pixmap pixmap=new Pixmap(1,1, Pixmap.Format.RGB565);
+        pixmap.setColor(Color.GRAY);
+        pixmap.fill();
+        TextureRegionDrawable textureRegionDrawable=new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pauseMenu.setBackground(textureRegionDrawable);
     }
 
     @Override
