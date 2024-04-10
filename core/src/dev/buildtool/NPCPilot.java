@@ -480,6 +480,7 @@ public class NPCPilot implements Ship {
                 money -= toSpend;
                 integrity += willRepair;
                 state = State.FINE;
+                secondsOfRest = SpaceGame.random.nextInt(20, 40);
             }
             else {
                 throw new RuntimeException("No money on repairs");
