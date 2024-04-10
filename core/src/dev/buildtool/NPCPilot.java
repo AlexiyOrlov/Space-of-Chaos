@@ -499,6 +499,15 @@ public class NPCPilot implements Ship {
     @Override
     public void damage(int damage) {
         integrity-=damage;
+        if(integrity<=0)
+        {
+            for (Stack stack : inventory.stacks) {
+                if(stack!=null) {
+                    Container container = new Container(new Stack(stack.item, random.nextInt((int) Math.max(1, stack.count * 0.7f))), x + random.nextInt(-30, 30), y + random.nextInt(-30, 30), random.nextInt(-180, 180));
+                    currentSystem.itemContainers.add(container);
+                }
+            }
+        }
     }
 
     public void onProjectileImpact(Projectile projectile)
