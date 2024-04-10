@@ -102,67 +102,6 @@ public class NPCPilot implements Ship {
             frontAcceleration-=0.03f;
         }
 
-//        float integrityPercent = (float) integrity / hull.integrity;
-//        if(integrityPercent<=0.3f)
-//        {
-//            if(state==State.GOING_TO_REPAIR)
-//            {
-//                for (Planet planet : currentSystem.planets) {
-//                    if (targetPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
-//                        targetPlanet = planet;
-//                    }
-//                }
-//            }
-//            if(escapingTo==null) {
-//                Planet closestPlanet = null;
-//                for (Planet planet : currentSystem.planets) {
-//                    if (closestPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
-//                        closestPlanet = planet;
-//                        escapingTo = EscapingTo.CLOSEST_PLANET;
-//                    }
-//                }
-//                boolean goToPlanet = !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
-//                if (goToPlanet) {
-//                    rotateTowards(closestPlanet.x, closestPlanet.y);
-//                    targetPlanet = closestPlanet;
-//                } else {
-//                    if (navigatingTo == null) {
-//                        findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo = starSystem);
-//                        escapingTo = EscapingTo.STAR_SYSTEM;
-//                        state=State.ESCAPING_TO_SYSTEM;
-//                    }
-//                }
-//            }
-//            else {
-//                switch (escapingTo)
-//                {
-//                    case CLOSEST_PLANET ->{
-//                        if(closestPlanet==null) {
-//                            for (Planet planet : currentSystem.planets) {
-//                                if (closestPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
-//                                    closestPlanet = planet;
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            state=State.GOING_TO_REPAIR;
-//                            rotateTowards(closestPlanet.x, closestPlanet.y);
-//                            move();
-//                        }
-//                    }
-//                    case STAR_SYSTEM -> {
-//                        if(navigatingTo==null) {
-//                            findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo = starSystem);
-//                        }
-//                        StarGate starGate = currentSystem.starGate;
-//                        rotateTowards(starGate.x, starGate.y);
-//                        canJump = !(Vector2.dst(x, y, starGate.x, starGate.y) > 20);
-//                    }
-//                }
-//            }
-//            move();
-//        }
-
         switch (pilotAI){
             case TRADER -> traderAI();
             case GUARD -> guardAI(deltaTime);
