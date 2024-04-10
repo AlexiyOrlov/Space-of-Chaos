@@ -35,7 +35,6 @@ public class SystemScreen extends ScreenAdapter {
     Star star;
     Camera camera;
     Viewport viewport;
-    PlayerShip playerShip;
     StarSystem starSystem;
     Rectangle viewportBounds;
     private Stage stage;
@@ -47,7 +46,7 @@ public class SystemScreen extends ScreenAdapter {
         this.starSystem = starSystem;
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
-        playerShip=spaceGame.playerShip;
+        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
         playerShip.x=xForPlayer;
         playerShip.y=yForPlayer;
         camera=new OrthographicCamera();
@@ -86,6 +85,7 @@ public class SystemScreen extends ScreenAdapter {
         camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
+        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
         if(playerShip!=null)
             playerShip.update(delta, viewport);
 
@@ -136,6 +136,7 @@ public class SystemScreen extends ScreenAdapter {
 
     private void drawWaypoint(float tox,float toy,Texture icon)
     {
+        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
         if(playerShip!=null) {
             SpriteBatch uibatch = SpaceGame.INSTANCE.uiBatch;
             float xdist = tox - playerShip.x;
@@ -173,6 +174,7 @@ public class SystemScreen extends ScreenAdapter {
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
+        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
         if(playerShip!=null) {
             SpriteBatch uiBatch = SpaceGame.INSTANCE.uiBatch;
             final Vector2 playerPos = new Vector2(playerShip.x, playerShip.y);
