@@ -60,7 +60,8 @@ public class NPCPilot implements Ship {
 
     enum State {
         ESCAPING_TO_SYSTEM,
-        GOING_TO_REPAIR
+        GOING_TO_REPAIR,
+        FINE
     }
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
@@ -471,6 +472,18 @@ public class NPCPilot implements Ship {
         if(state==State.GOING_TO_REPAIR)
         {
             //TODO
+            int toRepair=hull.integrity-integrity;
+            int repairCost=10*toRepair;
+            int toSpend=Math.min(money,repairCost);
+            if(toSpend>0) {
+                int willRepair = toSpend / 10;
+                money -= toSpend;
+                integrity += willRepair;
+                state = State.FINE;
+            }
+            else {
+                throw new RuntimeException("No money on repairs");
+            }
         }
         else {
             if (timeSpentOnPlanet >= secondsOfRest) {
