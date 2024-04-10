@@ -237,49 +237,51 @@ public class NPCPilot implements Ship {
                 }
             }
         }
-//        if(navigatingTo==null)
-//        {
-//            List<StarSystem> closestSystems= findClosestSystems();
-//            List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
-//            if(systemsWithHigherPrices.isEmpty())
-//            {
-//                navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
-//                if(SpaceGame.debugDraw)
-//                    System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
-//            }
-//            else {
-//                navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
-//                if(SpaceGame.debugDraw)
-//                    System.out.println("Going to system " + navigatingTo.star.name);
-//            }
-//        }
-//        else if(navigatingTo==currentSystem)
-//        {
-//            if(targetPlanet==null) {
-//                List<Planet> planetsWithHigherPrices = filterPlanetsWithProfitablePrices(currentSystem.planets);
-//                if(!planetsWithHigherPrices.isEmpty())
-//                {
-//                    targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
-//                }
-//                else{
-//                    if(SpaceGame.debugDraw)
-//                        System.out.println("No suitable planets");
-//                    navigatingTo=null;
-//                }
-//            }
-//        }
-//        else {
-//            StarGate starGate=currentSystem.starGate;
-//            if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
-//            {
-//                rotateTowards(starGate.x,starGate.y);
-//                move();
-//                canJump=false;
-//            }
-//            else {
-//                canJump=true;
-//            }
-//        }
+        else {
+            if(navigatingTo==null)
+            {
+                List<StarSystem> closestSystems= findClosestSystems();
+                List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
+                if(systemsWithHigherPrices.isEmpty())
+                {
+                    navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
+                    if(SpaceGame.debugDraw)
+                        System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
+                }
+                else {
+                    navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
+                    if(SpaceGame.debugDraw)
+                        System.out.println("Going to system " + navigatingTo.star.name);
+                }
+            }
+            else if(navigatingTo==currentSystem)
+            {
+                if(targetPlanet==null) {
+                    List<Planet> planetsWithHigherPrices = filterPlanetsWithProfitablePrices(currentSystem.planets);
+                    if(!planetsWithHigherPrices.isEmpty())
+                    {
+                        targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
+                    }
+                    else{
+                        if(SpaceGame.debugDraw)
+                            System.out.println("No suitable planets");
+                        navigatingTo=null;
+                    }
+                }
+            }
+            else {
+                StarGate starGate=currentSystem.starGate;
+                if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
+                {
+                    rotateTowards(starGate.x,starGate.y);
+                    move();
+                    canJump=false;
+                }
+                else {
+                    canJump=true;
+                }
+            }
+        }
 //
 //        float integrityPercent= (float) integrity / hull.integrity;
 //        if(target!=null)
