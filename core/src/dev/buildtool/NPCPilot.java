@@ -342,6 +342,7 @@ public class NPCPilot implements Ship {
 
             currentSystem.itemContainers.stream().reduce((container, container2) -> Vector2.dst(container.x, container.y, x, y) < Vector2.dst(container2.x, container2.y, x, y) ? container : container2).ifPresent(container -> {
                 containerToCollect = container;
+                target=null;
             });
         }
     }
