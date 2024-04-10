@@ -249,7 +249,7 @@ public class Planet {
 
             if(random.nextBoolean())
             {
-                NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.TRADING1,Engine.SLOW,SideThrusters.SLOW);
+                NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())), Engine.SLOW,SideThrusters.SLOW);
                 ships.add(trader);
                 starSystem.ships.add(trader);
             }

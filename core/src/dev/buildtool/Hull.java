@@ -9,14 +9,19 @@ public class Hull extends Item{
     public static final Hull BASIC=new Hull(100, SpaceGame.INSTANCE.redStarshipTexture ,100,"Basic hull",3000);
     public static final Hull HORNET=new Hull(150,SpaceGame.INSTANCE.blackHullTexture, 160,"Hornet",40000);
     public static final Hull BUMBLEBEE=new Hull(200,SpaceGame.INSTANCE.blackHull2Texture, 200,"Bumblebee",70000);
-    public static final Hull TRADING1=new Hull(250, SpaceGame.INSTANCE.tradingHull1Texture,200,"Trading hull",6000);
+    public static final Hull TRADING1=new Hull(250, SpaceGame.INSTANCE.tradingHull1Texture,200,"Trading hull",50000);
+    public static final Hull TRADING2=new Hull(300,SpaceGame.INSTANCE.tradingHull2Texture, 240,"Trading hull 2",60000);
     public static final Hull BATTLE3=new Hull(250,SpaceGame.INSTANCE.battleHull3, 400,"Battle hull 3",50000);
     public static final Hull BATTLE2=new Hull(250,SpaceGame.INSTANCE.battleHull2,300,"Battle hull 2",40000);
     public static final Hull PIRATE1=new Hull(150,SpaceGame.INSTANCE.pirateHull1, 160,"Pirate hull 1",5000);
     public static ArrayList<Hull> battleHulls=new ArrayList<>();
+    public static ArrayList<Hull> tradingHulls=new ArrayList<>();
     static {
         battleHulls.add(BATTLE2);
         battleHulls.add(BATTLE3);
+
+        tradingHulls.add(TRADING1);
+        tradingHulls.add(TRADING2);
     }
     public int capacity;
     public Texture look;
