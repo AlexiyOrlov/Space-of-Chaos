@@ -52,10 +52,6 @@ public class NPCPilot implements Ship {
     private float leftAcceleration,rightAcceleration,frontAcceleration;
     private Container containerToCollect;
     private Planet closestPlanet;
-    enum EscapingTo{
-        CLOSEST_PLANET,
-        STAR_SYSTEM
-    }
     private State state;
 
     enum State {

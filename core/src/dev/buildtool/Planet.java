@@ -180,7 +180,7 @@ public class Planet {
         planetNames.add("Haowei");
     }
 
-    private ArrayList<NPCPilot> shipsToRemove;
+    private final ArrayList<NPCPilot> shipsToRemove;
 
     public Planet(Texture texture, int distance, float angle, float orbitSpeed, boolean inhabited, StarSystem belongsTo) {
         this.texture = texture;
