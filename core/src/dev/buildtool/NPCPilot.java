@@ -312,7 +312,7 @@ public class NPCPilot implements Ship {
             if (target == null) {
 
                 Optional<Ship> randomShip = currentSystem.ships.stream().filter(ship -> (ship instanceof PlayerShip playerShip && !playerShip.inventory.isEmpty()) ||
-                        (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.TRADER && !npcPilot.inventory.isEmpty())).findAny();
+                        (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.TRADER && !npcPilot.inventory.isEmpty() && !npcPilot.landed)).findAny();
                 randomShip.ifPresent(ship -> target = ship);
 
                 StarGate starGate = currentSystem.starGate;
