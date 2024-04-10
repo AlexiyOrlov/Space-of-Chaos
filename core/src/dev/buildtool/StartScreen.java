@@ -39,7 +39,6 @@ public class StartScreen extends ScreenAdapter {
                             next.ships.add(playerShip);
                             game.playerShip.x=planet.x;
                             game.playerShip.y=planet.y;
-                            next.itemContainers.add(new Container(new Stack(Ware.CAR_PARTS,1), playerShip.x, playerShip.y, 1));
                             break lable;
                         }
                     }
