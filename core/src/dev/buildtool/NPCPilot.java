@@ -268,6 +268,23 @@ public class NPCPilot implements Ship {
                         navigatingTo=null;
                     }
                 }
+                else {
+                    if(targetPlanet.starSystem!=currentSystem)
+                    {
+                        throw new RuntimeException("System mismatch");
+                    }
+                    rotateTowards(targetPlanet.x, targetPlanet.y);
+                    if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
+                        currentlyLandedOn = targetPlanet;
+                        land(targetPlanet);
+                        if (SpaceGame.debugDraw)
+                            System.out.println("Landed on " + targetPlanet.name);
+                        targetPlanet = null;
+                    }
+                    else {
+                        move();
+                    }
+                }
             }
             else {
                 StarGate starGate=currentSystem.starGate;
@@ -282,47 +299,6 @@ public class NPCPilot implements Ship {
                 }
             }
         }
-//
-//        float integrityPercent= (float) integrity / hull.integrity;
-//        if(target!=null)
-//        {
-//            if(integrityPercent>0.3f)
-//            {
-//                rotateTowards(target.getX(),target.getY());
-//                if(Vector2.dst(target.getX(),target.getY(),x,y)<Gdx.graphics.getBackBufferHeight()/2)
-//                {
-//                    if(isLookingAt(target.getX(),target.getY()))
-//                    {
-//                        fire();
-//                    }
-//                }
-//                else {
-//                    move();
-//                }
-//            }
-//            else {
-//                if(!inventory.isEmpty())
-//                {
-//
-//                    target=null;
-//                }
-//            }
-//        }
-//
-//        if(targetPlanet!=null) {
-//            if (targetPlanet.starSystem != currentSystem) {
-//                throw new RuntimeException("System mismatch");
-//            }
-//            rotateTowards(targetPlanet.x, targetPlanet.y);
-//            if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
-//                currentlyLandedOn = targetPlanet;
-//                targetPlanet.ships.add(this);
-//                landed = true;
-//                if (SpaceGame.debugDraw)
-//                    System.out.println("Landed on " + targetPlanet.name);
-//                targetPlanet = null;
-//            }
-//        }
     }
 
     private void land(Planet on)
