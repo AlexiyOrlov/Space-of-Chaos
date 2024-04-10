@@ -301,6 +301,7 @@ public class NPCPilot implements Ship {
             {
                 inventory.addItem(containerToCollect.stack);
                 currentSystem.itemContainers.remove(containerToCollect);
+                containerToCollect=null;
             }
             else {
                 rotateTowards(containerToCollect.x, containerToCollect.y);
