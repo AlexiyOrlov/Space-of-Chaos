@@ -218,7 +218,6 @@ public class NPCPilot implements Ship {
                         {
                             landed=true;
                             closestPlanet.ships.add(this);
-                            //TODO repair and rest
                         }
                     }
                     case ESCAPING_TO_SYSTEM -> {
