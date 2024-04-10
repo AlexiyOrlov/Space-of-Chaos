@@ -267,7 +267,7 @@ public class NPCPilot implements Ship {
             if(isLookingAt(target.getX(),target.getY())) {
                 fire();
             }
-            if(target.getIntegrity()<=0 || target.getCurrentSystem()!=currentSystem)
+            if(target.getIntegrity()<=0 || target.getCurrentSystem()!=currentSystem || target.isLanded())
             {
                 target=null;
             }
