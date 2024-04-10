@@ -105,7 +105,6 @@ public class StarSystem {
             if(ship instanceof NPCPilot npcPilot) {
                 npcPilot.work(dt);
                 if (npcPilot.canJump) {
-                    npcPilot.canJump = false;
                     shipsToTransfer.add(ship);
                 }
             }
@@ -118,7 +117,7 @@ public class StarSystem {
                 if (SpaceGame.debugDraw)
                     System.out.println("Jumped to " + npcPilot.currentSystem.star.name);
                 npcPilot.setPosition(npcPilot.navigatingTo.starGate.x, npcPilot.navigatingTo.starGate.y);
-                npcPilot.canJump = false;
+                npcPilot.afterJump();
             }
         });
         shipsToTransfer.clear();

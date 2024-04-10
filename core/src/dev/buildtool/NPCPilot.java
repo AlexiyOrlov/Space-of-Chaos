@@ -1,7 +1,6 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -51,6 +50,18 @@ public class NPCPilot implements Ship {
     private boolean strafeDirection;
     private float sideMovementTime;
     private float leftAcceleration,rightAcceleration,frontAcceleration;
+    private EscapingTo escapingTo;
+    private Planet closestPlanet;
+    enum EscapingTo{
+        CLOSEST_PLANET,
+        STAR_SYSTEM
+    }
+    private State state;
+
+    enum State {
+        ESCAPING_TO_SYSTEM,
+        GOING_TO_REPAIR
+    }
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
@@ -90,131 +101,227 @@ public class NPCPilot implements Ship {
             frontAcceleration-=0.03f;
         }
 
-        float integrityPercent = (float) integrity / hull.integrity;
-        if(integrityPercent<=0.3f)
-        {
-            Planet closestPlanet=null;
-            for (Planet planet : currentSystem.planets) {
-                if(closestPlanet==null || Vector2.dst(x,y,planet.x,planet.y)<Vector2.dst(x,y,closestPlanet.x,closestPlanet.y))
-                {
-                    closestPlanet=planet;
-                }
-            }
-            boolean goToPlanet= !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
-            if(goToPlanet)
-            {
-                rotateTowards(closestPlanet.x,closestPlanet.y);
-                targetPlanet=closestPlanet;
-            }
-            else {
-                StarGate starGate=currentSystem.starGate;
-                rotateTowards(starGate.x,starGate.y);
-                if(navigatingTo==null)
-                {
-                    findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo=starSystem);
-                }
-                canJump= !(Vector2.dst(x, y, starGate.x, starGate.y) > 20);
-            }
-            move();
-        }
-        else {
-            switch (pilotAI){
-                case TRADER -> useTraderAI();
-                case GUARD -> guardAI(deltaTime);
-                case PIRATE -> pirateAI();
-            }
+//        float integrityPercent = (float) integrity / hull.integrity;
+//        if(integrityPercent<=0.3f)
+//        {
+//            if(state==State.GOING_TO_REPAIR)
+//            {
+//                for (Planet planet : currentSystem.planets) {
+//                    if (targetPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
+//                        targetPlanet = planet;
+//                    }
+//                }
+//            }
+//            if(escapingTo==null) {
+//                Planet closestPlanet = null;
+//                for (Planet planet : currentSystem.planets) {
+//                    if (closestPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
+//                        closestPlanet = planet;
+//                        escapingTo = EscapingTo.CLOSEST_PLANET;
+//                    }
+//                }
+//                boolean goToPlanet = !(Vector2.dst(x, y, currentSystem.starGate.x, currentSystem.starGate.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y));
+//                if (goToPlanet) {
+//                    rotateTowards(closestPlanet.x, closestPlanet.y);
+//                    targetPlanet = closestPlanet;
+//                } else {
+//                    if (navigatingTo == null) {
+//                        findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo = starSystem);
+//                        escapingTo = EscapingTo.STAR_SYSTEM;
+//                        state=State.ESCAPING_TO_SYSTEM;
+//                    }
+//                }
+//            }
+//            else {
+//                switch (escapingTo)
+//                {
+//                    case CLOSEST_PLANET ->{
+//                        if(closestPlanet==null) {
+//                            for (Planet planet : currentSystem.planets) {
+//                                if (closestPlanet == null || Vector2.dst(x, y, planet.x, planet.y) < Vector2.dst(x, y, closestPlanet.x, closestPlanet.y)) {
+//                                    closestPlanet = planet;
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            state=State.GOING_TO_REPAIR;
+//                            rotateTowards(closestPlanet.x, closestPlanet.y);
+//                            move();
+//                        }
+//                    }
+//                    case STAR_SYSTEM -> {
+//                        if(navigatingTo==null) {
+//                            findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo = starSystem);
+//                        }
+//                        StarGate starGate = currentSystem.starGate;
+//                        rotateTowards(starGate.x, starGate.y);
+//                        canJump = !(Vector2.dst(x, y, starGate.x, starGate.y) > 20);
+//                    }
+//                }
+//            }
+//            move();
+//        }
+
+        switch (pilotAI){
+            case TRADER -> traderAI();
+            case GUARD -> guardAI(deltaTime);
+            case PIRATE -> pirateAI();
         }
 
-        if(targetPlanet!=null) {
-            if (targetPlanet.starSystem != currentSystem) {
-                throw new RuntimeException("System mismatch");
-            }
-            rotateTowards(targetPlanet.x, targetPlanet.y);
-            move();
-            if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
-                currentlyLandedOn = targetPlanet;
-                targetPlanet.ships.add(this);
-                landed = true;
-                if (SpaceGame.debugDraw)
-                    System.out.println("Landed on " + targetPlanet.name);
-                targetPlanet = null;
-            }
-        }
     }
 
-    private void useTraderAI() {
-        if(navigatingTo==null)
+    private float getIntegrityPercent()
+    {
+        return (float) integrity/ hull.integrity;
+    }
+    private void traderAI() {
+        if(getIntegrityPercent()<0.3f)
         {
-            List<StarSystem> closestSystems= findClosestSystems();
-            List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
-            if(systemsWithHigherPrices.isEmpty())
+            if(!inventory.isEmpty())
             {
-                navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
-                if(SpaceGame.debugDraw)
-                    System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
-            }
-            else {
-                navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
-                if(SpaceGame.debugDraw)
-                    System.out.println("Going to system " + navigatingTo.star.name);
-            }
-        }
-        else if(navigatingTo==currentSystem)
-        {
-            if(targetPlanet==null) {
-                List<Planet> planetsWithHigherPrices = filterPlanetsWithProfitablePrices(currentSystem.planets);
-                if(!planetsWithHigherPrices.isEmpty())
-                {
-                    targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
-                }
-                else{
-                    if(SpaceGame.debugDraw)
-                        System.out.println("No suitable planets");
-                    navigatingTo=null;
-                }
-            }
-        }
-        else {
-            StarGate starGate=currentSystem.starGate;
-            if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
-            {
-                rotateTowards(starGate.x,starGate.y);
-                move();
-                canJump=false;
-            }
-            else {
-                canJump=true;
-            }
-        }
-
-        float integrityPercent= (float) integrity / hull.integrity;
-        if(target!=null)
-        {
-            if(integrityPercent>0.3f)
-            {
-                rotateTowards(target.getX(),target.getY());
-                if(Vector2.dst(target.getX(),target.getY(),x,y)<Gdx.graphics.getBackBufferHeight()/2)
-                {
-                    if(isLookingAt(target.getX(),target.getY()))
-                    {
-                        fire();
-                    }
-                }
-                else {
-                    move();
-                }
-            }
-            else {
-                if(!inventory.isEmpty())
-                {
-                    for (Stack stack : inventory.stacks) {
-                        Container container=new Container(stack,x,y,random.nextInt(-180,180));
+                for (int i=0;i<inventory.stacks.length;i++) {
+                    Stack stack=inventory.stacks[i];
+                    if (stack != null) {
+                        Container container = new Container(stack, x, y, random.nextInt(-180, 180));
                         currentSystem.itemContainers.add(container);
+                        inventory.stacks[i]=null;
                     }
-                    target=null;
+                }
+            }
+            if(state==null) {
+                float distanceToClosestPlanet = Float.MAX_VALUE;
+                if (closestPlanet == null) {
+                    for (Planet planet : currentSystem.planets) {
+                        if (planet.isInhabited) {
+                            float distanceToPlanet = Vector2.dst(x, y, planet.x, planet.y);
+                            if (distanceToPlanet < distanceToClosestPlanet)
+                            {
+                                distanceToClosestPlanet=distanceToPlanet;
+                                closestPlanet = planet;
+                            }
+                        }
+                    }
+                }
+                StarGate starGate = currentSystem.starGate;
+                float distanceToStarGate = Vector2.dst(starGate.x, starGate.y, x, y);
+                if (distanceToStarGate < distanceToClosestPlanet) {
+                    state = State.ESCAPING_TO_SYSTEM;
+                } else {
+                    state = State.GOING_TO_REPAIR;
+                }
+            }else{
+                switch (state){
+                    case GOING_TO_REPAIR -> {
+                        rotateTowards(closestPlanet.x, closestPlanet.y);
+                        move();
+                        if(Vector2.dst(x,y,closestPlanet.x,closestPlanet.y)<20)
+                        {
+                            landed=true;
+                            closestPlanet.ships.add(this);
+                            //TODO repair and rest
+                        }
+                    }
+                    case ESCAPING_TO_SYSTEM -> {
+                        if(navigatingTo==null){
+                            findClosestSystems().stream().findAny().ifPresent(starSystem -> navigatingTo=starSystem);
+                        }
+                        else {
+                            StarGate starGate = currentSystem.starGate;
+                            rotateTowards(starGate.x, starGate.y);
+                            move();
+                            if(Vector2.dst(x,y,starGate.x,starGate.y)<20)
+                            {
+                                canJump=true;
+                            }
+                        }
+                    }
                 }
             }
         }
+//        if(navigatingTo==null)
+//        {
+//            List<StarSystem> closestSystems= findClosestSystems();
+//            List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
+//            if(systemsWithHigherPrices.isEmpty())
+//            {
+//                navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
+//                if(SpaceGame.debugDraw)
+//                    System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
+//            }
+//            else {
+//                navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
+//                if(SpaceGame.debugDraw)
+//                    System.out.println("Going to system " + navigatingTo.star.name);
+//            }
+//        }
+//        else if(navigatingTo==currentSystem)
+//        {
+//            if(targetPlanet==null) {
+//                List<Planet> planetsWithHigherPrices = filterPlanetsWithProfitablePrices(currentSystem.planets);
+//                if(!planetsWithHigherPrices.isEmpty())
+//                {
+//                    targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
+//                }
+//                else{
+//                    if(SpaceGame.debugDraw)
+//                        System.out.println("No suitable planets");
+//                    navigatingTo=null;
+//                }
+//            }
+//        }
+//        else {
+//            StarGate starGate=currentSystem.starGate;
+//            if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
+//            {
+//                rotateTowards(starGate.x,starGate.y);
+//                move();
+//                canJump=false;
+//            }
+//            else {
+//                canJump=true;
+//            }
+//        }
+//
+//        float integrityPercent= (float) integrity / hull.integrity;
+//        if(target!=null)
+//        {
+//            if(integrityPercent>0.3f)
+//            {
+//                rotateTowards(target.getX(),target.getY());
+//                if(Vector2.dst(target.getX(),target.getY(),x,y)<Gdx.graphics.getBackBufferHeight()/2)
+//                {
+//                    if(isLookingAt(target.getX(),target.getY()))
+//                    {
+//                        fire();
+//                    }
+//                }
+//                else {
+//                    move();
+//                }
+//            }
+//            else {
+//                if(!inventory.isEmpty())
+//                {
+//
+//                    target=null;
+//                }
+//            }
+//        }
+//
+//        if(targetPlanet!=null) {
+//            if (targetPlanet.starSystem != currentSystem) {
+//                throw new RuntimeException("System mismatch");
+//            }
+//            rotateTowards(targetPlanet.x, targetPlanet.y);
+//            if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
+//                currentlyLandedOn = targetPlanet;
+//                targetPlanet.ships.add(this);
+//                landed = true;
+//                if (SpaceGame.debugDraw)
+//                    System.out.println("Landed on " + targetPlanet.name);
+//                targetPlanet = null;
+//            }
+//        }
     }
 
     private void land()
@@ -362,62 +469,66 @@ public class NPCPilot implements Ship {
 
     public void workOnPlanet(float deltaTime, Planet currentPlanet)
     {
-        if(timeSpentOnPlanet>=secondsOfRest)
+        if(state==State.GOING_TO_REPAIR)
         {
-            //take off
-            x=currentPlanet.x;
-            y=currentPlanet.y;
-            landed=false;
-            secondsOfRest=SpaceGame.random.nextInt(5,15);
-            timeSpentOnPlanet=0;
+            //TODO
         }
         else {
-            timeSpentOnPlanet+=deltaTime;
-            if(pilotAI==PilotAI.TRADER) {
-                if (inventory.isEmpty()) {
-                    if (money > 0) {
-                        for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
-                            int warePrice = currentlyLandedOn.warePrices.get(ware);
-                            if (warePrice < Ware.BASE_PRICES.get(ware)) {
-                                //buy
-                                int wareCount = currentlyLandedOn.wareAmounts.get(ware);
-                                int canBuy = Math.min(wareCount, money / warePrice);
-                                if (purchases.size() > 10) {
-                                    purchases.removeFirst();
-                                }
-                                if (canBuy > 0) {
-                                    money -= canBuy * warePrice;
-                                    inventory.addItem(new Stack(ware, canBuy));
-                                    purchases.add(new NPCPurchase(ware, warePrice));
-                                    if (SpaceGame.debugDraw)
-                                        System.out.println("Bought " + canBuy + " " + ware.name + ". Money: " + money);
-                                    boughtFor.put(ware, warePrice);
-                                }
-                                if (money <= 0) {
-                                    break;
+            if (timeSpentOnPlanet >= secondsOfRest) {
+                //take off
+                x = currentPlanet.x;
+                y = currentPlanet.y;
+                landed = false;
+                secondsOfRest = SpaceGame.random.nextInt(5, 15);
+                timeSpentOnPlanet = 0;
+            } else {
+                timeSpentOnPlanet += deltaTime;
+                if (pilotAI == PilotAI.TRADER) {
+                    if (inventory.isEmpty()) {
+                        if (money > 0) {
+                            for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                                int warePrice = currentlyLandedOn.warePrices.get(ware);
+                                if (warePrice < Ware.BASE_PRICES.get(ware)) {
+                                    //buy
+                                    int wareCount = currentlyLandedOn.wareAmounts.get(ware);
+                                    int canBuy = Math.min(wareCount, money / warePrice);
+                                    if (purchases.size() > 10) {
+                                        purchases.removeFirst();
+                                    }
+                                    if (canBuy > 0) {
+                                        money -= canBuy * warePrice;
+                                        inventory.addItem(new Stack(ware, canBuy));
+                                        purchases.add(new NPCPurchase(ware, warePrice));
+                                        if (SpaceGame.debugDraw)
+                                            System.out.println("Bought " + canBuy + " " + ware.name + ". Money: " + money);
+                                        boughtFor.put(ware, warePrice);
+                                    }
+                                    if (money <= 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                } else {
-                    //sell
-                    for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
-                        int price = currentlyLandedOn.warePrices.get(ware);
-                        int wareAmount = currentlyLandedOn.wareAmounts.get(ware);
-                        for (Stack stack : inventory.stacks) {
-                            if (stack != null && stack.item == ware) {
-                                Iterator<NPCPurchase> it = purchases.iterator();
-                                while (it.hasNext()) {
-                                    NPCPurchase next = it.next();
-                                    if (next.ware == ware && next.boughtFor < price) {
-                                        int toSell = Math.min(Ware.MAXIMUM_WARE_AMOUNT - wareAmount, stack.count);
-                                        if (toSell > 0) {
-                                            inventory.removeItem(ware, toSell);
-                                            money += toSell * price;
-                                            if (SpaceGame.debugDraw)
-                                                System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
-                                            it.remove();
-                                            boughtFor.remove(ware);
+                    } else {
+                        //sell
+                        for (Ware ware : currentlyLandedOn.warePrices.keySet()) {
+                            int price = currentlyLandedOn.warePrices.get(ware);
+                            int wareAmount = currentlyLandedOn.wareAmounts.get(ware);
+                            for (Stack stack : inventory.stacks) {
+                                if (stack != null && stack.item == ware) {
+                                    Iterator<NPCPurchase> it = purchases.iterator();
+                                    while (it.hasNext()) {
+                                        NPCPurchase next = it.next();
+                                        if (next.ware == ware && next.boughtFor < price) {
+                                            int toSell = Math.min(Ware.MAXIMUM_WARE_AMOUNT - wareAmount, stack.count);
+                                            if (toSell > 0) {
+                                                inventory.removeItem(ware, toSell);
+                                                money += toSell * price;
+                                                if (SpaceGame.debugDraw)
+                                                    System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
+                                                it.remove();
+                                                boughtFor.remove(ware);
+                                            }
                                         }
                                     }
                                 }
@@ -566,6 +677,16 @@ public class NPCPilot implements Ship {
         if(target==null)
         {
             target=ship;
+        }
+    }
+
+    public void afterJump()
+    {
+        canJump = false;
+        navigatingTo=null;
+        if(state==State.ESCAPING_TO_SYSTEM)
+        {
+            state=State.GOING_TO_REPAIR;
         }
     }
 //    private float findPlayerIntercept(Vector2 playerPos, Vector2 playerVel, int delta,Vector2 position,float projectileVelocity)
