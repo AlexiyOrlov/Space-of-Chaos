@@ -145,7 +145,7 @@ public class StarSystem {
                                 ship.onProjectileImpact(projectile);
                                 if (ship.getIntegrity() <= 0) {
                                     shipsToRemove.add(ship);
-                                    if(ship instanceof PlayerShip playerShip)
+                                    if(ship instanceof PlayerShip)
                                         SpaceGame.INSTANCE.playerShip=null;
                                 }
                                 toRemove.add(projectile);
