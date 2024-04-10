@@ -186,6 +186,35 @@ public class NPCPilot implements Ship {
                 canJump=true;
             }
         }
+
+        float integrityPercent= (float) integrity / hull.integrity;
+        if(target!=null)
+        {
+            if(integrityPercent>0.3f)
+            {
+                rotateTowards(target.getX(),target.getY());
+                if(Vector2.dst(target.getX(),target.getY(),x,y)<Gdx.graphics.getBackBufferHeight()/2)
+                {
+                    if(isLookingAt(target.getX(),target.getY()))
+                    {
+                        fire();
+                    }
+                }
+                else {
+                    move();
+                }
+            }
+            else {
+                if(!inventory.isEmpty())
+                {
+                    for (Stack stack : inventory.stacks) {
+                        Container container=new Container(stack,x,y,random.nextInt(-180,180));
+                        currentSystem.itemContainers.add(container);
+                    }
+                    target=null;
+                }
+            }
+        }
     }
 
     private void land()
@@ -196,8 +225,6 @@ public class NPCPilot implements Ship {
     private void guardAI(float deltaTime)
     {
         if(target!=null) {
-//            float angle=findPlayerIntercept(new Vector2(target.getX(),target.getY()),new Vector2(target.getVelocity().x,target.getVelocity().y),)
-//                    Vector2 prediction=Functions.intercept(new Vector2(x,y),new Vector2(target.getX(),target.getY()),target.getVelocity(),weapon.projectileSpeed);
             rotateTowards(target.getX(), target.getY());
             if (Vector2.dst(target.getX(), target.getY(), x, y) > Gdx.graphics.getBackBufferHeight() / 2) {
                 move();
@@ -216,7 +243,7 @@ public class NPCPilot implements Ship {
             if(isLookingAt(target.getX(),target.getY())) {
                 fire();
             }
-            if(target.getIntegrity()<=0)
+            if(target.getIntegrity()<=0 || target.getCurrentSystem()!=currentSystem)
             {
                 target=null;
             }
@@ -276,7 +303,7 @@ public class NPCPilot implements Ship {
     public boolean isLookingAt(float x,float y)
     {
         Vector2 forward = new Vector2(MathUtils.cosDeg(rotationDegrees), MathUtils.sinDeg(rotationDegrees));
-        Vector2 dist = new Vector2(target.getX(), target.getY()).sub(x, y).nor();
+        Vector2 dist = new Vector2(this.x, this.y).sub(x, y).nor();
         float dot = Vector2.dot(forward.x, forward.y, dist.x, dist.y);
         return Math.abs(dot) < 0.1f;
     }

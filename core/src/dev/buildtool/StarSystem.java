@@ -84,6 +84,8 @@ public class StarSystem {
         ships.forEach(ship -> {
             if(ship instanceof NPCPilot npcPilot)
                 npcPilot.draw(spriteBatch,shapeRenderer);
+            else if(ship instanceof PlayerShip playerShip)
+                playerShip.draw(spriteBatch,shapeRenderer);
         });
         spriteBatch.begin();
         itemContainers.forEach(container -> {
@@ -144,6 +146,8 @@ public class StarSystem {
                                 ship.onProjectileImpact(projectile);
                                 if (ship.getIntegrity() <= 0) {
                                     shipsToRemove.add(ship);
+                                    if(ship instanceof PlayerShip playerShip)
+                                        SpaceGame.INSTANCE.playerShip=null;
                                 }
                                 toRemove.add(projectile);
                             }
