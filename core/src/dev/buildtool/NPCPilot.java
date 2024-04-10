@@ -313,6 +313,19 @@ public class NPCPilot implements Ship {
                     rotateTowards(containerToCollect.x, containerToCollect.y);
                     move();
                 }
+            } else if (!inventory.isEmpty()) {
+                if(targetPlanet==null)
+                    targetPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                else {
+                    if(Vector2.dst(targetPlanet.x,targetPlanet.y,x,y)<20)
+                    {
+                        land(targetPlanet);
+                    }
+                    else {
+                        rotateTowards(targetPlanet.x, targetPlanet.y);
+                        move();
+                    }
+                }
             } else {
                 if (target == null) {
 
@@ -409,6 +422,22 @@ public class NPCPilot implements Ship {
 
     public void workOnPlanet(float deltaTime, Planet currentPlanet)
     {
+        if(pilotAI==PilotAI.PIRATE)
+        {
+            for (int i = 0; i < inventory.stacks.length; i++) {
+                Stack stack=inventory.stacks[i];
+                if(stack!=null)
+                {
+                    if(stack.item instanceof Ware ware) {
+                        int warePrice = currentPlanet.warePrices.get(ware);
+                        int moneyGain = stack.count*warePrice;
+                        inventory.stacks[i]=null;
+                        money+=moneyGain;
+                    }
+                }
+            }
+        }
+
         if(state==State.GOING_TO_REPAIR)
         {
             //TODO
