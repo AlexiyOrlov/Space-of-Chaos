@@ -22,11 +22,11 @@ public class StarSystem {
     public ArrayList<Ship> shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
     public Array<Projectile> projectiles;
-    Array<Container> itemContainers;
+    ArrayList<Container> itemContainers;
     public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
         projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
-        itemContainers=new Array<>();
+        itemContainers=new ArrayList<>();
         Random random = SpaceGame.random;
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         int inhabitedPlanetCount=0;

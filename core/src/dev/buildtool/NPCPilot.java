@@ -50,7 +50,7 @@ public class NPCPilot implements Ship {
     private boolean strafeDirection;
     private float sideMovementTime;
     private float leftAcceleration,rightAcceleration,frontAcceleration;
-    private EscapingTo escapingTo;
+    private Container containerToCollect;
     private Planet closestPlanet;
     enum EscapingTo{
         CLOSEST_PLANET,
@@ -295,33 +295,48 @@ public class NPCPilot implements Ship {
 
     private void pirateAI()
     {
-        if(target==null)
+        if(containerToCollect!=null)
         {
-
-            Optional<Ship> randomShip=currentSystem.ships.stream().filter(ship -> (ship instanceof PlayerShip playerShip && !playerShip.inventory.isEmpty()) ||
-                    (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.TRADER && !npcPilot.inventory.isEmpty())).findAny();
-            randomShip.ifPresent(ship -> target = ship);
-
-            StarGate starGate = currentSystem.starGate;
-            if(Vector2.dst(starGate.x, starGate.y,x,y)>200){
-                rotateTowards(starGate.x,starGate.y);
+            if(Vector2.dst(containerToCollect.x,containerToCollect.y,x,y)<20)
+            {
+                inventory.addItem(containerToCollect.stack);
+                currentSystem.itemContainers.remove(containerToCollect);
+            }
+            else {
+                rotateTowards(containerToCollect.x, containerToCollect.y);
                 move();
             }
         }
         else {
-            rotateTowards(target.getX(),target.getY());
-            if(Vector2.dst(x,y,target.getX(),target.getY())>200)
-            {
-                move();
-            }
-            if(Vector2.dst(x,y,target.getX(),target.getY())<Gdx.graphics.getBackBufferHeight()/2) {
-                if (isLookingAt(target.getX(), target.getY())) {
-                    fire();
+            if (target == null) {
+
+                Optional<Ship> randomShip = currentSystem.ships.stream().filter(ship -> (ship instanceof PlayerShip playerShip && !playerShip.inventory.isEmpty()) ||
+                        (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.TRADER && !npcPilot.inventory.isEmpty())).findAny();
+                randomShip.ifPresent(ship -> target = ship);
+
+                StarGate starGate = currentSystem.starGate;
+                if (Vector2.dst(starGate.x, starGate.y, x, y) > 200) {
+                    rotateTowards(starGate.x, starGate.y);
+                    move();
                 }
+            } else {
+                rotateTowards(target.getX(), target.getY());
+                if (Vector2.dst(x, y, target.getX(), target.getY()) > 200) {
+                    move();
+                }
+                if (Vector2.dst(x, y, target.getX(), target.getY()) < Gdx.graphics.getBackBufferHeight() / 2) {
+                    if (isLookingAt(target.getX(), target.getY())) {
+                        fire();
+                    }
+                }
+                if (target.getCurrentSystem() != currentSystem || target.getIntegrity() <= 0 || target.isLanded())
+                    target = null;
             }
-            if(target.getCurrentSystem()!=currentSystem || target.getIntegrity()<=0 || target.isLanded())
-                target=null;
         }
+
+        currentSystem.itemContainers.stream().reduce((container, container2) -> Vector2.dst(container.x,container.y,x,y)<Vector2.dst(container2.x,container2.y,x,y)?container:container2).ifPresent(container -> {
+            containerToCollect=container;
+        });
     }
 
     public boolean isLookingAt(float x,float y)
