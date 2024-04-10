@@ -12,7 +12,7 @@ public class WeaponRegistry {
     public static final Weapon GUN=new Gun(10,1,10, SpaceGame.INSTANCE.basicProjectile, "Basic gun");
     public static final Weapon SHOTGUN=new Shotgun(5,2,30,SpaceGame.INSTANCE.pelletTexture, "Shotgun");
 
-    public static final Weapon AI_GUN1=new Gun(10,1,20,SpaceGame.INSTANCE.basicProjectile, "Basic AI gun");
+    public static final Weapon AI_GUN1=new Gun(15,1,20,SpaceGame.INSTANCE.basicProjectile, "Basic AI gun");
     static {
         WEAPONS.put("basic gun",GUN);
     }
