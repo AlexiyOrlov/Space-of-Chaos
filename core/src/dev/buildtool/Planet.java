@@ -203,6 +203,7 @@ public class Planet {
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
             equipmentInventory.addItem(new Stack(Engine.MARK2,1));
             equipmentInventory.addItem(new Stack(Hull.HORNET,1));
+            equipmentInventory.addItem(new Stack(Hull.BUMBLEBEE,1));
         }
         else {
             int resources=SpaceGame.random.nextInt(1,3);
