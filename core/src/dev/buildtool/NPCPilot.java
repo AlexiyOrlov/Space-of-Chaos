@@ -216,8 +216,7 @@ public class NPCPilot implements Ship {
                         move();
                         if(Vector2.dst(x,y,closestPlanet.x,closestPlanet.y)<20)
                         {
-                            landed=true;
-                            closestPlanet.ships.add(this);
+                            land(closestPlanet);
                         }
                     }
                     case ESCAPING_TO_SYSTEM -> {
@@ -323,9 +322,10 @@ public class NPCPilot implements Ship {
 //        }
     }
 
-    private void land()
+    private void land(Planet on)
     {
-
+        on.ships.add(this);
+        landed=true;
     }
 
     private void guardAI(float deltaTime)
