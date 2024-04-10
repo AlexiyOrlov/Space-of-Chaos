@@ -104,7 +104,7 @@ public class SpaceGame extends Game {
 		assetManager.load("thrusters 1.png",Texture.class);
 		assetManager.load("thrusters 2.png",Texture.class);
 		assetManager.load("gun.png", Texture.class);
-		assetManager.load("shotgun texture.png", Texture.class);
+		assetManager.load("shotgun.png", Texture.class);
 		assetManager.load("drone 1.png", Texture.class);
 		assetManager.load("container.png", Texture.class);
 		assetManager.load("ship icon2.png", Texture.class);
@@ -150,7 +150,7 @@ public class SpaceGame extends Game {
 		thrusters1Texture=assetManager.get("thrusters 1.png");
 		thrusters2Texture=assetManager.get("thrusters 2.png");
 		gunTexture=assetManager.get("gun.png");
-		shotgunTexture=assetManager.get("shotgun texture.png");
+		shotgunTexture=assetManager.get("shotgun.png");
 		cashTexture=assetManager.get("cash64.png");
 		drone2Texture=assetManager.get("drone 1.png");
 		containerTexture=assetManager.get("container.png");
