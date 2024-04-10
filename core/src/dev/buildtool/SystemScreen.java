@@ -120,6 +120,15 @@ public class SystemScreen extends ScreenAdapter {
         {
             drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceGame.INSTANCE.stargateIcon);
         }
+        if(playerShip!=null && playerShip.hasScanner)
+        {
+            starSystem.ships.forEach(ship -> {
+                if(ship!=playerShip && !camera.frustum.pointInFrustum(ship.getX(),ship.getY(),0))
+                {
+                    drawWaypoint(ship.getX(),ship.getY(),SpaceGame.INSTANCE.shipIcon3);
+                }
+            });
+        }
         spriteBatch.end();
 
         stage.act(delta);
