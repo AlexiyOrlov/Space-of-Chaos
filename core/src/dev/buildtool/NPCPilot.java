@@ -463,6 +463,7 @@ public class NPCPilot implements Ship {
                 landed = false;
                 secondsOfRest = SpaceGame.random.nextInt(5, 15);
                 timeSpentOnPlanet = 0;
+                state=null;
             } else {
                 timeSpentOnPlanet += deltaTime;
                 if (pilotAI == PilotAI.TRADER) {
