@@ -90,8 +90,6 @@ public class SystemScreen extends ScreenAdapter {
             playerShip.update(delta, viewport);
 
         starSystem.draw(spriteBatch, shapeRenderer);
-//        if(playerShip!=null)
-//            playerShip.draw(spriteBatch,shapeRenderer );
 
         if(playerShip!=null) {
             camera.position.set(playerShip.x, playerShip.y, 0);
