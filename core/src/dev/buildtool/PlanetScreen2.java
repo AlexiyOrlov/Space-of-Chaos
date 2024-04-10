@@ -304,7 +304,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             }
                         }else {
                             Dialog dialog = new Dialog("Sold out", skin);
-                            Label message = new Label(ware.type + " is sold out", skin);
+                            Label message = new Label(ware.name + " is sold out", skin);
                             dialog.button(new TextButton("OK", skin));
                             dialog.add(message);
                             dialog.show(stage);

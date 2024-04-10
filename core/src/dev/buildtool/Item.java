@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.List;
 
 public class Item implements Comparable<Item>{
-    public String type,name;
+    public String name;
     public final int maxSize;
     public Texture texture;
     public int basePrice;
-    public Item(String type, int maxSize, String name, Texture texture, int basePrice) {
-        this.type = type;
+    public Item(int maxSize, String name, Texture texture, int basePrice) {
         this.maxSize = maxSize;
         this.name=name;
         this.texture=texture;
@@ -19,7 +18,7 @@ public class Item implements Comparable<Item>{
 
     @Override
     public int compareTo(Item item) {
-        return type.compareTo(item.type);
+        return name.compareTo(item.name);
     }
 
     public List<String> getTooltip()

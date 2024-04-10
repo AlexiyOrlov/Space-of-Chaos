@@ -22,7 +22,7 @@ public class Hull extends Item{
     public int integrity;
 
     public Hull(int capacity, Texture texture,int integrity,String name,int basePrice) {
-        super(name,1,name,texture,basePrice);
+        super(1,name,texture,basePrice);
         this.capacity = capacity;
         look=texture;
         this.integrity=integrity;
