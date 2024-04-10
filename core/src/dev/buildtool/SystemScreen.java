@@ -98,7 +98,7 @@ public class SystemScreen extends ScreenAdapter {
                 uiShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 uiShapeRenderer.setColor(Color.GOLDENROD);
                 float ip = (float) playerShip.integrity / playerShip.getHull().integrity;
-                float height = ip * Gdx.graphics.getBackBufferHeight() - 200;
+                float height = ip * (Gdx.graphics.getBackBufferHeight() - 200);
                 uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60 - 34, (Gdx.graphics.getBackBufferHeight() - height) / 2, 60, height);
                 uiShapeRenderer.end();
             }
