@@ -22,6 +22,11 @@ public class Functions {
         spriteBatch.draw(new TextureRegion(texture),x-texture.getWidth()/2,y-texture.getHeight()/2, texture.getWidth() /2,texture.getHeight()/2,texture.getWidth(),texture.getHeight(),1,1,rotationDegrees);
     }
 
+    public static void drawRotatedScaled(SpriteBatch spriteBatch,Texture texture,float x,float y,float rotationDegrees,float scale)
+    {
+        spriteBatch.draw(new TextureRegion(texture),x-texture.getWidth()/2,y-texture.getHeight()/2, texture.getWidth() /2,texture.getHeight()/2,texture.getWidth(),texture.getHeight(),scale,scale,rotationDegrees);
+    }
+
     public static float rotateTowards(float fromAngle,float xFrom,float yFrom,float xTo,float yTo,float correctionAngle,float rotationSpeed)
     {
         return MathUtils.lerpAngle(fromAngle,MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle,rotationSpeed);
