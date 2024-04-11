@@ -4,5 +4,6 @@ public enum PilotAI {
 
     TRADER,
     GUARD,
-    PIRATE
+    PIRATE,
+    AI
 }

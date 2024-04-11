@@ -101,6 +101,7 @@ public class NPCPilot implements Ship {
             case TRADER -> traderAI();
             case GUARD -> guardAI(deltaTime);
             case PIRATE -> pirateAI();
+            case AI -> aiai();
         }
 
     }
@@ -352,6 +353,37 @@ public class NPCPilot implements Ship {
                 containerToCollect = container;
                 target=null;
             });
+        }
+    }
+
+    private void aiai()
+    {
+        if(target!=null)
+        {
+            rotateTowards(target.getX(),target.getY());
+            if(Vector2.dst(x,y,target.getX(),target.getY())>Gdx.graphics.getBackBufferHeight()/2)
+            {
+                move();
+            }
+            else {
+                fire();
+            }
+        }
+        else if(state==null)
+        {
+            List<Ship> potentialTargets= currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI)).collect(Collectors.toList());
+            if(potentialTargets.isEmpty())
+            {
+                Planet closestPlanet= currentSystem.planets.stream().reduce((planet, planet2) -> Vector2.dst(planet.x,planet.y,x,y)<Vector2.dst(planet2.x,planet2.y,x,y)?planet:planet2).get();
+                if(Vector2.dst(closestPlanet.x,closestPlanet.y,x,y)>200)
+                {
+                    rotateTowards(closestPlanet.x, closestPlanet.y);
+                    move();
+                }
+            }
+            else {
+                target=potentialTargets.get(random.nextInt(potentialTargets.size()));
+            }
         }
     }
 
