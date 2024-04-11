@@ -33,7 +33,8 @@ public class SpaceGame extends Game {
 		battleHull2,pelletTexture,stargateIcon,battleHull3,pirateHull1,engine1Texture,engine2Texture,engine3Texture,shipIcon,
 		ship2icon,slotTexture3,thrusters1Texture,thrusters2Texture,gunTexture,shotgunTexture,cashTexture,drone2Texture,
 		containerTexture,shipIcon3,blackHullTexture,blackHull2Texture,tradingHull2Texture,pirateHull2Texture,pirateHull3Texture,
-		basicGunTexture,machineGunTexture,battleHull3Texture;
+		basicGunTexture,machineGunTexture,battleHull3Texture,aiSmallHull1,aiSmallHull2,aiMediumHull1,aiMediumHull2,aiBigHull1,
+			aiBigHull2,aiLargeHull1,aiLargeHull2;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -116,6 +117,14 @@ public class SpaceGame extends Game {
 		assetManager.load("basic gun.png", Texture.class);
 		assetManager.load("machine gun.png", Texture.class);
 		assetManager.load("battle hull 3.png", Texture.class);
+		assetManager.load("ai big hull 1.png",Texture.class);
+		assetManager.load("ai big hull 2.png",Texture.class);
+		assetManager.load("ai hull small 2.png",Texture.class);
+		assetManager.load("ai hull small 1.png",Texture.class);
+		assetManager.load("ai large hull 1.png",Texture.class);
+		assetManager.load("ai large hull 2.png",Texture.class);
+		assetManager.load("ai medium hull 2.png",Texture.class);
+		assetManager.load("ai medium hull 1.png",Texture.class);
 		assetManager.finishLoading();
 
 		alcoholTexture=assetManager.get("alcohol.png");
@@ -186,6 +195,15 @@ public class SpaceGame extends Game {
 		scalesTexture=assetManager.get("scales64.png");
 		redStarshipTexture=assetManager.get("red ship.png");
 		slotTexture=assetManager.get("blue square.png");
+
+		aiSmallHull1=assetManager.get("ai hull small 1.png");
+		aiSmallHull2=assetManager.get("ai hull small 2.png");
+		aiMediumHull1=assetManager.get("ai medium hull 1.png");
+		aiMediumHull2=assetManager.get("ai medium hull 2.png");
+		aiBigHull1=assetManager.get("ai big hull 1.png");
+		aiBigHull2=assetManager.get("ai big hull 2.png");
+		aiLargeHull1=assetManager.get("ai large hull 1.png");
+		aiLargeHull2=assetManager.get("ai large hull 2.png");
 		skin=new Skin(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
 		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
 		setScreen(new StartScreen(this));
