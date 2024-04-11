@@ -41,7 +41,7 @@ public class Projectile {
     public void render(SpriteBatch spriteBatch)
     {
         spriteBatch.begin();
-        spriteBatch.draw(textureRegion,x-texture.getWidth()/2,y-texture.getHeight()/2, 0, 0,texture.getWidth(),texture.getHeight(),1,1,rotation);
+        Functions.drawRotated(spriteBatch,texture,x,y,rotation);
         spriteBatch.end();
     }
 }
