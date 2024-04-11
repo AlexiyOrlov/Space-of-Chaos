@@ -43,7 +43,7 @@ public class SpaceGame extends Game {
 	public GlyphLayout textMeasurer;
 	public boolean updateWorld;
 	static boolean debugDraw;
-	public Sound machineGunSound,laserShotSound,blasterSound;
+	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound;
 	
 	@Override
 	public void create () {
@@ -214,6 +214,7 @@ public class SpaceGame extends Game {
 		machineGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/machine gun.wav"));
 		laserShotSound=Gdx.audio.newSound(Gdx.files.internal("sounds/laser-shot.wav"));
 		blasterSound=Gdx.audio.newSound(Gdx.files.internal("sounds/retro-shot-blaster.wav"));
+		shotGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/shotgun-spas.mp3"));
 	}
 	
 	@Override
