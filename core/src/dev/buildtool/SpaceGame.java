@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -42,6 +43,7 @@ public class SpaceGame extends Game {
 	public GlyphLayout textMeasurer;
 	public boolean updateWorld;
 	static boolean debugDraw;
+	public Sound machineGunSound,laserShotSound,blasterSound;
 	
 	@Override
 	public void create () {
@@ -208,6 +210,10 @@ public class SpaceGame extends Game {
 		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
 		setScreen(new StartScreen(this));
 		VisUI.load();
+
+		machineGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/machine gun.wav"));
+		laserShotSound=Gdx.audio.newSound(Gdx.files.internal("sounds/laser-shot.wav"));
+		blasterSound=Gdx.audio.newSound(Gdx.files.internal("sounds/retro-shot-blaster.wav"));
 	}
 	
 	@Override
@@ -251,10 +257,9 @@ public class SpaceGame extends Game {
 				if(!recalculate)
 					break;
 			}
-			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>5);
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>4);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
-//			System.out.println(i);
 		}
 		System.out.println("Generated "+planetCount+ " planets in total");
 		updateWorld=false;

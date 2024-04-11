@@ -1,5 +1,6 @@
 package dev.buildtool.weapons;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.List;
@@ -14,17 +15,21 @@ public abstract class Weapon extends Item {
     public final Texture projectileTexture;
     public final String name;
     public final float cooldown;
-    public Weapon(int damagePerProjectile,float fireDelay, int projectileSpeed, Texture projTexture, String name,Texture texture,int basePrice) {
+    private final Sound sound;
+    public Weapon(int damagePerProjectile, float fireDelay, int projectileSpeed, Texture projTexture, String name, Texture texture, int basePrice, Sound shootSound) {
         super(1,name,texture,basePrice);
         this.damagePerProjectile = damagePerProjectile;
         this.projectileSpeed = projectileSpeed;
         projectileTexture=projTexture;
         this.name=name;
         cooldown=fireDelay;
+        this.sound=shootSound;
     }
 
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter,Ship target)
     {
+        if(sound!=null)
+            sound.play();
         return createProjectiles(originX, originY, rotation, shooter, target);
     }
 

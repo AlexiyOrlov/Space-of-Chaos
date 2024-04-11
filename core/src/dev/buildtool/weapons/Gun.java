@@ -1,5 +1,6 @@
 package dev.buildtool.weapons;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 import dev.buildtool.Projectile;
@@ -7,8 +8,8 @@ import dev.buildtool.Ship;
 import dev.buildtool.SpaceGame;
 
 public class Gun extends Weapon {
-    public Gun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture texture,String name) {
-        super(damagePerProjectile, fireDelay, projectileSpeed,texture, name, SpaceGame.INSTANCE.basicGunTexture,3500);
+    public Gun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture texture, String name, Sound sound) {
+        super(damagePerProjectile, fireDelay, projectileSpeed,texture, name, SpaceGame.INSTANCE.basicGunTexture,3500, sound);
     }
 
     @Override
