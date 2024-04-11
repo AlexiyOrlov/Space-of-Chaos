@@ -32,7 +32,6 @@ public class NPCPilot implements Ship {
 
     private final Inventory inventory;
     public StarSystem navigatingTo;
-    private float acceleration;
     public boolean canJump;
     public int money=1000;
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
