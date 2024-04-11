@@ -12,6 +12,7 @@ public class Hull extends Item{
     private static final Hull TRADING1=new Hull(250, SpaceGame.INSTANCE.tradingHull1Texture,200,"Trading hull",50000);
     private static final Hull TRADING2=new Hull(300,SpaceGame.INSTANCE.tradingHull2Texture, 240,"Trading hull 2",60000);
     private static final Hull BATTLE3=new Hull(250,SpaceGame.INSTANCE.battleHull3, 400,"Battle hull 3",50000);
+    private static final Hull BATTLE1=new Hull(250,SpaceGame.INSTANCE.battleHull3Texture,450,"Battle hull 1",60000);
     private static final Hull BATTLE2=new Hull(250,SpaceGame.INSTANCE.battleHull2,300,"Battle hull 2",40000);
     private static final Hull PIRATE1=new Hull(150,SpaceGame.INSTANCE.pirateHull1, 160,"Pirate hull 1",40000);
     private static final Hull PIRATE2=new Hull(120,SpaceGame.INSTANCE.pirateHull2Texture, 140,"Pirate hull 2",35000);
@@ -20,6 +21,7 @@ public class Hull extends Item{
     public static ArrayList<Hull> tradingHulls=new ArrayList<>();
     public static ArrayList<Hull> pirateHulls=new ArrayList<>();
     static {
+        battleHulls.add(BATTLE1);
         battleHulls.add(BATTLE2);
         battleHulls.add(BATTLE3);
 
