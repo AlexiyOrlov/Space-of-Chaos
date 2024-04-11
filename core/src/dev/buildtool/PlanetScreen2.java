@@ -215,13 +215,13 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             purchaseHistoryTable.defaults().padRight(20).padBottom(10);
             updatePurchaseTable(player, purchaseHistoryTable, skin);
             purchaseHistoryTable.right();
-
+            BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
             planet.warePrices.forEach((ware, price) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
                 Label warePrice;
                 if(price<Ware.BASE_PRICES.get(ware))
-                    warePrice = new Label(price+" (below average)", skin);
+                    warePrice = new Label(price+"", new Label.LabelStyle(font,Color.GREEN));
                 else
                     warePrice = new Label(price.toString(), skin);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
