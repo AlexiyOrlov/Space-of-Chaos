@@ -123,6 +123,8 @@ public class StarMap extends ScreenAdapter {
         font.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
         glyphLayout.setText(font, "Press 'M' to exit");
         font.draw(spriteBatch,"Press 'M' to exit", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-50);
+        glyphLayout.setText(font,"Double right click a system to travel");
+        font.draw(spriteBatch,"Double right click a system to travel",(float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-70);
         font.draw(spriteBatch,"[GRAY]Gray - []system under AI control",0,30);
         font.draw(spriteBatch,"[YELLOW]Yellow - []free system",0,50);
         spriteBatch.end();
