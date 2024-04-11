@@ -29,7 +29,7 @@ public abstract class Weapon extends Item {
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter,Ship target)
     {
         if(sound!=null)
-            sound.play();
+            sound.play(0.2f);
         return createProjectiles(originX, originY, rotation, shooter, target);
     }
 
