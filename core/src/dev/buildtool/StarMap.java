@@ -117,11 +117,14 @@ public class StarMap extends ScreenAdapter {
         {
             SpaceGame.INSTANCE.setScreen(new SystemScreen(currentStarSystem,shipX,shipY));
         }
-        GlyphLayout glyphLayout=new GlyphLayout(SpaceGame.INSTANCE.bitmapFont,"Galactic map");
+        BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+        GlyphLayout glyphLayout=new GlyphLayout(font,"Galactic map");
         spriteBatch.begin();
-        SpaceGame.INSTANCE.bitmapFont.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
-        glyphLayout.setText(SpaceGame.INSTANCE.bitmapFont, "Press 'M' to exit");
-        SpaceGame.INSTANCE.bitmapFont.draw(spriteBatch,"Press 'M' to exit", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-50);
+        font.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
+        glyphLayout.setText(font, "Press 'M' to exit");
+        font.draw(spriteBatch,"Press 'M' to exit", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-50);
+        font.draw(spriteBatch,"[GRAY]Gray - []system under AI control",0,30);
+        font.draw(spriteBatch,"[YELLOW]Yellow - []free system",0,50);
         spriteBatch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setProjectionMatrix(camera.combined);
