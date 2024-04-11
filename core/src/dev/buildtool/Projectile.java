@@ -11,7 +11,6 @@ public class Projectile {
     public Texture texture;
     public int damage;
     public float rotation;
-    private final TextureRegion textureRegion;
     Circle area;
 
     public final Ship shooter,target;
@@ -23,7 +22,6 @@ public class Projectile {
         this.x = x;
         this.y = y;
         this.rotation=rotation;
-        textureRegion=new TextureRegion(texture);
         area=new Circle(x,y,texture.getWidth()/2);
         this.shooter=shooter;
         this.target=target;
