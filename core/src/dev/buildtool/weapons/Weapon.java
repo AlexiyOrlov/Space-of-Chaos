@@ -13,8 +13,8 @@ public abstract class Weapon extends Item {
     public final int projectileSpeed;
     public final Texture projectileTexture;
     public final String name;
-    public final int cooldown;
-    public Weapon(int damagePerProjectile,int fireDelay, int projectileSpeed, Texture projTexture, String name,Texture texture,int basePrice) {
+    public final float cooldown;
+    public Weapon(int damagePerProjectile,float fireDelay, int projectileSpeed, Texture projTexture, String name,Texture texture,int basePrice) {
         super(1,name,texture,basePrice);
         this.damagePerProjectile = damagePerProjectile;
         this.projectileSpeed = projectileSpeed;
