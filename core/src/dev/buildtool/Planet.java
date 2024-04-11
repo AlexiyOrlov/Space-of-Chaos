@@ -26,7 +26,6 @@ public class Planet {
     public HashMap<Ware,Float> wareManufactureProgress=new HashMap<>();
     public float radius;
     public Circle outline;
-    public boolean isInhabited;
     private static final Random random=new Random();
     public ArrayList<Resource> resources;
     public int size;
@@ -37,6 +36,12 @@ public class Planet {
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
     private final boolean clockWise;
+
+    public enum Kind{
+        INHABITED,
+        UNINHABITED,
+        OCCUPIED
+    }
     static {
         planetNames.add("Ankeigantu");
         planetNames.add("Caruta");
@@ -181,22 +186,22 @@ public class Planet {
     }
 
     private final ArrayList<NPCPilot> shipsToRemove;
-
-    public Planet(Texture texture, int distance, float angle, float orbitSpeed, boolean inhabited, StarSystem belongsTo) {
+    public Kind kind;
+    public Planet(Texture texture, int distance, float angle, float orbitSpeed, StarSystem belongsTo, Kind kind) {
         this.texture = texture;
         starSystem=belongsTo;
         shipsToRemove=new ArrayList<>();
+        this.kind=kind;
         String randomName=planetNames.iterator().next();
         name=randomName;
         planetNames.remove(randomName);
         resources=new ArrayList<>();
-        isInhabited=inhabited;
         this.x = (distance* MathUtils.cos(angle)) + (float) texture.getWidth() /2;
         this.y = (distance*MathUtils.sin(angle)) + (float) texture.getHeight() /2;
         currentAngle=angle;
         this.distance=distance;
         speed=orbitSpeed;
-        if(inhabited) {
+        if(kind==Kind.INHABITED) {
             warePrices = new TreeMap<>();
             wareAmounts = new TreeMap<>();
             equipmentInventory=new Inventory(9);
@@ -227,7 +232,7 @@ public class Planet {
         outline=new Circle();
         outline.set(x,y,radius);
         clockWise=random.nextBoolean();
-        if(inhabited) {
+        if(kind==Kind.INHABITED) {
             int guardCount=0;
             for (int i = 0; i < 2; i++) {
                 if (random.nextBoolean()) {
@@ -281,7 +286,7 @@ public class Planet {
         BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
         GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
 //        spriteBatch.setTransformMatrix(matrix4);
-        if(!isInhabited)
+        if(kind==Kind.UNINHABITED)
         {
             glyphLayout.setText(font,"Uninhabited");
             font.draw(spriteBatch,"Uninhabited",x-glyphLayout.width/2,y-30);
@@ -301,7 +306,7 @@ public class Planet {
         this.x = (distance* MathUtils.cos(currentAngle))+ (float) texture.getWidth() /2;
         this.y = (distance*MathUtils.sin(currentAngle))+ (float) texture.getHeight() /2;
         outline.set(x,y,radius);
-        if(isInhabited) {
+        if(kind==Kind.INHABITED) {
             ships.forEach(npcPilot -> {
                 npcPilot.workOnPlanet(deltaTime, this);
                 if (!npcPilot.landed)

@@ -109,7 +109,7 @@ public class SystemScreen extends ScreenAdapter {
             drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
         planets.forEach(planet -> {
             if(!camera.frustum.pointInFrustum(planet.x,planet.y,0)) {
-                if (planet.isInhabited) {
+                if (planet.kind== Planet.Kind.INHABITED) {
                     drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.inhabitedPlanetIcon);
                 } else {
                     drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.uninhabitedPlanetIcon);

@@ -1,7 +1,6 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -23,7 +22,7 @@ public class StarSystem {
     public StarGate starGate;
     public Array<Projectile> projectiles;
     ArrayList<Container> itemContainers;
-    public StarSystem(ArrayList<Texture> planetTextures,ArrayList<Texture> starTextures,int x,int y) {
+    public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
         itemContainers=new ArrayList<>();
@@ -32,15 +31,18 @@ public class StarSystem {
         int inhabitedPlanetCount=0;
         int distance=500;
         for (int i = 0; i < random.nextInt(3,7); i++) {
-            boolean inhabited=false;
-            if(inhabitedPlanetCount<3)
-            {
-                inhabited= random.nextBoolean();
-                if(inhabited)
-                    inhabitedPlanetCount++;
+            if(occupiedByAI){
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, Planet.Kind.OCCUPIED ));
             }
-            planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI,MathUtils.PI), random.nextFloat(0.01f,0.08f), inhabited, this));
-
+            else {
+                boolean inhabited = false;
+                if (inhabitedPlanetCount < 3) {
+                    inhabited = random.nextBoolean();
+                    if (inhabited)
+                        inhabitedPlanetCount++;
+                }
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED));
+            }
             distance+=300;
         }
         starGate=new StarGate(distance, random.nextFloat(-MathUtils.PI,MathUtils.PI));
@@ -53,7 +55,7 @@ public class StarSystem {
                 priceFactors.put(ware, factor);
             });
             planets.forEach(planet -> {
-                if(planet.isInhabited) {
+                if(planet.kind== Planet.Kind.INHABITED) {
                     Ware.WARES.forEach(ware -> {
                         int randomWareAmount = random.nextInt(10, 500);
                         int basePrice = Ware.BASE_PRICES.get(ware);

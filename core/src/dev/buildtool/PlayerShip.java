@@ -197,7 +197,7 @@ public class PlayerShip implements Ship{
             if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
                 for (Planet planet : currentStarSystem.planets) {
                     if (planet.outline.overlaps(area)) {
-                        if (planet.isInhabited)
+                        if (planet.kind== Planet.Kind.INHABITED)
                             SpaceGame.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem, planet, this));
                         else
                             SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet, this));

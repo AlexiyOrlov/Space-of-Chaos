@@ -251,7 +251,7 @@ public class SpaceGame extends Game {
 				if(!recalculate)
 					break;
 			}
-			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y);
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>5);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
 //			System.out.println(i);

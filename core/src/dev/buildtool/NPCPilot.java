@@ -195,7 +195,7 @@ public class NPCPilot implements Ship {
             float distanceToClosestPlanet = Float.MAX_VALUE;
             if (closestPlanet == null) {
                 for (Planet planet : currentSystem.planets) {
-                    if (planet.isInhabited) {
+                    if (planet.kind== Planet.Kind.INHABITED) {
                         float distanceToPlanet = Vector2.dst(x, y, planet.x, planet.y);
                         if (distanceToPlanet < distanceToClosestPlanet)
                         {
@@ -410,7 +410,7 @@ public class NPCPilot implements Ship {
     private List<Planet> filterPlanetsWithProfitablePrices(List<Planet> planets) {
         if(!inventory.isEmpty()) {
             return planets.stream().filter(planet -> {
-                if (planet.isInhabited) {
+                if (planet.kind== Planet.Kind.INHABITED) {
                     for (Ware ware : planet.warePrices.keySet()) {
                         int warePrice = planet.warePrices.get(ware);
                         Integer lastPurchasePrice=boughtFor.get(ware);
@@ -434,7 +434,7 @@ public class NPCPilot implements Ship {
         }
         else {
             return planets.stream().filter(planet -> {
-                if (planet.isInhabited) {
+                if (planet.kind== Planet.Kind.INHABITED) {
                     for (Ware ware : planet.warePrices.keySet()) {
                         int warePrice = planet.warePrices.get(ware);
                         if (warePrice > Ware.BASE_PRICES.get(ware)) {

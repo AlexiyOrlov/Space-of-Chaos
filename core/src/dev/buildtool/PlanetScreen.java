@@ -57,7 +57,7 @@ public class PlanetScreen extends ScreenAdapter {
 
         Table market = new Table(skin);
         Label moneyLabel=new Label("Money: "+player.money,skin);
-        if(planet.isInhabited) {
+        if(planet.kind== Planet.Kind.INHABITED) {
             table.add(moneyLabel);
             table.row();
             market.setFillParent(true);
@@ -320,7 +320,7 @@ public class PlanetScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 shipParts.setVisible(true);
-                if(planet.isInhabited){
+                if(planet.kind== Planet.Kind.INHABITED){
                     planet.equipmentInventory.setVisible(false);
                     market.setVisible(false);
                     purchaseHistoryTable.setVisible(false);
@@ -339,7 +339,7 @@ public class PlanetScreen extends ScreenAdapter {
             }
         }
 
-        if(planet.isInhabited) {
+        if(planet.kind== Planet.Kind.INHABITED) {
             int in = 0;
             for (int i = 3; i > 0; i--) {
                 for (int j = 0; j < 3; j++) {
@@ -411,7 +411,7 @@ public class PlanetScreen extends ScreenAdapter {
         //draw slots and stacks first
         player.inventory.draw(spriteBatch);
         shipParts.draw(spriteBatch);
-        if(planet.isInhabited) {
+        if(planet.kind== Planet.Kind.INHABITED) {
             planet.equipmentInventory.draw(spriteBatch);
             //draw tooltips
             player.inventory.drawSlotInfo(spriteBatch, viewport);

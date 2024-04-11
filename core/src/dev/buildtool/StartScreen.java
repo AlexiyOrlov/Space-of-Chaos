@@ -31,7 +31,7 @@ public class StartScreen extends ScreenAdapter {
                 lable:
                 while (true) {
                     for (Planet planet : next.planets) {
-                        if(planet.isInhabited){
+                        if(planet.kind== Planet.Kind.INHABITED){
                             PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceGame.INSTANCE.redStarshipTexture, next);
                             game.playerShip= playerShip;
                             playerShip.money=1000;
