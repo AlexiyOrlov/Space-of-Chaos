@@ -62,13 +62,13 @@ public class StarMap extends ScreenAdapter {
             {
                 camera.position.x+= starSystem.positionX;
                 camera.position.y+=starSystem.positionY;
-                Label cs=new Label("[YELLOW]Current system ("+starSystem.star.name+")",new Label.LabelStyle(font, Color.WHITE));
+                Label cs=new Label("Current system ("+starSystem.star.name+")",new Label.LabelStyle(font,starSystem.occupied?Color.GRAY: Color.YELLOW));
                 GlyphLayout glyphLayout=new GlyphLayout(font,"Current system ("+starSystem.star.name+")");
                 cs.setPosition(starSystem.positionX- glyphLayout.width/2, starSystem.positionY+30);
                 stage.addActor(cs);
             }
             else {
-                Label starName=new Label("[YELLOW]"+starSystem.star.name,new Label.LabelStyle(font,Color.WHITE));
+                Label starName=new Label(starSystem.star.name,new Label.LabelStyle(font,starSystem.occupied?Color.GRAY : Color.YELLOW));
                 GlyphLayout glyphLayout=new GlyphLayout(font,starSystem.star.name);
                 starName.setPosition(starSystem.positionX -glyphLayout.width/2,starSystem.positionY+30);
                 stage.addActor(starName);

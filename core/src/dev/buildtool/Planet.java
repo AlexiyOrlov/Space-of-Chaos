@@ -259,6 +259,21 @@ public class Planet {
                 ships.add(trader);
                 starSystem.ships.add(trader);
             }
+        } else if (kind == Kind.OCCUPIED) {
+            int randomInt=random.nextInt(100);
+            NPCPilot aiPilot;
+            if(randomInt<25) {
+                aiPilot = new NPCPilot(this, PilotAI.AI, WeaponRegistry.GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC);
+            } else if (randomInt < 50) {
+                aiPilot = new NPCPilot(this, PilotAI.AI, WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_MEDIUM1:Hull.AI_MEDIUM2,Engine.BASIC,SideThrusters.BASIC);
+            } else if (randomInt < 75) {
+                aiPilot=new NPCPilot(this,PilotAI.AI,WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.BASIC);
+            }
+            else
+                aiPilot=new NPCPilot(this,PilotAI.AI,WeaponRegistry.AI_GUN1, random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW);
+            aiPilot.x=x;
+            aiPilot.y=y;
+            starSystem.ships.add(aiPilot);
         }
     }
 

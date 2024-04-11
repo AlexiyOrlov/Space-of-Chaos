@@ -22,7 +22,9 @@ public class StarSystem {
     public StarGate starGate;
     public Array<Projectile> projectiles;
     ArrayList<Container> itemContainers;
+    public boolean occupied;
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
+        occupied=occupiedByAI;
         projectiles=new Array<>();
         this.planets = new ArrayList<>(7);
         itemContainers=new ArrayList<>();
