@@ -9,6 +9,14 @@ public class Hull extends Item{
     public static final Hull BASIC=new Hull(100, SpaceGame.INSTANCE.redStarshipTexture ,100,"Basic hull",3000);
     public static final Hull HORNET=new Hull(150,SpaceGame.INSTANCE.blackHullTexture, 160,"Hornet",40000);
     public static final Hull BUMBLEBEE=new Hull(200,SpaceGame.INSTANCE.blackHull2Texture, 200,"Bumblebee",70000);
+    public static final Hull AI_SMALL1=new Hull(100,SpaceGame.INSTANCE.aiSmallHull1, 100,"AI small hull 1",-1);
+    public static final Hull AI_SMALL2=new Hull(120,SpaceGame.INSTANCE.aiSmallHull2, 120,"AI small hull 2",-1);
+    public static final Hull AI_MEDIUM1=new Hull(200,SpaceGame.INSTANCE.aiMediumHull1,200,"AI medium hull 1",-1);
+    public static final Hull AI_MEDIUM2=new Hull(230,SpaceGame.INSTANCE.aiMediumHull2, 230,"AI medium hull 2",-1);
+    public static final Hull AI_BIG1=new Hull(300,SpaceGame.INSTANCE.aiBigHull1, 300,"AI big hull 1",-1);
+    public static final Hull AI_BIG2=new Hull(330,SpaceGame.INSTANCE.aiMediumHull2, 330,"AI big hull 2",-1);
+    public static final Hull AI_LARGE1=new Hull(380,SpaceGame.INSTANCE.aiLargeHull1, 380,"AI large hull 1",-1);
+    public static final Hull AI_LARGE2=new Hull(420, SpaceGame.INSTANCE.aiLargeHull2,420,"AI large hull 2",-1);
     private static final Hull TRADING1=new Hull(250, SpaceGame.INSTANCE.tradingHull1Texture,200,"Trading hull 1",50000);
     private static final Hull TRADING2=new Hull(300,SpaceGame.INSTANCE.tradingHull2Texture, 240,"Trading hull 2",60000);
     private static final Hull BATTLE3=new Hull(250,SpaceGame.INSTANCE.battleHull3, 400,"Battle hull 3",50000);
