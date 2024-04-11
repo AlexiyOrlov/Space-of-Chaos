@@ -101,7 +101,7 @@ public class NPCPilot implements Ship {
             case TRADER -> traderAI();
             case GUARD -> guardAI(deltaTime);
             case PIRATE -> pirateAI();
-            case AI -> aiai();
+            case AI -> aiai(deltaTime);
         }
 
     }
@@ -356,7 +356,7 @@ public class NPCPilot implements Ship {
         }
     }
 
-    private void aiai()
+    private void aiai(float deltaTime)
     {
         if(target!=null)
         {
@@ -366,18 +366,30 @@ public class NPCPilot implements Ship {
                 move();
             }
             else {
+                if(sideMovementTime<=0)
+                {
+                    sideMovementTime=random.nextInt(3,6);
+                    strafeDirection= random.nextBoolean();
+                }
+                else {
+                    sideMovementTime-=deltaTime;
+                }
+                strafe(strafeDirection);
                 fire();
             }
+            if(target.getIntegrity()<=0 || target.isLanded() || target.getCurrentSystem()!=currentSystem)
+                target=null;
         }
         else if(state==null)
         {
             List<Ship> potentialTargets= currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI)).collect(Collectors.toList());
             if(potentialTargets.isEmpty())
             {
-                Planet closestPlanet= currentSystem.planets.stream().reduce((planet, planet2) -> Vector2.dst(planet.x,planet.y,x,y)<Vector2.dst(planet2.x,planet2.y,x,y)?planet:planet2).get();
-                if(Vector2.dst(closestPlanet.x,closestPlanet.y,x,y)>200)
+                if(targetPlanet==null)
+                    targetPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                if(Vector2.dst(targetPlanet.x,targetPlanet.y,x,y)>200)
                 {
-                    rotateTowards(closestPlanet.x, closestPlanet.y);
+                    rotateTowards(targetPlanet.x, targetPlanet.y);
                     move();
                 }
             }
