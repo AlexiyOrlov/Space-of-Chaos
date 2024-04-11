@@ -311,7 +311,10 @@ public class NPCPilot implements Ship {
                 }
             } else if (!inventory.isEmpty()) {
                 if(targetPlanet==null)
-                    targetPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                {
+                    List<Planet> inhabited= currentSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.INHABITED).toList();
+                    targetPlanet=inhabited.get(random.nextInt(inhabited.size()));
+                }
                 else {
                     if(Vector2.dst(targetPlanet.x,targetPlanet.y,x,y)<20)
                     {

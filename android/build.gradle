@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "dev.buildtool"
-        minSdkVersion 24
+        minSdkVersion 34
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
