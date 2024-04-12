@@ -25,7 +25,7 @@ public class SpaceGame extends Game {
 	AssetManager assetManager;
 	ArrayList<StarSystem> starSystems;
 	ArrayList<Texture> starTextures;
-	PlayerShip playerShip;
+	public PlayerShip playerShip;
 	Texture redStarshipTexture;
 	public Texture scalesTexture,takeOffTexture,slotTexture,alcoholTexture,toolsTexture,carPartsTexture,firearmsTexture,
 			jewelleryTexture, clothesTexture,electronicsTexture,waterTexture,furnitureTexture,foodTexture,medicineTexture,
