@@ -505,7 +505,8 @@ public class NPCPilot implements Ship {
                 secondsOfRest = SpaceGame.random.nextInt(20, 40);
             }
             else {
-                throw new RuntimeException("No money on repairs");
+                state=null;
+                System.out.println("No money on repairs");
             }
         }
         else {
