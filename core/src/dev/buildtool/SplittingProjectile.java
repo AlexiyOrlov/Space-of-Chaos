@@ -13,7 +13,7 @@ public class SplittingProjectile extends Projectile{
     @Override
     public void update(float deltaTime, ArrayList<Projectile> projectilesToAdd, ArrayList<Projectile> projectilesToRemove) {
         super.update(deltaTime, projectilesToAdd, projectilesToRemove);
-        if(time>0.5)
+        if(time>0.25)
         {
             int rotation=SpaceGame.random.nextInt(-180,180);
             for (int i = 0; i < 20; i++) {
