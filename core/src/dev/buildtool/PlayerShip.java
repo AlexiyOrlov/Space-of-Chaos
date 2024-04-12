@@ -38,7 +38,7 @@ public class PlayerShip implements Ship{
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;
     boolean hasScanner=true;
-    private Inventory shipParts=new Inventory(4);
+    private final Inventory shipParts=new Inventory(4);
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
