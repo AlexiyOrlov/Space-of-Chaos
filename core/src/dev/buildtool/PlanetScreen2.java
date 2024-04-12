@@ -64,9 +64,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             Inventory inventory=playerShip.getShipParts();
             SlotButton hull=new SlotButton(skin, 0,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
             slotButtons.add(hull);
-            SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Weapon);
+            SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> true);
             slotButtons.add(weapon);
-            SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Weapon);
+            SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> true);
             slotButtons.add(secondaryWeapon);
             SlotButton engine=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
             slotButtons.add(engine);
