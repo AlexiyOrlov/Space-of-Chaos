@@ -119,7 +119,7 @@ public class NPCPilot implements Ship {
             if(target!=null)
             {
                 rotateTowards(target.getX(),target.getY());
-                if(Vector2.dst(target.getX(),target.getY(),x,y)>Gdx.graphics.getHeight()/2)
+                if(Vector2.dst(target.getX(),target.getY(),x,y)>SpaceGame.getWindowHeight()/2)
                 {
                     move();
                 }

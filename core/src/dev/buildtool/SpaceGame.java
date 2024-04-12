@@ -290,4 +290,9 @@ public class SpaceGame extends Game {
 	{
 		return assetManager.get("textures/"+name+".png");
 	}
+
+	public static int getWindowHeight()
+	{
+		return Gdx.graphics.getHeight();
+	}
 }
