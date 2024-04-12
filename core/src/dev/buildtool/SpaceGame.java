@@ -239,7 +239,8 @@ public class SpaceGame extends Game {
 		int x=0;
 		int y=0;
 		int planetCount=0;
-		for (int i = 0; i <10; i++) {
+		int starSystemCount=30;
+		for (int i = 0; i <starSystemCount; i++) {
 			int xleft=random.nextInt(-300,-100);
 			int xright=random.nextInt(100,300);
 			int yleft=random.nextInt(-300,-100);
@@ -262,7 +263,7 @@ public class SpaceGame extends Game {
 				if(!recalculate)
 					break;
 			}
-			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>4);
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
 		}
