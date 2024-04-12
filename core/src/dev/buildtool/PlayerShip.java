@@ -38,12 +38,12 @@ public class PlayerShip implements Ship{
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;
     boolean hasScanner=true;
-    private final Inventory shipParts=new Inventory(4);
+    private final Inventory shipParts=new Inventory(5);
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
         setHull(new Stack(Hull.BASIC,1));
-        setWeapon(new Stack(WeaponRegistry.CLUSTER_GUN,1));
+        setPrimaryWeapon(new Stack(WeaponRegistry.CLUSTER_GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
         this.rotation = rotation;
@@ -58,16 +58,25 @@ public class PlayerShip implements Ship{
         integrity=getHull().integrity;
     }
 
-    public void setWeapon(Stack weapon)
+    public void setPrimaryWeapon(Stack weapon)
     {
         if(!(weapon.item instanceof Weapon))
             throw new RuntimeException("Must be a weapon");
         shipParts.stacks[1]=new Stack(weapon.item,1);
     }
 
-    public Weapon getWeapon()
+    public Weapon getPrimaryWeapon()
     {
         return (Weapon) shipParts.stacks[1].item;
+    }
+    public void setSecondaryWeapon(Stack weapon)
+    {
+        if(!(weapon.item instanceof Weapon))
+            throw new RuntimeException("Must be a weapon");
+        shipParts.stacks[4]=new Stack(weapon.item,1);
+    }
+    public Weapon getSecondaryWeapon(){
+        return (Weapon) shipParts.stacks[4].item;
     }
 
     public void setHull(Stack hull)
@@ -209,10 +218,10 @@ public class PlayerShip implements Ship{
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getWeapon().shoot(x, y, rotation, this, null);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
-                        fireDelay = getWeapon().cooldown;
+                        fireDelay = getPrimaryWeapon().cooldown;
                     }
                 }
             }

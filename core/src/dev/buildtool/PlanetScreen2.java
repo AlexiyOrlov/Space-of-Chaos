@@ -66,6 +66,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             slotButtons.add(hull);
             SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Weapon);
             slotButtons.add(weapon);
+            SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Weapon);
+            slotButtons.add(secondaryWeapon);
             SlotButton engine=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
             slotButtons.add(engine);
             SlotButton sideThrusters=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
@@ -75,6 +77,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content.row();
             content.add(new Label("Weapon",skin));
             content.add(weapon);
+            content.row();
+            content.add(new Label("Weapon 2",skin));
+            content.add(secondaryWeapon);
             content.row();
             content.add(new Label("Engine",skin));
             content.add(engine);

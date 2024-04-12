@@ -105,6 +105,8 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         slotButtons.add(hull);
         SlotButton weapon=new SlotButton(skin,1,this,shipEquipment,stage.getViewport(),arg0 -> arg0!=null && arg0.item instanceof Weapon);
         slotButtons.add(weapon);
+        SlotButton secondaryWeapon=new SlotButton(skin,4,this,shipEquipment,stage.getViewport(),arg0 -> false);
+        slotButtons.add(secondaryWeapon);
         SlotButton engine=new SlotButton(skin,2,this,shipEquipment,stage.getViewport(),arg0 -> false);
         slotButtons.add(engine);
         SlotButton sideThrusters=new SlotButton(skin,3,this,shipEquipment,stage.getViewport(),arg0 -> false);
@@ -115,6 +117,9 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         content.row();
         content.add(new Label("Weapon",labelStyle));
         content.add(weapon).padRight(20);
+        content.row();
+        content.add(new Label("Weapon 2",labelStyle));
+        content.add(secondaryWeapon).padRight(20);
         content.row();
         content.add(new Label("Engine",labelStyle));
         content.add(engine).padRight(20);
