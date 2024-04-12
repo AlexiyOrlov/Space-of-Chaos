@@ -82,6 +82,10 @@ public class StarSystem {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
+        SpriteBatch uiBatch=SpaceGame.INSTANCE.uiBatch;
+        uiBatch.begin();
+        uiBatch.draw(SpaceGame.INSTANCE.skyTexture, 0,0,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        uiBatch.end();
         star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
