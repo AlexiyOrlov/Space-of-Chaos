@@ -235,10 +235,6 @@ public class SpaceGame extends Game {
 	@Override
 	public void dispose () {
 		worldBatch.dispose();
-		starTextures.forEach(Texture::dispose);
-		planetTextures.forEach(Texture::dispose);
-		redStarshipTexture.dispose();
-		scalesTexture.dispose();
 		skin.dispose();
 		uiBatch.dispose();
 		bitmapFont.dispose();
