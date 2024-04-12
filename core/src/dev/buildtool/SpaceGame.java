@@ -127,7 +127,7 @@ public class SpaceGame extends Game {
 		assetManager.load("textures/ai large hull 2.png",Texture.class);
 		assetManager.load("textures/ai medium hull 2.png",Texture.class);
 		assetManager.load("textures/ai medium hull 1.png",Texture.class);
-		assetManager.load("textures/projectile2.png", Texture.class);
+		loadTexture("projectile2");
 		loadTexture("cluster gun");
 		assetManager.finishLoading();
 
@@ -199,8 +199,8 @@ public class SpaceGame extends Game {
 		scalesTexture=assetManager.get("textures/scales64.png");
 		redStarshipTexture=assetManager.get("textures/red ship.png");
 		slotTexture=assetManager.get("textures/blue square.png");
-		redProjectileTexture=assetManager.get("textures/projectile2.png");
-		clusterGunTexture=get("cluster gun");
+		redProjectileTexture=getTexture("projectile2");
+		clusterGunTexture= getTexture("cluster gun");
 
 		aiSmallHull1=assetManager.get("textures/ai hull small 1.png");
 		aiSmallHull2=assetManager.get("textures/ai hull small 2.png");
@@ -286,7 +286,7 @@ public class SpaceGame extends Game {
 		assetManager.load("textures/"+name+".png", Texture.class);
 	}
 
-	private Texture get(String name)
+	private Texture getTexture(String name)
 	{
 		return assetManager.get("textures/"+name+".png");
 	}
