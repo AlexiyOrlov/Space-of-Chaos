@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,7 +28,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
-public class SystemScreen extends ScreenAdapter {
+import dev.buildtool.weapons.Weapon;
+
+public class SystemScreen extends ScreenAdapter implements StackHandler {
 
     SpriteBatch spriteBatch;
     ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -38,7 +41,10 @@ public class SystemScreen extends ScreenAdapter {
     StarSystem starSystem;
     Rectangle viewportBounds;
     private Stage stage;
-    private Table pauseMenu;
+    private Table pauseMenu,playerInventory;
+    private Stack stackUnderMouse;
+    private boolean inventoryShown;
+    private ArrayList<SlotButton> slotButtons=new ArrayList<>(40);
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceGame spaceGame=SpaceGame.INSTANCE;
@@ -77,6 +83,47 @@ public class SystemScreen extends ScreenAdapter {
         pixmap.fill();
         TextureRegionDrawable textureRegionDrawable=new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
         pauseMenu.setBackground(textureRegionDrawable);
+
+        playerInventory=new Table();
+        Table inventory=new Table();
+        int slotIndex=0;
+        for (int i = 4; i >0; i--) {
+            for (int j = 0; j < 10; j++) {
+                SlotButton slotButton=new SlotButton(skin,slotIndex,this,playerShip.inventory, viewport);
+                inventory.add(slotButton);
+                slotButtons.add(slotButton);
+                slotIndex++;
+            }
+            inventory.row();
+        }
+        playerInventory.setFillParent(true);
+        playerInventory.setVisible(false);
+        stage.addActor(playerInventory);
+        Table content=new Table();
+        Inventory shipEquipment=playerShip.getShipParts();
+        SlotButton hull=new SlotButton(skin, 0,this,shipEquipment, stage.getViewport(),arg0 -> false);
+        slotButtons.add(hull);
+        SlotButton weapon=new SlotButton(skin,1,this,shipEquipment,stage.getViewport(),arg0 -> arg0!=null && arg0.item instanceof Weapon);
+        slotButtons.add(weapon);
+        SlotButton engine=new SlotButton(skin,2,this,shipEquipment,stage.getViewport(),arg0 -> false);
+        slotButtons.add(engine);
+        SlotButton sideThrusters=new SlotButton(skin,3,this,shipEquipment,stage.getViewport(),arg0 -> false);
+        slotButtons.add(sideThrusters);
+        Label.LabelStyle labelStyle=new Label.LabelStyle(SpaceGame.INSTANCE.bitmapFont, Color.WHITE);
+        content.add(new Label("Hull",labelStyle));
+        content.add(hull).padRight(20);
+        content.row();
+        content.add(new Label("Weapon",labelStyle));
+        content.add(weapon).padRight(20);
+        content.row();
+        content.add(new Label("Engine",labelStyle));
+        content.add(engine).padRight(20);
+        content.row();
+        content.add(new Label("Side thrusters",labelStyle));
+        content.add(sideThrusters).padRight(20);
+        content.row();
+        playerInventory.add(content);
+        playerInventory.add(inventory);
     }
 
     @Override
@@ -134,10 +181,36 @@ public class SystemScreen extends ScreenAdapter {
         stage.act(delta);
         stage.draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
+        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+        if(stackUnderMouse!=null)
         {
-            SpaceGame.INSTANCE.updateWorld=!SpaceGame.INSTANCE.updateWorld;
-            pauseMenu.setVisible(!SpaceGame.INSTANCE.updateWorld);
+            spriteBatch.begin();
+            spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
+            if(stackUnderMouse.count>1)
+                font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
+            spriteBatch.end();
+        }
+
+        if(inventoryShown)
+        {
+            slotButtons.forEach(SlotButton::drawInfo);
+        }
+
+        if(!inventoryShown) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                SpaceGame.INSTANCE.updateWorld = !SpaceGame.INSTANCE.updateWorld;
+                pauseMenu.setVisible(!SpaceGame.INSTANCE.updateWorld);
+            }
+        }
+
+        if(!pauseMenu.isVisible()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+                SpaceGame.INSTANCE.updateWorld = !SpaceGame.INSTANCE.updateWorld;
+                inventoryShown = !SpaceGame.INSTANCE.updateWorld;
+                playerInventory.setVisible(inventoryShown);
+            }
         }
     }
 
@@ -258,5 +331,15 @@ public class SystemScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public Stack getStackUnderMouse() {
+        return stackUnderMouse;
+    }
+
+    @Override
+    public void setStackUnderMouse(Stack stack) {
+        stackUnderMouse=stack;
     }
 }
