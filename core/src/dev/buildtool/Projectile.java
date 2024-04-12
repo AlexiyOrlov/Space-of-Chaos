@@ -43,4 +43,9 @@ public class Projectile {
         Functions.drawRotated(spriteBatch,texture,x,y,rotation);
         spriteBatch.end();
     }
+
+    public void onImpact()
+    {
+
+    }
 }

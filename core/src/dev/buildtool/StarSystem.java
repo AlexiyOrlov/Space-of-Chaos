@@ -147,6 +147,7 @@ public class StarSystem {
                                 if(ship instanceof PlayerShip)
                                     SpaceGame.INSTANCE.playerShip=null;
                             }
+                            projectile.onImpact();
                             toRemove.add(projectile);
                         }else {
                             Vector2 backVector = new Vector2(projectile.x + projectile.speed.x, projectile.y + projectile.speed.y);
@@ -158,6 +159,7 @@ public class StarSystem {
                                     if(ship instanceof PlayerShip)
                                         SpaceGame.INSTANCE.playerShip=null;
                                 }
+                                projectile.onImpact();
                                 toRemove.add(projectile);
                             }
                         }
