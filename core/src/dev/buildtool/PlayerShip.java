@@ -207,7 +207,7 @@ public class PlayerShip implements Ship{
                     }
                 }
             }
-            if (Gdx.input.isTouched()) {
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
                     Projectile[] projectiles = getWeapon().shoot(x, y, rotation, this, null);
                     if (projectiles != null) {
