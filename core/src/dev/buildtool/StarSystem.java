@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,12 +19,12 @@ public class StarSystem {
     public ArrayList<Ship> ships=new ArrayList<>();
     public ArrayList<Ship> shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
-    public Array<Projectile> projectiles;
+    public ArrayList<Projectile> projectiles;
     ArrayList<Container> itemContainers;
     public boolean occupied;
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         occupied=occupiedByAI;
-        projectiles=new Array<>();
+        projectiles=new ArrayList<>();
         this.planets = new ArrayList<>(7);
         itemContainers=new ArrayList<>();
         Random random = SpaceGame.random;
@@ -131,9 +130,10 @@ public class StarSystem {
         shipsToTransfer.clear();
         starGate.update(dt);
 
+        ArrayList<Projectile> toAdd=new ArrayList<>();
         ArrayList<Ship> shipsToRemove=new ArrayList<>(ships.size());
-        Array<Projectile> toRemove=new Array<>(projectiles.size);
-        projectiles.forEach(Projectile::update);
+        ArrayList<Projectile> toRemove=new ArrayList<>(projectiles.size());
+        projectiles.forEach(projectile -> projectile.update(dt, toAdd, toRemove));
         for (Ship ship : ships) {
             for (Projectile projectile : projectiles) {
                 if(projectile.shooter!=ship)
@@ -147,10 +147,9 @@ public class StarSystem {
                                 if(ship instanceof PlayerShip)
                                     SpaceGame.INSTANCE.playerShip=null;
                             }
-                            projectile.onImpact();
                             toRemove.add(projectile);
                         }else {
-                            Vector2 backVector = new Vector2(projectile.x + projectile.speed.x, projectile.y + projectile.speed.y);
+                            Vector2 backVector = new Vector2(projectile.x + projectile.velocity.x, projectile.y + projectile.velocity.y);
                             if (ship.contains(backVector)) {
                                 ship.damage(projectile.damage);
                                 ship.onProjectileImpact(projectile);
@@ -159,7 +158,6 @@ public class StarSystem {
                                     if(ship instanceof PlayerShip)
                                         SpaceGame.INSTANCE.playerShip=null;
                                 }
-                                projectile.onImpact();
                                 toRemove.add(projectile);
                             }
                         }
@@ -171,8 +169,9 @@ public class StarSystem {
                 }
             }
         }
-        projectiles.removeAll(toRemove,true);
+        projectiles.removeAll(toRemove);
         ships.removeAll(shipsToRemove);
+        projectiles.addAll(toAdd);
     }
 
     public String getStarName()

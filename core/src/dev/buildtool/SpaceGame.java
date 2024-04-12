@@ -35,7 +35,7 @@ public class SpaceGame extends Game {
 		ship2icon,slotTexture3,thrusters1Texture,thrusters2Texture,gunTexture,shotgunTexture,cashTexture,drone2Texture,
 		containerTexture,shipIcon3,blackHullTexture,blackHull2Texture,tradingHull2Texture,pirateHull2Texture,pirateHull3Texture,
 		basicGunTexture,machineGunTexture,battleHull3Texture,aiSmallHull1,aiSmallHull2,aiMediumHull1,aiMediumHull2,aiBigHull1,
-			aiBigHull2,aiLargeHull1,aiLargeHull2;
+			aiBigHull2,aiLargeHull1,aiLargeHull2,redProjectileTexture,clusterGunTexture;
 	public static SpaceGame INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -127,6 +127,8 @@ public class SpaceGame extends Game {
 		assetManager.load("textures/ai large hull 2.png",Texture.class);
 		assetManager.load("textures/ai medium hull 2.png",Texture.class);
 		assetManager.load("textures/ai medium hull 1.png",Texture.class);
+		assetManager.load("textures/projectile2.png", Texture.class);
+		loadTexture("cluster gun");
 		assetManager.finishLoading();
 
 		alcoholTexture=assetManager.get("textures/alcohol.png");
@@ -197,6 +199,8 @@ public class SpaceGame extends Game {
 		scalesTexture=assetManager.get("textures/scales64.png");
 		redStarshipTexture=assetManager.get("textures/red ship.png");
 		slotTexture=assetManager.get("textures/blue square.png");
+		redProjectileTexture=assetManager.get("textures/projectile2.png");
+		clusterGunTexture=get("cluster gun");
 
 		aiSmallHull1=assetManager.get("textures/ai hull small 1.png");
 		aiSmallHull2=assetManager.get("textures/ai hull small 2.png");
@@ -216,7 +220,7 @@ public class SpaceGame extends Game {
 		blasterSound=Gdx.audio.newSound(Gdx.files.internal("sounds/retro-shot-blaster.wav"));
 		shotGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/shotgun-spas.mp3"));
 	}
-	
+
 	@Override
 	public void dispose () {
 		worldBatch.dispose();
@@ -275,5 +279,15 @@ public class SpaceGame extends Game {
 		{
 			debugDraw=!debugDraw;
 		}
+	}
+
+	private void loadTexture(String name)
+	{
+		assetManager.load("textures/"+name+".png", Texture.class);
+	}
+
+	private Texture get(String name)
+	{
+		return assetManager.get("textures/"+name+".png");
 	}
 }

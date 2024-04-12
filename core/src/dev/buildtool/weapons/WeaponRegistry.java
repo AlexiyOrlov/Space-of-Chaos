@@ -13,6 +13,7 @@ public class WeaponRegistry {
     public static final Weapon SHOTGUN=new Shotgun(5,2,30,SpaceGame.INSTANCE.pelletTexture, "Shotgun",75000,SpaceGame.INSTANCE.shotGunSound);
     public static final Weapon MACHINE_GUN=new MachineGun(5,0.25f,15,SpaceGame.INSTANCE.pelletTexture,"Machine gun",SpaceGame.INSTANCE.machineGunTexture, 100000,SpaceGame.INSTANCE.machineGunSound);
     public static final Weapon AI_GUN1=new Gun(15,1,20,SpaceGame.INSTANCE.basicProjectile, "Basic AI gun",null);
+    public static final Weapon CLUSTER_GUN=new ClusterGun(20,2,20,SpaceGame.INSTANCE.redProjectileTexture, "Cluster gun",SpaceGame.INSTANCE.clusterGunTexture, 100000,SpaceGame.INSTANCE.blasterSound);
     static {
         WEAPONS.put("basic gun",GUN);
     }
