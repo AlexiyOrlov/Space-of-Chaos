@@ -411,7 +411,7 @@ public class NPCPilot implements Ship {
     }
 
     public List<StarSystem> findClosestSystems() {
-        return SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= engine.jumpDistance).collect(Collectors.toList());
+        return SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> !starSystem.occupied && Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= engine.jumpDistance).collect(Collectors.toList());
     }
 
     public List<StarSystem> filterSystemsWithHigherPrices(List<StarSystem> systems) {
