@@ -18,12 +18,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StarMap extends ScreenAdapter {
 
@@ -52,11 +55,12 @@ public class StarMap extends ScreenAdapter {
         target.setVisible(false);
         stage.addActor(target);
         Texture starIcon = SpaceGame.INSTANCE.starIcon;
+        Skin skin=SpaceGame.INSTANCE.skin;
         starSystems.forEach(starSystem -> {
-            Image image=new Image(starIcon);
-            image.setX(starSystem.positionX- (float) starIcon.getWidth() /2);
-            image.setY(starSystem.positionY- (float) starIcon.getHeight() /2);
-            stage.addActor(image);
+            Image starImage=new Image(starIcon);
+            starImage.setX(starSystem.positionX- (float) starIcon.getWidth() /2);
+            starImage.setY(starSystem.positionY- (float) starIcon.getHeight() /2);
+            stage.addActor(starImage);
             BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
             if(playerShip.currentStarSystem==starSystem)
             {
@@ -73,7 +77,7 @@ public class StarMap extends ScreenAdapter {
                 starName.setPosition(starSystem.positionX -glyphLayout.width/2,starSystem.positionY+30);
                 stage.addActor(starName);
             }
-            image.addListener(new ClickListener(Input.Buttons.RIGHT){
+            starImage.addListener(new ClickListener(Input.Buttons.RIGHT){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if(starSystem!= playerShip.currentStarSystem) {
@@ -99,6 +103,17 @@ public class StarMap extends ScreenAdapter {
                     }
                 }
             });
+            List<Planet> inhabitedPlanets=starSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.INHABITED).toList();
+            List<Planet> uninhabitedPlanets=starSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.UNINHABITED).toList();
+            TextTooltip tooltip;
+            if(starSystem.occupied)
+            {
+                tooltip=new TextTooltip(starSystem.planets.size()+" planets",skin);
+            }
+            else
+                tooltip = new TextTooltip(inhabitedPlanets.size() + " inhabited planets\n" + uninhabitedPlanets.size() + " uninhabited planets", skin);
+            tooltip.setInstant(true);
+            starImage.addListener(tooltip);
         });
         camera.position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
         camera.position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
