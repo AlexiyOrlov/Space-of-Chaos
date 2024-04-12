@@ -44,6 +44,7 @@ public class PlayerShip implements Ship{
         this.y = y;
         setHull(new Stack(Hull.BASIC,1));
         setPrimaryWeapon(new Stack(WeaponRegistry.CLUSTER_GUN,1));
+        setSecondaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
         this.rotation = rotation;
@@ -227,14 +228,14 @@ public class PlayerShip implements Ship{
                     }
                 }
             }
-            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
                     Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
-                        fireDelay = secondaryWeapon.cooldown;
+                        secondaryFireDelay = secondaryWeapon.cooldown;
                     }
                 }
             }
