@@ -116,7 +116,18 @@ public class NPCPilot implements Ship {
             escapeSequence();
         }
         else {
-            if(navigatingTo==null)
+            if(target!=null)
+            {
+                rotateTowards(target.getX(),target.getY());
+                if(Vector2.dst(target.getX(),target.getY(),x,y)>Gdx.graphics.getHeight()/2)
+                {
+                    move();
+                }
+                else {
+                    fire();
+                }
+            }
+            else if(navigatingTo==null)
             {
                 List<StarSystem> closestSystems= findClosestSystems();
                 List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
