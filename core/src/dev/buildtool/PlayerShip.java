@@ -111,7 +111,7 @@ public class PlayerShip implements Ship{
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
         spriteBatch.begin();
-        spriteBatch.draw(textureRegion,x- (float) texture.getWidth() /2,y- (float) texture.getHeight() /2,  (float) texture.getWidth() /2, (float) texture.getHeight() /2,texture.getWidth(),texture.getHeight(),1,1,rotation);
+        Functions.drawRotated(spriteBatch,getHull().look,x,y,rotation);
         spriteBatch.end();
 
         if(SpaceGame.debugDraw) {
