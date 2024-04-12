@@ -31,7 +31,7 @@ public class PlayerShip implements Ship{
     public final Vector2 direction;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
-    private float fireDelay;
+    private float fireDelay,secondaryFireDelay;
     public Inventory inventory;
     public final Circle area;
     public int money=1000;
@@ -67,7 +67,8 @@ public class PlayerShip implements Ship{
 
     public Weapon getPrimaryWeapon()
     {
-        return (Weapon) shipParts.stacks[1].item;
+        Stack weapon = shipParts.stacks[1];
+        return weapon==null ?null: (Weapon) weapon.item;
     }
     public void setSecondaryWeapon(Stack weapon)
     {
@@ -76,7 +77,8 @@ public class PlayerShip implements Ship{
         shipParts.stacks[4]=new Stack(weapon.item,1);
     }
     public Weapon getSecondaryWeapon(){
-        return (Weapon) shipParts.stacks[4].item;
+        Stack weapon=shipParts.stacks[4];
+        return weapon==null ? null : (Weapon) weapon.item;
     }
 
     public void setHull(Stack hull)
@@ -225,8 +227,22 @@ public class PlayerShip implements Ship{
                     }
                 }
             }
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                Weapon secondaryWeapon=getSecondaryWeapon();
+                if(secondaryWeapon!=null && secondaryFireDelay<=0)
+                {
+                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null);
+                    if (projectiles != null) {
+                        currentStarSystem.projectiles.addAll(List.of(projectiles));
+                        fireDelay = secondaryWeapon.cooldown;
+                    }
+                }
+            }
 
-            fireDelay -= deltaTime;
+            if(fireDelay>0)
+                fireDelay -= deltaTime;
+            if(secondaryFireDelay>0)
+                secondaryFireDelay-=deltaTime;
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area)) {
                 SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem, this));
