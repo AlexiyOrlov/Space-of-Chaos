@@ -22,6 +22,7 @@ public class StarSystem {
     public ArrayList<Projectile> projectiles;
     ArrayList<Container> itemContainers;
     public boolean occupied;
+    public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f,LOW_PRICE_MULTIPLIE=0.9f;
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         occupied=occupiedByAI;
         projectiles=new ArrayList<>();
@@ -62,13 +63,13 @@ public class StarSystem {
                         int basePrice = Ware.BASE_PRICES.get(ware);
                         float priceMultiplier = 1;
                         if (randomWareAmount < 100) {
-                            priceMultiplier = 1.2f;
+                            priceMultiplier = HIGHEST_PRICE_MULTIPLIER;
                         } else if (randomWareAmount < 250) {
-                            priceMultiplier = 1.1f;
+                            priceMultiplier = HIGH_PRICE_MULTIPLIER;
                         } else if (randomWareAmount > 750) {
-                            priceMultiplier = 0.8f;
+                            priceMultiplier = LOWEST_PRICE_MULTIPLIER;
                         } else if (randomWareAmount > 500) {
-                            priceMultiplier = 0.9f;
+                            priceMultiplier = LOW_PRICE_MULTIPLIE;
                         }
                         int finalPrice = (int) (basePrice * priceMultiplier * priceFactors.get(ware));
                         planet.warePrices.put(ware, finalPrice);

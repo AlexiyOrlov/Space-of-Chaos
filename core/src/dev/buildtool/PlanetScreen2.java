@@ -225,8 +225,11 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
                 Label warePrice;
-                if(price<Ware.BASE_PRICES.get(ware))
-                    warePrice = new Label(price+"", new Label.LabelStyle(font,Color.GREEN));
+//                if(price<Ware.BASE_PRICES.get(ware))
+//                    warePrice = new Label(price+"", new Label.LabelStyle(font,Color.GREEN));
+//                else
+                if(price>=Ware.BASE_PRICES.get(ware)*StarSystem.HIGHEST_PRICE_MULTIPLIER)
+                    warePrice=new Label(price.toString(),new Label.LabelStyle(font,Color.RED));
                 else
                     warePrice = new Label(price.toString(), skin);
                 Integer wareAmountt = planet.wareAmounts.get(ware);
