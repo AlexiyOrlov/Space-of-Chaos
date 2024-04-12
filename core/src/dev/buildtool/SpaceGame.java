@@ -46,7 +46,8 @@ public class SpaceGame extends Game {
 	public boolean updateWorld;
 	static boolean debugDraw;
 	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound;
-	private ArrayList<Texture> textures=new ArrayList<>();
+	private final ArrayList<Texture> textures=new ArrayList<>(600);
+	private final ArrayList<Sound> sounds=new ArrayList<>(100);
 	
 	@Override
 	public void create () {
@@ -218,10 +219,17 @@ public class SpaceGame extends Game {
 		setScreen(new StartScreen(this));
 		VisUI.load();
 
-		machineGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/machine gun.wav"));
-		laserShotSound=Gdx.audio.newSound(Gdx.files.internal("sounds/laser-shot.wav"));
-		blasterSound=Gdx.audio.newSound(Gdx.files.internal("sounds/retro-shot-blaster.wav"));
-		shotGunSound=Gdx.audio.newSound(Gdx.files.internal("sounds/shotgun-spas.mp3"));
+		machineGunSound=loadSound("machine gun.wav");
+		laserShotSound=loadSound("laser-shot.wav");
+		blasterSound=loadSound("retro-shot-blaster.wav");
+		shotGunSound=loadSound("shotgun-spas.mp3");
+	}
+
+	private Sound loadSound(String soundName)
+	{
+		Sound sound=Gdx.audio.newSound(Gdx.files.internal("sounds/"+soundName));
+		sounds.add(sound);
+		return sound;
 	}
 
 	@Override
@@ -235,6 +243,7 @@ public class SpaceGame extends Game {
 		uiBatch.dispose();
 		bitmapFont.dispose();
 		textures.forEach(Texture::dispose);
+		sounds.forEach(Sound::dispose);
 		VisUI.dispose();
 	}
 
