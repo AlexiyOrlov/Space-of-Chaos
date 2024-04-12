@@ -230,6 +230,7 @@ public class SpaceGame extends Game {
 		scalesTexture.dispose();
 		skin.dispose();
 		uiBatch.dispose();
+		bitmapFont.dispose();
 		VisUI.dispose();
 	}
 
