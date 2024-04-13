@@ -289,7 +289,15 @@ public class NPCPilot implements Ship {
             {
                 move();
             }
+            for (Ship ship : currentSystem.ships) {
+                if(ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.AI)
+                {
+                    target=ship;
+                    break;
+                }
+            }
         }
+
     }
 
     private void fire() {
