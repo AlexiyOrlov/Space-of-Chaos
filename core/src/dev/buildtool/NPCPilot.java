@@ -625,6 +625,7 @@ public class NPCPilot implements Ship {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.circle(area.x, area.y, area.radius);
                 shapeRenderer.end();
+
                 float integrityPercent= (float) integrity / hull.integrity;
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.rect(x-50,y+ hull.look.getHeight()/2,100*integrityPercent,10);
