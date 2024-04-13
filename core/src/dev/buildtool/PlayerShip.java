@@ -37,7 +37,7 @@ public class PlayerShip implements Ship{
     public int integrity;
     boolean hasScanner=true;
     private final Inventory shipParts=new Inventory(5);
-    private boolean damageOnlyAIShips;
+    private boolean damageOnlyAIShips=true;
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
@@ -157,6 +157,16 @@ public class PlayerShip implements Ship{
             GlyphLayout glyphLayout=new GlyphLayout(font,s);
             font.draw(uibatch,s,backBufferWidth/2-glyphLayout.width/2,backBufferHeight/2-y);
             y+=20;
+        }
+        font.draw(uibatch,"Target mode",60,backBufferHeight/2);
+        uibatch.end();
+        uibatch.begin();
+        if(damageOnlyAIShips)
+        {
+            font.draw(uibatch,"Enemy",70,backBufferHeight/2-20);
+        }
+        else {
+            font.draw(uibatch,"All",70,backBufferHeight/2-20);
         }
         uibatch.end();
     }
