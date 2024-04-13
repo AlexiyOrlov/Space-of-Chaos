@@ -278,7 +278,7 @@ public class SpaceOfChaos extends Game {
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
 		}
-		System.out.println("Generated "+planetCount+ " planets in total");
+		Functions.log("Generated "+planetCount+ " planets in total");
 		updateWorld=false;
 	}
 
