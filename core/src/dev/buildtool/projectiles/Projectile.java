@@ -15,6 +15,9 @@ import dev.buildtool.Ship;
 public class Projectile {
     public Texture texture;
     public int damage;
+    /**
+     * In degrees
+     */
     public float rotation;
     public Circle area;
     public final Ship shooter,target;

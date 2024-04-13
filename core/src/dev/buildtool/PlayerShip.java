@@ -43,7 +43,7 @@ public class PlayerShip implements Ship{
         this.x = x;
         this.y = y;
         setHull(new Stack(Hull.BASIC,1));
-        setPrimaryWeapon(new Stack(WeaponRegistry.CLUSTER_GUN,1));
+        setPrimaryWeapon(new Stack(WeaponRegistry.MISSILE_LAUNCHER,1));
         setSecondaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
