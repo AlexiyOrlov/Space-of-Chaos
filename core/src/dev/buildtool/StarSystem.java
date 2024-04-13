@@ -89,6 +89,7 @@ public class StarSystem {
         star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
+        projectiles.forEach(projectile -> projectile.render(spriteBatch));
         ships.forEach(ship -> {
             if(ship instanceof NPCPilot npcPilot)
                 npcPilot.draw(spriteBatch,shapeRenderer);
@@ -102,7 +103,6 @@ public class StarSystem {
         });
         spriteBatch.end();
         planets.forEach(planet -> planet.drawName(spriteBatch));
-        projectiles.forEach(projectile -> projectile.render(spriteBatch));
     }
 
     public void update()
