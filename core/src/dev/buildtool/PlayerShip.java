@@ -27,7 +27,6 @@ public class PlayerShip implements Ship{
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
     private final Texture texture;
-    private final TextureRegion textureRegion;
     public final Vector2 direction;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
@@ -49,7 +48,6 @@ public class PlayerShip implements Ship{
         setThrusters(new Stack(SideThrusters.BASIC,1));
         this.rotation = rotation;
         this.texture=texture;
-        textureRegion=new TextureRegion(texture);
         direction=new Vector2(0,0);
         inventory=new Inventory(40);
         this.currentStarSystem=currentStarSystem;
