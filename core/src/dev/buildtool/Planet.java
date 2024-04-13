@@ -241,7 +241,7 @@ public class Planet {
             int guardCount=0;
             for (int i = 0; i < 2; i++) {
                 if (random.nextBoolean()) {
-                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW, this);
+                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.SLOW, this,WeaponRegistry.AI_GUN1);
                     starSystem.ships.add(guard);
                     guard.x = x;
                     guard.y = y;

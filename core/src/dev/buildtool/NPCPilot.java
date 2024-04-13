@@ -22,7 +22,7 @@ public class NPCPilot implements Ship {
     public Hull hull;
     public SideThrusters sideThrusters;
     public Engine engine;
-    public Weapon weapon;
+    public Weapon primaryWeapon,secondaryWeapon;
 
     public float x,y;
     public Planet currentlyLandedOn;
@@ -41,7 +41,7 @@ public class NPCPilot implements Ship {
     public final Circle area;
     boolean landed;
     Random random= SpaceOfChaos.random;
-    private float fireCooldown;
+    private float fireCooldown,secondaryCooldown;
     public PilotAI pilotAI;
     public Ship target;
     public int integrity;
@@ -59,30 +59,40 @@ public class NPCPilot implements Ship {
         FINE
     }
 
-    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon weapon, Hull hull, Engine engine,SideThrusters sideThrusters) {
+    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
         area=new Circle();
         pilotAI=type;
-        this.weapon=weapon;
+        this.primaryWeapon = primaryWeapon;
         this.hull=hull;
         this.engine=engine;
         integrity=hull.integrity;
         this.sideThrusters=sideThrusters;
     }
 
-    public NPCPilot(PilotAI type, Weapon weapon,Hull hull,Engine engine,SideThrusters sideThrusters,Planet homePlanet)
+    public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet)
     {
-        this(homePlanet,type,weapon,hull,engine,sideThrusters);
+        this(homePlanet,type, primaryWeapon,hull,engine,sideThrusters);
         this.homePlanet = homePlanet;
     }
+
+    public NPCPilot(PilotAI pilotAI,  Weapon primaryWeapon,Hull hull,  Engine engine,SideThrusters sideThrusters, Planet homePlanet,Weapon secondaryWeapon ) {
+        this(pilotAI,primaryWeapon,hull,engine,sideThrusters,homePlanet);
+        this.secondaryWeapon=secondaryWeapon;
+    }
+
     public void work(float deltaTime)
     {
         area.set(x,y,hull.look.getWidth()/2);
         if(fireCooldown>0)
         {
             fireCooldown-=deltaTime;
+        }
+        if(secondaryCooldown>0)
+        {
+            secondaryCooldown-=deltaTime;
         }
         if(leftAcceleration>0)
         {
@@ -303,14 +313,20 @@ public class NPCPilot implements Ship {
     }
 
     private void fire() {
+        if(target==null)
+        {
+            throw new RuntimeException("Target is null");
+        }
         if (fireCooldown <= 0) {
-            if(target==null)
-            {
-                throw new RuntimeException("Target is null");
-            }
-            Projectile[] projectiles = weapon.shoot(x, y, rotationDegrees, this,target);
+            Projectile[] projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target);
             currentSystem.projectiles.addAll(List.of(projectiles));
-            fireCooldown = weapon.cooldown;
+            fireCooldown = primaryWeapon.cooldown;
+        }
+        if(secondaryCooldown<=0 && secondaryWeapon!=null)
+        {
+            Projectile[] projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target);
+            currentSystem.projectiles.addAll(List.of(projectiles));
+            secondaryCooldown=secondaryWeapon.cooldown;
         }
     }
 
