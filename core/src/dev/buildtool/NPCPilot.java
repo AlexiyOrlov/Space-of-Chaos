@@ -320,13 +320,13 @@ public class NPCPilot implements Ship {
             throw new RuntimeException("Target is null");
         }
         if (fireCooldown <= 0) {
-            Projectile[] projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target);
+            Projectile[] projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             fireCooldown = primaryWeapon.cooldown;
         }
         if(secondaryCooldown<=0 && secondaryWeapon!=null)
         {
-            Projectile[] projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target);
+            Projectile[] projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             secondaryCooldown=secondaryWeapon.cooldown;
         }

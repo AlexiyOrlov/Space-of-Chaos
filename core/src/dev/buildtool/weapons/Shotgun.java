@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.function.Predicate;
 
+import dev.buildtool.StarSystem;
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
 import dev.buildtool.SpaceOfChaos;
@@ -15,13 +16,13 @@ public class Shotgun extends Weapon {
     }
 
     @Override
-    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate) {
+    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
         Projectile[] projectiles=new Projectile[5];
-        projectiles[0]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation-3,projectileSpeed,shooter,target,shipPredicate);
-        projectiles[1]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation-2,projectileSpeed,shooter,target,shipPredicate);
-        projectiles[2]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate);
-        projectiles[3]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation+2,projectileSpeed,shooter,target,shipPredicate);
-        projectiles[4]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation+3,projectileSpeed,shooter,target,shipPredicate);
+        projectiles[0]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation-3,projectileSpeed,shooter,target,shipPredicate, starSystem);
+        projectiles[1]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation-2,projectileSpeed,shooter,target,shipPredicate, starSystem);
+        projectiles[2]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate, starSystem);
+        projectiles[3]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation+2,projectileSpeed,shooter,target,shipPredicate, starSystem);
+        projectiles[4]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation+3,projectileSpeed,shooter,target,shipPredicate, starSystem);
         return projectiles;
     }
 }

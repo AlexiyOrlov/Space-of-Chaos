@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.function.Predicate;
 
+import dev.buildtool.StarSystem;
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
 
@@ -14,9 +15,9 @@ public class MachineGun extends Weapon{
     }
 
     @Override
-    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate) {
+    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
         Projectile[] projectiles=new Projectile[1];
-        projectiles[0]=new Projectile(this.projectileTexture,this.damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate);
+        projectiles[0]=new Projectile(this.projectileTexture,this.damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate, starSystem);
         return projectiles;
     }
 }

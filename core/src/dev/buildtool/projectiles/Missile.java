@@ -8,10 +8,11 @@ import java.util.function.Predicate;
 
 import dev.buildtool.Functions;
 import dev.buildtool.Ship;
+import dev.buildtool.StarSystem;
 
 public class Missile extends Projectile{
-    public Missile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate) {
-        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, shipPredicate);
+    public Missile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
+        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, shipPredicate,starSystem);
     }
 
     @Override
@@ -23,5 +24,7 @@ public class Missile extends Projectile{
         x+= MathUtils.cosDeg(rotation+90)*deltaTime*speed;
         y+=MathUtils.sinDeg(rotation+90)*deltaTime*speed;
         area.set(x,y,texture.getWidth()/2);
+        if(target!=null && (target.getCurrentSystem()!=starSystem || target.isLanded() || target.getIntegrity()<=0))
+            target=null;
     }
 }

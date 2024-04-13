@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import dev.buildtool.Item;
+import dev.buildtool.StarSystem;
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
 import dev.buildtool.SpaceOfChaos;
@@ -28,20 +29,20 @@ public abstract class Weapon extends Item {
         this.sound=shootSound;
     }
 
-    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter,Ship target)
+    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem)
     {
         if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
             sound.play(0.1f);
-        return createProjectiles(originX, originY, rotation, shooter, target,ship -> true);
+        return createProjectiles(originX, originY, rotation, shooter, target,ship -> true, starSystem);
     }
 
-    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate)
+    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
     {
         if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
             sound.play(0.1f);
-        return createProjectiles(originX, originY, rotation, shooter, target,shipPredicate);
+        return createProjectiles(originX, originY, rotation, shooter, target,shipPredicate, starSystem);
     }
-    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate);
+    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem);
 
     @Override
     public List<String> getTooltip() {

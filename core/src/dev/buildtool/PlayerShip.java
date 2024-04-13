@@ -234,7 +234,7 @@ public class PlayerShip implements Ship{
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         fireDelay = getPrimaryWeapon().cooldown;
@@ -245,7 +245,7 @@ public class PlayerShip implements Ship{
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
-                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true);
+                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         secondaryFireDelay = secondaryWeapon.cooldown;
