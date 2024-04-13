@@ -126,6 +126,8 @@ public class NPCPilot implements Ship {
                 else {
                     fire();
                 }
+                if(target.getCurrentSystem()!=currentSystem || target.getIntegrity()<=0 || target.isLanded())
+                    target=null;
             }
             else if(navigatingTo==null)
             {
