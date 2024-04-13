@@ -3,6 +3,8 @@ package dev.buildtool.weapons;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.function.Predicate;
+
 import dev.buildtool.Projectile;
 import dev.buildtool.Ship;
 import dev.buildtool.SplittingProjectile;
@@ -13,7 +15,7 @@ public class ClusterGun extends Weapon{
     }
 
     @Override
-    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target) {
-        return new Projectile[]{new SplittingProjectile(projectileTexture,damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target)};
+    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate) {
+        return new Projectile[]{new SplittingProjectile(projectileTexture,damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate)};
     }
 }

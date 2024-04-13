@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import dev.buildtool.Item;
 import dev.buildtool.Projectile;
@@ -31,10 +32,16 @@ public abstract class Weapon extends Item {
     {
         if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
             sound.play(0.1f);
-        return createProjectiles(originX, originY, rotation, shooter, target);
+        return createProjectiles(originX, originY, rotation, shooter, target,ship -> true);
     }
 
-    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target);
+    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate)
+    {
+        if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
+            sound.play(0.1f);
+        return createProjectiles(originX, originY, rotation, shooter, target,shipPredicate);
+    }
+    public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate);
 
     @Override
     public List<String> getTooltip() {

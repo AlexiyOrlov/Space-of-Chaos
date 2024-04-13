@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Projectile {
     public Texture texture;
@@ -16,6 +17,7 @@ public class Projectile {
     public final Ship shooter,target;
     protected int speed;
     protected float time;
+    public Predicate<Ship> validTargets;
 
     public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target) {
         this.texture = texture;
@@ -28,6 +30,13 @@ public class Projectile {
         this.shooter=shooter;
         this.target=target;
         this.speed=speed;
+        validTargets=ship -> true;
+    }
+
+    public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target,Predicate<Ship> shipPredicate)
+    {
+        this(texture, damage, x, y, rotationDegrees, speed, shooter, target);
+        validTargets=shipPredicate;
     }
 
     public Vector2 velocity;

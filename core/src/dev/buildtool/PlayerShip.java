@@ -37,6 +37,7 @@ public class PlayerShip implements Ship{
     public int integrity;
     boolean hasScanner=true;
     private final Inventory shipParts=new Inventory(5);
+    private boolean damageOnlyAIShips;
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
@@ -163,6 +164,10 @@ public class PlayerShip implements Ship{
     public void update(float deltaTime, Viewport viewport)
     {
         if(SpaceOfChaos.INSTANCE.updateWorld) {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.TAB))
+            {
+                damageOnlyAIShips=!damageOnlyAIShips;
+            }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 if (leftAcceleration < getSideThrusters().strafingSpeed)
                     leftAcceleration += 0.15f;
@@ -218,7 +223,7 @@ public class PlayerShip implements Ship{
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         fireDelay = getPrimaryWeapon().cooldown;
