@@ -220,7 +220,6 @@ public class SpaceOfChaos extends Game {
 		aiLargeHull2=getTexture("ai large hull 2");
 		skin=new Skin(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
 		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
-		setScreen(new StartScreen(this));
 		VisUI.load();
 
 		machineGunSound=loadSound("machine gun.wav");
@@ -231,6 +230,8 @@ public class SpaceOfChaos extends Game {
 		greenCircle=getTexture("green circle");
 		yellowCircle=getTexture(("yellow circle"));
 		twoSwordsTexture=getTexture("two swords");
+
+		setScreen(new StartScreen(this));
 	}
 
 	private Sound loadSound(String soundName)
