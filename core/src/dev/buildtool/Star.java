@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class Star {
@@ -72,7 +70,7 @@ public class Star {
         spriteBatch.draw(texture,-texture.getWidth()/2,-texture.getHeight()/2);
         spriteBatch.end();
 
-        if(SpaceGame.debugDraw){
+        if(SpaceOfChaos.debugDraw){
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.circle(area.x,area.y,area.radius);
             shapeRenderer.end();

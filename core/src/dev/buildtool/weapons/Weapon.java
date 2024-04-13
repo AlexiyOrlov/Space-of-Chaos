@@ -8,7 +8,7 @@ import java.util.List;
 import dev.buildtool.Item;
 import dev.buildtool.Projectile;
 import dev.buildtool.Ship;
-import dev.buildtool.SpaceGame;
+import dev.buildtool.SpaceOfChaos;
 
 public abstract class Weapon extends Item {
     public final int damagePerProjectile;
@@ -29,7 +29,7 @@ public abstract class Weapon extends Item {
 
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter,Ship target)
     {
-        if(sound!=null && shooter.getCurrentSystem()== SpaceGame.INSTANCE.playerShip.currentStarSystem)
+        if(sound!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
             sound.play(0.1f);
         return createProjectiles(originX, originY, rotation, shooter, target);
     }

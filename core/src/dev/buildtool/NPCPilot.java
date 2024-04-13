@@ -26,9 +26,9 @@ public class NPCPilot implements Ship {
 
     public float x,y;
     public Planet currentlyLandedOn;
-    private int secondsOfRest=SpaceGame.random.nextInt(5,15);
+    private int secondsOfRest= SpaceOfChaos.random.nextInt(5,15);
     public float timeSpentOnPlanet=secondsOfRest;
-    private float rotationDegrees =SpaceGame.random.nextFloat(360);
+    private float rotationDegrees = SpaceOfChaos.random.nextFloat(360);
 
     private final Inventory inventory;
     public StarSystem navigatingTo;
@@ -40,7 +40,7 @@ public class NPCPilot implements Ship {
     private Planet targetPlanet;
     public final Circle area;
     boolean landed;
-    Random random=SpaceGame.random;
+    Random random= SpaceOfChaos.random;
     private float fireCooldown;
     public PilotAI pilotAI;
     public Ship target;
@@ -119,7 +119,7 @@ public class NPCPilot implements Ship {
             if(target!=null)
             {
                 rotateTowards(target.getX(),target.getY());
-                if(Vector2.dst(target.getX(),target.getY(),x,y)>SpaceGame.getWindowHeight()/2)
+                if(Vector2.dst(target.getX(),target.getY(),x,y)> SpaceOfChaos.getWindowHeight()/2)
                 {
                     move();
                 }
@@ -134,12 +134,12 @@ public class NPCPilot implements Ship {
                 if(systemsWithHigherPrices.isEmpty())
                 {
                     navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
-                    if(SpaceGame.debugDraw)
+                    if(SpaceOfChaos.debugDraw)
                         System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
                 }
                 else {
                     navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
-                    if(SpaceGame.debugDraw)
+                    if(SpaceOfChaos.debugDraw)
                         System.out.println("Going to system " + navigatingTo.star.name);
                 }
             }
@@ -152,7 +152,7 @@ public class NPCPilot implements Ship {
                         targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                     }
                     else{
-                        if(SpaceGame.debugDraw)
+                        if(SpaceOfChaos.debugDraw)
                             System.out.println("No suitable planets");
                         navigatingTo=null;
                     }
@@ -166,7 +166,7 @@ public class NPCPilot implements Ship {
                     if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
                         currentlyLandedOn = targetPlanet;
                         land(targetPlanet);
-                        if (SpaceGame.debugDraw)
+                        if (SpaceOfChaos.debugDraw)
                             System.out.println("Landed on " + targetPlanet.name);
                         targetPlanet = null;
                     }
@@ -422,7 +422,7 @@ public class NPCPilot implements Ship {
     }
 
     public List<StarSystem> findClosestSystems() {
-        return SpaceGame.INSTANCE.starSystems.stream().filter(starSystem -> !starSystem.occupied && Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= engine.jumpDistance).collect(Collectors.toList());
+        return SpaceOfChaos.INSTANCE.starSystems.stream().filter(starSystem -> !starSystem.occupied && Vector2.dst(starSystem.positionX, starSystem.positionY, currentSystem.positionX, currentSystem.positionY) <= engine.jumpDistance).collect(Collectors.toList());
     }
 
     public List<StarSystem> filterSystemsWithHigherPrices(List<StarSystem> systems) {
@@ -502,7 +502,7 @@ public class NPCPilot implements Ship {
                 money -= toSpend;
                 integrity += willRepair;
                 state = State.FINE;
-                secondsOfRest = SpaceGame.random.nextInt(20, 40);
+                secondsOfRest = SpaceOfChaos.random.nextInt(20, 40);
             }
             else {
                 state=null;
@@ -515,7 +515,7 @@ public class NPCPilot implements Ship {
                 x = currentPlanet.x;
                 y = currentPlanet.y;
                 landed = false;
-                secondsOfRest = SpaceGame.random.nextInt(5, 15);
+                secondsOfRest = SpaceOfChaos.random.nextInt(5, 15);
                 timeSpentOnPlanet = 0;
                 state=null;
             } else {
@@ -536,7 +536,7 @@ public class NPCPilot implements Ship {
                                         money -= canBuy * warePrice;
                                         inventory.addItem(new Stack(ware, canBuy));
                                         purchases.add(new NPCPurchase(ware, warePrice));
-                                        if (SpaceGame.debugDraw)
+                                        if (SpaceOfChaos.debugDraw)
                                             System.out.println("Bought " + canBuy + " " + ware.name + ". Money: " + money);
                                         boughtFor.put(ware, warePrice);
                                     }
@@ -561,7 +561,7 @@ public class NPCPilot implements Ship {
                                             if (toSell > 0) {
                                                 inventory.removeItem(ware, toSell);
                                                 money += toSell * price;
-                                                if (SpaceGame.debugDraw)
+                                                if (SpaceOfChaos.debugDraw)
                                                     System.out.println("Sold " + toSell + " " + ware.name + ". Money: " + money);
                                                 it.remove();
                                                 boughtFor.remove(ware);
@@ -584,7 +584,7 @@ public class NPCPilot implements Ship {
             Functions.drawRotated(spriteBatch, hull.look,  x, y, rotationDegrees);
             spriteBatch.end();
 
-            if(SpaceGame.debugDraw) {
+            if(SpaceOfChaos.debugDraw) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.circle(area.x, area.y, area.radius);
                 shapeRenderer.end();

@@ -47,24 +47,24 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     private ArrayList<SlotButton> slotButtons=new ArrayList<>(40);
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
-        SpaceGame spaceGame=SpaceGame.INSTANCE;
-        this.spriteBatch = spaceGame.worldBatch;
+        SpaceOfChaos spaceOfChaos = SpaceOfChaos.INSTANCE;
+        this.spriteBatch = spaceOfChaos.worldBatch;
         this.starSystem = starSystem;
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
-        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
+        PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
         playerShip.x=xForPlayer;
         playerShip.y=yForPlayer;
         camera=new OrthographicCamera();
 		viewport=new ScreenViewport(camera);
 		viewport.apply();
-        shapeRenderer=spaceGame.shapeRenderer;
+        shapeRenderer= spaceOfChaos.shapeRenderer;
         viewportBounds=new Rectangle(0,0,viewport.getScreenWidth(),viewport.getScreenHeight());
-        uiShapeRenderer=SpaceGame.INSTANCE.uiShapeRenderer;
+        uiShapeRenderer= SpaceOfChaos.INSTANCE.uiShapeRenderer;
         stage=new Stage();
         pauseMenu=new Table();
         pauseMenu.setFillParent(true);
-        Skin skin=SpaceGame.INSTANCE.skin;
+        Skin skin= SpaceOfChaos.INSTANCE.skin;
         TextButton quit=new TextButton("Quit",skin);
         quit.addListener(new ChangeListener() {
             @Override
@@ -111,7 +111,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         slotButtons.add(engine);
         SlotButton sideThrusters=new SlotButton(skin,3,this,shipEquipment,stage.getViewport(),arg0 -> false);
         slotButtons.add(sideThrusters);
-        Label.LabelStyle labelStyle=new Label.LabelStyle(SpaceGame.INSTANCE.bitmapFont, Color.WHITE);
+        Label.LabelStyle labelStyle=new Label.LabelStyle(SpaceOfChaos.INSTANCE.bitmapFont, Color.WHITE);
         content.add(new Label("Hull",labelStyle));
         content.add(hull).padRight(20);
         content.row();
@@ -137,7 +137,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
+        PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
         if(playerShip!=null)
             playerShip.update(delta, viewport);
 
@@ -158,26 +158,26 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         final Vector2 starPos=new Vector2(0,0);
         spriteBatch.begin();
         if(!camera.frustum.pointInFrustum(0,0,0))
-            drawWaypoint(starPos, SpaceGame.INSTANCE.starIcon);
+            drawWaypoint(starPos, SpaceOfChaos.INSTANCE.starIcon);
         planets.forEach(planet -> {
             if(!camera.frustum.pointInFrustum(planet.x,planet.y,0)) {
                 if (planet.kind== Planet.Kind.INHABITED) {
-                    drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.inhabitedPlanetIcon);
+                    drawWaypoint(planet.x,planet.y, SpaceOfChaos.INSTANCE.inhabitedPlanetIcon);
                 } else {
-                    drawWaypoint(planet.x,planet.y, SpaceGame.INSTANCE.uninhabitedPlanetIcon);
+                    drawWaypoint(planet.x,planet.y, SpaceOfChaos.INSTANCE.uninhabitedPlanetIcon);
                 }
             }
         });
         if(!camera.frustum.pointInFrustum(starSystem.starGate.x,starSystem.starGate.y,0))
         {
-            drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceGame.INSTANCE.stargateIcon);
+            drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceOfChaos.INSTANCE.stargateIcon);
         }
         if(playerShip!=null && playerShip.hasScanner)
         {
             starSystem.ships.forEach(ship -> {
                 if(ship!=playerShip && !camera.frustum.pointInFrustum(ship.getX(),ship.getY(),0))
                 {
-                    drawWaypoint(ship.getX(),ship.getY(),SpaceGame.INSTANCE.shipIcon3);
+                    drawWaypoint(ship.getX(),ship.getY(), SpaceOfChaos.INSTANCE.shipIcon3);
                 }
             });
         }
@@ -186,8 +186,8 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         stage.act(delta);
         stage.draw();
 
-        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
-        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
+        BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
         Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
         if(stackUnderMouse!=null)
         {
@@ -205,15 +205,15 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
         if(!inventoryShown) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                SpaceGame.INSTANCE.updateWorld = !SpaceGame.INSTANCE.updateWorld;
-                pauseMenu.setVisible(!SpaceGame.INSTANCE.updateWorld);
+                SpaceOfChaos.INSTANCE.updateWorld = !SpaceOfChaos.INSTANCE.updateWorld;
+                pauseMenu.setVisible(!SpaceOfChaos.INSTANCE.updateWorld);
             }
         }
 
         if(!pauseMenu.isVisible()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-                SpaceGame.INSTANCE.updateWorld = !SpaceGame.INSTANCE.updateWorld;
-                inventoryShown = !SpaceGame.INSTANCE.updateWorld;
+                SpaceOfChaos.INSTANCE.updateWorld = !SpaceOfChaos.INSTANCE.updateWorld;
+                inventoryShown = !SpaceOfChaos.INSTANCE.updateWorld;
                 playerInventory.setVisible(inventoryShown);
             }
         }
@@ -221,9 +221,9 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
     private void drawWaypoint(float tox,float toy,Texture icon)
     {
-        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
+        PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
         if(playerShip!=null) {
-            SpriteBatch uibatch = SpaceGame.INSTANCE.uiBatch;
+            SpriteBatch uibatch = SpaceOfChaos.INSTANCE.uiBatch;
             float xdist = tox - playerShip.x;
             float ydist = toy - playerShip.y;
             int backBufferWidth = Gdx.graphics.getBackBufferWidth();
@@ -259,9 +259,9 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     }
 
     private void drawWaypoint(Vector2 to, Texture icon) {
-        PlayerShip playerShip=SpaceGame.INSTANCE.playerShip;
+        PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
         if(playerShip!=null) {
-            SpriteBatch uiBatch = SpaceGame.INSTANCE.uiBatch;
+            SpriteBatch uiBatch = SpaceOfChaos.INSTANCE.uiBatch;
             final Vector2 playerPos = new Vector2(playerShip.x, playerShip.y);
             int backBufferWidth = Gdx.graphics.getBackBufferWidth();
             Vector2 halfWidth = (new Vector2(backBufferWidth / 2, 0));

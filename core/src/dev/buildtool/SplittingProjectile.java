@@ -15,7 +15,7 @@ public class SplittingProjectile extends Projectile{
         super.update(deltaTime, projectilesToAdd, projectilesToRemove);
         if(time>0.25)
         {
-            int rotation=SpaceGame.random.nextInt(-180,180);
+            int rotation= SpaceOfChaos.random.nextInt(-180,180);
             for (int i = 0; i < 20; i++) {
                 Projectile projectile=new Projectile(texture,damage-3,x,y,rotation,speed,shooter,target);
                 projectilesToAdd.add(projectile);

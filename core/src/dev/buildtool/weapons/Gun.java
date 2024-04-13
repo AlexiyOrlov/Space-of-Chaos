@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 import dev.buildtool.Projectile;
 import dev.buildtool.Ship;
-import dev.buildtool.SpaceGame;
+import dev.buildtool.SpaceOfChaos;
 
 public class Gun extends Weapon {
     public Gun(int damagePerProjectile, int fireDelay, int projectileSpeed, Texture texture, String name, Sound sound) {
-        super(damagePerProjectile, fireDelay, projectileSpeed,texture, name, SpaceGame.INSTANCE.basicGunTexture,3500, sound);
+        super(damagePerProjectile, fireDelay, projectileSpeed,texture, name, SpaceOfChaos.INSTANCE.basicGunTexture,3500, sound);
     }
 
     @Override

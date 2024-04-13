@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
@@ -125,7 +124,7 @@ public class PlayerShip implements Ship{
         Functions.drawRotated(spriteBatch,getHull().look,x,y,rotation);
         spriteBatch.end();
 
-        if(SpaceGame.debugDraw) {
+        if(SpaceOfChaos.debugDraw) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.YELLOW);
             shapeRenderer.circle(area.x, area.y, area.radius);
@@ -133,8 +132,8 @@ public class PlayerShip implements Ship{
         }
 
         ArrayList<String> hudText=new ArrayList<>();
-        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
-        SpriteBatch uibatch=SpaceGame.INSTANCE.uiBatch;
+        BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
+        SpriteBatch uibatch= SpaceOfChaos.INSTANCE.uiBatch;
         int backBufferWidth = Gdx.graphics.getBackBufferWidth();
         int backBufferHeight = Gdx.graphics.getBackBufferHeight();
 
@@ -163,7 +162,7 @@ public class PlayerShip implements Ship{
 
     public void update(float deltaTime, Viewport viewport)
     {
-        if(SpaceGame.INSTANCE.updateWorld) {
+        if(SpaceOfChaos.INSTANCE.updateWorld) {
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 if (leftAcceleration < getSideThrusters().strafingSpeed)
                     leftAcceleration += 0.15f;
@@ -209,9 +208,9 @@ public class PlayerShip implements Ship{
                 for (Planet planet : currentStarSystem.planets) {
                     if (planet.outline.overlaps(area)) {
                         if (planet.kind== Planet.Kind.INHABITED)
-                            SpaceGame.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem, planet, this));
+                            SpaceOfChaos.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem, planet, this));
                         else
-                            SpaceGame.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet, this));
+                            SpaceOfChaos.INSTANCE.setScreen(new PlanetScreen(currentStarSystem, planet, this));
                         acceleration = 0;
                         break;
                     }
@@ -244,7 +243,7 @@ public class PlayerShip implements Ship{
                 secondaryFireDelay-=deltaTime;
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.M) && currentStarSystem.starGate.area.overlaps(area)) {
-                SpaceGame.INSTANCE.setScreen(new StarMap(currentStarSystem, this));
+                SpaceOfChaos.INSTANCE.setScreen(new StarMap(currentStarSystem, this));
                 acceleration = 0;
             }
 

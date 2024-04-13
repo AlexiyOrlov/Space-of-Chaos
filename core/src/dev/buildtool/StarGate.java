@@ -17,19 +17,19 @@ public class StarGate {
         this.distanceFromStar = distanceFromStar;
         this.currentAngle = currentAngle;
         area=new Circle();
-        clockwise=SpaceGame.random.nextBoolean();
+        clockwise= SpaceOfChaos.random.nextBoolean();
     }
 
     public void draw(SpriteBatch spriteBatch)
     {
         spriteBatch.begin();
-        Texture starGateTexture = SpaceGame.INSTANCE.starGateTexture;
+        Texture starGateTexture = SpaceOfChaos.INSTANCE.starGateTexture;
         Functions.drawRotated(spriteBatch, starGateTexture,x,y,rotation);
         spriteBatch.end();
-        if(SpaceGame.debugDraw) {
-            SpaceGame.INSTANCE.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            SpaceGame.INSTANCE.shapeRenderer.circle(x,y,128);
-            SpaceGame.INSTANCE.shapeRenderer.end();
+        if(SpaceOfChaos.debugDraw) {
+            SpaceOfChaos.INSTANCE.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            SpaceOfChaos.INSTANCE.shapeRenderer.circle(x,y,128);
+            SpaceOfChaos.INSTANCE.shapeRenderer.end();
         }
     }
 

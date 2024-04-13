@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -44,7 +42,7 @@ public class PlanetScreen extends ScreenAdapter {
         stage = new Stage(viewport);
         Table table = new Table();
         table.setFillParent(true);
-        Skin skin = SpaceGame.INSTANCE.skin;
+        Skin skin = SpaceOfChaos.INSTANCE.skin;
         this.player = player;
 
         Table purchaseHistoryTable=new Table();
@@ -229,7 +227,7 @@ public class PlanetScreen extends ScreenAdapter {
 
             stage.addActor(market);
 
-            TextImageButton marketButton = new TextImageButton("Market", skin, SpaceGame.INSTANCE.scalesTexture);
+            TextImageButton marketButton = new TextImageButton("Market", skin, SpaceOfChaos.INSTANCE.scalesTexture);
             marketButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -243,7 +241,7 @@ public class PlanetScreen extends ScreenAdapter {
 
             Table equipmentShop=new Table();
             equipmentShop.setFillParent(true);
-            TextImageButton equipmentButton=new TextImageButton("Equipment",skin, SpaceGame.INSTANCE.gearTexture);
+            TextImageButton equipmentButton=new TextImageButton("Equipment",skin, SpaceOfChaos.INSTANCE.gearTexture);
             equipmentButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -277,7 +275,7 @@ public class PlanetScreen extends ScreenAdapter {
                 });
             }
 
-            TextImageButton resourcesButton=new TextImageButton("Resources",skin,SpaceGame.INSTANCE.diamondTexture);
+            TextImageButton resourcesButton=new TextImageButton("Resources",skin, SpaceOfChaos.INSTANCE.diamondTexture);
             resourcesButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -290,18 +288,18 @@ public class PlanetScreen extends ScreenAdapter {
         }
 
 
-        TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
+        TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceOfChaos.INSTANCE.takeOffTexture);
         takeOffButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceGame.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
+                SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
             }
         });
         table.add(takeOffButton);
         table.bottom();
         stage.addActor(table);
 
-        Texture slotTexture = SpaceGame.INSTANCE.slotTexture2;
+        Texture slotTexture = SpaceOfChaos.INSTANCE.slotTexture2;
         int width=Gdx.graphics.getBackBufferWidth();
         int height=Gdx.graphics.getBackBufferHeight();
         shipParts=new Inventory(4);
@@ -315,7 +313,7 @@ public class PlanetScreen extends ScreenAdapter {
         shipParts.slots[3]=thrusters;
         shipParts.setVisible(false);
 
-        TextImageButton shipEquipment=new TextImageButton("Ship",skin,SpaceGame.INSTANCE.ship2icon);
+        TextImageButton shipEquipment=new TextImageButton("Ship",skin, SpaceOfChaos.INSTANCE.ship2icon);
         shipEquipment.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -344,7 +342,7 @@ public class PlanetScreen extends ScreenAdapter {
             for (int i = 3; i > 0; i--) {
                 for (int j = 0; j < 3; j++) {
                     Vector2 slotPosition = new Vector2(Gdx.graphics.getBackBufferWidth() / 2 + j * 64 - 96, i * 64 + Gdx.graphics.getBackBufferHeight() / 2);
-                    Slot slot = new Slot(SpaceGame.INSTANCE.slotTexture2, (int) slotPosition.x, (int) slotPosition.y, in, planet.equipmentInventory);
+                    Slot slot = new Slot(SpaceOfChaos.INSTANCE.slotTexture2, (int) slotPosition.x, (int) slotPosition.y, in, planet.equipmentInventory);
 
                     Stack stack = planet.equipmentInventory.stacks[in];
 
@@ -397,14 +395,14 @@ public class PlanetScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        SpaceGame.INSTANCE.updateWorld=false;
+        SpaceOfChaos.INSTANCE.updateWorld=false;
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.LIGHT_GRAY);
-        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
-        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
+        BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
         stage.act();
         stage.draw();
         spriteBatch.begin();
@@ -450,7 +448,7 @@ public class PlanetScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-        SpaceGame.INSTANCE.updateWorld=true;
+        SpaceOfChaos.INSTANCE.updateWorld=true;
     }
 
     private class TransactionConfirmation extends ChangeListener{
@@ -468,7 +466,7 @@ public class PlanetScreen extends ScreenAdapter {
         public boolean accepted;
         @Override
         public void changed(ChangeEvent event, Actor actor) {
-            Skin skin=SpaceGame.INSTANCE.skin;
+            Skin skin= SpaceOfChaos.INSTANCE.skin;
 //            Dialog buy=new Dialog("Buy?",skin);
             TextButton confirm=new TextButton("Confirm purchase",skin);
             confirm.addListener(new ChangeListener() {

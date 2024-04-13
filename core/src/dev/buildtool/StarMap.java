@@ -44,9 +44,9 @@ public class StarMap extends ScreenAdapter {
     private float targetAngle;
 
     public StarMap(StarSystem currentSystem, PlayerShip playerShip) {
-        target=new Image(SpaceGame.INSTANCE.targetTexture);
+        target=new Image(SpaceOfChaos.INSTANCE.targetTexture);
         target.setOrigin(target.getWidth()/2,target.getHeight()/2);
-        starSystems=SpaceGame.INSTANCE.starSystems;
+        starSystems= SpaceOfChaos.INSTANCE.starSystems;
         viewport = new ScreenViewport();
         this.playerShip = playerShip;
         shapeRenderer=new ShapeRenderer();
@@ -54,14 +54,14 @@ public class StarMap extends ScreenAdapter {
         stage=new Stage(viewport);
         target.setVisible(false);
         stage.addActor(target);
-        Texture starIcon = SpaceGame.INSTANCE.starIcon;
-        Skin skin=SpaceGame.INSTANCE.skin;
+        Texture starIcon = SpaceOfChaos.INSTANCE.starIcon;
+        Skin skin= SpaceOfChaos.INSTANCE.skin;
         starSystems.forEach(starSystem -> {
             Image starImage=new Image(starIcon);
             starImage.setX(starSystem.positionX- (float) starIcon.getWidth() /2);
             starImage.setY(starSystem.positionY- (float) starIcon.getHeight() /2);
             stage.addActor(starImage);
-            BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+            BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
             if(playerShip.currentStarSystem==starSystem)
             {
                 camera.position.x+= starSystem.positionX;
@@ -91,7 +91,7 @@ public class StarMap extends ScreenAdapter {
                                     playerShip.currentStarSystem.ships.remove(playerShip);
                                     playerShip.currentStarSystem = starSystem;
                                     starSystem.ships.add(playerShip);
-                                    SpaceGame.INSTANCE.setScreen(new SystemScreen(starSystem, starSystem.starGate.x, starSystem.starGate.y));
+                                    SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(starSystem, starSystem.starGate.x, starSystem.starGate.y));
                                 } else {
                                     selectedStarSystem = starSystem;
                                     target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
@@ -124,15 +124,15 @@ public class StarMap extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
+        SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
         ScreenUtils.clear(Color.BLACK);
         stage.act(delta);
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.M))
         {
-            SpaceGame.INSTANCE.setScreen(new SystemScreen(currentStarSystem,shipX,shipY));
+            SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(currentStarSystem,shipX,shipY));
         }
-        BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+        BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
         GlyphLayout glyphLayout=new GlyphLayout(font,"Galactic map");
         spriteBatch.begin();
         font.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
@@ -201,12 +201,12 @@ public class StarMap extends ScreenAdapter {
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(inputAdapter);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        SpaceGame.INSTANCE.updateWorld=false;
+        SpaceOfChaos.INSTANCE.updateWorld=false;
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-        SpaceGame.INSTANCE.updateWorld=true;
+        SpaceOfChaos.INSTANCE.updateWorld=true;
     }
 }

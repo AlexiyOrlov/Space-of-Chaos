@@ -9,15 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.function.Consumer;
-
 public class Slot {
     Texture background;
     int x,y;
     TextureRegion backgroundTexture;
     private final int slotIndex;
     private final Inventory inventory;
-    BitmapFont bitmapFont=SpaceGame.INSTANCE.bitmapFont;
+    BitmapFont bitmapFont= SpaceOfChaos.INSTANCE.bitmapFont;
     public boolean visible=true;
     Predicate<PlayerShip> actionCondition;
 
@@ -49,7 +47,7 @@ public class Slot {
     {
         if(visible) {
             Stack next = inventory.stacks[slotIndex];
-            PlayerShip playerShip = SpaceGame.INSTANCE.playerShip;
+            PlayerShip playerShip = SpaceOfChaos.INSTANCE.playerShip;
             if (next != null) {
                 if (mouseOverSlot(viewport)) {
 

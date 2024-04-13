@@ -25,15 +25,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
-import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import dev.buildtool.weapons.Weapon;
 
 public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private final Stage stage;
@@ -58,7 +55,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         public ShipTab(Viewport viewport,PlayerShip playerShip) {
             super(false,false);
-            Skin skin=SpaceGame.INSTANCE.skin;
+            Skin skin= SpaceOfChaos.INSTANCE.skin;
             content=new Table();
             content.defaults().padTop(20);
             Inventory inventory=playerShip.getShipParts();
@@ -106,7 +103,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         public EquipmentTab(Viewport viewport,PlayerShip player) {
             super(false,false);
-            Skin skin=SpaceGame.INSTANCE.skin;
+            Skin skin= SpaceOfChaos.INSTANCE.skin;
             int in=0;
             content.padTop(20);
             for (int i = 0; i < 3; i++) {
@@ -168,7 +165,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             }
             content.padBottom(40);
             Label sellLabel=new Label("Sell",skin);
-            Image sellSlot=new Image(SpaceGame.INSTANCE.cashTexture);
+            Image sellSlot=new Image(SpaceOfChaos.INSTANCE.cashTexture);
             sellSlot.addListener(new ClickListener(Input.Buttons.LEFT){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -209,7 +206,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         public MarketTab(PlayerShip player, Label moneyLabel) {
             super(false,false);
             content.setFillParent(true);
-            Skin skin=SpaceGame.INSTANCE.skin;
+            Skin skin= SpaceOfChaos.INSTANCE.skin;
             Table marketWares=new Table();
             marketWares.defaults().padRight(20).padBottom(10);
             marketWares.add(new Label("Wares", skin)).colspan(2);
@@ -220,7 +217,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             purchaseHistoryTable.defaults().padRight(20).padBottom(10);
             updatePurchaseTable(player, purchaseHistoryTable, skin);
             purchaseHistoryTable.right();
-            BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+            BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
             planet.warePrices.forEach((ware, price) -> {
                 Label wareName = new Label(ware.name, skin);
                 Image image = new Image(ware.texture);
@@ -413,7 +410,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private PlayerShip playerShip;
     private Label capacityLabel;
     public PlanetScreen2(StarSystem system, Planet planet, PlayerShip player) {
-        Skin skin=SpaceGame.INSTANCE.skin;
+        Skin skin= SpaceOfChaos.INSTANCE.skin;
         playerShip=player;
         this.viewport =new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         this.viewport.apply();
@@ -423,11 +420,11 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         calculateCapacity();
         outer.add(moneyLabel);
         outer.add(capacityLabel);
-        TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceGame.INSTANCE.takeOffTexture);
+        TextImageButton takeOffButton = new TextImageButton("Take off", skin, SpaceOfChaos.INSTANCE.takeOffTexture);
         takeOffButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceGame.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
+                SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
             }
         });
         outer.add(takeOffButton);
@@ -476,8 +473,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         ScreenUtils.clear(Color.GRAY);
         stage.act(delta);
         stage.draw();
-        SpriteBatch spriteBatch=SpaceGame.INSTANCE.uiBatch;
-        BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+        SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
+        BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
         Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
         if(stackUnderMouse!=null)
         {
@@ -495,13 +492,13 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        SpaceGame.INSTANCE.updateWorld=false;
+        SpaceOfChaos.INSTANCE.updateWorld=false;
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-        SpaceGame.INSTANCE.updateWorld=true;
+        SpaceOfChaos.INSTANCE.updateWorld=true;
     }
 
     private static void calculatePlayerWareCount(PlayerShip player, HashMap<Ware, Integer> playerWareCount) {

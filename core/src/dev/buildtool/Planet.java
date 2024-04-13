@@ -213,7 +213,7 @@ public class Planet {
             equipmentInventory.addItem(new Stack(WeaponRegistry.MACHINE_GUN,1));
         }
         else {
-            int resources=SpaceGame.random.nextInt(1,3);
+            int resources= SpaceOfChaos.random.nextInt(1,3);
             int resourcesGenerated=0;
             HashSet<Resource> resourceSet=new HashSet<>();
             while (resourcesGenerated<resources) {
@@ -284,7 +284,7 @@ public class Planet {
         Functions.drawScaled(spriteBatch,texture,1,x-radius,y-radius);
         spriteBatch.end();
 
-        if(SpaceGame.debugDraw) {
+        if(SpaceOfChaos.debugDraw) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.YELLOW);
             shapeRenderer.circle(outline.x, outline.y, radius);
@@ -299,8 +299,8 @@ public class Planet {
 //        if(SpaceGame.INSTANCE.playerShip!=null)
 //            matrix4.rotate(Vector3.Z,SpaceGame.INSTANCE.playerShip.rotation);
 //        matrix4.trn(x,y,0);
-        BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
-        GlyphLayout glyphLayout=SpaceGame.INSTANCE.textMeasurer;
+        BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
+        GlyphLayout glyphLayout= SpaceOfChaos.INSTANCE.textMeasurer;
 //        spriteBatch.setTransformMatrix(matrix4);
         if(kind==Kind.UNINHABITED)
         {

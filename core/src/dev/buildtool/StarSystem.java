@@ -28,7 +28,7 @@ public class StarSystem {
         projectiles=new ArrayList<>();
         this.planets = new ArrayList<>(7);
         itemContainers=new ArrayList<>();
-        Random random = SpaceGame.random;
+        Random random = SpaceOfChaos.random;
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         int inhabitedPlanetCount=0;
         int distance=500;
@@ -82,9 +82,9 @@ public class StarSystem {
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
-        SpriteBatch uiBatch=SpaceGame.INSTANCE.uiBatch;
+        SpriteBatch uiBatch= SpaceOfChaos.INSTANCE.uiBatch;
         uiBatch.begin();
-        uiBatch.draw(SpaceGame.INSTANCE.skyTexture, 0,0,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        uiBatch.draw(SpaceOfChaos.INSTANCE.skyTexture, 0,0,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiBatch.end();
         star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
@@ -93,7 +93,7 @@ public class StarSystem {
         ships.forEach(ship -> ship.draw(spriteBatch,shapeRenderer));
         spriteBatch.begin();
         itemContainers.forEach(container -> {
-            Functions.drawRotatedScaled(spriteBatch,SpaceGame.INSTANCE.containerTexture, container.x,container.y,container.rotation,0.5f);
+            Functions.drawRotatedScaled(spriteBatch, SpaceOfChaos.INSTANCE.containerTexture, container.x,container.y,container.rotation,0.5f);
             container.rotation+=1;
         });
         spriteBatch.end();
@@ -117,7 +117,7 @@ public class StarSystem {
             if(ship instanceof NPCPilot npcPilot) {
                 npcPilot.navigatingTo.ships.add(ship);
                 npcPilot.currentSystem = npcPilot.navigatingTo;
-                if (SpaceGame.debugDraw)
+                if (SpaceOfChaos.debugDraw)
                     System.out.println("Jumped to " + npcPilot.currentSystem.star.name);
                 npcPilot.setPosition(npcPilot.navigatingTo.starGate.x, npcPilot.navigatingTo.starGate.y);
                 npcPilot.afterJump();
@@ -141,7 +141,7 @@ public class StarSystem {
                             if (ship.getIntegrity() <= 0) {
                                 shipsToRemove.add(ship);
                                 if(ship instanceof PlayerShip)
-                                    SpaceGame.INSTANCE.playerShip=null;
+                                    SpaceOfChaos.INSTANCE.playerShip=null;
                             }
                             toRemove.add(projectile);
                         }else {
@@ -152,7 +152,7 @@ public class StarSystem {
                                 if (ship.getIntegrity() <= 0) {
                                     shipsToRemove.add(ship);
                                     if(ship instanceof PlayerShip)
-                                        SpaceGame.INSTANCE.playerShip=null;
+                                        SpaceOfChaos.INSTANCE.playerShip=null;
                                 }
                                 toRemove.add(projectile);
                             }

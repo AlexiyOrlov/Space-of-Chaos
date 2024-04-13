@@ -23,10 +23,10 @@ public class SlotButton extends Table {
     private final Predicate<Stack> incomingStackPredicate;
 
     public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport) {
-        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,null);
+        this(skin, SpaceOfChaos.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,null);
     }
     public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport,Predicate<Stack> incomingStackPredicate) {
-        this(skin,SpaceGame.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,incomingStackPredicate);
+        this(skin, SpaceOfChaos.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,incomingStackPredicate);
     }
 
     public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport, Predicate<Stack> incomingStackPredicate) {
@@ -77,7 +77,7 @@ public class SlotButton extends Table {
         Stack stack = inventory.stacks[index];
         if(stack !=null)
         {
-            BitmapFont font=SpaceGame.INSTANCE.bitmapFont;
+            BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
             batch.draw(stack.item.texture,getX(),getY());
             if(stack.count>1)
                 font.draw(batch,stack.count+"",getX()+20,getY()+14);
@@ -101,8 +101,8 @@ public class SlotButton extends Table {
         if (isOverSlot()) {
             Stack stack = inventory.stacks[index];
             if (stack != null) {
-                SpriteBatch spriteBatch = SpaceGame.INSTANCE.uiBatch;
-                BitmapFont font = SpaceGame.INSTANCE.bitmapFont;
+                SpriteBatch spriteBatch = SpaceOfChaos.INSTANCE.uiBatch;
+                BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
                 spriteBatch.begin();
                 List<String> itemInfo=stack.item.getTooltip();
                 for (int i = 0; i < itemInfo.size(); i++) {

@@ -17,11 +17,11 @@ public class StartScreen extends ScreenAdapter {
     private final Stage stage;
 
 
-    public StartScreen(SpaceGame game) {
+    public StartScreen(SpaceOfChaos game) {
         stage=new Stage();
         Table table = new Table();
         table.setFillParent(true);
-        Random random=SpaceGame.random;
+        Random random= SpaceOfChaos.random;
         Button button=new TextButton("Start new game",game.skin);
         button.addListener(new ChangeListener() {
             @Override
@@ -32,7 +32,7 @@ public class StartScreen extends ScreenAdapter {
                 while (true) {
                     for (Planet planet : next.planets) {
                         if(planet.kind== Planet.Kind.INHABITED){
-                            PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceGame.INSTANCE.redStarshipTexture, next);
+                            PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceOfChaos.INSTANCE.redStarshipTexture, next);
                             game.playerShip= playerShip;
                             playerShip.money=1000;
                             game.setScreen(new PlanetScreen2(next, planet,playerShip));

@@ -104,10 +104,10 @@ public class Inventory {
                 Consumer<PlayerShip> consumer=actionHashMap.get(clickedSlot);
                 if (stackUnderMouse == null) {
                     if(predicate!=null  ) {
-                        if(predicate.test(SpaceGame.INSTANCE.playerShip)) {
+                        if(predicate.test(SpaceOfChaos.INSTANCE.playerShip)) {
                             stackUnderMouse = stacks[clickedSlot];
                             stacks[clickedSlot] = null;
-                            consumer.accept(SpaceGame.INSTANCE.playerShip);
+                            consumer.accept(SpaceOfChaos.INSTANCE.playerShip);
                         }
                     }
                     else {
