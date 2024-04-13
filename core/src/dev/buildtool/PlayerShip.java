@@ -164,7 +164,7 @@ public class PlayerShip implements Ship{
         uibatch.begin();
         if(damageOnlyAIShips)
         {
-            font.draw(uibatch,"AI -Enemy",70,backBufferHeight/2-20);
+            font.draw(uibatch,"AI Enemy",70,backBufferHeight/2-20);
         }
         else {
             font.draw(uibatch,"All",70,backBufferHeight/2-20);
