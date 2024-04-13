@@ -1,5 +1,6 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -36,6 +37,10 @@ public class Planet {
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
     private final boolean clockWise;
+
+    private final ArrayList<NPCPilot> shipsToRemove;
+    public Kind kind;
+    private float shipManufacturingTime;
 
     public enum Kind{
         INHABITED,
@@ -185,8 +190,6 @@ public class Planet {
         planetNames.add("Haowei");
     }
 
-    private final ArrayList<NPCPilot> shipsToRemove;
-    public Kind kind;
     public Planet(Texture texture, int distance, float angle, float orbitSpeed, StarSystem belongsTo, Kind kind) {
         this.texture = texture;
         starSystem=belongsTo;
@@ -211,8 +214,9 @@ public class Planet {
             equipmentInventory.addItem(new Stack(Hull.BUMBLEBEE,1));
             equipmentInventory.addItem(new Stack(WeaponRegistry.SHOTGUN,1));
             equipmentInventory.addItem(new Stack(WeaponRegistry.MACHINE_GUN,1));
-        }
-        else {
+        } else if (kind == Kind.OCCUPIED) {
+            shipManufacturingTime=random.nextInt(15*60,25*60);
+        } else {
             int resources= SpaceOfChaos.random.nextInt(1,3);
             int resourcesGenerated=0;
             HashSet<Resource> resourceSet=new HashSet<>();
@@ -349,6 +353,31 @@ public class Planet {
                     wareManufactureProgress.put(ware,manufactureProgress);
                 }
             });
+        } else if (kind==Kind.OCCUPIED) {
+            if(shipManufacturingTime<=0)
+            {
+                shipManufacturingTime=random.nextInt(15*60,25*60);
+                NPCPilot npcPilot;
+                int randomInt=random.nextInt(100);
+                if(randomInt<25)
+                {
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC,this);
+                } else if (randomInt <= 50) {
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.AI_GUN1:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_MEDIUM2:Hull.AI_MEDIUM1,Engine.BASIC,SideThrusters.BASIC,this);
+                } else if (randomInt <= 75) {
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.SLOW,this);
+                }
+                else {
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW,this);
+                }
+                npcPilot.x=x;
+                npcPilot.y=y;
+                Gdx.app.log("Info","Produced AI pilot in "+starSystem.getStarName());
+                starSystem.ships.add(npcPilot);
+            }
+            else {
+                shipManufacturingTime-=deltaTime;
+            }
         }
     }
 }
