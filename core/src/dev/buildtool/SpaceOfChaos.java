@@ -48,7 +48,7 @@ public class SpaceOfChaos extends Game {
 	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound;
 	private final ArrayList<Texture> textures=new ArrayList<>(600);
 	private final ArrayList<Sound> sounds=new ArrayList<>(100);
-	private float aiAttackTimer;
+	private float aiAttackTimer=random.nextInt(15*60);
 	
 	@Override
 	public void create () {
