@@ -1,4 +1,4 @@
-package dev.buildtool;
+package dev.buildtool.projectiles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,11 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+import dev.buildtool.Functions;
+import dev.buildtool.Ship;
+
 public class Projectile {
     public Texture texture;
     public int damage;
     public float rotation;
-    Circle area;
+    public Circle area;
     public final Ship shooter,target;
     protected int speed;
     protected float time;

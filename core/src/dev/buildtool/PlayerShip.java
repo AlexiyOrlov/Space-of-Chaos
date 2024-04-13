@@ -19,6 +19,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 
+import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 import dev.buildtool.weapons.WeaponRegistry;
 
@@ -233,7 +234,7 @@ public class PlayerShip implements Ship{
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         fireDelay = getPrimaryWeapon().cooldown;

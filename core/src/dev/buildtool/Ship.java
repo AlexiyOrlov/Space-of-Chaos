@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
+import dev.buildtool.projectiles.Projectile;
+
 public interface Ship {
     float getX();
     float getY();

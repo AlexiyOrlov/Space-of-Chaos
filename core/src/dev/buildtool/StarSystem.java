@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import dev.buildtool.projectiles.Projectile;
+
 public class StarSystem {
     public ArrayList<Planet> planets;
     public Star star;

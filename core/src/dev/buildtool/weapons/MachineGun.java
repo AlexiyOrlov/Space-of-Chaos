@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.function.Predicate;
 
-import dev.buildtool.Projectile;
+import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
 
 public class MachineGun extends Weapon{

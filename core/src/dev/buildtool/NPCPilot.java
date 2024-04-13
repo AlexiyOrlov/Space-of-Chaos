@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 
 public class NPCPilot implements Ship {

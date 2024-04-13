@@ -1,9 +1,12 @@
-package dev.buildtool;
+package dev.buildtool.projectiles;
 
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
+
+import dev.buildtool.Ship;
+import dev.buildtool.SpaceOfChaos;
 
 public class SplittingProjectile extends Projectile{
 

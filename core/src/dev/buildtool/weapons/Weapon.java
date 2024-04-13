@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import dev.buildtool.Item;
-import dev.buildtool.Projectile;
+import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
 import dev.buildtool.SpaceOfChaos;
 
