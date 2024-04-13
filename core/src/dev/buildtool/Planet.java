@@ -268,14 +268,14 @@ public class Planet {
             int randomInt=random.nextInt(100);
             NPCPilot aiPilot;
             if(randomInt<25) {
-                aiPilot = new NPCPilot(this, PilotAI.AI, WeaponRegistry.GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC);
+                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC,this);
             } else if (randomInt < 50) {
-                aiPilot = new NPCPilot(this, PilotAI.AI, WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_MEDIUM1:Hull.AI_MEDIUM2,Engine.BASIC,SideThrusters.BASIC);
+                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_MEDIUM1:Hull.AI_MEDIUM2,Engine.BASIC,SideThrusters.BASIC,this);
             } else if (randomInt < 75) {
-                aiPilot=new NPCPilot(this,PilotAI.AI,WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.BASIC);
+                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.BASIC,this);
             }
             else
-                aiPilot=new NPCPilot(this,PilotAI.AI,WeaponRegistry.AI_GUN1, random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW);
+                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.AI_GUN1, random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW,this,WeaponRegistry.MISSILE_LAUNCHER);
             aiPilot.x=x;
             aiPilot.y=y;
             starSystem.ships.add(aiPilot);
