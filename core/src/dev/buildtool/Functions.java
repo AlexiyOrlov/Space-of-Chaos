@@ -1,5 +1,6 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -81,5 +82,10 @@ public class Functions {
             sol=new float[]{(-b-disc)/a,(-b+disc)/2};
         }
         return sol;
+    }
+
+    public static void log(String message)
+    {
+        Gdx.app.log("Info",message);
     }
 }

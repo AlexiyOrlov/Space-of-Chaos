@@ -40,7 +40,7 @@ public class Planet {
 
     private final ArrayList<NPCPilot> shipsToRemove;
     public Kind kind;
-    private float shipManufacturingTime;
+    private float shipManufacturingTime=15*60;
 
     public enum Kind{
         INHABITED,
@@ -353,6 +353,35 @@ public class Planet {
                     wareManufactureProgress.put(ware,manufactureProgress);
                 }
             });
+            if(shipManufacturingTime<=0)
+            {
+                long totalHumanShips=0;
+                for (StarSystem system : SpaceOfChaos.INSTANCE.starSystems) {
+                    long humanShips=system.ships.stream().filter(ship -> ship instanceof NPCPilot npcPilot &&npcPilot.pilotAI!=PilotAI.AI).count();
+                    totalHumanShips+=humanShips;
+                }
+                if(totalHumanShips<SpaceOfChaos.INSTANCE.starSystems.size()* 3L)
+                {
+                    shipManufacturingTime=random.nextInt(15*60,25*60);
+                    NPCPilot newPilot;
+                    int ri=random.nextInt(100);
+                    if(ri<33)
+                    {
+                        newPilot=new NPCPilot(PilotAI.PIRATE,random.nextBoolean()?WeaponRegistry.AI_GUN1:WeaponRegistry.SHOTGUN,Hull.pirateHulls.get(random.nextInt(Hull.pirateHulls.size())),Engine.engines.get(random.nextInt(Engine.engines.size())),SideThrusters.BASIC,this);
+                    } else if (ri < 66) {
+                        newPilot=new NPCPilot(PilotAI.GUARD,random.nextBoolean()?WeaponRegistry.SHOTGUN:WeaponRegistry.MACHINE_GUN,Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.engines.get(random.nextInt(Engine.engines.size())),SideThrusters.BASIC,this);
+                    }
+                    else {
+                        newPilot=new NPCPilot(PilotAI.TRADER,random.nextBoolean()?WeaponRegistry.GUN: WeaponRegistry.AI_GUN1,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())),Engine.SLOW,SideThrusters.SLOW,this);
+                    }
+                    newPilot.x=x;
+                    newPilot.y=y;
+                    starSystem.ships.add(newPilot);
+                    Functions.log("Ship produced");
+                }
+
+
+            }
         } else if (kind==Kind.OCCUPIED) {
             if(shipManufacturingTime<=0)
             {
@@ -372,12 +401,14 @@ public class Planet {
                 }
                 npcPilot.x=x;
                 npcPilot.y=y;
-                Gdx.app.log("Info","Produced AI pilot in "+starSystem.getStarName());
+                Functions.log("Produced AI pilot in "+starSystem.getStarName());
                 starSystem.ships.add(npcPilot);
             }
-            else {
-                shipManufacturingTime-=deltaTime;
-            }
+        }
+
+        if(shipManufacturingTime>0)
+        {
+            shipManufacturingTime-=deltaTime;
         }
     }
 }
