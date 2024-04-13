@@ -544,7 +544,7 @@ public class NPCPilot implements Ship {
             }
             else {
                 state=null;
-                System.out.println("No money on repairs");
+                Functions.log("No money on repairs");
             }
         }
         else {
