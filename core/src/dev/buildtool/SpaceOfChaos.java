@@ -37,7 +37,7 @@ public class SpaceOfChaos extends Game {
 		ship2icon,slotTexture3,thrusters1Texture,thrusters2Texture,gunTexture,shotgunTexture,cashTexture,drone2Texture,
 		containerTexture,shipIcon3,blackHullTexture,blackHull2Texture,tradingHull2Texture,pirateHull2Texture,pirateHull3Texture,
 		basicGunTexture,machineGunTexture,battleHull3Texture,aiSmallHull1,aiSmallHull2,aiMediumHull1,aiMediumHull2,aiBigHull1,
-			aiBigHull2,aiLargeHull1,aiLargeHull2,redProjectileTexture,clusterGunTexture,greenCircle,yellowCircle;
+			aiBigHull2,aiLargeHull1,aiLargeHull2,redProjectileTexture,clusterGunTexture,greenCircle,yellowCircle,twoSwordsTexture;
 	public static SpaceOfChaos INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -136,6 +136,7 @@ public class SpaceOfChaos extends Game {
 		loadTexture("cluster gun");
 		loadTexture("yellow circle");
 		loadTexture("green circle");
+		loadTexture("two swords");
 		assetManager.finishLoading();
 
 		alcoholTexture=getTexture("alcohol");
@@ -229,6 +230,7 @@ public class SpaceOfChaos extends Game {
 
 		greenCircle=getTexture("green circle");
 		yellowCircle=getTexture(("yellow circle"));
+		twoSwordsTexture=getTexture("two swords");
 	}
 
 	private Sound loadSound(String soundName)

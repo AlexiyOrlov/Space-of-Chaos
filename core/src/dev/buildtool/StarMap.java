@@ -114,6 +114,13 @@ public class StarMap extends ScreenAdapter {
                 tooltip = new TextTooltip(inhabitedPlanets.size() + " inhabited planets\n" + uninhabitedPlanets.size() + " uninhabited planets", skin);
             tooltip.setInstant(true);
             starImage.addListener(tooltip);
+            if(starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.AI) && starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI))
+            {
+                Image twoSwords=new Image(SpaceOfChaos.INSTANCE.twoSwordsTexture);
+                twoSwords.setPosition(starImage.getX()+32, starImage.getY());
+                twoSwords.setScale(0.01f);
+                stage.addActor(twoSwords);
+            }
         });
         camera.position.x-= (float) Gdx.graphics.getBackBufferWidth() /2;
         camera.position.y-= (float) Gdx.graphics.getBackBufferHeight() /2;
