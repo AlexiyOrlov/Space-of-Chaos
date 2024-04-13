@@ -329,7 +329,7 @@ public class SpaceOfChaos extends Game {
 							npcPilot.navigatingTo=attackTarget;
 						}
 					});
-					Gdx.app.log("Info","Incoming attack from "+randomSystem.getStarName()+" on "+attackTarget.getStarName());
+					Functions.log("Incoming attack from "+randomSystem.getStarName()+" on "+attackTarget.getStarName());
 					aiAttackTimer=random.nextInt(15*60,30*60);
 				}
 			}
