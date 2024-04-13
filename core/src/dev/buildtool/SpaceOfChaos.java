@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class SpaceOfChaos extends Game {
-	static Random random=new Random();
+	public static Random random=new Random();
 	SpriteBatch worldBatch;
 	SpriteBatch uiBatch;
 	ArrayList<Texture> planetTextures;
