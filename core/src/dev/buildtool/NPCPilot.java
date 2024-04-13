@@ -172,18 +172,19 @@ public class NPCPilot implements Ship {
                 else {
                     if(targetPlanet.starSystem!=currentSystem)
                     {
-                        throw new RuntimeException("System mismatch");
-                    }
-                    rotateTowards(targetPlanet.x, targetPlanet.y);
-                    if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
-                        currentlyLandedOn = targetPlanet;
-                        land(targetPlanet);
-                        if (SpaceOfChaos.debugDraw)
-                            System.out.println("Landed on " + targetPlanet.name);
-                        targetPlanet = null;
+                        targetPlanet=null;
                     }
                     else {
-                        move();
+                        rotateTowards(targetPlanet.x, targetPlanet.y);
+                        if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
+                            currentlyLandedOn = targetPlanet;
+                            land(targetPlanet);
+                            if (SpaceOfChaos.debugDraw)
+                                System.out.println("Landed on " + targetPlanet.name);
+                            targetPlanet = null;
+                        } else {
+                            move();
+                        }
                     }
                 }
             }
