@@ -244,7 +244,7 @@ public class PlayerShip implements Ship{
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
-                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null);
+                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         secondaryFireDelay = secondaryWeapon.cooldown;
