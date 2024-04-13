@@ -254,7 +254,7 @@ public class Planet {
                     starSystem.ships.add(pirate);
                     pirate.x=x;
                     pirate.y=y;
-                    System.out.println("Pirate in "+starSystem.star.name);
+                    Functions.log("Pirate in "+starSystem.star.name);
                 }
             }
 
