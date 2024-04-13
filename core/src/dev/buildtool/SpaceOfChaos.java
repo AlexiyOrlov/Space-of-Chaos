@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class SpaceOfChaos extends Game {
 	static Random random=new Random();
@@ -46,6 +48,7 @@ public class SpaceOfChaos extends Game {
 	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound;
 	private final ArrayList<Texture> textures=new ArrayList<>(600);
 	private final ArrayList<Sound> sounds=new ArrayList<>(100);
+	private float aiAttackTimer;
 	
 	@Override
 	public void create () {
@@ -247,7 +250,7 @@ public class SpaceOfChaos extends Game {
 		int x=0;
 		int y=0;
 		int planetCount=0;
-		int starSystemCount=30;
+		int starSystemCount=25;
 		for (int i = 0; i <starSystemCount; i++) {
 			int xleft=random.nextInt(-300,-100);
 			int xright=random.nextInt(100,300);
@@ -283,11 +286,62 @@ public class SpaceOfChaos extends Game {
 	public void render() {
 		super.render();
 		if(updateWorld)
+		{
 			starSystems.forEach(StarSystem::update);
+			if(aiAttackTimer<=0)
+			{
+				List<StarSystem> validOccupiedSystems= starSystems.stream().filter(starSystem -> {
+					int aiShipCount=0;
+					for (Ship ship : starSystem.ships) {
+						if(ship instanceof NPCPilot npcPilot)
+						{
+							if(npcPilot.pilotAI==PilotAI.AI)
+							{
+								aiShipCount++;
+							}
+							else {
+								//if there is a non-AI ship,skip
+								return false;
+							}
+						}
+					}
+					if(aiShipCount>2) {
+						ArrayList<StarSystem> otherSystems = new ArrayList<>(starSystems.size());
+						otherSystems.addAll(starSystems);
+						otherSystems.remove(starSystem);
+						for (StarSystem otherSystem : otherSystems) {
+							if (!otherSystem.occupied && Vector2.dst(otherSystem.positionX, otherSystem.positionY, starSystem.positionX, starSystem.positionY) <= 400) {
+								return true;
+							}
+						}
+					}
+					return false;
+				} ).toList();
+				if(!validOccupiedSystems.isEmpty())
+				{
+					StarSystem randomSystem=validOccupiedSystems.get(random.nextInt(validOccupiedSystems.size()));
+					List<StarSystem> closestFreeSystems= new ArrayList<>(starSystems.stream().filter(starSystem -> !starSystem.occupied && Vector2.dst(starSystem.positionX, starSystem.positionY, randomSystem.positionX, randomSystem.positionY) <= 400).toList());
+					closestFreeSystems.remove(randomSystem);
+					StarSystem attackTarget=closestFreeSystems.get(random.nextInt(closestFreeSystems.size()));
+					randomSystem.ships.forEach(ship -> {
+						if(ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.AI)
+						{
+							npcPilot.navigatingTo=attackTarget;
+						}
+					});
+					Gdx.app.log("Info","Incoming attack from "+randomSystem.getStarName()+" on "+attackTarget.getStarName());
+					aiAttackTimer=random.nextInt(15*60,30*60);
+				}
+			}
+			else {
+				aiAttackTimer-=Gdx.graphics.getDeltaTime();
+			}
+		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.F3))
 		{
 			debugDraw=!debugDraw;
 		}
+
 	}
 
 	private void loadTexture(String name)

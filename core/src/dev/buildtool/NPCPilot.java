@@ -396,19 +396,30 @@ public class NPCPilot implements Ship {
         }
         else if(state==null)
         {
-            List<Ship> potentialTargets= currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI)).collect(Collectors.toList());
-            if(potentialTargets.isEmpty())
+            if(navigatingTo!=null)
             {
-                if(targetPlanet==null)
-                    targetPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
-                if(Vector2.dst(targetPlanet.x,targetPlanet.y,x,y)>200)
+                StarGate starGate=currentSystem.starGate;
+                rotateTowards(starGate.x,starGate.y);
+                if(Vector2.dst(starGate.x,starGate.y,x,y)<20)
                 {
-                    rotateTowards(targetPlanet.x, targetPlanet.y);
+                    canJump=true;
+                }
+                else {
                     move();
                 }
             }
             else {
-                target=potentialTargets.get(random.nextInt(potentialTargets.size()));
+                List<Ship> potentialTargets = currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).collect(Collectors.toList());
+                if (potentialTargets.isEmpty()) {
+                    if (targetPlanet == null)
+                        targetPlanet = currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                    if (Vector2.dst(targetPlanet.x, targetPlanet.y, x, y) > 200) {
+                        rotateTowards(targetPlanet.x, targetPlanet.y);
+                        move();
+                    }
+                } else {
+                    target = potentialTargets.get(random.nextInt(potentialTargets.size()));
+                }
             }
         }
     }
