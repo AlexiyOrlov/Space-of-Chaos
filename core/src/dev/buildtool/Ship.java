@@ -1,5 +1,7 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,4 +20,5 @@ public interface Ship {
     boolean overlaps(Circle with);
     boolean contains(Vector2 vector2);
     boolean isLanded();
+    void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
 }

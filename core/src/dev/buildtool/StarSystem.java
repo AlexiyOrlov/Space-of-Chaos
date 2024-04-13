@@ -90,12 +90,7 @@ public class StarSystem {
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
-        ships.forEach(ship -> {
-            if(ship instanceof NPCPilot npcPilot)
-                npcPilot.draw(spriteBatch,shapeRenderer);
-            else if(ship instanceof PlayerShip playerShip)
-                playerShip.draw(spriteBatch,shapeRenderer);
-        });
+        ships.forEach(ship -> ship.draw(spriteBatch,shapeRenderer));
         spriteBatch.begin();
         itemContainers.forEach(container -> {
             Functions.drawRotatedScaled(spriteBatch,SpaceGame.INSTANCE.containerTexture, container.x,container.y,container.rotation,0.5f);
