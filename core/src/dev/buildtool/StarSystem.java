@@ -271,6 +271,7 @@ public class StarSystem implements SaveData{
         positionX= (int) data.get("x");
         positionY= (int) data.get("y");
         int shipCount= (int) data.get("ships");
+        //npc loading
         for (int i = 0; i < shipCount; i++) {
             String next="ship "+i;
             if(data.containsKey(next))
@@ -280,6 +281,7 @@ public class StarSystem implements SaveData{
                 ships.add(npcPilot);
             }
         }
+        //projectile loading
         int projectileCount= (int) data.get("projectiles");
         for (int i = 0; i < projectileCount; i++) {
             Projectile projectile=new Projectile();
