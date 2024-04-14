@@ -75,13 +75,13 @@ public class NPCPilot implements Ship, SaveData {
 
     @Override
     public void load(Map<String, Object> data) {
-        area.x= (float) data.get("area x");
-        area.y= (float) data.get("area y");
+        area.x= (float)(double) data.get("area x");
+        area.y= (float)(double) data.get("area y");
         int wareEntries= (int) data.get("ware entries");
         for (int i = 0; i < wareEntries; i++) {
             String wareName= (String) data.get("ware +"+i);
             Ware ware= (Ware) Item.REGISTRY.get(wareName);
-            int price= (int) data.get("ware price");
+            int price= (int) data.get("ware price "+i);
             boughtFor.put(ware,price);
         }
         canJump= (boolean) data.get("can jump");

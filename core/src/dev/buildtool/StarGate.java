@@ -67,13 +67,13 @@ public class StarGate implements SaveData{
 
     @Override
     public void load(Map<String, Object> data) {
-        area.x= (float) data.get("x");
-        area.y= (float) data.get("y");
+        area.x= (float)(double) data.get("x");
+        area.y= (float)(double) data.get("y");
         clockwise= (boolean) data.get("clockwise");
-        currentAngle= (float) data.get("angle");
+        currentAngle= (float)(double) data.get("angle");
         distanceFromStar= (int) data.get("distance to star");
-        rotation= (float) data.get("rotation");
-        x= (float) data.get("x");
-        y= (float) data.get("y");
+        rotation= (float)(double) data.get("rotation");
+        x= (float)(double) data.get("x");
+        y= (float)(double) data.get("y");
     }
 }
