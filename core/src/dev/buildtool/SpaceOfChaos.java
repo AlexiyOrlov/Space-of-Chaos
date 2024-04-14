@@ -214,7 +214,6 @@ public class SpaceOfChaos extends Game implements SaveData{
 		gunTexture=getTexture("gun");
 		shotgunTexture=getTexture("shotgun");
 		cashTexture=getTexture("cash64");
-		drone2Texture=getTexture("drone 1");
 		containerTexture=getTexture("container");
 		shipIcon3=getTexture("ship icon2");
 		blackHullTexture=getTexture("hull2");
@@ -341,6 +340,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 					break;
 			}
 			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2);
+			starSystem.id=i;
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
 		}
