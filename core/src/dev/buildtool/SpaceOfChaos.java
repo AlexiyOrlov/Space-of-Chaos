@@ -588,6 +588,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		for (StarSystem starSystem : starSystems) {
 			if(starSystem.id==playerShip.currentSystemId)
 			{
+				starSystem.ships.removeIf(ship -> ship instanceof PlayerShip);
 				playerShip.setCurrentSystem(starSystem);
 				starSystem.ships.add(playerShip);
 				break;
