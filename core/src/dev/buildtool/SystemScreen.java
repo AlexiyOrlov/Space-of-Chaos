@@ -88,9 +88,18 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 SpaceOfChaos.INSTANCE.saveGame();
             }
         });
+        TextButton load=new TextButton("Load",skin);
+        load.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.loadGame();
+            }
+        });
         pauseMenu.add(label);
         pauseMenu.row();
         pauseMenu.add(save);
+        pauseMenu.row();
+        pauseMenu.add(load);
         pauseMenu.row();
         pauseMenu.add(quit);
         pauseMenu.setVisible(false);

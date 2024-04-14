@@ -48,6 +48,16 @@ public class StartScreen extends ScreenAdapter {
         });
         stage.addActor(table);
         table.add(button);
+        table.row();
+        TextButton load=new TextButton("Load game",game.skin);
+        load.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.loadGame();
+            }
+        });
+        table.add(load);
+        table.row();
         TextButton quit=new TextButton("Quit game",game.skin);
         quit.addListener(new ChangeListener() {
             @Override
