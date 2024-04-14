@@ -239,9 +239,11 @@ public class StarSystem implements SaveData{
         }
         data.put("ships",ships.size());
         data.put("star",star.getData());
+        data.put("star gate",starGate.getData());
         return data;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void load(Map<String, Object> data) {
         int containers= (int) data.get("containers");
@@ -276,6 +278,7 @@ public class StarSystem implements SaveData{
         }
         star=new Star();
         star.load((Map<String, Object>) data.get("star"));
-
+        starGate=new StarGate();
+        starGate.load((Map<String, Object>) data.get("star gate"));
     }
 }

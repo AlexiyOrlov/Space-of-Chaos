@@ -6,17 +6,23 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 
-public class StarGate {
+import java.util.HashMap;
+import java.util.Map;
+
+public class StarGate implements SaveData{
     public float x,y;
     public float rotation;
     public int distanceFromStar;
     public float currentAngle;
-    public Circle area;
+    public Circle area=new Circle();
     private boolean clockwise;
+
+    public StarGate() {
+    }
+
     public StarGate(int distanceFromStar, float currentAngle) {
         this.distanceFromStar = distanceFromStar;
         this.currentAngle = currentAngle;
-        area=new Circle();
         clockwise= SpaceOfChaos.random.nextBoolean();
     }
 
@@ -43,5 +49,31 @@ public class StarGate {
         else
             currentAngle-=0.025f*MathUtils.degreesToRadians;
         area.set(x,y,128);
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("area x",area.x);
+        data.put("area y",area.y);
+        data.put("clockwise",clockwise);
+        data.put("angle",currentAngle);
+        data.put("distance to star",distanceFromStar);
+        data.put("rotation",rotation);
+        data.put("x",x);
+        data.put("y",y);
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        area.x= (float) data.get("x");
+        area.y= (float) data.get("y");
+        clockwise= (boolean) data.get("clockwise");
+        currentAngle= (float) data.get("angle");
+        distanceFromStar= (int) data.get("distance to star");
+        rotation= (float) data.get("rotation");
+        x= (float) data.get("x");
+        y= (float) data.get("y");
     }
 }
