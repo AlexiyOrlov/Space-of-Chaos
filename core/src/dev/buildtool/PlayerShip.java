@@ -312,6 +312,11 @@ public class PlayerShip implements Ship,SaveData {
     }
 
     @Override
+    public void setCurrentSystem(StarSystem starSystem) {
+        currentStarSystem=starSystem;
+    }
+
+    @Override
     public void damage(int damage) {
         integrity-=damage;
     }

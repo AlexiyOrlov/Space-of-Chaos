@@ -732,6 +732,11 @@ public class NPCPilot implements Ship, SaveData {
     }
 
     @Override
+    public void setCurrentSystem(StarSystem starSystem) {
+        currentSystem=starSystem;
+    }
+
+    @Override
     public int getIntegrity() {
         return integrity;
     }

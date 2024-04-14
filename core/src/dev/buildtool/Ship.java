@@ -14,7 +14,7 @@ public interface Ship {
     Vector2 getVelocity();
 
     StarSystem getCurrentSystem();
-
+    void setCurrentSystem(StarSystem starSystem);
     void damage(int damage);
     void onProjectileImpact(Projectile projectile);
     int getIntegrity();
