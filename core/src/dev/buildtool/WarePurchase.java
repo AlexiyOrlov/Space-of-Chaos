@@ -23,6 +23,7 @@ public class WarePurchase implements SaveData {
         data.put("amount bought",amountBought);
         data.put("money spent",moneySpent);
         data.put("price per unit",pricePerUnit);
+        return data;
     }
 
     @Override
