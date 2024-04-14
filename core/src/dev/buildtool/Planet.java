@@ -341,7 +341,7 @@ public class Planet implements SaveData {
             int guardCount=0;
             for (int i = 0; i < 2; i++) {
                 if (random.nextBoolean()) {
-                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.MARK2, this,WeaponRegistry.AI_GUN1, starSystem);
+                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.MARK2, this,starSystem,WeaponRegistry.AI_GUN1);
                     starSystem.ships.add(guard);
                     guard.x = x;
                     guard.y = y;
@@ -368,14 +368,14 @@ public class Planet implements SaveData {
             int randomInt=random.nextInt(100);
             NPCPilot aiPilot;
             if(randomInt<25) {
-                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC,this, starSystem);
+                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.TIER1_WEAPONS.get(random.nextInt(WeaponRegistry.TIER1_WEAPONS.size())),random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC,this, starSystem);
             } else if (randomInt < 50) {
-                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_MEDIUM1:Hull.AI_MEDIUM2,Engine.BASIC,SideThrusters.BASIC,this,starSystem );
+                aiPilot = new NPCPilot( PilotAI.AI, WeaponRegistry.TIER1_WEAPONS.get(random.nextInt(WeaponRegistry.TIER1_WEAPONS.size())),random.nextBoolean()?Hull.AI_MEDIUM1:Hull.AI_MEDIUM2,Engine.BASIC,SideThrusters.BASIC,this,starSystem, WeaponRegistry.TIER1_WEAPONS.get(random.nextInt(WeaponRegistry.TIER1_WEAPONS.size())));
             } else if (randomInt < 75) {
-                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.BASIC,this, starSystem);
+                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.TIER2_WEAPONS.get(random.nextInt(WeaponRegistry.TIER2_WEAPONS.size())),random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.BASIC,this, starSystem,WeaponRegistry.TIER1_WEAPONS.get(random.nextInt(WeaponRegistry.TIER1_WEAPONS.size())));
             }
             else
-                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.AI_GUN1, random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW,this,WeaponRegistry.MISSILE_LAUNCHER, starSystem);
+                aiPilot=new NPCPilot(PilotAI.AI,WeaponRegistry.TIER3_WEAPONS.get(random.nextInt(WeaponRegistry.TIER3_WEAPONS.size())), random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW,this,starSystem,WeaponRegistry.MISSILE_LAUNCHER);
             aiPilot.x=x;
             aiPilot.y=y;
             starSystem.ships.add(aiPilot);

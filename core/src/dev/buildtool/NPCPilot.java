@@ -143,7 +143,7 @@ public class NPCPilot implements Ship, SaveData {
         this.homePlanet = homePlanet;
     }
 
-    public NPCPilot(PilotAI pilotAI, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, Weapon secondaryWeapon, StarSystem currentStarSystem) {
+    public NPCPilot(PilotAI pilotAI, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, StarSystem currentStarSystem,Weapon secondaryWeapon) {
         this(pilotAI,primaryWeapon,hull,engine,sideThrusters,homePlanet, currentStarSystem);
         this.secondaryWeapon=secondaryWeapon;
     }
