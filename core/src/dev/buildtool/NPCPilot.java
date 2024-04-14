@@ -105,22 +105,6 @@ public class NPCPilot implements Ship, SaveData {
         pilotAI=PilotAI.valueOf((String) data.get("type"));
         homePlanetId= (int) data.get("home planet");
         currentSystemId= (int) data.get("current system id");
-//        for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
-//            if(starSystem.id==currentSystemId)
-//            {
-//                currentSystem=starSystem;
-//                for (Planet planet : starSystem.planets) {
-//                    if(planet.id==homePlanetId)
-//                    {
-//                        homePlanet=planet;
-//                        break;
-//                    }
-//                }
-//                break;
-//            }
-//        }
-//        if(homePlanet==null)
-//            throw new RuntimeException("Didn't find home planet");
     }
 
     enum State {
