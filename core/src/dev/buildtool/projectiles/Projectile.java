@@ -90,7 +90,7 @@ public class Projectile implements SaveData {
         //target
         data.put("texture id", SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
         data.put("time",time);
-        //valid targets
+        //TODO check
         data.put("target predicate",validTargets);
         data.put("velocity x",velocity.x);
         data.put("velocity y",velocity.y);
