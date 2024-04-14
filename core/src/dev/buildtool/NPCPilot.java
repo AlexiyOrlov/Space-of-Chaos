@@ -538,6 +538,8 @@ public class NPCPilot implements Ship, SaveData {
                     }
                 } else {
                     target = potentialTargets.get(random.nextInt(potentialTargets.size()));
+                    if(target.getCurrentSystem()!=currentSystem)
+                        throw new RuntimeException("System mismatch");
                 }
             }
         }

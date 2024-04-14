@@ -286,7 +286,6 @@ public class StarSystem implements SaveData{
                 ships.add(npcPilot);
             }
         }
-        ships.add(SpaceOfChaos.INSTANCE.playerShip);
         star=new Star();
         star.load((Map<String, Object>) data.get("star"));
         starGate=new StarGate();
