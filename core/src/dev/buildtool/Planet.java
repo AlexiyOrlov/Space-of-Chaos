@@ -23,8 +23,8 @@ public class Planet implements SaveData {
     private Texture texture;
     public float x,y,currentAngle,speed;
     private int distance;
-    public TreeMap<Ware,Integer> warePrices;
-    public TreeMap<Ware,Integer> wareAmounts;
+    public TreeMap<Ware,Integer> warePrices=new TreeMap<>();
+    public TreeMap<Ware,Integer> wareAmounts=new TreeMap<>();
     public HashMap<Ware,Float> wareManufactureProgress=new HashMap<>();
     public float radius;
     public Circle outline=new Circle();
@@ -304,8 +304,6 @@ public class Planet implements SaveData {
         this.distance=distance;
         speed=orbitSpeed;
         if(kind==Kind.INHABITED) {
-            warePrices = new TreeMap<>();
-            wareAmounts = new TreeMap<>();
             equipmentInventory=new Inventory(9);
             equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
             equipmentInventory.addItem(new Stack(Engine.MARK2,1));
