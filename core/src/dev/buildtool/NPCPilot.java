@@ -68,8 +68,6 @@ public class NPCPilot implements Ship, SaveData {
         }
         data.put("ware entries",w);
         data.put("can jump",canJump);
-        //closest planet
-        //containerToCollect
         //currentlylandendon
         //current system
         return null;
