@@ -81,7 +81,7 @@ public class Planet implements SaveData {
         next=0;
         for (Ware ware : wareManufactureProgress.keySet()) {
             data.put("ware manufactured "+next,ware.name);
-            data.put("progress",wareManufactureProgress.get(ware));
+            data.put("progress "+next,wareManufactureProgress.get(ware));
             next++;
         }
         data.put("ware manufacturing size",wareManufactureProgress.size());
@@ -130,7 +130,7 @@ public class Planet implements SaveData {
         int manufacturedWareAmount= (int) data.get("ware manufacturing size");
         for (int i = 0; i < manufacturedWareAmount; i++) {
             Ware ware= (Ware) Item.REGISTRY.get((String) data.get("ware manufactured "+i));
-            wareManufactureProgress.put(ware, (Float) data.get("progress"+i));
+            wareManufactureProgress.put(ware, (Float) data.get("progress "+i));
         }
         int waresSold= (int) data.get("ware sold count");
         for (int i = 0; i < waresSold; i++) {
