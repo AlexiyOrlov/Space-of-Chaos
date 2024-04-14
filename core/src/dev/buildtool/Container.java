@@ -1,6 +1,9 @@
 package dev.buildtool;
 
-public class Container {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Container implements SaveData {
     public Stack stack;
     public float x,y;
     public float rotation;
@@ -10,5 +13,25 @@ public class Container {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+    }
+
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("x",x);
+        data.put("y",y);
+        data.put("rotation",rotation);
+        data.put("stack",stack.getData());
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        x= (float) data.get("x");
+        y= (float) data.get("y");
+        rotation= (float) data.get("rotation");
+        stack=new Stack();
+        stack.load((Map<String, Object>) data.get("stack"));
     }
 }
