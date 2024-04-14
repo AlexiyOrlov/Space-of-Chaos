@@ -64,8 +64,8 @@ public class Projectile implements SaveData {
         y+= velocity.y;
         area.set(x,y,texture.getWidth()/2);
         time+=deltaTime;
-        if(shooter==null)
-            throw new RuntimeException("Shooter is null");
+//        if(shooter==null)
+//            throw new RuntimeException("Shooter is null");
     }
 
     public void render(SpriteBatch spriteBatch)

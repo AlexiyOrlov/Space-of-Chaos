@@ -21,6 +21,8 @@ import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 
 public class NPCPilot implements Ship, SaveData {
+    public static int nextId;
+    public int id;
     public Hull hull;
     public SideThrusters sideThrusters;
     public Engine engine;
@@ -79,6 +81,7 @@ public class NPCPilot implements Ship, SaveData {
         data.put("type",pilotAI.toString());
         data.put("home planet",homePlanetId);
         data.put("current system id",currentSystemId);
+        data.put("id",id)
         //currentlylandendon
         //current system
         return data;
@@ -105,6 +108,7 @@ public class NPCPilot implements Ship, SaveData {
         pilotAI=PilotAI.valueOf((String) data.get("type"));
         homePlanetId= (int) data.get("home planet");
         currentSystemId= (int) data.get("current system id");
+        id= (int) data.get("id");
     }
 
     enum State {
@@ -128,6 +132,7 @@ public class NPCPilot implements Ship, SaveData {
         this.sideThrusters=sideThrusters;
         homePlanetId= homePlanet.id;
         currentSystemId=currentStarSystem.id;
+        id=nextId++;
     }
 
     public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, StarSystem currentStarSystem)
