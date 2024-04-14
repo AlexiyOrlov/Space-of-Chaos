@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Star implements SaveData{
-    private Texture texture;
+    private Texture texture=SpaceOfChaos.INSTANCE.starTextures.get(0);
     public String name;
     private Circle area;
     static final HashSet<String> starNames=new HashSet<>();
