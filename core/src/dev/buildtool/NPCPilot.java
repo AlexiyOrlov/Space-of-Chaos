@@ -81,7 +81,7 @@ public class NPCPilot implements Ship, SaveData {
         data.put("type",pilotAI.toString());
         data.put("home planet",homePlanetId);
         data.put("current system id",currentSystemId);
-        data.put("id",id)
+        data.put("id",id);
         //currentlylandendon
         //current system
         return data;
