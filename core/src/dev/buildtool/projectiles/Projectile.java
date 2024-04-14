@@ -7,13 +7,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import dev.buildtool.Functions;
+import dev.buildtool.SaveData;
 import dev.buildtool.Ship;
+import dev.buildtool.SpaceOfChaos;
 import dev.buildtool.StarSystem;
 
-public class Projectile {
+public class Projectile implements SaveData {
     public Texture texture;
     public int damage;
     /**
@@ -68,5 +72,43 @@ public class Projectile {
 
     public void onDestroyed(StarSystem starSystem){
 
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("area x",area.x);
+        data.put("area y",area.y);
+        data.put("damage",damage);
+        data.put("rotation",rotation);
+        //shooter
+        data.put("speed",speed);
+        //star system
+        //target
+        data.put("texture id", SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
+        data.put("time",time);
+        //valid targets
+        data.put("target predicate",validTargets);
+        data.put("velocity x",velocity.x);
+        data.put("velocity y",velocity.y);
+        data.put("x",x);
+        data.put("y",y);
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        area.x= (float) data.get("area x");
+        area.y= (float) data.get("area y");
+        damage= (int) data.get("damage");
+        rotation= (float) data.get("rotation");
+        speed= (int) data.get("speed");
+        texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture id"));
+        time= (float) data.get("time");
+        validTargets= (Predicate<Ship>) data.get("target predicate");
+        velocity.x= (float) data.get("velocity x");
+        velocity.y= (float) data.get("velocity y");
+        x= (float) data.get("x");
+        y= (float) data.get("y");
     }
 }
