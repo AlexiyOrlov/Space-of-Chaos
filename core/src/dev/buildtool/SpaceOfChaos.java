@@ -236,7 +236,6 @@ public class SpaceOfChaos extends Game implements SaveData{
 		battleHull3=getTexture("battle hull 1");
 		pirateHull1=getTexture("pirate hull 1");
 		shipIcon=getTexture("ship icon");
-		ship2icon=getTexture("ship icon2");
 		tradingHull2Texture=getTexture("trading hull2");
 		pirateHull2Texture=getTexture("pirate hull2");
 		battleHull3Texture=getTexture("battle hull 3");
