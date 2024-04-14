@@ -12,7 +12,7 @@ import java.util.Map;
 public class Star implements SaveData{
     private Texture texture=SpaceOfChaos.INSTANCE.starTextures.get(0);
     public String name;
-    private Circle area;
+    private Circle area=new Circle(0,0,256);
     static final HashSet<String> starNames=new HashSet<>();
     static {
         starNames.add("Fi");
@@ -66,7 +66,6 @@ public class Star implements SaveData{
         String randomName=starNames.iterator().next();
         name=randomName;
         starNames.remove(randomName);
-        area=new Circle(0,0,256);
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
