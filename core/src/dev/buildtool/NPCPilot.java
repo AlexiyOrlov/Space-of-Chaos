@@ -68,6 +68,13 @@ public class NPCPilot implements Ship, SaveData {
         }
         data.put("ware entries",w);
         data.put("can jump",canJump);
+        data.put("hull",hull.name);
+        data.put("weapon",primaryWeapon.name);
+        if(secondaryWeapon!=null)
+            data.put("secondary weapon",secondaryWeapon.name);
+        data.put("engine",engine.name);
+        data.put("side thrusters",sideThrusters.name);
+        data.put("type",pilotAI.toString());
         //currentlylandendon
         //current system
         return data;
@@ -85,6 +92,13 @@ public class NPCPilot implements Ship, SaveData {
             boughtFor.put(ware,price);
         }
         canJump= (boolean) data.get("can jump");
+        hull= (Hull) Item.REGISTRY.get((String) data.get("hull"));
+        primaryWeapon= (Weapon) Item.REGISTRY.get((String) data.get("weapon"));
+        if(data.containsKey("secondary weapon"))
+            secondaryWeapon= (Weapon) Item.REGISTRY.get((String) data.get("secondary weapon"));
+        engine= (Engine) Item.REGISTRY.get((String) data.get("engine"));
+        sideThrusters= (SideThrusters) Item.REGISTRY.get((String) data.get("side thrusters"));
+        pilotAI=PilotAI.valueOf((String) data.get("type"));
     }
 
     enum State {
