@@ -62,6 +62,7 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 
         api "com.kotcrab.vis:vis-ui:$visuiVersion"
+        implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
     }
 }
 

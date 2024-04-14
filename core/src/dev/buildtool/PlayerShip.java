@@ -18,37 +18,40 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 import dev.buildtool.weapons.WeaponRegistry;
 
-public class PlayerShip implements Ship{
+public class PlayerShip implements Ship,SaveData {
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
-    private final Texture texture;
+//    private Texture texture;
     public final Vector2 direction;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay,secondaryFireDelay;
     public Inventory inventory;
-    public final Circle area;
+    public Circle area;
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;
     boolean hasScanner=true;
     private final Inventory shipParts=new Inventory(5);
-    private boolean damageOnlyAIShips=true;
+    public boolean damageOnlyAIShips=true;
+    NPCPilot homingTarget;
+    int reticleRotation;
+
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
         setHull(new Stack(Hull.BASIC,1));
-        setPrimaryWeapon(new Stack(WeaponRegistry.MISSILE_LAUNCHER,1));
-        setSecondaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
+        setPrimaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
+        setSecondaryWeapon(new Stack(WeaponRegistry.TRISHOT,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
         this.rotation = rotation;
-        this.texture=texture;
         direction=new Vector2(0,0);
         inventory=new Inventory(40);
         this.currentStarSystem=currentStarSystem;
@@ -174,10 +177,15 @@ public class PlayerShip implements Ship{
 
     public void update(float deltaTime, Viewport viewport)
     {
+        if(homingTarget!=null && !Functions.validTarget(homingTarget,this))
+            homingTarget=null;
+        reticleRotation+=deltaTime*90;
         if(SpaceOfChaos.INSTANCE.updateWorld) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.TAB))
             {
                 damageOnlyAIShips=!damageOnlyAIShips;
+                if(damageOnlyAIShips && homingTarget!=null && homingTarget.pilotAI!=PilotAI.AI)
+                    homingTarget=null;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 if (leftAcceleration < getSideThrusters().strafingSpeed)
@@ -234,7 +242,7 @@ public class PlayerShip implements Ship{
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, null,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true, currentStarSystem);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, homingTarget,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         fireDelay = getPrimaryWeapon().cooldown;
@@ -245,7 +253,7 @@ public class PlayerShip implements Ship{
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
-                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, null,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true, currentStarSystem);
+                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, homingTarget,damageOnlyAIShips?ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI:ship -> true, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         secondaryFireDelay = secondaryWeapon.cooldown;
@@ -263,7 +271,7 @@ public class PlayerShip implements Ship{
                 acceleration = 0;
             }
 
-            area.set(x, y, (float) texture.getWidth() / 2);
+            area.set(x, y, (float) getHull().texture.getWidth() / 2);
 
             Vector2 mouseWorld = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             rotation = Functions.rotateTowards(rotation * MathUtils.degreesToRadians, x, y, mouseWorld.x, mouseWorld.y, -MathUtils.degreesToRadians * 90, getSideThrusters().steeringSpeed) * MathUtils.radiansToDegrees;
@@ -333,5 +341,45 @@ public class PlayerShip implements Ship{
     @Override
     public boolean isLanded() {
         return false;
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("acceleration",acceleration);
+        data.put("damage only AI ships",damageOnlyAIShips);
+        data.put("primary fire delay",fireDelay);
+        data.put("has scanner",hasScanner);
+//        data.put("homing target",homingTarget);
+        data.put("integrity",integrity);
+//        data.put("inventory",inventory);
+        data.put("left acceleration",leftAcceleration);
+//        data.put("licenses",licences);
+        data.put("money",money);
+        data.put("right acceleration",rightAcceleration);
+        data.put("rotation",rotation);
+        data.put("secondary fire delay",secondaryFireDelay);
+//        data.put("ship parts",shipParts);
+//        data.put("ware purchases",warePurchases);
+        data.put("x",x);
+        data.put("y",y);
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        acceleration=(float) (double) data.get("acceleration");
+        fireDelay= (float)(double) data.get("primary fire delay");
+        damageOnlyAIShips= (boolean) data.get("damage only AI ships");
+        hasScanner= (boolean) data.get("has scanner");
+        integrity= (int) data.get("integrity");
+        leftAcceleration= (float)(double) data.get("left acceleration");
+        money= (int) data.get("money");
+        rightAcceleration= (float)(double) data.get("right acceleration");
+        rotation= (float)(double) data.get("rotation");
+        secondaryFireDelay= (float)(double) data.get("secondary fire delay");
+        x= (float)(double) data.get("x");
+        y= (float)(double) data.get("y");
+        int textureId= (int) data.get("texture");
     }
 }

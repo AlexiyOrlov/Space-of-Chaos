@@ -1,5 +1,6 @@
 package dev.buildtool;
 
+import com.badlogic.gdx.AbstractInput;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -27,6 +28,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -40,11 +45,14 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     Viewport viewport;
     StarSystem starSystem;
     Rectangle viewportBounds;
-    private Stage stage;
-    private Table pauseMenu,playerInventory;
+    private final Stage stage;
+    private final Table pauseMenu;
+    private final Table playerInventory;
     private Stack stackUnderMouse;
     private boolean inventoryShown;
     private ArrayList<SlotButton> slotButtons=new ArrayList<>(40);
+    public final Deque<String> messageQueue=new LinkedList<>();
+    public float lastMessageTime;
 
     public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
         SpaceOfChaos spaceOfChaos = SpaceOfChaos.INSTANCE;
@@ -73,7 +81,16 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             }
         });
         Label label=new Label("Game paused",skin);
+        TextButton save=new TextButton("Save",skin);
+        save.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.saveGame();
+            }
+        });
         pauseMenu.add(label);
+        pauseMenu.row();
+        pauseMenu.add(save);
         pauseMenu.row();
         pauseMenu.add(quit);
         pauseMenu.setVisible(false);
@@ -141,8 +158,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         if(playerShip!=null)
             playerShip.update(delta, viewport);
 
-        starSystem.draw(spriteBatch, shapeRenderer);
-
+        starSystem.draw(spriteBatch, shapeRenderer,delta);
         if(playerShip!=null) {
             camera.position.set(playerShip.x, playerShip.y, 0);
 
@@ -153,6 +169,12 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 float height = ip * (Gdx.graphics.getBackBufferHeight() - 200);
                 uiShapeRenderer.rect((float) Gdx.graphics.getBackBufferWidth() - 60 - 34, (Gdx.graphics.getBackBufferHeight() - height) / 2, 60, height);
                 uiShapeRenderer.end();
+            }
+            if(playerShip.homingTarget!=null)
+            {
+                spriteBatch.begin();
+                Functions.drawRotated(spriteBatch,SpaceOfChaos.INSTANCE.reticle, playerShip.homingTarget.x,playerShip.homingTarget.y,playerShip.reticleRotation);
+                spriteBatch.end();
             }
         }
         final Vector2 starPos=new Vector2(0,0);
@@ -216,6 +238,35 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 inventoryShown = !SpaceOfChaos.INSTANCE.updateWorld;
                 playerInventory.setVisible(inventoryShown);
             }
+        }
+
+        if(playerShip!=null) {
+            for (Ship ship : starSystem.ships) {
+                if(ship instanceof NPCPilot npcPilot && npcPilot.contains(mousePositionConverted))
+                {
+                    if(playerShip.damageOnlyAIShips)
+                    {
+                        if(npcPilot.pilotAI==PilotAI.AI)
+                        {
+                            playerShip.homingTarget=npcPilot;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        playerShip.homingTarget=npcPilot;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(lastMessageTime>0)
+        {
+            lastMessageTime-=delta;
+            spriteBatch.begin();
+            font.draw(spriteBatch,messageQueue.getLast(),0,SpaceOfChaos.getWindowHeight()-80);
+            spriteBatch.end();
         }
     }
 
@@ -346,5 +397,15 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     @Override
     public void setStackUnderMouse(Stack stack) {
         stackUnderMouse=stack;
+    }
+
+    public void addMessage(String message)
+    {
+        if(messageQueue.size()>9)
+        {
+            messageQueue.remove();
+        }
+        messageQueue.add(message);
+        lastMessageTime=10;
     }
 }

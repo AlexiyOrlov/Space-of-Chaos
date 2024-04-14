@@ -1,6 +1,7 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -31,6 +32,11 @@ public class Functions {
     public static float rotateTowards(float fromAngle,float xFrom,float yFrom,float xTo,float yTo,float correctionAngle,float rotationSpeed)
     {
         return MathUtils.lerpAngle(fromAngle,MathUtils.atan2(yTo-yFrom,xTo-xFrom)+correctionAngle,rotationSpeed);
+    }
+
+    public static boolean validTarget(Ship target,Ship forShip)
+    {
+        return !target.isLanded() && target.getCurrentSystem()==forShip.getCurrentSystem() && target.getIntegrity()>0;
     }
 
     public static float rotationTowards(float xFrom,float yFrom,float xTo,float yTo,float correctionAngle)

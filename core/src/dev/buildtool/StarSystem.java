@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import dev.buildtool.projectiles.DestructibleProjectile;
 import dev.buildtool.projectiles.Projectile;
 
 public class StarSystem {
@@ -23,8 +24,10 @@ public class StarSystem {
     public StarGate starGate;
     public ArrayList<Projectile> projectiles;
     ArrayList<Container> itemContainers;
+    public final ArrayList<OneShotAnimation> animations=new ArrayList<>();
+    public int id;
     public boolean occupied;
-    public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f,LOW_PRICE_MULTIPLIE=0.9f;
+    public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f, LOW_PRICE_MULTIPLIER =0.9f;
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         occupied=occupiedByAI;
         projectiles=new ArrayList<>();
@@ -71,7 +74,7 @@ public class StarSystem {
                         } else if (randomWareAmount > 750) {
                             priceMultiplier = LOWEST_PRICE_MULTIPLIER;
                         } else if (randomWareAmount > 500) {
-                            priceMultiplier = LOW_PRICE_MULTIPLIE;
+                            priceMultiplier = LOW_PRICE_MULTIPLIER;
                         }
                         int finalPrice = (int) (basePrice * priceMultiplier * priceFactors.get(ware));
                         planet.warePrices.put(ware, finalPrice);
@@ -82,7 +85,7 @@ public class StarSystem {
         }
     }
 
-    public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
+    public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float deltaTime)
     {
         SpriteBatch uiBatch= SpaceOfChaos.INSTANCE.uiBatch;
         uiBatch.begin();
@@ -93,6 +96,15 @@ public class StarSystem {
         starGate.draw(spriteBatch);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
         ships.forEach(ship -> ship.draw(spriteBatch,shapeRenderer));
+        ArrayList<OneShotAnimation> animsToRemove=new ArrayList<>();
+        animations.forEach(oneShotAnimation -> {
+            oneShotAnimation.update(deltaTime,spriteBatch);
+            if(oneShotAnimation.time>=1)
+            {
+                animsToRemove.add(oneShotAnimation);
+            }
+        });
+        animations.removeAll(animsToRemove);
         spriteBatch.begin();
         itemContainers.forEach(container -> {
             Functions.drawRotatedScaled(spriteBatch, SpaceOfChaos.INSTANCE.containerTexture, container.x,container.y,container.rotation,0.5f);
@@ -131,7 +143,27 @@ public class StarSystem {
         ArrayList<Projectile> toAdd=new ArrayList<>();
         ArrayList<Ship> shipsToRemove=new ArrayList<>(ships.size());
         ArrayList<Projectile> toRemove=new ArrayList<>(projectiles.size());
-        projectiles.forEach(projectile -> projectile.update(dt, toAdd, toRemove));
+        ArrayList<Projectile> otherProjectiles=new ArrayList<>(projectiles);
+        projectiles.forEach(projectile -> {
+            otherProjectiles.remove(projectile);
+            projectile.update(dt, toAdd, toRemove);
+            if(projectile instanceof DestructibleProjectile destructibleProjectile) {
+                for (Projectile otherProjectile : otherProjectiles) {
+                    if(projectile.shooter!=otherProjectile.shooter && otherProjectile.area.overlaps(projectile.area) )
+                    {
+                        destructibleProjectile.damage(otherProjectile.damage);
+                        if(destructibleProjectile.getIntegrity()<=0)
+                        {
+                            toRemove.add(projectile);
+                            projectile.onDestroyed(this);
+                        }
+                        toRemove.add(otherProjectile);
+                        otherProjectile.onDestroyed(this);
+                        break;
+                    }
+                }
+            }
+        });
         for (Ship ship : ships) {
             for (Projectile projectile : projectiles) {
                 if(projectile.shooter!=ship)
@@ -146,6 +178,7 @@ public class StarSystem {
                                     SpaceOfChaos.INSTANCE.playerShip=null;
                             }
                             toRemove.add(projectile);
+                            projectile.onDestroyed(this);
                         }else {
                             Vector2 backVector = new Vector2(projectile.x + projectile.velocity.x, projectile.y + projectile.velocity.y);
                             if (ship.contains(backVector)) {
@@ -157,6 +190,7 @@ public class StarSystem {
                                         SpaceOfChaos.INSTANCE.playerShip=null;
                                 }
                                 toRemove.add(projectile);
+                                projectile.onDestroyed(this);
                             }
                         }
                     }
