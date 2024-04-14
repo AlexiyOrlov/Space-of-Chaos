@@ -33,7 +33,7 @@ public class PlayerShip implements Ship,SaveData {
     public HashMap<Ware,Boolean> licences;
     private float fireDelay,secondaryFireDelay;
     public Inventory inventory=new Inventory(40);
-    public Circle area;
+    public Circle area=new Circle();
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
     public int integrity;

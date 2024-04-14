@@ -551,10 +551,12 @@ public class SpaceOfChaos extends Game implements SaveData{
 				String yamlString=Files.readString(savePath);
 				LinkedHashMap<String,Object> dataMap=yaml.load(yamlString);
 				load(dataMap);
+				updateWorld=true;
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
+
 	}
 
 	@Override
@@ -592,5 +594,6 @@ public class SpaceOfChaos extends Game implements SaveData{
 				break;
 			}
 		}
+
     }
 }
