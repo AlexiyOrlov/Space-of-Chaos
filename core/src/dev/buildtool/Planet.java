@@ -87,7 +87,7 @@ public class Planet implements SaveData {
         data.put("ware manufacturing size",wareManufactureProgress.size());
         next=0;
         for (Ware ware : warePrices.keySet()) {
-            data.put("ware sold"+next,ware.name);
+            data.put("ware sold "+next,ware.name);
             data.put("price "+next,warePrices.get(ware));
             next++;
         }
