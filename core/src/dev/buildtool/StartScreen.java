@@ -54,6 +54,13 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 SpaceOfChaos.INSTANCE.loadGame();
+                if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
+                {
+                    System.out.println("Landed");
+                }
+                else {
+                    game.setScreen(new SystemScreen(SpaceOfChaos.INSTANCE.playerShip.currentStarSystem,-1,-1));
+                }
             }
         });
         table.add(load);

@@ -244,6 +244,7 @@ public class StarSystem implements SaveData{
         data.put("ships",ships.size());
         data.put("star",star.getData());
         data.put("star gate",starGate.getData());
+        data.put("id",id);
         return data;
     }
 
@@ -284,5 +285,6 @@ public class StarSystem implements SaveData{
         star.load((Map<String, Object>) data.get("star"));
         starGate=new StarGate();
         starGate.load((Map<String, Object>) data.get("star gate"));
+        id= (int) data.get("id");
     }
 }

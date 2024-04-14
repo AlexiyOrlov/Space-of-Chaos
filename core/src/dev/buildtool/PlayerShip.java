@@ -42,6 +42,7 @@ public class PlayerShip implements Ship,SaveData {
     public boolean damageOnlyAIShips=true;
     NPCPilot homingTarget;
     int reticleRotation;
+    public int currentSystemId;
 
     public PlayerShip() {
         setHull(new Stack(Hull.BASIC,1));
@@ -314,6 +315,7 @@ public class PlayerShip implements Ship,SaveData {
     @Override
     public void setCurrentSystem(StarSystem starSystem) {
         currentStarSystem=starSystem;
+        currentSystemId=starSystem.id;
     }
 
     @Override
@@ -381,6 +383,7 @@ public class PlayerShip implements Ship,SaveData {
             i++;
         }
         data.put("ware purchase count",i);
+        data.put("current system id",currentSystemId);
         return data;
     }
 
@@ -405,5 +408,6 @@ public class PlayerShip implements Ship,SaveData {
             WarePurchase warePurchase=new WarePurchase();
             warePurchase.load((Map<String, Object>) data.get("ware purchase "+i));
         }
+        currentSystemId= (int) data.get("current system id");
     }
 }

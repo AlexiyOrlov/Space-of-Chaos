@@ -73,6 +73,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 	private static int textureID;
 	public HashBiMap<Integer,Texture> textureHashMap=HashBiMap.create(600);
 	String dataDir=null;
+	public HashMap<Integer,StarSystem> idMap=new HashMap<>();
+	static int nextSystemId;
 	@Override
 	public void create () {
 		INSTANCE=this;
@@ -340,6 +342,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 			}
 			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2);
 			starSystem.id=i;
+			SpaceOfChaos.INSTANCE.idMap.put(i,starSystem);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
 		}
@@ -580,6 +583,14 @@ public class SpaceOfChaos extends Game implements SaveData{
 		for (int i = 0; i < systemCount; i++) {
 			StarSystem starSystem=new StarSystem();
 			starSystem.load((Map<String, Object>) data.get("star system "+i));
+			starSystems.add(starSystem);
+		}
+		for (StarSystem starSystem : starSystems) {
+			if(starSystem.id==playerShip.currentSystemId)
+			{
+				playerShip.setCurrentSystem(starSystem);
+				break;
+			}
 		}
     }
 }

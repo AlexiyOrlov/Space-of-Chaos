@@ -39,7 +39,7 @@ public class Planet implements SaveData {
     public StarSystem starSystem;
     private boolean clockWise;
 
-    private ArrayList<NPCPilot> shipsToRemove;
+    private ArrayList<NPCPilot> shipsToRemove=new ArrayList<>();
     public Kind kind;
     private float shipManufacturingTime=15*60;
 
