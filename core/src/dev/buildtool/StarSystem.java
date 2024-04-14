@@ -270,12 +270,6 @@ public class StarSystem implements SaveData{
         }
         positionX= (int) data.get("x");
         positionY= (int) data.get("y");
-        int projectileCount= (int) data.get("projectiles");
-        for (int i = 0; i < projectileCount; i++) {
-            Projectile projectile=new Projectile();
-            projectile.load((Map<String, Object>) data.get("projectile "+i));
-            projectiles.add(projectile);
-        }
         int shipCount= (int) data.get("ships");
         for (int i = 0; i < shipCount; i++) {
             String next="ship "+i;
@@ -285,6 +279,12 @@ public class StarSystem implements SaveData{
                 npcPilot.load((Map<String, Object>) data.get(next));
                 ships.add(npcPilot);
             }
+        }
+        int projectileCount= (int) data.get("projectiles");
+        for (int i = 0; i < projectileCount; i++) {
+            Projectile projectile=new Projectile();
+            projectile.load((Map<String, Object>) data.get("projectile "+i));
+            projectiles.add(projectile);
         }
         star=new Star();
         star.load((Map<String, Object>) data.get("star"));

@@ -32,6 +32,9 @@ public class Projectile implements SaveData {
     public Predicate<Ship> validTargets=ship -> true;
     protected StarSystem starSystem;
 
+    public Vector2 velocity=new Vector2();
+    public float x,y;
+
     public Projectile() {
     }
 
@@ -55,8 +58,6 @@ public class Projectile implements SaveData {
         this.starSystem=starSystem;
     }
 
-    public Vector2 velocity;
-    public float x,y;
     public void update(float deltaTime, ArrayList<Projectile> projectilesToAdd, ArrayList<Projectile> projectilesToRemove)
     {
         x+= velocity.x;
@@ -102,17 +103,22 @@ public class Projectile implements SaveData {
 
     @Override
     public void load(Map<String, Object> data) {
-        area.x= (float) data.get("area x");
-        area.y= (float) data.get("area y");
-        damage= (int) data.get("damage");
-        rotation= (float) data.get("rotation");
-        speed= (int) data.get("speed");
+        x= (float)(double)  data.get("x");
+        y= (float)(double)  data.get("y");
         texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture id"));
-        time= (float) data.get("time");
+        area=new Circle(x,y,texture.getWidth()/2);
+        area.x= (float)(double) data.get("area x");
+        area.y= (float)(double)  data.get("area y");
+        damage= (int) data.get("damage");
+        rotation= (float)(double)  data.get("rotation");
+        speed= (int) data.get("speed");
+        time= (float)(double) data.get("time");
 //        validTargets= (Predicate<Ship>) data.get("target predicate");
-        velocity.x= (float) data.get("velocity x");
-        velocity.y= (float) data.get("velocity y");
-        x= (float) data.get("x");
-        y= (float) data.get("y");
+        velocity.x= (float)(double)  data.get("velocity x");
+        velocity.y= (float)(double)  data.get("velocity y");
+
+//        for (Ship ship : starSystem.ships) {
+//
+//        }
     }
 }
