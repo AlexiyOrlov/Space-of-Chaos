@@ -9,6 +9,9 @@ public class WarePurchase implements SaveData {
      int pricePerUnit;
      int moneySpent;
 
+    public WarePurchase() {
+    }
+
     public WarePurchase(Ware ware, int amountBought, int pricePerUnit, int moneySpent) {
         this.ware = ware;
         this.amountBought = amountBought;

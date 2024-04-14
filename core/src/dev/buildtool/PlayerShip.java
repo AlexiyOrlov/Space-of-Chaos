@@ -32,7 +32,7 @@ public class PlayerShip implements Ship,SaveData {
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay,secondaryFireDelay;
-    public Inventory inventory;
+    public Inventory inventory=new Inventory(40);
     public Circle area;
     public int money=1000;
     public Deque<WarePurchase> warePurchases=new ArrayDeque<>();
@@ -360,17 +360,22 @@ public class PlayerShip implements Ship,SaveData {
         data.put("has scanner",hasScanner);
 //        data.put("homing target",homingTarget);
         data.put("integrity",integrity);
-//        data.put("inventory",inventory);
+        data.put("inventory",inventory.getData());
         data.put("left acceleration",leftAcceleration);
 //        data.put("licenses",licences);
         data.put("money",money);
         data.put("right acceleration",rightAcceleration);
         data.put("rotation",rotation);
         data.put("secondary fire delay",secondaryFireDelay);
-//        data.put("ship parts",shipParts);
-//        data.put("ware purchases",warePurchases);
+        data.put("ship parts",shipParts.getData());
         data.put("x",x);
         data.put("y",y);
+        int i=0;
+        for (WarePurchase warePurchase : warePurchases) {
+            data.put("ware purchase "+i,warePurchase.getData());
+            i++;
+        }
+        data.put("ware purchase count",i);
         return data;
     }
 
@@ -388,6 +393,12 @@ public class PlayerShip implements Ship,SaveData {
         secondaryFireDelay= (float)(double) data.get("secondary fire delay");
         x= (float)(double) data.get("x");
         y= (float)(double) data.get("y");
-        int textureId= (int) data.get("texture");
+        inventory.load((Map<String, Object>) data.get("inventory"));
+        shipParts.load((Map<String, Object>) data.get("ship parts"));
+        int purchaseCount= (int) data.get("ware purchase count");
+        for (int i = 0; i < purchaseCount; i++) {
+            WarePurchase warePurchase=new WarePurchase();
+            warePurchase.load((Map<String, Object>) data.get("ware purchase "+i));
+        }
     }
 }
