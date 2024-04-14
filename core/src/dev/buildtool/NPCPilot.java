@@ -105,22 +105,22 @@ public class NPCPilot implements Ship, SaveData {
         pilotAI=PilotAI.valueOf((String) data.get("type"));
         homePlanetId= (int) data.get("home planet");
         currentSystemId= (int) data.get("current system id");
-        for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
-            if(starSystem.id==currentSystemId)
-            {
-                currentSystem=starSystem;
-                for (Planet planet : starSystem.planets) {
-                    if(planet.id==homePlanetId)
-                    {
-                        homePlanet=planet;
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-        if(homePlanet==null)
-            throw new RuntimeException("Didn't find home planet");
+//        for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
+//            if(starSystem.id==currentSystemId)
+//            {
+//                currentSystem=starSystem;
+//                for (Planet planet : starSystem.planets) {
+//                    if(planet.id==homePlanetId)
+//                    {
+//                        homePlanet=planet;
+//                        break;
+//                    }
+//                }
+//                break;
+//            }
+//        }
+//        if(homePlanet==null)
+//            throw new RuntimeException("Didn't find home planet");
     }
 
     enum State {
@@ -159,6 +159,24 @@ public class NPCPilot implements Ship, SaveData {
 
     public void work(float deltaTime)
     {
+        if(homePlanet==null)
+        {
+            for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
+                if(starSystem.id==currentSystemId)
+                {
+                    currentSystem=starSystem;
+                    for (Planet planet : starSystem.planets) {
+                        if(planet.id==homePlanetId)
+                        {
+                            homePlanet=planet;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
         area.set(x,y,hull.look.getWidth()/2);
         if(fireCooldown>0)
         {
