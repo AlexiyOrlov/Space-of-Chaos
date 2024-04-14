@@ -9,12 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import dev.buildtool.projectiles.DestructibleProjectile;
 import dev.buildtool.projectiles.Projectile;
 
-public class StarSystem {
+public class StarSystem implements SaveData{
     public ArrayList<Planet> planets=new ArrayList<>(7);
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
@@ -206,5 +207,26 @@ public class StarSystem {
     public String getStarName()
     {
         return star.name;
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        for (int i = 0; i < itemContainers.size(); i++) {
+            Container container=itemContainers.get(i);
+            data.put("container "+i,container.getData());
+        }
+        data.put("containers",itemContainers.size());
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        int containers= (int) data.get("containers");
+        for (int i = 0; i < containers; i++) {
+            Container container=new Container();
+            container.load((Map<String, Object>) data.get("container "+i));
+            itemContainers.add(container);
+        }
     }
 }

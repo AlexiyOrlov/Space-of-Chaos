@@ -8,6 +8,9 @@ public class Container implements SaveData {
     public float x,y;
     public float rotation;
 
+    public Container() {
+    }
+
     public Container(Stack stack, float x, float y, float rotation) {
         this.stack = stack;
         this.x = x;
