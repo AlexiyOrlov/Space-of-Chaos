@@ -15,24 +15,21 @@ import dev.buildtool.projectiles.DestructibleProjectile;
 import dev.buildtool.projectiles.Projectile;
 
 public class StarSystem {
-    public ArrayList<Planet> planets;
+    public ArrayList<Planet> planets=new ArrayList<>(7);
     public Star star;
     public HashMap<Ware,Float> priceFactors=new HashMap<>(Ware.WARES.size());
     public int positionX,positionY;
     public ArrayList<Ship> ships=new ArrayList<>();
     public ArrayList<Ship> shipsToTransfer=new ArrayList<>();
     public StarGate starGate;
-    public ArrayList<Projectile> projectiles;
-    ArrayList<Container> itemContainers;
+    public ArrayList<Projectile> projectiles=new ArrayList<>();
+    ArrayList<Container> itemContainers=new ArrayList<>();
     public final ArrayList<OneShotAnimation> animations=new ArrayList<>();
     public int id;
     public boolean occupied;
     public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f, LOW_PRICE_MULTIPLIER =0.9f;
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         occupied=occupiedByAI;
-        projectiles=new ArrayList<>();
-        this.planets = new ArrayList<>(7);
-        itemContainers=new ArrayList<>();
         Random random = SpaceOfChaos.random;
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         int inhabitedPlanetCount=0;
