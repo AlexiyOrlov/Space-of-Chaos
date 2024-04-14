@@ -29,6 +29,10 @@ public class StarSystem implements SaveData{
     public int id;
     public boolean occupied;
     public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f, LOW_PRICE_MULTIPLIER =0.9f;
+
+    public StarSystem() {
+    }
+
     public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
         occupied=occupiedByAI;
         Random random = SpaceOfChaos.random;

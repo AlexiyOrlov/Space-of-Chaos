@@ -558,6 +558,13 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public Map<String, Object> getData() {
 		HashMap<String,Object> data=new HashMap<>(1000);
 		data.put("player ship",playerShip.getData());
+		data.put("ai attack timer",aiAttackTimer);
+		data.put("human attack timer",humanAttackTimer);
+		for (int i = 0; i < starSystems.size(); i++) {
+			StarSystem starSystem=starSystems.get(i);
+			data.put("star system "+i,starSystem.getData());
+		}
+		data.put("system count",starSystems.size());
 		return data;
 	}
 
@@ -565,6 +572,14 @@ public class SpaceOfChaos extends Game implements SaveData{
 	@Override
 	public void load(Map<String, Object> data) {
 		LinkedHashMap<String,Object> playerData= (LinkedHashMap<String, Object>) data.get("player ship");
+		playerShip=new PlayerShip();
 		playerShip.load(playerData);
-	}
+		aiAttackTimer= (float) data.get("ai attack timer");
+		humanAttackTimer= (float) data.get("human attack timer");
+		int systemCount= (int) data.get("system count");
+		for (int i = 0; i < systemCount; i++) {
+			StarSystem starSystem=new StarSystem();
+			starSystem.load((Map<String, Object>) data.get("star system "+i));
+		}
+    }
 }

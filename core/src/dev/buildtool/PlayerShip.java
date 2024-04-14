@@ -28,7 +28,7 @@ public class PlayerShip implements Ship,SaveData {
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
 //    private Texture texture;
-    public final Vector2 direction;
+    public Vector2 direction;
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay,secondaryFireDelay;
@@ -42,6 +42,14 @@ public class PlayerShip implements Ship,SaveData {
     public boolean damageOnlyAIShips=true;
     NPCPilot homingTarget;
     int reticleRotation;
+
+    public PlayerShip() {
+        setHull(new Stack(Hull.BASIC,1));
+        setPrimaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
+        setSecondaryWeapon(new Stack(WeaponRegistry.TRISHOT,1));
+        setEngine(new Stack(Engine.BASIC,1));
+        setThrusters(new Stack(SideThrusters.BASIC,1));
+    }
 
     public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
         this.x = x;
