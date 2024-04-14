@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
-public class Star {
-    private final Texture texture;
-    public final String name;
+public class Star implements SaveData{
+    private Texture texture;
+    public String name;
     private Circle area;
     static final HashSet<String> starNames=new HashSet<>();
     static {
@@ -56,8 +58,11 @@ public class Star {
         starNames.add("Gletteb");
     }
 
+    public Star() {
+    }
+
     public Star(Texture texture) {
-        this.texture = texture;
+        this.texture = SpaceOfChaos.INSTANCE.starTextures.get(0);
         String randomName=starNames.iterator().next();
         name=randomName;
         starNames.remove(randomName);
@@ -75,5 +80,17 @@ public class Star {
             shapeRenderer.circle(area.x,area.y,area.radius);
             shapeRenderer.end();
         }
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("name",name);
+        return data;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        name= (String) data.get("name");
     }
 }

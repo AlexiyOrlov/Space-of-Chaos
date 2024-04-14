@@ -40,7 +40,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	ArrayList<Texture> planetTextures;
 	AssetManager assetManager;
 	ArrayList<StarSystem> starSystems;
-	ArrayList<Texture> starTextures;
+	public ArrayList<Texture> starTextures;
 	public PlayerShip playerShip;
 	Texture redStarshipTexture;
 	public Texture scalesTexture,takeOffTexture,slotTexture,alcoholTexture,toolsTexture,carPartsTexture,firearmsTexture,
