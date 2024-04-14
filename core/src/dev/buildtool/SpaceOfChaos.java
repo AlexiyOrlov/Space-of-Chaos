@@ -566,6 +566,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 			data.put("star system "+i,starSystem.getData());
 		}
 		data.put("system count",starSystems.size());
+
 		return data;
 	}
 
