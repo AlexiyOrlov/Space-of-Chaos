@@ -528,7 +528,7 @@ public class NPCPilot implements Ship, SaveData {
                 }
             }
             else {
-                List<Ship> potentialTargets = currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).collect(Collectors.toList());
+                List<Ship> potentialTargets = currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).toList();
                 if (potentialTargets.isEmpty()) {
                     if (targetPlanet == null)
                         targetPlanet = currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
