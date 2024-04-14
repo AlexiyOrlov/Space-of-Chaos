@@ -584,13 +584,15 @@ public class SpaceOfChaos extends Game implements SaveData{
 			starSystem.load((Map<String, Object>) data.get("star system "+i));
 			starSystems.add(starSystem);
 		}
-//		for (StarSystem starSystem : starSystems) {
-//			if(starSystem.id==playerShip.currentSystemId)
-//			{
-//				playerShip.setCurrentSystem(starSystem);
-//				break;
-//			}
-//		}
+
+		for (StarSystem starSystem : starSystems) {
+			if(starSystem.id==playerShip.currentSystemId)
+			{
+				playerShip.setCurrentSystem(starSystem);
+				starSystem.ships.add(playerShip);
+				break;
+			}
+		}
 
     }
 }
