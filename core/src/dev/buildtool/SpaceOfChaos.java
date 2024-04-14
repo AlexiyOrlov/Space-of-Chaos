@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.Json;
+import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
 
 import org.yaml.snakeyaml.Yaml;
@@ -69,7 +70,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public Animation<TextureRegion> explosionAnimation;
 	private SystemScreen systemScreen;
 	private float systemCheckTime;
-
+	private static int textureID;
+	public HashBiMap<Integer,Texture> textureHashMap=HashBiMap.create(600);
 	String dataDir=null;
 	@Override
 	public void create () {
@@ -489,6 +491,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	{
 		Texture texture = assetManager.get("textures/" + name + ".png");
 		textures.add(texture);
+		textureHashMap.put(textureID++,texture);
 		return texture;
 	}
 

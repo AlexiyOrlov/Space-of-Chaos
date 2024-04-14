@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class Inventory {
+public class Inventory implements SaveData{
     public Stack[] stacks;
     public Slot[] slots;
     public HashMap<Integer, Predicate<PlayerShip>> predicateHashMap=new HashMap<>();
@@ -155,5 +156,31 @@ public class Inventory {
     {
         actionHashMap.put(slot,action);
         this.predicateHashMap.put(slot,playerShipPredicate);
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        for (int i = 0; i < stacks.length; i++) {
+            Stack next=stacks[i];
+            if(next!=null)
+            {
+                data.put("stack "+i,next.getData());
+            }
+        }
+        data.put("count",stacks.length);
+        return data;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void load(Map<String, Object> data) {
+        int stackCount= (int) data.get("count");
+        for (int i = 0; i < stackCount; i++) {
+            if(data.containsKey("stack "+i)) {
+                Stack stack = new Stack();
+                stack.load((Map<String, Object>) data.get("stack "+i));
+            }
+        }
     }
 }
