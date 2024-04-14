@@ -67,7 +67,7 @@ public class Planet implements SaveData {
             NPCPilot ship=ships.get(i);
 
         }
-        return null;
+        return data;
     }
 
     @Override
@@ -238,6 +238,9 @@ public class Planet implements SaveData {
         planetNames.add("Zara");
         planetNames.add("Valiv");
         planetNames.add("Haowei");
+    }
+
+    public Planet() {
     }
 
     public Planet(Texture texture, int distance, float angle, float orbitSpeed, StarSystem belongsTo, Kind kind) {

@@ -218,6 +218,13 @@ public class StarSystem implements SaveData{
         }
         data.put("containers",itemContainers.size());
         data.put("occupied",occupied);
+        for (int i = 0; i < planets.size(); i++) {
+            Planet planet=planets.get(i);
+            data.put("planet "+i,planet.getData());
+        }
+        data.put("planets",planets.size());
+        data.put("x",positionX);
+        data.put("y",positionY);
 
         return data;
     }
@@ -231,5 +238,13 @@ public class StarSystem implements SaveData{
             itemContainers.add(container);
         }
         occupied= (boolean) data.get("occupied");
+        int planetCount= (int) data.get("planets");
+        for (int i = 0; i < planetCount; i++) {
+            Planet planet=new Planet();
+            planet.load((Map<String, Object>) data.get("planet "+i));
+            planets.add(planet);
+        }
+        positionX= (int) data.get("x");
+        positionY= (int) data.get("y");
     }
 }
