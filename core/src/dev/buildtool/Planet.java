@@ -52,7 +52,7 @@ public class Planet implements SaveData {
         data.put("distance",distance);
         data.put("equipment",equipmentInventory.getData());
         data.put("exploration progress",explorationProgress);
-        data.put("type",kind);
+        data.put("type",kind.toString());
         data.put("name",name);
         data.put("outline x",outline.x);
         data.put("outline y",outline.y);
@@ -103,7 +103,7 @@ public class Planet implements SaveData {
         distance= (int) data.get("distance");
         equipmentInventory.load((Map<String, Object>) data.get("equipment"));
         explorationProgress= (int) data.get("exploration progress");
-        kind= (Kind) data.get("type");
+        kind= Kind.valueOf((String) data.get("type"));
         name= (String) data.get("name");
         outline.x= (float) data.get("outline x");
         outline.y= (float) data.get("outline y");
