@@ -29,7 +29,7 @@ public class Planet implements SaveData {
     public float radius;
     public Circle outline=new Circle();
     private static final Random random=new Random();
-    public ArrayList<Resource> resources;
+    public ArrayList<Resource> resources=new ArrayList<>();
     public int size;
     public int explorationProgress;
     public Inventory equipmentInventory=new Inventory(9);
@@ -88,7 +88,7 @@ public class Planet implements SaveData {
         next=0;
         for (Ware ware : warePrices.keySet()) {
             data.put("ware sold"+next,ware.name);
-            data.put("price",warePrices.get(ware));
+            data.put("price "+next,warePrices.get(ware));
             next++;
         }
         data.put("ware sold count",warePrices.size());
@@ -99,27 +99,27 @@ public class Planet implements SaveData {
     public void load(Map<String, Object> data) {
         texture=SpaceOfChaos.INSTANCE.textureHashMap.get((Integer) data.get("texture"));
         clockWise= (boolean) data.get("clockwise");
-        currentAngle= (float) data.get("angle");
+        currentAngle= (float)(double) data.get("angle");
         distance= (int) data.get("distance");
         equipmentInventory.load((Map<String, Object>) data.get("equipment"));
         explorationProgress= (int) data.get("exploration progress");
         kind= Kind.valueOf((String) data.get("type"));
         name= (String) data.get("name");
-        outline.x= (float) data.get("outline x");
-        outline.y= (float) data.get("outline y");
-        radius= (float) data.get("radius");
+        outline.x= (float)(double) data.get("outline x");
+        outline.y= (float)(double) data.get("outline y");
+        radius= (float)(double) data.get("radius");
         int resourceCount= (int) data.get("resource count");
         for (int i = 0; i < resourceCount; i++) {
             Resource resource=Resource.ids.get((int) data.get("resource "+i));
             resources.add(resource);
         }
-        shipManufacturingTime= (float) data.get("ship manufacturing time");
+        shipManufacturingTime= (float)(double) data.get("ship manufacturing time");
         int shipCount= (int) data.get("ships");
         for (int i = 0; i < shipCount; i++) {
             NPCPilot npcPilot=new NPCPilot();
             npcPilot.load((Map<String, Object>) data.get("ship "+i));
         }
-        speed= (float) data.get("speed");
+        speed= (float)(double) data.get("speed");
         texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture"));
         int wareAmountCount= (int) data.get("ware amounts");
         for (int i = 0; i < wareAmountCount; i++) {
@@ -133,8 +133,8 @@ public class Planet implements SaveData {
         }
         int waresSold= (int) data.get("ware sold count");
         for (int i = 0; i < waresSold; i++) {
-            Ware ware=(Ware) Item.REGISTRY.get((String) data.get("ware sold"));
-            warePrices.put(ware, (Integer) data.get("price"));
+            Ware ware=(Ware) Item.REGISTRY.get((String) data.get("ware sold "+i));
+            warePrices.put(ware, (Integer) data.get("price "+i));
         }
     }
 

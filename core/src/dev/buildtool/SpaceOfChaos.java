@@ -574,8 +574,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 		LinkedHashMap<String,Object> playerData= (LinkedHashMap<String, Object>) data.get("player ship");
 		playerShip=new PlayerShip();
 		playerShip.load(playerData);
-		aiAttackTimer= (float) data.get("ai attack timer");
-		humanAttackTimer= (float) data.get("human attack timer");
+		aiAttackTimer= (float)(double) data.get("ai attack timer");
+		humanAttackTimer= (float)(double) data.get("human attack timer");
 		int systemCount= (int) data.get("system count");
 		for (int i = 0; i < systemCount; i++) {
 			StarSystem starSystem=new StarSystem();
