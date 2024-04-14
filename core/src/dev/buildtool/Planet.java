@@ -65,8 +65,33 @@ public class Planet implements SaveData {
         data.put("ship manufacturing time",shipManufacturingTime);
         for (int i = 0; i < ships.size(); i++) {
             NPCPilot ship=ships.get(i);
-
+            data.put("ship "+i,ship.getData());
         }
+        data.put("ships",ships.size());
+        data.put("speed",speed);
+        //star system
+        data.put("texture",SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
+        int next=0;
+        for (Ware ware : wareAmounts.keySet()) {
+            data.put("ware "+next,ware.name);
+            data.put("amount "+next,wareAmounts.get(ware));
+            next++;
+        }
+        data.put("ware amounts",wareAmounts.size());
+        next=0;
+        for (Ware ware : wareManufactureProgress.keySet()) {
+            data.put("ware manufactured"+next,ware.name);
+            data.put("progress",wareManufactureProgress.get(ware));
+            next++;
+        }
+        data.put("ware manufacturing size",wareManufactureProgress.size());
+        next=0;
+        for (Ware ware : warePrices.keySet()) {
+            data.put("ware sold"+next,ware.name);
+            data.put("price",warePrices.get(ware));
+            next++;
+        }
+        data.put("ware sold count",warePrices.size());
         return data;
     }
 
@@ -89,7 +114,28 @@ public class Planet implements SaveData {
             resources.add(resource);
         }
         shipManufacturingTime= (float) data.get("ship manufacturing time");
-
+        int shipCount= (int) data.get("ships");
+        for (int i = 0; i < shipCount; i++) {
+            NPCPilot npcPilot=new NPCPilot();
+            npcPilot.load((Map<String, Object>) data.get("ship "+i));
+        }
+        speed= (float) data.get("speed");
+        texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture"));
+        int wareAmountCount= (int) data.get("ware amounts");
+        for (int i = 0; i < wareAmountCount; i++) {
+            Ware ware= (Ware) Item.REGISTRY.get((String) data.get("ware "+i));
+            wareAmounts.put(ware, (Integer) data.get("amount "+i));
+        }
+        int manufacturedWareAmount= (int) data.get("ware manufacturing size");
+        for (int i = 0; i < manufacturedWareAmount; i++) {
+            Ware ware= (Ware) Item.REGISTRY.get((String) data.get("ware manufactured"));
+            wareManufactureProgress.put(ware, (Float) data.get("progress"+i));
+        }
+        int waresSold= (int) data.get("ware sold count");
+        for (int i = 0; i < waresSold; i++) {
+            Ware ware=(Ware) Item.REGISTRY.get((String) data.get("ware sold"));
+            warePrices.put(ware, (Integer) data.get("price"));
+        }
     }
 
     public enum Kind{
