@@ -82,6 +82,7 @@ public class NPCPilot implements Ship, SaveData {
         data.put("home planet",homePlanetId);
         data.put("current system id",currentSystemId);
         data.put("id",id);
+        data.put("integrity",integrity);
         //currentlylandendon
         //current system
         return data;
@@ -109,6 +110,7 @@ public class NPCPilot implements Ship, SaveData {
         homePlanetId= (int) data.get("home planet");
         currentSystemId= (int) data.get("current system id");
         id= (int) data.get("id");
+        integrity= (int) data.get("integrity");
     }
 
     enum State {
