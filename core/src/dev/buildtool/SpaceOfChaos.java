@@ -313,7 +313,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		int x=0;
 		int y=0;
 		int planetCount=0;
-		int starSystemCount=25;
+		int starSystemCount=3;
 		for (int i = 0; i <starSystemCount; i++) {
 			int xleft=random.nextInt(-300,-100);
 			int xright=random.nextInt(100,300);
