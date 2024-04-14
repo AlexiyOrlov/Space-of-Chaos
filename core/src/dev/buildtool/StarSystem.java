@@ -217,6 +217,8 @@ public class StarSystem implements SaveData{
             data.put("container "+i,container.getData());
         }
         data.put("containers",itemContainers.size());
+        data.put("occupied",occupied);
+
         return data;
     }
 
@@ -228,5 +230,6 @@ public class StarSystem implements SaveData{
             container.load((Map<String, Object>) data.get("container "+i));
             itemContainers.add(container);
         }
+        occupied= (boolean) data.get("occupied");
     }
 }

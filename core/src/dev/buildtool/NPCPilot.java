@@ -70,7 +70,7 @@ public class NPCPilot implements Ship, SaveData {
         data.put("can jump",canJump);
         //currentlylandendon
         //current system
-        return null;
+        return data;
     }
 
     @Override
