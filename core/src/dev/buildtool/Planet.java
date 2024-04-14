@@ -130,7 +130,8 @@ public class Planet implements SaveData {
         int manufacturedWareAmount= (int) data.get("ware manufacturing size");
         for (int i = 0; i < manufacturedWareAmount; i++) {
             Ware ware= (Ware) Item.REGISTRY.get((String) data.get("ware manufactured "+i));
-            wareManufactureProgress.put(ware, (Float) data.get("progress "+i));
+            double p= (double) data.get("progress "+i);
+            wareManufactureProgress.put(ware, (float) p);
         }
         int waresSold= (int) data.get("ware sold count");
         for (int i = 0; i < waresSold; i++) {
