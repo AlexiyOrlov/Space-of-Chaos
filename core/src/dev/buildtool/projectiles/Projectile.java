@@ -29,7 +29,7 @@ public class Projectile implements SaveData {
     public Ship target;
     protected int speed;
     protected float time;
-    public Predicate<Ship> validTargets;
+    public Predicate<Ship> validTargets=ship -> true;
     protected StarSystem starSystem;
 
     public Projectile() {
@@ -46,7 +46,6 @@ public class Projectile implements SaveData {
         this.shooter=shooter;
         this.target=target;
         this.speed=speed;
-        validTargets=ship -> true;
     }
 
     public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
@@ -64,6 +63,8 @@ public class Projectile implements SaveData {
         y+= velocity.y;
         area.set(x,y,texture.getWidth()/2);
         time+=deltaTime;
+        if(shooter==null)
+            throw new RuntimeException("Shooter is null");
     }
 
     public void render(SpriteBatch spriteBatch)
@@ -90,8 +91,8 @@ public class Projectile implements SaveData {
         //target
         data.put("texture id", SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
         data.put("time",time);
-        //TODO check
-        data.put("target predicate",validTargets);
+        //TODO
+//        data.put("target predicate",validTargets);
         data.put("velocity x",velocity.x);
         data.put("velocity y",velocity.y);
         data.put("x",x);
@@ -108,7 +109,7 @@ public class Projectile implements SaveData {
         speed= (int) data.get("speed");
         texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture id"));
         time= (float) data.get("time");
-        validTargets= (Predicate<Ship>) data.get("target predicate");
+//        validTargets= (Predicate<Ship>) data.get("target predicate");
         velocity.x= (float) data.get("velocity x");
         velocity.y= (float) data.get("velocity y");
         x= (float) data.get("x");
