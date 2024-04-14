@@ -52,7 +52,7 @@ public class PlayerShip implements Ship,SaveData {
         setThrusters(new Stack(SideThrusters.BASIC,1));
     }
 
-    public PlayerShip(float x, float y, float rotation, Texture texture, StarSystem currentStarSystem) {
+    public PlayerShip(float x, float y, float rotation, StarSystem currentStarSystem) {
         this.x = x;
         this.y = y;
         setHull(new Stack(Hull.BASIC,1));

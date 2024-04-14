@@ -32,7 +32,7 @@ public class StartScreen extends ScreenAdapter {
                 while (true) {
                     for (Planet planet : next.planets) {
                         if(planet.kind== Planet.Kind.INHABITED){
-                            PlayerShip playerShip = new PlayerShip(0, 0, 0, SpaceOfChaos.INSTANCE.redStarshipTexture, next);
+                            PlayerShip playerShip = new PlayerShip(0, 0, 0, next);
                             game.playerShip= playerShip;
                             playerShip.money=1000;
                             game.setScreen(new PlanetScreen2(next, planet,playerShip));
