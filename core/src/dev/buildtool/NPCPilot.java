@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 
-public class NPCPilot implements Ship {
+public class NPCPilot implements Ship, SaveData {
     public Hull hull;
     public SideThrusters sideThrusters;
     public Engine engine;
@@ -39,7 +40,7 @@ public class NPCPilot implements Ship {
     private final HashMap<Ware,Integer> boughtFor=new HashMap<>();
     public StarSystem currentSystem;
     private Planet targetPlanet;
-    public final Circle area;
+    public final Circle area=new Circle();
     boolean landed;
     Random random= SpaceOfChaos.random;
     private float fireCooldown,secondaryCooldown;
@@ -54,6 +55,40 @@ public class NPCPilot implements Ship {
     private Planet closestPlanet;
     private State state;
 
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("area x",area.x);
+        data.put("area y",area.y);
+        int w=0;
+        for (Ware ware : boughtFor.keySet()) {
+            data.put("ware "+w,ware.name);
+            data.put("ware price "+w,boughtFor.get(ware));
+            w++;
+        }
+        data.put("ware entries",w);
+        data.put("can jump",canJump);
+        //closest planet
+        //containerToCollect
+        //currentlylandendon
+        //current system
+        return null;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        area.x= (float) data.get("area x");
+        area.y= (float) data.get("area y");
+        int wareEntries= (int) data.get("ware entries");
+        for (int i = 0; i < wareEntries; i++) {
+            String wareName= (String) data.get("ware +"+i);
+            Ware ware= (Ware) Item.REGISTRY.get(wareName);
+            int price= (int) data.get("ware price");
+            boughtFor.put(ware,price);
+        }
+        canJump= (boolean) data.get("can jump");
+    }
+
     enum State {
         ESCAPING_TO_SYSTEM,
         GOING_TO_REPAIR,
@@ -64,7 +99,6 @@ public class NPCPilot implements Ship {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
-        area=new Circle();
         pilotAI=type;
         this.primaryWeapon = primaryWeapon;
         this.hull=hull;
