@@ -41,7 +41,7 @@ public class StarSystem implements SaveData{
         int distance=500;
         for (int i = 0; i < random.nextInt(3,7); i++) {
             if(occupiedByAI){
-                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, Planet.Kind.OCCUPIED ));
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, Planet.Kind.OCCUPIED, i));
             }
             else {
                 boolean inhabited = false;
@@ -50,7 +50,7 @@ public class StarSystem implements SaveData{
                     if (inhabited)
                         inhabitedPlanetCount++;
                 }
-                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED));
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED, i));
             }
             distance+=300;
         }

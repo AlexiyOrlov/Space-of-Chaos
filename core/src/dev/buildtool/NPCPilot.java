@@ -54,6 +54,8 @@ public class NPCPilot implements Ship, SaveData {
     private Container containerToCollect;
     private Planet closestPlanet;
     private State state;
+    public int homePlanetId;
+    public int currentSystemId;
 
     @Override
     public Map<String, Object> getData() {
@@ -75,6 +77,8 @@ public class NPCPilot implements Ship, SaveData {
         data.put("engine",engine.name);
         data.put("side thrusters",sideThrusters.name);
         data.put("type",pilotAI.toString());
+        data.put("home planet",homePlanetId);
+        data.put("current system id",currentSystemId);
         //currentlylandendon
         //current system
         return data;
@@ -99,6 +103,22 @@ public class NPCPilot implements Ship, SaveData {
         engine= (Engine) Item.REGISTRY.get((String) data.get("engine"));
         sideThrusters= (SideThrusters) Item.REGISTRY.get((String) data.get("side thrusters"));
         pilotAI=PilotAI.valueOf((String) data.get("type"));
+        homePlanetId= (int) data.get("home planet");
+        currentSystemId= (int) data.get("current system id");
+        for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
+            if(starSystem.id==currentSystemId)
+            {
+                currentSystem=starSystem;
+                for (Planet planet : starSystem.planets) {
+                    if(planet.id==homePlanetId)
+                    {
+                        homePlanet=planet;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
 
     enum State {
@@ -110,7 +130,7 @@ public class NPCPilot implements Ship, SaveData {
     public NPCPilot() {
     }
 
-    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters) {
+    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, StarSystem currentStarSystem, Planet homePlanet) {
         this.currentlyLandedOn = currentlyLandedOn;
         currentSystem=currentlyLandedOn.starSystem;
         inventory=new Inventory(40);
@@ -120,16 +140,18 @@ public class NPCPilot implements Ship, SaveData {
         this.engine=engine;
         integrity=hull.integrity;
         this.sideThrusters=sideThrusters;
+        homePlanetId= homePlanet.id;
+        currentSystemId=currentStarSystem.id;
     }
 
-    public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet)
+    public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, StarSystem currentStarSystem)
     {
-        this(homePlanet,type, primaryWeapon,hull,engine,sideThrusters);
+        this(homePlanet,type, primaryWeapon,hull,engine,sideThrusters, currentStarSystem,homePlanet);
         this.homePlanet = homePlanet;
     }
 
-    public NPCPilot(PilotAI pilotAI,  Weapon primaryWeapon,Hull hull,  Engine engine,SideThrusters sideThrusters, Planet homePlanet,Weapon secondaryWeapon ) {
-        this(pilotAI,primaryWeapon,hull,engine,sideThrusters,homePlanet);
+    public NPCPilot(PilotAI pilotAI, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, Weapon secondaryWeapon, StarSystem currentStarSystem) {
+        this(pilotAI,primaryWeapon,hull,engine,sideThrusters,homePlanet, currentStarSystem);
         this.secondaryWeapon=secondaryWeapon;
     }
 
