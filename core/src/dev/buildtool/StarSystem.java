@@ -225,7 +225,20 @@ public class StarSystem implements SaveData{
         data.put("planets",planets.size());
         data.put("x",positionX);
         data.put("y",positionY);
-
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile projectile=projectiles.get(i);
+            data.put("projectile "+i,projectile.getData());
+        }
+        data.put("projectiles",projectiles.size());
+        for (int i = 0; i < ships.size(); i++) {
+            Ship next=ships.get(i);
+            if(next instanceof NPCPilot npcPilot)
+            {
+                data.put("ship "+i,npcPilot.getData());
+            }
+        }
+        data.put("ships",ships.size());
+        data.put("star",star.getData());
         return data;
     }
 
@@ -246,5 +259,23 @@ public class StarSystem implements SaveData{
         }
         positionX= (int) data.get("x");
         positionY= (int) data.get("y");
+        int projectileCount= (int) data.get("projectiles");
+        for (int i = 0; i < projectileCount; i++) {
+            Projectile projectile=new Projectile();
+            projectile.load((Map<String, Object>) data.get("projectile "+i));
+            projectiles.add(projectile);
+        }
+        int shipCount= (int) data.get("ships");
+        for (int i = 0; i < shipCount; i++) {
+            String next="ship "+i;
+            if(data.containsKey(next))
+            {
+                NPCPilot npcPilot=new NPCPilot();
+                npcPilot.load((Map<String, Object>) data.get(next));
+            }
+        }
+        star=new Star();
+        star.load((Map<String, Object>) data.get("star"));
+
     }
 }

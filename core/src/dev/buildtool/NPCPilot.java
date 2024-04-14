@@ -32,7 +32,7 @@ public class NPCPilot implements Ship, SaveData {
     public float timeSpentOnPlanet=secondsOfRest;
     private float rotationDegrees = SpaceOfChaos.random.nextFloat(360);
 
-    private final Inventory inventory;
+    private Inventory inventory;
     public StarSystem navigatingTo;
     public boolean canJump;
     public int money=1000;
@@ -91,6 +91,9 @@ public class NPCPilot implements Ship, SaveData {
         ESCAPING_TO_SYSTEM,
         GOING_TO_REPAIR,
         FINE
+    }
+
+    public NPCPilot() {
     }
 
     public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters) {

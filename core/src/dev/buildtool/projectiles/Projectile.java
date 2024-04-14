@@ -25,12 +25,15 @@ public class Projectile implements SaveData {
      */
     public float rotation;
     public Circle area;
-    public final Ship shooter;
+    public Ship shooter;
     public Ship target;
     protected int speed;
     protected float time;
     public Predicate<Ship> validTargets;
     protected StarSystem starSystem;
+
+    public Projectile() {
+    }
 
     public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target) {
         this.texture = texture;
