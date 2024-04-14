@@ -27,7 +27,6 @@ import dev.buildtool.weapons.WeaponRegistry;
 public class PlayerShip implements Ship,SaveData {
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
-//    private Texture texture;
     public Vector2 direction=new Vector2();
     public StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
