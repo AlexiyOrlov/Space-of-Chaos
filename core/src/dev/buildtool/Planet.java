@@ -13,34 +13,84 @@ import com.badlogic.gdx.math.MathUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
 import dev.buildtool.weapons.WeaponRegistry;
 
-public class Planet {
-    private final Texture texture;
+public class Planet implements SaveData {
+    private Texture texture;
     public float x,y,currentAngle,speed;
-    private final int distance;
+    private int distance;
     public TreeMap<Ware,Integer> warePrices;
     public TreeMap<Ware,Integer> wareAmounts;
     public HashMap<Ware,Float> wareManufactureProgress=new HashMap<>();
     public float radius;
-    public Circle outline;
+    public Circle outline=new Circle();
     private static final Random random=new Random();
     public ArrayList<Resource> resources;
     public int size;
     public int explorationProgress;
-    public Inventory equipmentInventory;
-    public final String name;
+    public Inventory equipmentInventory=new Inventory(9);
+    public String name;
     private static final HashSet<String> planetNames=new HashSet<>();
     public ArrayList<NPCPilot> ships=new ArrayList<>();
     public StarSystem starSystem;
-    private final boolean clockWise;
+    private boolean clockWise;
 
-    private final ArrayList<NPCPilot> shipsToRemove;
+    private ArrayList<NPCPilot> shipsToRemove;
     public Kind kind;
     private float shipManufacturingTime=15*60;
+
+    @Override
+    public Map<String, Object> getData() {
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("texture",SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
+        data.put("clockwise",clockWise);
+        data.put("angle",currentAngle);
+        data.put("distance",distance);
+        data.put("equipment",equipmentInventory.getData());
+        data.put("exploration progress",explorationProgress);
+        data.put("type",kind);
+        data.put("name",name);
+        data.put("outline x",outline.x);
+        data.put("outline y",outline.y);
+        data.put("radius",radius);
+        for (int i = 0; i < resources.size(); i++) {
+            Resource resource=resources.get(i);
+            data.put("resource "+i,resource.id);
+        }
+        data.put("resource count",resources.size());
+        data.put("ship manufacturing time",shipManufacturingTime);
+        for (int i = 0; i < ships.size(); i++) {
+            NPCPilot ship=ships.get(i);
+
+        }
+        return null;
+    }
+
+    @Override
+    public void load(Map<String, Object> data) {
+        texture=SpaceOfChaos.INSTANCE.textureHashMap.get((Integer) data.get("texture"));
+        clockWise= (boolean) data.get("clockwise");
+        currentAngle= (float) data.get("angle");
+        distance= (int) data.get("distance");
+        equipmentInventory.load((Map<String, Object>) data.get("equipment"));
+        explorationProgress= (int) data.get("exploration progress");
+        kind= (Kind) data.get("type");
+        name= (String) data.get("name");
+        outline.x= (float) data.get("outline x");
+        outline.y= (float) data.get("outline y");
+        radius= (float) data.get("radius");
+        int resourceCount= (int) data.get("resource count");
+        for (int i = 0; i < resourceCount; i++) {
+            Resource resource=Resource.ids.get((int) data.get("resource "+i));
+            resources.add(resource);
+        }
+        shipManufacturingTime= (float) data.get("ship manufacturing time");
+
+    }
 
     public enum Kind{
         INHABITED,
@@ -234,7 +284,6 @@ public class Planet {
         }
         size=random.nextInt(1000,10000);
         radius= (float) texture.getWidth() /2;
-        outline=new Circle();
         outline.set(x,y,radius);
         clockWise=random.nextBoolean();
         if(kind==Kind.INHABITED) {
