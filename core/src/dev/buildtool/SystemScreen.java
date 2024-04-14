@@ -61,8 +61,8 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
         PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
-//        playerShip.x=xForPlayer;
-//        playerShip.y=yForPlayer;
+        playerShip.x=xForPlayer;
+        playerShip.y=yForPlayer;
         camera=new OrthographicCamera();
 		viewport=new ScreenViewport(camera);
 		viewport.apply();
