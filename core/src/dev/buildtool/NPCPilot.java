@@ -32,7 +32,7 @@ public class NPCPilot implements Ship, SaveData {
     public float timeSpentOnPlanet=secondsOfRest;
     private float rotationDegrees = SpaceOfChaos.random.nextFloat(360);
 
-    private Inventory inventory;
+    private Inventory inventory=new Inventory(40);
     public StarSystem navigatingTo;
     public boolean canJump;
     public int money=1000;
@@ -119,6 +119,8 @@ public class NPCPilot implements Ship, SaveData {
                 break;
             }
         }
+        if(homePlanet==null)
+            throw new RuntimeException("Didn't find home planet");
     }
 
     enum State {

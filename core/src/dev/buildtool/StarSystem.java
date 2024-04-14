@@ -33,7 +33,8 @@ public class StarSystem implements SaveData{
     public StarSystem() {
     }
 
-    public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI) {
+    public StarSystem(ArrayList<Texture> planetTextures, ArrayList<Texture> starTextures, int x, int y, boolean occupiedByAI, int id) {
+        this.id=id;
         occupied=occupiedByAI;
         Random random = SpaceOfChaos.random;
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
@@ -251,6 +252,7 @@ public class StarSystem implements SaveData{
     @SuppressWarnings("unchecked")
     @Override
     public void load(Map<String, Object> data) {
+        id= (int) data.get("id");
         int containers= (int) data.get("containers");
         for (int i = 0; i < containers; i++) {
             Container container=new Container();
@@ -287,6 +289,5 @@ public class StarSystem implements SaveData{
         star.load((Map<String, Object>) data.get("star"));
         starGate=new StarGate();
         starGate.load((Map<String, Object>) data.get("star gate"));
-        id= (int) data.get("id");
     }
 }

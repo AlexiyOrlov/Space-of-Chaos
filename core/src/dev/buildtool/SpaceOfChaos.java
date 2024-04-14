@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.Json;
 import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
 
@@ -25,14 +24,12 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class SpaceOfChaos extends Game implements SaveData{
 	public static Random random=new Random();
@@ -340,8 +337,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 				if(!recalculate)
 					break;
 			}
-			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2);
-			starSystem.id=i;
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2, i);
 			SpaceOfChaos.INSTANCE.idMap.put(i,starSystem);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
