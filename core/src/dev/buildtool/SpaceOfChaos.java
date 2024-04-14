@@ -37,7 +37,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	SpriteBatch uiBatch;
 	ArrayList<Texture> planetTextures;
 	AssetManager assetManager;
-	ArrayList<StarSystem> starSystems=new ArrayList<>();
+	public ArrayList<StarSystem> starSystems=new ArrayList<>();
 	public ArrayList<Texture> starTextures;
 	public PlayerShip playerShip;
 	Texture redStarshipTexture;

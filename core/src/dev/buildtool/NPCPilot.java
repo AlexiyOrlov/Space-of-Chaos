@@ -21,7 +21,7 @@ import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.weapons.Weapon;
 
 public class NPCPilot implements Ship, SaveData {
-    public static int nextId;
+    public static int nextId=1;
     public int id;
     public Hull hull;
     public SideThrusters sideThrusters;

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import dev.buildtool.Functions;
+import dev.buildtool.NPCPilot;
 import dev.buildtool.SaveData;
 import dev.buildtool.Ship;
 import dev.buildtool.SpaceOfChaos;
@@ -34,6 +35,7 @@ public class Projectile implements SaveData {
 
     public Vector2 velocity=new Vector2();
     public float x,y;
+    public int shooterId;
 
     public Projectile() {
     }
@@ -49,6 +51,12 @@ public class Projectile implements SaveData {
         this.shooter=shooter;
         this.target=target;
         this.speed=speed;
+        if(shooter instanceof NPCPilot npcPilot)
+        {
+            shooterId=npcPilot.id;
+        }
+        else
+            shooterId=0;
     }
 
     public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
@@ -98,6 +106,7 @@ public class Projectile implements SaveData {
         data.put("velocity y",velocity.y);
         data.put("x",x);
         data.put("y",y);
+        data.put("shooter",shooterId);
         return data;
     }
 
@@ -116,9 +125,6 @@ public class Projectile implements SaveData {
 //        validTargets= (Predicate<Ship>) data.get("target predicate");
         velocity.x= (float)(double)  data.get("velocity x");
         velocity.y= (float)(double)  data.get("velocity y");
-
-//        for (Ship ship : starSystem.ships) {
-//
-//        }
+        shooterId= (int) data.get("shooter");
     }
 }
