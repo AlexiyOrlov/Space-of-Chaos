@@ -114,7 +114,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         int slotIndex=0;
         for (int i = 4; i >0; i--) {
             for (int j = 0; j < 10; j++) {
-                SlotButton slotButton=new SlotButton(skin,slotIndex,this,playerShip.inventory, viewport);
+                SlotButton slotButton=new SlotButton(skin,slotIndex,this,playerShip.inventory, stage.getViewport());
                 inventory.add(slotButton);
                 slotButtons.add(slotButton);
                 slotIndex++;
