@@ -59,9 +59,8 @@ public class StartScreen extends ScreenAdapter {
                     System.out.println("Landed");
                 }
                 else {
-                    StarSystem current=game.starSystems.stream().filter(starSystem -> starSystem.id==SpaceOfChaos.nextSystemId).findFirst().get();
-                    SpaceOfChaos.INSTANCE.playerShip.setCurrentSystem(current);
-                    game.setScreen(new SystemScreen(current,-1,-1));
+//                    StarSystem current=game.starSystems.stream().filter(starSystem -> starSystem.id==SpaceOfChaos.nextSystemId).findFirst().get();
+//                    SpaceOfChaos.INSTANCE.playerShip.setCurrentSystem(current);
                 }
             }
         });

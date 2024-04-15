@@ -292,6 +292,8 @@ public class PlanetScreen extends ScreenAdapter {
         takeOffButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                player.x=planet.x;
+                player.y=planet.y;
                 SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
             }
         });

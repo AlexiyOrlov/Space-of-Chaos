@@ -91,7 +91,9 @@ public class StarMap extends ScreenAdapter {
                                     playerShip.currentStarSystem.ships.remove(playerShip);
                                     playerShip.currentStarSystem = selectedStarSystem;
                                     selectedStarSystem.ships.add(playerShip);
-                                    SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(starSystem, starSystem.starGate.x, starSystem.starGate.y));
+                                    playerShip.x=starSystem.starGate.x;
+                                    playerShip.y=starSystem.starGate.y;
+                                    SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(starSystem, -1, -1));
                                 } else {
                                     selectedStarSystem = starSystem;
                                     target.setPosition(starSystem.positionX - target.getWidth() / 2, starSystem.positionY - target.getHeight() / 2);
@@ -137,7 +139,7 @@ public class StarMap extends ScreenAdapter {
         stage.draw();
         if(Gdx.input.isKeyJustPressed(Input.Keys.M))
         {
-            SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(currentStarSystem,shipX,shipY));
+            SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(currentStarSystem,-1,-1));
         }
         BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
         GlyphLayout glyphLayout=new GlyphLayout(font,"Galactic map");
