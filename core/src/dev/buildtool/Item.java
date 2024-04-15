@@ -37,6 +37,15 @@ public class Item implements Comparable<Item>{
         }
     };
 
+    public static final Item PRICE_SCANNER=new Item(1,"Price scanner",SpaceOfChaos.INSTANCE.priceScanner, 280000){
+        @Override
+        public List<String> getTooltip() {
+            List<String> tooltip=super.getTooltip();
+            tooltip.add("Shows which ware prices are below average");
+            return tooltip;
+        }
+    };
+
     static {
         Hull.initialize();
         SideThrusters.initialize();
