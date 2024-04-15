@@ -29,7 +29,7 @@ public class PlayerShip implements Ship,SaveData {
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
     public Vector2 direction=new Vector2();
     StarSystem currentStarSystem;
-    public HashMap<Ware,Boolean> licences;
+    public HashMap<Ware,Boolean> licences=new HashMap<>();
     private float fireDelay,secondaryFireDelay;
     public Inventory inventory=new Inventory(40);
     public Circle area=new Circle();
@@ -367,7 +367,13 @@ public class PlayerShip implements Ship,SaveData {
         data.put("integrity",integrity);
         data.put("inventory",inventory.getData());
         data.put("left acceleration",leftAcceleration);
-//        data.put("licenses",licences);
+        int i=0;
+        for (Ware ware : licences.keySet()) {
+            boolean license= licences.get(ware);
+            data.put("license "+i,license);
+            data.put("licensed ware "+i,ware.name);
+            i++;
+        }
         data.put("money",money);
         data.put("right acceleration",rightAcceleration);
         data.put("rotation",rotation);
@@ -375,7 +381,7 @@ public class PlayerShip implements Ship,SaveData {
         data.put("ship parts",shipParts.getData());
         data.put("x",x);
         data.put("y",y);
-        int i=0;
+        i=0;
         for (WarePurchase warePurchase : warePurchases) {
             data.put("ware purchase "+i,warePurchase.getData());
             i++;
@@ -393,6 +399,12 @@ public class PlayerShip implements Ship,SaveData {
         hasScanner= (boolean) data.get("has scanner");
         integrity= (int) data.get("integrity");
         leftAcceleration= (float)(double) data.get("left acceleration");
+        for (int i = 0; i < Ware.WARES.size(); i++) {
+            boolean license= (boolean) data.get("license "+i);
+            Ware licenseWare= (Ware) Item.REGISTRY.get((String) data.get("licensed ware "+i));
+            this.licences.put(licenseWare,license);
+            i++;
+        }
         money= (int) data.get("money");
         rightAcceleration= (float)(double) data.get("right acceleration");
         rotation= (float)(double) data.get("rotation");
