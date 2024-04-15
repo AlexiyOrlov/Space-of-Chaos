@@ -510,6 +510,14 @@ public class NPCPilot implements Ship, SaveData {
         }
         else if(state==null)
         {
+            List<Ship> potentialTargets = currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).toList();
+            if(!potentialTargets.isEmpty())
+            {
+                target = potentialTargets.get(random.nextInt(potentialTargets.size()));
+                if(target.getCurrentSystem()!=currentSystem)
+                    throw new RuntimeException("System mismatch");
+            }
+
             if(navigatingTo!=null)
             {
                 StarGate starGate=currentSystem.starGate;
@@ -523,7 +531,6 @@ public class NPCPilot implements Ship, SaveData {
                 }
             }
             else {
-                List<Ship> potentialTargets = currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).toList();
                 if (potentialTargets.isEmpty()) {
                     if (targetPlanet == null)
                         targetPlanet = currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
@@ -531,10 +538,6 @@ public class NPCPilot implements Ship, SaveData {
                         rotateTowards(targetPlanet.x, targetPlanet.y);
                         move();
                     }
-                } else {
-                    target = potentialTargets.get(random.nextInt(potentialTargets.size()));
-                    if(target.getCurrentSystem()!=currentSystem)
-                        throw new RuntimeException("System mismatch");
                 }
             }
         }
