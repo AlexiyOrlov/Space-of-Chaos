@@ -317,6 +317,7 @@ public class Planet implements SaveData {
             equipmentInventory.addItem(new Stack(WeaponRegistry.SHOTGUN,1));
             equipmentInventory.addItem(new Stack(WeaponRegistry.MACHINE_GUN,1));
             equipmentInventory.addItem(new Stack(Item.TARGET_RADAR,1));
+            equipmentInventory.addItem(new Stack(Item.ALL_TARGET_RADAR,1));
         } else if (kind == Kind.OCCUPIED) {
             shipManufacturingTime=random.nextInt(15*60,25*60);
         } else {
