@@ -1,6 +1,7 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -713,16 +714,21 @@ public class NPCPilot implements Ship, SaveData {
             spriteBatch.begin();
             Functions.drawRotated(spriteBatch, hull.look,  x, y, rotationDegrees);
             spriteBatch.end();
+            if(SpaceOfChaos.INSTANCE.playerShip.inventory.hasItem(Item.ALL_TARGET_RADAR))
+            {
+                float integrityPercent= getIntegrityPercent();
+                shapeRenderer.setColor(Color.GREEN);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.rect(x-50,y+ hull.look.getHeight()/2,100*integrityPercent,10);
+                shapeRenderer.end();
+            }
 
             if(SpaceOfChaos.debugDraw) {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.circle(area.x, area.y, area.radius);
                 shapeRenderer.end();
 
-                float integrityPercent= (float) integrity / hull.integrity;
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.rect(x-50,y+ hull.look.getHeight()/2,100*integrityPercent,10);
-                shapeRenderer.end();
+
             }
         }
     }

@@ -16,6 +16,15 @@ public class Item implements Comparable<Item>{
         }
     };
 
+    public static final Item ALL_TARGET_RADAR=new Item(1,"Batch target radar",SpaceOfChaos.INSTANCE.allTargetRadar, 550000){
+        @Override
+        public List<String> getTooltip() {
+            List<String> tooltip=super.getTooltip();
+            tooltip.add("Shows integrity of all ships");
+            return tooltip;
+        }
+    };
+
     public String name;
     public final int maxSize;
     public Texture texture;
