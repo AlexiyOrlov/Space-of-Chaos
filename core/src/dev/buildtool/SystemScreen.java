@@ -228,7 +228,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
         SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
         BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
-        Vector2 mousePositionConverted=viewport.unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+        Vector2 mousePositionConverted=stage.getViewport().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
         if(stackUnderMouse!=null)
         {
             spriteBatch.begin();
