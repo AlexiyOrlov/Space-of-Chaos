@@ -44,7 +44,6 @@ public class PlayerShip implements Ship,SaveData {
     public int currentSystemId;
 
     public PlayerShip() {
-        setDefaults();
     }
 
     public PlayerShip(float x, float y, float rotation, StarSystem currentStarSystem) {
