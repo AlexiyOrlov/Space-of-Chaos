@@ -103,7 +103,6 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                         textButton.addListener(new ChangeListener() {
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
-                                System.out.println(path);
                                 SpaceOfChaos.INSTANCE.loadGame(path);
                                 if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
                                 {
