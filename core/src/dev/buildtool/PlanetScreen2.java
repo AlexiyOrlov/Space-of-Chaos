@@ -429,6 +429,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system));
                 player.x=planet.x;
                 player.y=planet.y;
+                SpaceOfChaos.INSTANCE.autosave();
             }
         });
         outer.add(takeOffButton);

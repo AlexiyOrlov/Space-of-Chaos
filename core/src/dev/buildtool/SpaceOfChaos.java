@@ -585,6 +585,19 @@ public class SpaceOfChaos extends Game implements SaveData{
 		dialog.show(stage);
 	}
 
+	public void autosave()
+	{
+		try {
+			Yaml yaml=new Yaml();
+			String dumped=yaml.dump(getData());
+			Path dataPath=Path.of(dataDir,"Space of Chaos","Saves");
+			Path dataFile = Path.of(dataPath.toString(), "Auto-save.yaml");
+			Files.writeString(dataFile, dumped);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public void loadGame(Path save)
 	{
 		if(Files.exists(save))
