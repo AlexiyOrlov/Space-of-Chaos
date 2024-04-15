@@ -183,4 +183,13 @@ public class Inventory implements SaveData{
             }
         }
     }
+
+    public boolean hasItem(Item item)
+    {
+        for (Stack next : stacks) {
+            if (next != null && next.item == item)
+                return true;
+        }
+        return false;
+    }
 }
