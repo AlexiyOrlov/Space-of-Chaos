@@ -714,7 +714,7 @@ public class NPCPilot implements Ship, SaveData {
             spriteBatch.begin();
             Functions.drawRotated(spriteBatch, hull.look,  x, y, rotationDegrees);
             spriteBatch.end();
-            if(SpaceOfChaos.INSTANCE.playerShip.inventory.hasItem(Item.ALL_TARGET_RADAR))
+            if(SpaceOfChaos.INSTANCE.playerShip!=null && SpaceOfChaos.INSTANCE.playerShip.inventory.hasItem(Item.ALL_TARGET_RADAR))
             {
                 float integrityPercent= getIntegrityPercent();
                 shapeRenderer.setColor(Color.GREEN);
@@ -727,8 +727,6 @@ public class NPCPilot implements Ship, SaveData {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.circle(area.x, area.y, area.radius);
                 shapeRenderer.end();
-
-
             }
         }
     }
