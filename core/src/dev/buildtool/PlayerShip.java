@@ -59,7 +59,6 @@ public class PlayerShip implements Ship,SaveData {
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
         integrity=getHull().integrity;
-        inventory.addItem(new Stack(Item.ALL_TARGET_RADAR,1));
     }
 
     private void setDefaults()
