@@ -1,10 +1,13 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -103,11 +106,18 @@ public class SlotButton extends Table {
             if (stack != null) {
                 SpriteBatch spriteBatch = SpaceOfChaos.INSTANCE.uiBatch;
                 BitmapFont font = SpaceOfChaos.INSTANCE.bitmapFont;
-                spriteBatch.begin();
                 List<String> itemInfo=stack.item.getTooltip();
+                ShapeRenderer shapeRenderer=SpaceOfChaos.INSTANCE.uiShapeRenderer;
+                shapeRenderer.setColor(Color.BLACK);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                String longest= itemInfo.stream().reduce((s, s2) -> s.length()<s2.length()?s2:s).get();
+                GlyphLayout layout=new GlyphLayout(font,longest);
+                shapeRenderer.rect(mp.x+28,mp.y-20*itemInfo.size()+24,layout.width+14,20*itemInfo.size());
+                shapeRenderer.end();
+                spriteBatch.begin();
                 for (int i = 0; i < itemInfo.size(); i++) {
                     String next=itemInfo.get(i);
-                    font.draw(spriteBatch,next, mp.x+20, mp.y-20*i+20);
+                    font.draw(spriteBatch,next, mp.x+30, mp.y-20*i+20);
 
                 }
                 spriteBatch.end();
