@@ -24,4 +24,9 @@ public class SideThrusters extends Item{
         tooltip.add("Strafing speed: "+strafingSpeed);
         return tooltip;
     }
+
+    public static void initialize()
+    {
+        System.out.println("Side thrusters initialized");
+    }
 }

@@ -31,4 +31,9 @@ public class WeaponRegistry {
         TIER3_WEAPONS.add(GATLING_GUN);
         TIER3_WEAPONS.add(MISSILE_LAUNCHER);
     }
+
+    public static void initialize()
+    {
+        System.out.println("Weapon registry initialized");
+    }
 }

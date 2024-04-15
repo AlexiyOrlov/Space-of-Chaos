@@ -60,4 +60,9 @@ public class Hull extends Item{
         tooltip.add("Capacity: "+capacity);
         return tooltip;
     }
+
+    public static void initialize()
+    {
+        System.out.println("Hulls initialized");
+    }
 }

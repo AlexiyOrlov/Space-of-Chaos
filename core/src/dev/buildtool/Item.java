@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 import java.util.List;
 
+import dev.buildtool.weapons.Weapon;
+import dev.buildtool.weapons.WeaponRegistry;
+
 public class Item implements Comparable<Item>{
     public static HashMap<String,Item> REGISTRY=new HashMap<>();
     public static final Item TARGET_RADAR=new Item(1,"Target scanner",SpaceOfChaos.INSTANCE.targetRadar, 110000){
@@ -33,6 +36,14 @@ public class Item implements Comparable<Item>{
             return tooltip;
         }
     };
+
+    static {
+        Hull.initialize();
+        SideThrusters.initialize();
+        Engine.initialize();
+        Weapon.initialize();
+        WeaponRegistry.initialize();
+    }
 
     public String name;
     public final int maxSize;

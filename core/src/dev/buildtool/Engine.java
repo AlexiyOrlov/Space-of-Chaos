@@ -38,4 +38,9 @@ public class Engine extends Item{
         tooltip.add("Jump distance: "+jumpDistance);
         return tooltip;
     }
+
+    public static void initialize()
+    {
+        System.out.println("Engines initialized");
+    }
 }

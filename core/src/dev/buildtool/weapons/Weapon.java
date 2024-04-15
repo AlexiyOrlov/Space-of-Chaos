@@ -50,4 +50,9 @@ public abstract class Weapon extends Item {
         tooltip.add("Damage per minute: "+(60/cooldown*damagePerProjectile));
         return tooltip;
     }
+
+    public static void initialize()
+    {
+        System.out.println("Weapons initialized");
+    }
 }
