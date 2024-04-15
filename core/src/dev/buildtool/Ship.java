@@ -23,4 +23,5 @@ public interface Ship {
     boolean contains(Vector2 vector2);
     boolean isLanded();
     void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
+    int getId();
 }

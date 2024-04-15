@@ -857,4 +857,9 @@ public class NPCPilot implements Ship, SaveData {
         else
             state=null;
     }
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }

@@ -35,7 +35,7 @@ public class Projectile implements SaveData {
 
     public Vector2 velocity=new Vector2();
     public float x,y;
-    public int shooterId;
+    public int shooterId,targetId=-1;
 
     public Projectile() {
     }
@@ -57,6 +57,10 @@ public class Projectile implements SaveData {
         }
         else
             shooterId=0;
+        if(target!=null)
+        {
+            targetId=target.getId();
+        }
     }
 
     public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
@@ -107,6 +111,7 @@ public class Projectile implements SaveData {
         data.put("x",x);
         data.put("y",y);
         data.put("shooter",shooterId);
+        data.put("target",targetId);
         return data;
     }
 
@@ -126,5 +131,25 @@ public class Projectile implements SaveData {
         velocity.x= (float)(double)  data.get("velocity x");
         velocity.y= (float)(double)  data.get("velocity y");
         shooterId= (int) data.get("shooter");
+        for (StarSystem system : SpaceOfChaos.INSTANCE.starSystems) {
+            for (Ship ship : system.ships) {
+                if(ship.getId()==shooterId)
+                {
+                    shooter=ship;
+                    break;
+                }
+            }
+        }
+        for (StarSystem system : SpaceOfChaos.INSTANCE.starSystems) {
+            for (Ship ship : system.ships) {
+                if(ship.getId()==targetId)
+                {
+                    target=ship;
+                    break;
+                }
+            }
+        }
+        if(shooter==null)
+            throw new RuntimeException("Shooter is null");
     }
 }

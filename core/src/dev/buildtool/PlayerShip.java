@@ -409,4 +409,9 @@ public class PlayerShip implements Ship,SaveData {
         }
         currentSystemId= (int) data.get("current system id");
     }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
 }
