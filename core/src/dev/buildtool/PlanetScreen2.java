@@ -424,7 +424,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         takeOffButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system, planet.x,planet.y));
+                SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(system));
             }
         });
         outer.add(takeOffButton);

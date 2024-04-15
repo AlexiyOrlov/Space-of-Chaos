@@ -54,15 +54,13 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     public final Deque<String> messageQueue=new LinkedList<>();
     public float lastMessageTime;
 
-    public SystemScreen(StarSystem starSystem, float xForPlayer,float yForPlayer) {
+    public SystemScreen(StarSystem starSystem) {
         SpaceOfChaos spaceOfChaos = SpaceOfChaos.INSTANCE;
         this.spriteBatch = spaceOfChaos.worldBatch;
         this.starSystem = starSystem;
         this.planets = this.starSystem.planets;
         this.star = this.starSystem.star;
         PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
-//        playerShip.x=xForPlayer;
-//        playerShip.y=yForPlayer;
         camera=new OrthographicCamera();
 		viewport=new ScreenViewport(camera);
 		viewport.apply();
