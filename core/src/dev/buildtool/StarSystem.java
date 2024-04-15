@@ -171,10 +171,8 @@ public class StarSystem implements SaveData{
             for (Projectile projectile : projectiles) {
                 if(projectile.shooter!=ship)
                 {
-                    if((projectile.target==null || (projectile.target==ship)) && projectile.validTargets.test(ship))
+                    if((projectile.target==null || (projectile.target==ship)) && projectile.validTargets.test(ship) && projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem())
                     {
-                        if(projectile.target!=null &&  projectile.shooter.getCurrentSystem()!=projectile.target.getCurrentSystem())
-                            throw new RuntimeException("Can't shoot projectile from "+projectile.shooter.getCurrentSystem().getStarName()+ " to "+projectile.target.getCurrentSystem().getStarName()+" at "+projectile.target);
                         if(ship.overlaps(projectile.area)) {
                             ship.damage(projectile.damage);
                             if (ship.getIntegrity() <= 0) {
