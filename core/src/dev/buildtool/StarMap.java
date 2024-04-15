@@ -91,8 +91,8 @@ public class StarMap extends ScreenAdapter {
                                     playerShip.currentStarSystem.ships.remove(playerShip);
                                     playerShip.setCurrentSystem(selectedStarSystem);
                                     selectedStarSystem.ships.add(playerShip);
-                                    playerShip.x=starSystem.starGate.x;
-                                    playerShip.y=starSystem.starGate.y;
+                                    playerShip.x=starSystem.starGate.getOppositeX();
+                                    playerShip.y=starSystem.starGate.getOppositeY();
                                     SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(starSystem));
                                 } else {
                                     selectedStarSystem = starSystem;

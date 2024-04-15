@@ -136,7 +136,7 @@ public class StarSystem implements SaveData{
                 npcPilot.currentSystem = npcPilot.navigatingTo;
                 if (SpaceOfChaos.debugDraw)
                     System.out.println("Jumped to " + npcPilot.currentSystem.star.name);
-                npcPilot.setPosition(npcPilot.navigatingTo.starGate.x, npcPilot.navigatingTo.starGate.y);
+                npcPilot.setPosition(npcPilot.navigatingTo.starGate.getOppositeX(), npcPilot.navigatingTo.starGate.getOppositeY());
                 npcPilot.afterJump();
             }
         });

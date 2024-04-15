@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +76,15 @@ public class StarGate implements SaveData{
         rotation= (float)(double) data.get("rotation");
         x= (float)(double) data.get("x");
         y= (float)(double) data.get("y");
+    }
+
+    public float getOppositeX()
+    {
+        return distanceFromStar * MathUtils.cos(currentAngle+MathUtils.PI);
+    }
+
+    public float getOppositeY()
+    {
+        return distanceFromStar *MathUtils.sin(currentAngle+MathUtils.PI);
     }
 }
