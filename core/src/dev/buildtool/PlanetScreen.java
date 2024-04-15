@@ -315,7 +315,7 @@ public class PlanetScreen extends ScreenAdapter {
         shipParts.slots[3]=thrusters;
         shipParts.setVisible(false);
 
-        TextImageButton shipEquipment=new TextImageButton("Ship",skin, SpaceOfChaos.INSTANCE.ship2icon);
+        TextImageButton shipEquipment=new TextImageButton("Ship",skin, SpaceOfChaos.INSTANCE.shipIcon);
         shipEquipment.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
