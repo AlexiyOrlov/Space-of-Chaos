@@ -14,7 +14,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
@@ -516,7 +522,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		}
 	}
 
-	public void saveGame()
+	public void saveGame(Stage stage)
 	{
 
         assert dataDir != null;
@@ -529,21 +535,36 @@ public class SpaceOfChaos extends Game implements SaveData{
 				throw new RuntimeException(e);
 			}
 		}
-		Yaml yaml=new Yaml();
-		String dumped=yaml.dump(getData());
-		Path dataFile=Path.of(dataPath.toString(),"Save.yaml");
-		if(!Files.exists(dataFile)) {
-			try {
-				Files.createFile(dataFile);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+		Dialog dialog=new Dialog("Save game?",skin);
+		TextField input=new TextField("Save",skin);
+		dialog.add(input);
+		dialog.button(new TextButton("Cancel",skin));
+		TextButton textButton=new TextButton("Save",skin);
+		textButton.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				Yaml yaml=new Yaml();
+				String dumped=yaml.dump(getData());
+				String messageText = input.getText();
+				if(messageText!=null &&!messageText.isEmpty()) {
+					Path dataFile = Path.of(dataPath.toString(), messageText+".yaml");
+					if (!Files.exists(dataFile)) {
+						try {
+							Files.createFile(dataFile);
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+					}
+					try {
+						Files.writeString(dataFile, dumped);
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
 			}
-		}
-		try {
-			Files.writeString(dataFile, dumped);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		});
+		dialog.button(textButton);
+		dialog.show(stage);
 	}
 
 	public void loadGame(Path save)

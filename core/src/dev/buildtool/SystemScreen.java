@@ -1,6 +1,5 @@
 package dev.buildtool;
 
-import com.badlogic.gdx.AbstractInput;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -30,8 +29,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -83,7 +80,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         save.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceOfChaos.INSTANCE.saveGame();
+                SpaceOfChaos.INSTANCE.saveGame(stage);
             }
         });
         TextButton load=new TextButton("Load",skin);
