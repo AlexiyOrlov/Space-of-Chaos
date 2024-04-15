@@ -119,6 +119,7 @@ public class Planet implements SaveData {
         for (int i = 0; i < shipCount; i++) {
             NPCPilot npcPilot=new NPCPilot();
             npcPilot.load((Map<String, Object>) data.get("ship "+i));
+            ships.add(npcPilot);
         }
         speed= (float)(double) data.get("speed");
         texture=SpaceOfChaos.INSTANCE.textureHashMap.get((int) data.get("texture"));
