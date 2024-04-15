@@ -2,6 +2,7 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,13 +47,30 @@ public class Item implements Comparable<Item>{
         }
     };
 
+    public static ArrayList<Item> equipment=new ArrayList<>();
+
     static {
         Hull.initialize();
         SideThrusters.initialize();
         Engine.initialize();
         Weapon.initialize();
         WeaponRegistry.initialize();
+
+        equipment.add(ALL_TARGET_RADAR);
+        equipment.add(PRICE_SCANNER);
+        equipment.add(SHIP_RADAR);
+        equipment.add(ExplorationDrone.MARK1);
+        equipment.add(Engine.MARK2);
+        equipment.add(Hull.BUMBLEBEE);
+        equipment.add(Hull.HORNET);
+        equipment.add(WeaponRegistry.TRISHOT);
+        equipment.add(WeaponRegistry.SHOTGUN);
+        equipment.add(WeaponRegistry.MACHINE_GUN);
+        equipment.add(WeaponRegistry.CLUSTER_GUN);
+        equipment.add(WeaponRegistry.GATLING_GUN);
+        equipment.add(WeaponRegistry.MISSILE_LAUNCHER);
     }
+
 
     public String name;
     public final int maxSize;

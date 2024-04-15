@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -310,14 +312,15 @@ public class Planet implements SaveData {
         speed=orbitSpeed;
         if(kind==Kind.INHABITED) {
             equipmentInventory=new Inventory(9);
-            equipmentInventory.addItem(new Stack(ExplorationDrone.MARK1,1));
-            equipmentInventory.addItem(new Stack(Engine.MARK2,1));
-            equipmentInventory.addItem(new Stack(Hull.HORNET,1));
-            equipmentInventory.addItem(new Stack(Hull.BUMBLEBEE,1));
-            equipmentInventory.addItem(new Stack(WeaponRegistry.SHOTGUN,1));
-            equipmentInventory.addItem(new Stack(WeaponRegistry.MACHINE_GUN,1));
-            equipmentInventory.addItem(new Stack(Item.TARGET_RADAR,1));
-            equipmentInventory.addItem(new Stack(Item.ALL_TARGET_RADAR,1));
+            ArrayList<Item> items=new ArrayList<>(Item.equipment);
+            for (int i = 0; i < 9; i++) {
+                if(random.nextInt(100)<25)
+                {
+                    Item randomItem= items.get(random.nextInt(items.size()));
+                    equipmentInventory.addItem(new Stack(randomItem,1));
+                    items.remove(randomItem);
+                }
+            }
         } else if (kind == Kind.OCCUPIED) {
             shipManufacturingTime=random.nextInt(15*60,25*60);
         } else {
