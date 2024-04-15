@@ -347,7 +347,7 @@ public class Planet implements SaveData {
             int guardCount=0;
             for (int i = 0; i < 2; i++) {
                 if (random.nextBoolean()) {
-                    NPCPilot guard = new NPCPilot(PilotAI.GUARD, WeaponRegistry.SHOTGUN, Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.MARK2, this,starSystem,WeaponRegistry.AI_GUN1);
+                    NPCPilot guard = new NPCPilot(PilotAI.GUARD,WeaponRegistry.TIER1_WEAPONS.get(random.nextInt(WeaponRegistry.TIER1_WEAPONS.size())), Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.ENGINE_3, SideThrusters.MARK2, this,starSystem,WeaponRegistry.TIER2_WEAPONS.get(random.nextInt(WeaponRegistry.TIER2_WEAPONS.size())));
                     starSystem.ships.add(guard);
                     guard.x = x;
                     guard.y = y;
