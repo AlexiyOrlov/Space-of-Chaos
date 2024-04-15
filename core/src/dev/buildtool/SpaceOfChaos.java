@@ -546,14 +546,13 @@ public class SpaceOfChaos extends Game implements SaveData{
 		}
 	}
 
-	public void loadGame()
+	public void loadGame(Path save)
 	{
-		Yaml yaml=new Yaml();
-		Path savePath=Path.of(dataDir,"Space of Chaos","Saves","Save.yaml");
-		if(Files.exists(savePath))
+		if(Files.exists(save))
 		{
 			try {
-				String yamlString=Files.readString(savePath);
+				Yaml yaml=new Yaml();
+				String yamlString=Files.readString(save);
 				LinkedHashMap<String,Object> dataMap=yaml.load(yamlString);
 				load(dataMap);
 				updateWorld=true;

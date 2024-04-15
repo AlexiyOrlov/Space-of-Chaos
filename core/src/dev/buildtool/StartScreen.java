@@ -6,12 +6,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class StartScreen extends ScreenAdapter {
     private final Stage stage;
@@ -53,10 +60,35 @@ public class StartScreen extends ScreenAdapter {
         load.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceOfChaos.INSTANCE.loadGame();
-                if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
-                {
-                    System.out.println("Landed");
+                Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
+                try {
+                    var files= Files.list(savePath).toList();
+                    Skin skin=SpaceOfChaos.INSTANCE.skin;
+                    Dialog dialog=new Dialog("List of saves",skin);
+                    files.forEach(path -> {
+                        Label label=new Label(path.toString(),skin);
+                        TextButton textButton=new TextButton("Load",skin);
+                        textButton.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                System.out.println(path);
+                                SpaceOfChaos.INSTANCE.loadGame(path);
+                                if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
+                                {
+                                    System.out.println("Landed");
+                                }
+                            }
+                        });
+                        Table table1=dialog.getContentTable();
+                        table1.add(label);
+                        table1.add(textButton);
+                        table1.row();
+                    });
+                    TextButton cancel=new TextButton("Cancel",skin);
+                    dialog.button(cancel);
+                    dialog.show(stage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
