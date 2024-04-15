@@ -174,26 +174,11 @@ public class StarSystem implements SaveData{
                     if((projectile.target==null || (projectile.target==ship)) && projectile.validTargets.test(ship) && (projectile.target==null || projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem()))
                     {
                         if(ship.overlaps(projectile.area)) {
-                            ship.damage(projectile.damage);
-                            if (ship.getIntegrity() <= 0) {
-                                shipsToRemove.add(ship);
-                                if(ship instanceof PlayerShip)
-                                    SpaceOfChaos.INSTANCE.playerShip=null;
-                            }
-                            toRemove.add(projectile);
-                            projectile.onDestroyed(this);
+                            damageShip(ship, projectile, shipsToRemove, toRemove);
                         }else {
                             Vector2 backVector = new Vector2(projectile.x + projectile.velocity.x, projectile.y + projectile.velocity.y);
                             if (ship.contains(backVector)) {
-                                ship.damage(projectile.damage);
-                                ship.onProjectileImpact(projectile);
-                                if (ship.getIntegrity() <= 0) {
-                                    shipsToRemove.add(ship);
-                                    if(ship instanceof PlayerShip)
-                                        SpaceOfChaos.INSTANCE.playerShip=null;
-                                }
-                                toRemove.add(projectile);
-                                projectile.onDestroyed(this);
+                                damageShip(ship, projectile, shipsToRemove, toRemove);
                             }
                         }
                     }
@@ -207,6 +192,19 @@ public class StarSystem implements SaveData{
         projectiles.removeAll(toRemove);
         ships.removeAll(shipsToRemove);
         projectiles.addAll(toAdd);
+    }
+
+    private void damageShip(Ship ship, Projectile projectile, ArrayList<Ship> shipsToRemove, ArrayList<Projectile> toRemove) {
+        ship.damage(projectile.damage);
+        if (ship.getIntegrity() <= 0) {
+            shipsToRemove.add(ship);
+            if(ship instanceof PlayerShip)
+            {
+                SpaceOfChaos.INSTANCE.playerShip=null;
+            }
+        }
+        toRemove.add(projectile);
+        projectile.onDestroyed(this);
     }
 
     public String getStarName()
