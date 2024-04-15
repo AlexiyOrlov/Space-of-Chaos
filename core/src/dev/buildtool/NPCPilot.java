@@ -203,7 +203,7 @@ public class NPCPilot implements Ship, SaveData {
 
     }
 
-    private float getIntegrityPercent()
+    public float getIntegrityPercent()
     {
         return (float) integrity/ hull.integrity;
     }

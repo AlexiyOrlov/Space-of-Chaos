@@ -180,9 +180,19 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             }
             if(playerShip.homingTarget!=null)
             {
+                NPCPilot target=playerShip.homingTarget;
                 spriteBatch.begin();
                 Functions.drawRotated(spriteBatch,SpaceOfChaos.INSTANCE.reticle, playerShip.homingTarget.x,playerShip.homingTarget.y,playerShip.reticleRotation);
                 spriteBatch.end();
+
+                if(playerShip.inventory.hasItem(Item.TARGET_RADAR))
+                {
+                    float integrityPercent=target.getIntegrityPercent();
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(Color.GREEN);
+                    shapeRenderer.rect(target.x-50,target.y+ target.hull.look.getHeight()/2,100*integrityPercent,10);
+                    shapeRenderer.end();
+                }
             }
         }
         final Vector2 starPos=new Vector2(0,0);
