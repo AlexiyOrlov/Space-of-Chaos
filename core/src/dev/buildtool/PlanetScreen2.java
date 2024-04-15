@@ -410,6 +410,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private PlayerShip playerShip;
     private Label capacityLabel;
     public PlanetScreen2(StarSystem system, Planet planet, PlayerShip player) {
+        SpaceOfChaos.INSTANCE.updateWorld=false;
         Skin skin= SpaceOfChaos.INSTANCE.skin;
         playerShip=player;
         this.viewport =new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
@@ -503,7 +504,6 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        SpaceOfChaos.INSTANCE.updateWorld=false;
     }
 
     @Override
