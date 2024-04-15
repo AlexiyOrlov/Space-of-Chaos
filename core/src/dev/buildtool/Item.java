@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Item implements Comparable<Item>{
     public static HashMap<String,Item> REGISTRY=new HashMap<>();
-    public static final Item TARGET_RADAR=new Item(1,"Target radar",SpaceOfChaos.INSTANCE.targetRadar, 110000){
+    public static final Item TARGET_RADAR=new Item(1,"Target scanner",SpaceOfChaos.INSTANCE.targetRadar, 110000){
         @Override
         public List<String> getTooltip() {
             List<String> tooltip=super.getTooltip();
@@ -16,7 +16,7 @@ public class Item implements Comparable<Item>{
         }
     };
 
-    public static final Item ALL_TARGET_RADAR=new Item(1,"Batch target radar",SpaceOfChaos.INSTANCE.allTargetRadar, 550000){
+    public static final Item ALL_TARGET_RADAR=new Item(1,"Batch target scanner",SpaceOfChaos.INSTANCE.allTargetRadar, 550000){
         @Override
         public List<String> getTooltip() {
             List<String> tooltip=super.getTooltip();
