@@ -149,7 +149,7 @@ public class Projectile implements SaveData {
                 }
             }
         }
-        if(shooter==null)
-            throw new RuntimeException("Shooter is null");
+//        if(shooter==null)
+//            throw new RuntimeException("Shooter is null for id "+shooterId);
     }
 }
