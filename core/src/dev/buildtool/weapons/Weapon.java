@@ -31,14 +31,14 @@ public abstract class Weapon extends Item {
 
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem)
     {
-        if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
+        if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.getCurrentSystem())
             sound.play(0.1f);
         return createProjectiles(originX, originY, rotation, shooter, target,ship -> true, starSystem);
     }
 
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
     {
-        if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
+        if(sound!=null && SpaceOfChaos.INSTANCE.playerShip!=null && shooter.getCurrentSystem()== SpaceOfChaos.INSTANCE.playerShip.getCurrentSystem())
             sound.play(0.1f);
         return createProjectiles(originX, originY, rotation, shooter, target,shipPredicate, starSystem);
     }

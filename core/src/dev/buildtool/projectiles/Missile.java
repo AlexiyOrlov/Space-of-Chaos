@@ -35,7 +35,7 @@ public class Missile extends Projectile implements DestructibleProjectile{
     public void onDestroyed(StarSystem starSystem) {
         OneShotAnimation oneShotAnimation =new OneShotAnimation(SpaceOfChaos.INSTANCE.explosionAnimation, x,y);
         starSystem.animations.add(oneShotAnimation);
-        if(SpaceOfChaos.INSTANCE.playerShip!=null && starSystem==SpaceOfChaos.INSTANCE.playerShip.currentStarSystem)
+        if(SpaceOfChaos.INSTANCE.playerShip!=null && starSystem==SpaceOfChaos.INSTANCE.playerShip.getCurrentSystem())
             SpaceOfChaos.INSTANCE.explosionSound.play(0.2f);
     }
 

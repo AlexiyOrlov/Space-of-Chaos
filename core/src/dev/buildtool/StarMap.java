@@ -89,7 +89,7 @@ public class StarMap extends ScreenAdapter {
                             } else {
                                 if (starSystem == selectedStarSystem) {
                                     playerShip.currentStarSystem.ships.remove(playerShip);
-                                    playerShip.currentStarSystem = selectedStarSystem;
+                                    playerShip.setCurrentSystem(selectedStarSystem);
                                     selectedStarSystem.ships.add(playerShip);
                                     playerShip.x=starSystem.starGate.x;
                                     playerShip.y=starSystem.starGate.y;

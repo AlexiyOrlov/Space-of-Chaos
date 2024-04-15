@@ -28,7 +28,7 @@ public class PlayerShip implements Ship,SaveData {
     public float x,y;
     public float rotation,acceleration,leftAcceleration,rightAcceleration;
     public Vector2 direction=new Vector2();
-    public StarSystem currentStarSystem;
+    StarSystem currentStarSystem;
     public HashMap<Ware,Boolean> licences;
     private float fireDelay,secondaryFireDelay;
     public Inventory inventory=new Inventory(40);
@@ -54,7 +54,7 @@ public class PlayerShip implements Ship,SaveData {
         this.rotation = rotation;
         direction=new Vector2(0,0);
         inventory=new Inventory(40);
-        this.currentStarSystem=currentStarSystem;
+        setCurrentSystem(currentStarSystem);
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
