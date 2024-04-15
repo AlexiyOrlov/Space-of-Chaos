@@ -428,6 +428,15 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             }
         });
         outer.add(takeOffButton);
+        TextButton toggleTime=new TextButton(SpaceOfChaos.INSTANCE.updateWorld?"World is simulating":"World is paused",skin);
+        toggleTime.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.updateWorld=!SpaceOfChaos.INSTANCE.updateWorld;
+                toggleTime.setText(SpaceOfChaos.INSTANCE.updateWorld?"World is simulating":"World is paused");
+            }
+        });
+        outer.add(toggleTime);
         outer.row();
         outer.setFillParent(true);
         this.planet=planet;
