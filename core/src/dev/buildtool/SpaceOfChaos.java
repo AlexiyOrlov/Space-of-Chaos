@@ -578,6 +578,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		playerShip.load(playerData);
 		aiAttackTimer= (float)(double) data.get("ai attack timer");
 		humanAttackTimer= (float)(double) data.get("human attack timer");
+		starSystems.clear();
 		int systemCount= (int) data.get("system count");
 		for (int i = 0; i < systemCount; i++) {
 			StarSystem starSystem=new StarSystem();
