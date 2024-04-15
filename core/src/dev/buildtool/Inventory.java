@@ -180,6 +180,7 @@ public class Inventory implements SaveData{
             if(data.containsKey("stack "+i)) {
                 Stack stack = new Stack();
                 stack.load((Map<String, Object>) data.get("stack "+i));
+                stacks[i]=stack;
             }
         }
     }
