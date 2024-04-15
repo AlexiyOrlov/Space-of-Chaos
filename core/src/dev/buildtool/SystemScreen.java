@@ -93,6 +93,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 SpaceOfChaos.INSTANCE.loadGame();
+                pauseMenu.setVisible(false);
             }
         });
         pauseMenu.add(label);
