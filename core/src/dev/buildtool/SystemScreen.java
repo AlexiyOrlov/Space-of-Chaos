@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -26,6 +27,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -87,8 +91,38 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         load.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-//                SpaceOfChaos.INSTANCE.loadGame();
-                pauseMenu.setVisible(false);
+                //copied from game class
+                Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
+                try {
+                    var files= Files.list(savePath).toList();
+                    Skin skin=SpaceOfChaos.INSTANCE.skin;
+                    Dialog dialog=new Dialog("List of saves",skin);
+                    files.forEach(path -> {
+                        Label label=new Label(path.toString(),skin);
+                        TextButton textButton=new TextButton("Load",skin);
+                        textButton.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                System.out.println(path);
+                                SpaceOfChaos.INSTANCE.loadGame(path);
+                                if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
+                                {
+                                    System.out.println("Landed");
+                                }
+                                pauseMenu.setVisible(false);
+                            }
+                        });
+                        Table table1=dialog.getContentTable();
+                        table1.add(label);
+                        table1.add(textButton);
+                        table1.row();
+                    });
+                    TextButton cancel=new TextButton("Cancel",skin);
+                    dialog.button(cancel);
+                    dialog.show(stage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         pauseMenu.add(label);
