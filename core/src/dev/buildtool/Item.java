@@ -25,6 +25,15 @@ public class Item implements Comparable<Item>{
         }
     };
 
+    public static final Item SHIP_RADAR=new Item(1,"Ship radar",SpaceOfChaos.INSTANCE.shipDetector,300000){
+        @Override
+        public List<String> getTooltip() {
+            List<String> tooltip=super.getTooltip();
+            tooltip.add("Shows ship locations on HUD");
+            return tooltip;
+        }
+    };
+
     public String name;
     public final int maxSize;
     public Texture texture;

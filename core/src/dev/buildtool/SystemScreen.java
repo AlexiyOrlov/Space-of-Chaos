@@ -212,7 +212,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         {
             drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceOfChaos.INSTANCE.stargateIcon);
         }
-        if(playerShip!=null && playerShip.hasScanner)
+        if(playerShip!=null && playerShip.inventory.hasItem(Item.SHIP_RADAR))
         {
             starSystem.ships.forEach(ship -> {
                 if(ship!=playerShip && !camera.frustum.pointInFrustum(ship.getX(),ship.getY(),0))
