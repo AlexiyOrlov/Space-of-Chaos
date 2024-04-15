@@ -6,11 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Item implements Comparable<Item>{
+    public static HashMap<String,Item> REGISTRY=new HashMap<>();
+    public static final Item TARGET_RADAR=new Item(1,"Target radar",SpaceOfChaos.INSTANCE.targetRadar, 110000){
+        @Override
+        public List<String> getTooltip() {
+            List<String> tooltip=super.getTooltip();
+            tooltip.add("Shows integrity of selected target");
+            return tooltip;
+        }
+    };
+
     public String name;
     public final int maxSize;
     public Texture texture;
     public int basePrice;
-    public static HashMap<String,Item> REGISTRY=new HashMap<>();
     public Item(int maxSize, String name, Texture texture, int basePrice) {
         this.maxSize = maxSize;
         this.name=name;
