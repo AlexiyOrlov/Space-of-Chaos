@@ -521,10 +521,10 @@ public class SpaceOfChaos extends Game implements SaveData{
 
         assert dataDir != null;
 		Functions.log("Data directory is "+dataDir);
-        Path dataPath=Path.of(dataDir,"Space of Chaos");
+        Path dataPath=Path.of(dataDir,"Space of Chaos","Saves");
 		if(!Files.exists(dataPath)) {
 			try {
-				Files.createDirectory(dataPath);
+				Files.createDirectories(dataPath);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -549,7 +549,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public void loadGame()
 	{
 		Yaml yaml=new Yaml();
-		Path savePath=Path.of(dataDir,"Space of Chaos","Save.yaml");
+		Path savePath=Path.of(dataDir,"Space of Chaos","Saves","Save.yaml");
 		if(Files.exists(savePath))
 		{
 			try {
