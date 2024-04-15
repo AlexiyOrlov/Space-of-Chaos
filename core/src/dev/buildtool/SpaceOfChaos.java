@@ -585,7 +585,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		dialog.show(stage);
 	}
 
-	public void autosave()
+	public void autoSave()
 	{
 		try {
 			Yaml yaml=new Yaml();
