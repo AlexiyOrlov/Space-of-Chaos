@@ -551,14 +551,32 @@ public class SpaceOfChaos extends Game implements SaveData{
 					if (!Files.exists(dataFile)) {
 						try {
 							Files.createFile(dataFile);
+							try {
+								Files.writeString(dataFile, dumped);
+							} catch (IOException e) {
+								throw new RuntimeException(e);
+							}
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
 					}
-					try {
-						Files.writeString(dataFile, dumped);
-					} catch (IOException e) {
-						throw new RuntimeException(e);
+					else {
+						Dialog overwrite=new Dialog("Overwrite existing save?",skin);
+						TextButton yes=new TextButton("Yes",skin);
+						yes.addListener(new ChangeListener() {
+							@Override
+							public void changed(ChangeEvent event, Actor actor) {
+								try {
+									Files.writeString(dataFile, dumped);
+								} catch (IOException e) {
+									throw new RuntimeException(e);
+								}
+							}
+						});
+						TextButton no=new TextButton("No",skin);
+						overwrite.button(yes);
+						overwrite.button(no);
+						overwrite.show(stage);
 					}
 				}
 			}
