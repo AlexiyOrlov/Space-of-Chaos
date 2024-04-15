@@ -403,7 +403,6 @@ public class PlayerShip implements Ship,SaveData {
             boolean license= (boolean) data.get("license "+i);
             Ware licenseWare= (Ware) Item.REGISTRY.get((String) data.get("licensed ware "+i));
             this.licences.put(licenseWare,license);
-            i++;
         }
         money= (int) data.get("money");
         rightAcceleration= (float)(double) data.get("right acceleration");
