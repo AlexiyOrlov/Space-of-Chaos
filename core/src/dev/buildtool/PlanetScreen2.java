@@ -72,7 +72,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content.add(new Label("Hull",skin));
             content.add(hull);
             content.row();
-            content.add(new Label("Weapon",skin));
+            content.add(new Label("Weapon 1",skin));
             content.add(weapon);
             content.row();
             content.add(new Label("Weapon 2",skin));
