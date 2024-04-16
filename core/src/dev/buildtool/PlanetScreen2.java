@@ -457,6 +457,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             }
                         });
                     }
+                    else {
+                        Dialogs.showOKDialog(stage,"Not enough money","");
+                    }
                 }
                 else {
                     Dialogs.showOKDialog(stage,"Integrity is full","No need to repair");
