@@ -540,7 +540,7 @@ public class NPCPilot implements Ship, SaveData {
             }
             else {
                 if (potentialTargets.isEmpty()) {
-                    if (targetPlanet == null)
+                    if (targetPlanet == null || targetPlanet.starSystem!=currentSystem)
                         targetPlanet = currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
                     if (Vector2.dst(targetPlanet.x, targetPlanet.y, x, y) > 200) {
                         rotateTowards(targetPlanet.x, targetPlanet.y);
