@@ -66,7 +66,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public GlyphLayout textMeasurer;
 	public boolean updateWorld;
 	static boolean debugDraw;
-	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound,explosionSound,swishSound,shot2sound;
+	public Sound machineGunSound,laserShotSound,blasterSound,shotGunSound,explosionSound,swishSound,shot2sound,drrrSound;
 	private final ArrayList<Texture> textures=new ArrayList<>(600);
 	private final ArrayList<Sound> sounds=new ArrayList<>(100);
 	private float aiAttackTimer=0;//random.nextInt(15*60);
@@ -283,6 +283,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		shotGunSound=loadSound("shotgun-spas.mp3");
 		explosionSound=loadSound("explosion.mp3");
 		shot2sound=loadSound("uzi shot.wav");
+		drrrSound=loadSound("drrr.ogg");
 
 		greenCircle=getTexture("green circle");
 		yellowCircle=getTexture(("yellow circle"));

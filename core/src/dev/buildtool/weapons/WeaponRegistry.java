@@ -14,7 +14,7 @@ public class WeaponRegistry {
     public static final Weapon CLUSTER_GUN=new ClusterGun(20,1.5f,20, SpaceOfChaos.INSTANCE.redProjectileTexture, "Cluster gun", SpaceOfChaos.INSTANCE.clusterGunTexture, 100000, SpaceOfChaos.INSTANCE.blasterSound);
     public static final Weapon MISSILE_LAUNCHER=new MissileLauncher(50,6,10,SpaceOfChaos.INSTANCE.missileTexture,"Missile launcher",SpaceOfChaos.INSTANCE.missileLauncherTexture, 200000,null);
     public static final Weapon GATLING_GUN=new MachineGun(4,0.1f,15,SpaceOfChaos.INSTANCE.pelletTexture, "Gatling gun",SpaceOfChaos.INSTANCE.gatlingGunTexture, 300000,SpaceOfChaos.INSTANCE.machineGunSound);
-    public static final Weapon TRISHOT=new TriShot(14,2,20,SpaceOfChaos.INSTANCE.redProjectileTexture, "Trishot",SpaceOfChaos.INSTANCE.triShotTexture, 80000,null);
+    public static final Weapon TRISHOT=new TriShot(14,2,20,SpaceOfChaos.INSTANCE.redProjectileTexture, "Trishot",SpaceOfChaos.INSTANCE.triShotTexture, 80000,SpaceOfChaos.INSTANCE.drrrSound);
     public static final ArrayList<Weapon> TIER1_WEAPONS=new ArrayList<>();
     public static final ArrayList<Weapon> TIER2_WEAPONS=new ArrayList<>();
     public static final ArrayList<Weapon> TIER3_WEAPONS=new ArrayList<>();
