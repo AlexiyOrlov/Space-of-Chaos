@@ -53,21 +53,15 @@ public class PlayerShip implements Ship,SaveData {
         this.rotation = rotation;
         direction=new Vector2(0,0);
         inventory=new Inventory(32);
-        setDefaults();
         setCurrentSystem(currentStarSystem);
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
         integrity=getHull().integrity;
-    }
-
-    private void setDefaults()
-    {
         setHull(new Stack(Hull.BASIC,1));
         setPrimaryWeapon(new Stack(WeaponRegistry.GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
-//        inventory.addItem(new Stack(Item.TARGET_RADAR,1));
     }
 
     public void setPrimaryWeapon(Stack weapon)
