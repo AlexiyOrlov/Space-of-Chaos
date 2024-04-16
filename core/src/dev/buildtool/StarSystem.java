@@ -133,9 +133,9 @@ public class StarSystem implements SaveData{
         shipsToTransfer.forEach(ship -> {
             if(ship instanceof NPCPilot npcPilot) {
                 npcPilot.navigatingTo.ships.add(ship);
-                npcPilot.currentSystem = npcPilot.navigatingTo;
+                npcPilot.setCurrentSystem(npcPilot.navigatingTo);
                 if (SpaceOfChaos.debugDraw)
-                    System.out.println("Jumped to " + npcPilot.currentSystem.star.name);
+                    System.out.println("Jumped to " + npcPilot.getCurrentSystem().star.name);
                 npcPilot.setPosition(npcPilot.navigatingTo.starGate.getOppositeX(), npcPilot.navigatingTo.starGate.getOppositeY());
                 npcPilot.afterJump();
             }

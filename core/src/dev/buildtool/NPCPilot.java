@@ -41,7 +41,7 @@ public class NPCPilot implements Ship, SaveData {
     public int money=1000;
     private final Deque<NPCPurchase> purchases=new ArrayDeque<>();
     private final HashMap<Ware,Integer> boughtFor=new HashMap<>();
-    public StarSystem currentSystem;
+    private StarSystem currentSystem;
     private Planet targetPlanet;
     public final Circle area=new Circle();
     boolean landed;
@@ -161,7 +161,7 @@ public class NPCPilot implements Ship, SaveData {
             if (homePlanet == null) {
                 for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
                     if (starSystem.id == currentSystemId) {
-                        currentSystem = starSystem;
+                        setCurrentSystem(starSystem);
                         for (Planet planet : starSystem.planets) {
                             if (planet.id == homePlanetId) {
                                 homePlanet = planet;
