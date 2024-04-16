@@ -59,7 +59,7 @@ public class NPCPilot implements Ship, SaveData {
     private Planet closestPlanet;
     private State state;
     public int homePlanetId=-1;
-    public int currentSystemId;
+    public int currentSystemId=-1;
 
     @Override
     public Map<String, Object> getData() {
