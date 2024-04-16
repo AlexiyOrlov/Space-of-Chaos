@@ -44,6 +44,7 @@ public class Planet implements SaveData {
     public Kind kind;
     private float shipManufacturingTime=15*60;
     public int id;
+    public int starSystemId;
 
     @Override
     public Map<String, Object> getData() {
@@ -95,6 +96,7 @@ public class Planet implements SaveData {
         }
         data.put("ware sold count",warePrices.size());
         data.put("id",id);
+        data.put("star system id",starSystemId);
         return data;
     }
 
@@ -142,6 +144,14 @@ public class Planet implements SaveData {
             warePrices.put(ware, (Integer) data.get("price "+i));
         }
         id= (int) data.get("id");
+        starSystemId= (int) data.get("star system id");
+        for (StarSystem system : SpaceOfChaos.INSTANCE.starSystems) {
+            if(system.id==starSystemId)
+            {
+                starSystem=system;
+                break;
+            }
+        }
     }
 
     public enum Kind{
@@ -386,6 +396,7 @@ public class Planet implements SaveData {
             aiPilot.y=y;
             starSystem.ships.add(aiPilot);
         }
+        starSystemId=starSystem.id;
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
