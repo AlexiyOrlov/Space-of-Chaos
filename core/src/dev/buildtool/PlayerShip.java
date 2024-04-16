@@ -62,7 +62,6 @@ public class PlayerShip implements Ship,SaveData {
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
         integrity=getHull().integrity;
-        inventory.addItem(new Stack(Hull.BEETLE,1));
     }
 
     public void setPrimaryWeapon(Stack weapon)
