@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import dev.buildtool.projectiles.Projectile;
@@ -401,14 +402,23 @@ public class NPCPilot implements Ship, SaveData {
         {
             throw new RuntimeException("Target is null");
         }
+
         if (fireCooldown <= 0) {
-            Projectile[] projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target, currentSystem);
+            Projectile[] projectiles;
+            if(pilotAI==PilotAI.AI)
+                projectiles=primaryWeapon.shoot(x,y,rotationDegrees,this,target,ship -> ship!=this &&( (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI) || ship instanceof PlayerShip),currentSystem);
+            else
+                projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             fireCooldown = primaryWeapon.cooldown;
         }
         if(secondaryCooldown<=0 && secondaryWeapon!=null)
         {
-            Projectile[] projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
+            Projectile[] projectiles;
+            if(pilotAI==PilotAI.AI)
+                projectiles=primaryWeapon.shoot(x,y,rotationDegrees,this,target,ship -> ship!=this &&( (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI) || ship instanceof PlayerShip),currentSystem);
+            else
+                projectiles = secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             secondaryCooldown=secondaryWeapon.cooldown;
         }
