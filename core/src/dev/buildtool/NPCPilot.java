@@ -797,6 +797,7 @@ public class NPCPilot implements Ship, SaveData {
     @Override
     public void setCurrentSystem(StarSystem starSystem) {
         currentSystem=starSystem;
+        currentSystemId=starSystem.id;
     }
 
     @Override
