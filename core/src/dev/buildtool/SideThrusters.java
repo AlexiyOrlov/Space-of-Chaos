@@ -22,6 +22,7 @@ public class SideThrusters extends Item{
     public List<String> getTooltip() {
         List<String> tooltip= super.getTooltip();
         tooltip.add("Strafing speed: "+strafingSpeed);
+        tooltip.add("Steering speed: "+steeringSpeed);
         return tooltip;
     }
 
