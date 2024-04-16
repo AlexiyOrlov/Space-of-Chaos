@@ -81,7 +81,9 @@ public class SlotButton extends Table {
         if(stack !=null)
         {
             BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
-            batch.draw(stack.item.texture,getX(),getY());
+            int textureWidth=stack.item.texture.getWidth();
+            float scale= (float) 1 /((float) textureWidth /64);
+            Functions.drawScaled((SpriteBatch) batch,stack.item.texture,scale,getX(),getY());
             if(stack.count>1)
                 font.draw(batch,stack.count+"",getX()+20,getY()+14);
         }
