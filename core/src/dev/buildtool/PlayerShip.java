@@ -57,11 +57,11 @@ public class PlayerShip implements Ship,SaveData {
         licences=new HashMap<>();
         Ware.WARES.forEach(ware -> licences.put(ware,false));
         area=new Circle();
-        integrity=getHull().integrity;
         setHull(new Stack(Hull.BASIC,1));
         setPrimaryWeapon(new Stack(WeaponRegistry.GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
+        integrity=getHull().integrity;
     }
 
     public void setPrimaryWeapon(Stack weapon)
