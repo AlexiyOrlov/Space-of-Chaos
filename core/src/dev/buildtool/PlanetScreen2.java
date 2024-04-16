@@ -450,6 +450,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             public void yes() {
                                 player.money -= canRepair;
                                 player.integrity += amountToRepair;
+                                updateMoney();
                                 if(player.integrity==player.getHull().integrity)
                                 {
                                     repairButton.setText("Integrity is full");
