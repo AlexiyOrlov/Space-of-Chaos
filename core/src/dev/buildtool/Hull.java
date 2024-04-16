@@ -20,6 +20,7 @@ public class Hull extends Item{
     public static final Hull AI_LARGE2=new Hull(420, SpaceOfChaos.INSTANCE.aiLargeHull2,420,"AI large hull 2",-1);
     private static final Hull TRADING1=new Hull(250, SpaceOfChaos.INSTANCE.tradingHull1Texture,200,"Trading hull 1",50000);
     private static final Hull TRADING2=new Hull(300, SpaceOfChaos.INSTANCE.tradingHull2Texture, 240,"Trading hull 2",60000);
+    private static final Hull TRADING3=new Hull(340,SpaceOfChaos.INSTANCE.tradingHull3, 280,"Trading hull 3",-1);
     private static final Hull BATTLE3=new Hull(250, SpaceOfChaos.INSTANCE.battleHull3, 400,"Battle hull 3",50000);
     private static final Hull BATTLE1=new Hull(250, SpaceOfChaos.INSTANCE.battleHull3Texture,450,"Battle hull 1",60000);
     private static final Hull BATTLE2=new Hull(250, SpaceOfChaos.INSTANCE.battleHull2,300,"Battle hull 2",40000);
@@ -36,6 +37,7 @@ public class Hull extends Item{
 
         tradingHulls.add(TRADING1);
         tradingHulls.add(TRADING2);
+        tradingHulls.add(TRADING3);
 
         pirateHulls.add(PIRATE1);
         pirateHulls.add(PIRATE2);

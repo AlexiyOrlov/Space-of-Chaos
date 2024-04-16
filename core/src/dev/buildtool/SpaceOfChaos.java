@@ -57,7 +57,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		basicGunTexture,machineGunTexture,battleHull3Texture,aiSmallHull1,aiSmallHull2,aiMediumHull1,aiMediumHull2,aiBigHull1,
 			aiBigHull2,aiLargeHull1,aiLargeHull2,redProjectileTexture,clusterGunTexture,greenCircle,yellowCircle,twoSwordsTexture,
 		missileTexture,missileLauncherTexture,reticle,gatlingGunTexture,triShotTexture,aiBiggerHull1,aiBiggerHull2,targetRadar,
-		allTargetRadar,shipDetector,priceScanner,wrenchTexture;
+		allTargetRadar,shipDetector,priceScanner,wrenchTexture,tradingHull3;
 	public static SpaceOfChaos INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -187,6 +187,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		loadTexture("ship detector");
 		loadTexture("price scanner");
 		loadTexture("wrench");
+		loadTexture("trading hull3");
 		assetManager.finishLoading();
 
 		alcoholTexture=getTexture("alcohol");
@@ -303,6 +304,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		shipDetector=getTexture("ship detector");
 		priceScanner=getTexture("price scanner");
 		wrenchTexture=getTexture("wrench");
+		tradingHull2Texture=getTexture("trading hull3");
 		setScreen(new StartScreen(this));
 	}
 
