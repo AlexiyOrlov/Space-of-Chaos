@@ -450,7 +450,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 					});
 					Functions.log("Human attack from " + randomHumanSystem.getStarName() + " on " + closeOccupiedSystem.getStarName());
 					if(systemScreen!=null)
-						systemScreen.addMessage("Human attack on "+closeOccupiedSystem.getStarName()+" is ongoing");
+						systemScreen.addMessage("Human attack on "+closeOccupiedSystem.getStarName()+" is happening");
 					humanAttackTimer = random.nextInt(10 * 60, 20 * 60);
 				}
 			}
