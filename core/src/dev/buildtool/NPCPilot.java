@@ -58,7 +58,7 @@ public class NPCPilot implements Ship, SaveData {
     private Container containerToCollect;
     private Planet closestPlanet;
     private State state;
-    public int homePlanetId;
+    public int homePlanetId=-1;
     public int currentSystemId;
 
     @Override

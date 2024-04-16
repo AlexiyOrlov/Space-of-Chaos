@@ -685,5 +685,34 @@ public class SpaceOfChaos extends Game implements SaveData{
 			}
 		}
 
+		for (StarSystem starSystem : starSystems) {
+			for (Ship ship : starSystem.ships) {
+				if(ship instanceof NPCPilot npcPilot) {
+					twice:
+					for (StarSystem system : tmp) {
+						for (Planet planet : system.planets) {
+							if (planet.id == npcPilot.homePlanetId)
+							{
+								npcPilot.homePlanet=planet;
+								break twice;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (StarSystem starSystem : starSystems) {
+			for (Ship ship : starSystem.ships) {
+				if (ship instanceof NPCPilot npcPilot) {
+					for (StarSystem system : tmp) {
+						if (system.id == npcPilot.currentSystemId) {
+							npcPilot.setCurrentSystem(system);
+							break;
+						}
+					}
+				}
+			}
+		}
     }
 }
