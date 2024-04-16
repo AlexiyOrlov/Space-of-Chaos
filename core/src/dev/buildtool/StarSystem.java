@@ -123,7 +123,7 @@ public class StarSystem implements SaveData{
         planets.forEach(planet -> planet.update(dt));
         ships.forEach(ship -> {
             if(ship instanceof NPCPilot npcPilot) {
-                npcPilot.work(dt);
+                npcPilot.update(dt);
                 if (npcPilot.canJump) {
                     shipsToTransfer.add(ship);
                 }

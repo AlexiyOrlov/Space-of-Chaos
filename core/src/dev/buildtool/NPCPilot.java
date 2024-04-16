@@ -155,7 +155,7 @@ public class NPCPilot implements Ship, SaveData {
         this.secondaryWeapon=secondaryWeapon;
     }
 
-    public void work(float deltaTime)
+    public void update(float deltaTime)
     {
         if(homePlanet==null)
         {
