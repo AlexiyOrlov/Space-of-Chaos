@@ -145,13 +145,6 @@ public class Planet implements SaveData {
         }
         id= (int) data.get("id");
         starSystemId= (int) data.get("star system id");
-        for (StarSystem system : SpaceOfChaos.INSTANCE.starSystems) {
-            if(system.id==starSystemId)
-            {
-                starSystem=system;
-                break;
-            }
-        }
     }
 
     public enum Kind{

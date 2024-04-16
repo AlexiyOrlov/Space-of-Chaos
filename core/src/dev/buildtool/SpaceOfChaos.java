@@ -646,6 +646,23 @@ public class SpaceOfChaos extends Game implements SaveData{
 			starSystems.add(starSystem);
 		}
 
+		ArrayList<StarSystem> tmp=new ArrayList<>(starSystems);
+		for (StarSystem system : starSystems) {
+			for (Planet planet : system.planets) {
+				boolean found=false;
+				for (StarSystem starSystem : tmp) {
+					if(planet.starSystemId==starSystem.id)
+					{
+						planet.starSystem=starSystem;
+						found=true;
+						break;
+					}
+				}
+				if(!found)
+					throw new RuntimeException("Star system not found");
+			}
+		}
+
 		for (StarSystem starSystem : starSystems) {
 			if(starSystem.id==playerShip.currentSystemId)
 			{
