@@ -11,6 +11,7 @@ public class Hull extends Item{
     public static final Hull HORNET=new Hull(150, SpaceOfChaos.INSTANCE.blackHullTexture, 160,"'Hornet'",40000);
     public static final Hull BUMBLEBEE=new Hull(200, SpaceOfChaos.INSTANCE.blackHull2Texture, 200,"'Bumblebee'",70000);
     public static final Hull DRAGONFLY=new Hull(300,SpaceOfChaos.INSTANCE.dragonflyHull, 280,"'Dragonfly'",120000);
+    public static final Hull BEETLE=new Hull(340,SpaceOfChaos.INSTANCE.beetleHull, 350,"'Beetle'",150000);
     public static final Hull AI_SMALL1=new Hull(100, SpaceOfChaos.INSTANCE.aiSmallHull1, 100,"AI small hull 1",-1);
     public static final Hull AI_SMALL2=new Hull(120, SpaceOfChaos.INSTANCE.aiSmallHull2, 120,"AI small hull 2",-1);
     public static final Hull AI_MEDIUM1=new Hull(200, SpaceOfChaos.INSTANCE.aiMediumHull1,200,"AI medium hull 1",-1);
