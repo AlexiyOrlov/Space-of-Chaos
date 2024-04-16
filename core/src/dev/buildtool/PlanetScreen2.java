@@ -501,8 +501,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         });
 
         stage.addActor(outer);
-        tabbedPane.switchTab(tabbedPane.getTabs().get(0));
-
+        tabbedPane.switchTab(tabbedPane.getTabs().get(1));
         Table playerInventory=new Table();
         int slotIndex=0;
         for (int i = PlayerShip.rows; i >0; i--) {
