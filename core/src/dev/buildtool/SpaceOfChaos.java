@@ -414,7 +414,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 						}
 					});
 					Functions.log("Incoming attack from "+randomSystem.getStarName()+" on "+attackTarget.getStarName());
-					aiAttackTimer=random.nextInt(15*60,30*60);
+					aiAttackTimer=random.nextInt(10*60,20*60);
 				}
 			}
 			else {
@@ -449,7 +449,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 						}
 					});
 					Functions.log("Human attack from " + randomHumanSystem.getStarName() + " on " + closeOccupiedSystem.getStarName());
-					humanAttackTimer = random.nextInt(15 * 60, 30 * 60);
+					humanAttackTimer = random.nextInt(10 * 60, 20 * 60);
 				}
 			}
 			else
