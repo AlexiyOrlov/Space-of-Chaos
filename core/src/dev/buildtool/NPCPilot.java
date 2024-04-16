@@ -157,53 +157,46 @@ public class NPCPilot implements Ship, SaveData {
 
     public void update(float deltaTime)
     {
-        if(homePlanet==null)
-        {
-            for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
-                if(starSystem.id==currentSystemId)
-                {
-                    currentSystem=starSystem;
-                    for (Planet planet : starSystem.planets) {
-                        if(planet.id==homePlanetId)
-                        {
-                            homePlanet=planet;
-                            break;
+        if(!isLanded()) {
+            if (homePlanet == null) {
+                for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
+                    if (starSystem.id == currentSystemId) {
+                        currentSystem = starSystem;
+                        for (Planet planet : starSystem.planets) {
+                            if (planet.id == homePlanetId) {
+                                homePlanet = planet;
+                                break;
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
-        }
 
-        area.set(x,y,hull.look.getWidth()/2);
-        if(fireCooldown>0)
-        {
-            fireCooldown-=deltaTime;
-        }
-        if(secondaryCooldown>0)
-        {
-            secondaryCooldown-=deltaTime;
-        }
-        if(leftAcceleration>0)
-        {
-            leftAcceleration-=0.1f;
-        }
-        if(rightAcceleration>0)
-        {
-            rightAcceleration-=0.1f;
-        }
-        if(frontAcceleration>0)
-        {
-            frontAcceleration-=0.03f;
-        }
+            area.set(x, y, hull.look.getWidth() / 2);
+            if (fireCooldown > 0) {
+                fireCooldown -= deltaTime;
+            }
+            if (secondaryCooldown > 0) {
+                secondaryCooldown -= deltaTime;
+            }
+            if (leftAcceleration > 0) {
+                leftAcceleration -= 0.1f;
+            }
+            if (rightAcceleration > 0) {
+                rightAcceleration -= 0.1f;
+            }
+            if (frontAcceleration > 0) {
+                frontAcceleration -= 0.03f;
+            }
 
-        switch (pilotAI){
-            case TRADER -> traderAI();
-            case GUARD -> guardAI(deltaTime);
-            case PIRATE -> pirateAI();
-            case AI -> aiai(deltaTime);
+            switch (pilotAI) {
+                case TRADER -> traderAI();
+                case GUARD -> guardAI(deltaTime);
+                case PIRATE -> pirateAI();
+                case AI -> aiai(deltaTime);
+            }
         }
-
     }
 
     public float getIntegrityPercent()
