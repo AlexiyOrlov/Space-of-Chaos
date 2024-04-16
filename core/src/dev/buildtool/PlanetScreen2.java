@@ -435,6 +435,35 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             }
         });
         outer.add(takeOffButton);
+        TextImageButton repairButton=new TextImageButton(player.integrity<player.getHull().integrity?"Repair hull":"Integrity is full",skin,SpaceOfChaos.INSTANCE.wrenchTexture);
+        repairButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int toRepair=player.getHull().integrity-player.getIntegrity();
+                int repairCost=toRepair*50;
+                int canRepair=Math.min(repairCost,player.money);
+                int amountToRepair=canRepair/50;
+                if(toRepair>0) {
+                    if(amountToRepair>0) {
+                        Dialogs.showOptionDialog(stage, "Repair?", "Repair " + amountToRepair + " integrity for " + canRepair + "?", Dialogs.OptionDialogType.YES_NO, new OptionDialogAdapter() {
+                            @Override
+                            public void yes() {
+                                player.money -= canRepair;
+                                player.integrity += amountToRepair;
+                                if(player.integrity==player.getHull().integrity)
+                                {
+                                    repairButton.setText("Integrity is full");
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    Dialogs.showOKDialog(stage,"Integrity is full","No need to repair");
+                }
+            }
+        });
+        outer.add(repairButton);
         TextButton toggleTime=new TextButton(SpaceOfChaos.INSTANCE.updateWorld?"World is simulating":"World is paused",skin);
         toggleTime.addListener(new ChangeListener() {
             @Override
