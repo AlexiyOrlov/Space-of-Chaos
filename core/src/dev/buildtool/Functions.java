@@ -94,4 +94,9 @@ public class Functions {
     {
         Gdx.app.log("Info",message);
     }
+
+    public static boolean validTarget(Ship ship,StarSystem sourceSystem)
+    {
+        return !ship.isLanded() && ship.getIntegrity() > 0 && sourceSystem==ship.getCurrentSystem();
+    }
 }
