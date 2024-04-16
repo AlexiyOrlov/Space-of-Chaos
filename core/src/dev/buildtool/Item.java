@@ -72,6 +72,7 @@ public class Item implements Comparable<Item>{
         equipment.add(WeaponRegistry.CLUSTER_GUN);
         equipment.add(WeaponRegistry.GATLING_GUN);
         equipment.add(WeaponRegistry.MISSILE_LAUNCHER);
+        equipment.add(SideThrusters.MARK2);
     }
 
 
