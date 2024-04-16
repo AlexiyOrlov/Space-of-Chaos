@@ -66,7 +66,7 @@ public class StartScreen extends ScreenAdapter {
                     Skin skin=SpaceOfChaos.INSTANCE.skin;
                     Dialog dialog=new Dialog("List of saves",skin);
                     files.forEach(path -> {
-                        Label label=new Label(path.toString(),skin);
+                        Label label=new Label(path.getFileName().toString(),skin);
                         TextButton textButton=new TextButton("Load",skin);
                         textButton.addListener(new ChangeListener() {
                             @Override
