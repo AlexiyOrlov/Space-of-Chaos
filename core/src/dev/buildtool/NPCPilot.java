@@ -856,12 +856,12 @@ public class NPCPilot implements Ship, SaveData {
     {
         canJump = false;
         navigatingTo=null;
-        if(state==State.ESCAPING_TO_SYSTEM && money>9)
-        {
-            state=State.GOING_TO_REPAIR;
+        if(pilotAI!=PilotAI.AI) {
+            if (state == State.ESCAPING_TO_SYSTEM && money > 9) {
+                state = State.GOING_TO_REPAIR;
+            } else
+                state = null;
         }
-        else
-            state=null;
     }
 
     @Override
