@@ -63,7 +63,7 @@ public class PlayerShip implements Ship,SaveData {
     private void setDefaults()
     {
         setHull(new Stack(Hull.BASIC,1));
-        setPrimaryWeapon(new Stack(WeaponRegistry.GUN,1));
+        setPrimaryWeapon(new Stack(WeaponRegistry.MACHINE_GUN,1));
         setEngine(new Stack(Engine.BASIC,1));
         setThrusters(new Stack(SideThrusters.BASIC,1));
     }
