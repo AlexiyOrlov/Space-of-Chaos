@@ -417,6 +417,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         this.viewport =new FitViewport(Gdx.graphics.getBackBufferWidth(),Gdx.graphics.getBackBufferHeight());
         this.viewport.apply();
         Table outer=new Table();
+        outer.add(new Label("Planet "+planet.name,skin)).colspan(3);
+        outer.row();
         moneyLabel=new Label("Money: "+player.money,skin);
         capacityLabel=new Label("",skin);
         calculateCapacity();
