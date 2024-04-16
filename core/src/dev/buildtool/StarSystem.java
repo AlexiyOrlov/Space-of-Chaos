@@ -204,6 +204,7 @@ public class StarSystem implements SaveData{
             }
         }
         toRemove.add(projectile);
+        ship.onProjectileImpact(projectile);
         projectile.onDestroyed(this);
     }
 
