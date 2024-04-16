@@ -31,9 +31,9 @@ public class Container implements SaveData {
 
     @Override
     public void load(Map<String, Object> data) {
-        x= (float) data.get("x");
-        y= (float) data.get("y");
-        rotation= (float) data.get("rotation");
+        x= (float)(double) data.get("x");
+        y= (float)(double) data.get("y");
+        rotation= (float)(double) data.get("rotation");
         stack=new Stack();
         stack.load((Map<String, Object>) data.get("stack"));
     }
