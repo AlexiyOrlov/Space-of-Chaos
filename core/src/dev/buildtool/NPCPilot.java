@@ -380,15 +380,19 @@ public class NPCPilot implements Ship, SaveData {
                 }
             }
             else {
-                rotateTowards(homePlanet.x, homePlanet.y);
-                if (Vector2.dst(x, y, homePlanet.x, homePlanet.y) > 260) {
-                    move();
-                }
-                for (Ship ship : currentSystem.ships) {
-                    if (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.AI) {
-                        target = ship;
-                        break;
+                if(homePlanet.starSystem==currentSystem) {
+                    rotateTowards(homePlanet.x, homePlanet.y);
+                    if (Vector2.dst(x, y, homePlanet.x, homePlanet.y) > 260) {
+                        move();
                     }
+                    for (Ship ship : currentSystem.ships) {
+                        if (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.AI) {
+                            target = ship;
+                            break;
+                        }
+                    }
+                }else {
+                    homePlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
                 }
             }
         }
