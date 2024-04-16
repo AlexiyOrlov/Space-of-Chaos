@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ public class StartScreen extends ScreenAdapter {
             public void changed(ChangeEvent event, Actor actor) {
                 Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
                 try {
-                    var files= Files.list(savePath).toList();
+                    var files=Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).toList();
                     Skin skin=SpaceOfChaos.INSTANCE.skin;
                     Dialog dialog=new Dialog("List of saves",skin);
                     files.forEach(path -> {

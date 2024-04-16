@@ -31,8 +31,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -94,9 +96,10 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 //copied from game class
                 Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
                 try {
-                    var files= Files.list(savePath).toList();
+                    var files= Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).toList();
                     Skin skin=SpaceOfChaos.INSTANCE.skin;
                     Dialog dialog=new Dialog("List of saves",skin);
+
                     files.forEach(path -> {
                         Label label=new Label(path.getFileName().toString(),skin);
                         TextButton textButton=new TextButton("Load",skin);
