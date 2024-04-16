@@ -416,6 +416,7 @@ public class PlayerShip implements Ship,SaveData {
         for (int i = 0; i < purchaseCount; i++) {
             WarePurchase warePurchase=new WarePurchase();
             warePurchase.load((Map<String, Object>) data.get("ware purchase "+i));
+            warePurchases.add(warePurchase);
         }
         currentSystemId= (int) data.get("current system id");
     }
