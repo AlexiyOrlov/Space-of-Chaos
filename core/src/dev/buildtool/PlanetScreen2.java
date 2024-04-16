@@ -505,8 +505,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
 
         Table playerInventory=new Table();
         int slotIndex=0;
-        for (int i = 4; i >0; i--) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = PlayerShip.rows; i >0; i--) {
+            for (int j = 0; j < PlayerShip.columns; j++) {
                 SlotButton slotButton=new SlotButton(skin,slotIndex,PlanetScreen2.this,player.inventory, viewport);
                 playerInventory.add(slotButton);
                 slotButtons.add(slotButton);

@@ -42,6 +42,7 @@ public class PlayerShip implements Ship,SaveData {
     NPCPilot homingTarget;
     int reticleRotation;
     public int currentSystemId;
+    public static final int rows=4,columns=8;
 
     public PlayerShip() {
     }
@@ -51,7 +52,7 @@ public class PlayerShip implements Ship,SaveData {
         this.y = y;
         this.rotation = rotation;
         direction=new Vector2(0,0);
-        inventory=new Inventory(40);
+        inventory=new Inventory(32);
         setDefaults();
         setCurrentSystem(currentStarSystem);
         licences=new HashMap<>();
