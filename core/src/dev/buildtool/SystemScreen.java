@@ -261,13 +261,13 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
         SpriteBatch spriteBatch= SpaceOfChaos.INSTANCE.uiBatch;
         BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
-        Vector2 mousePositionConverted=stage.getViewport().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
+        Vector2 mouseUIPosition=stage.getViewport().unproject(new Vector2(Gdx.input.getX(),Gdx.input.getY()));
         if(stackUnderMouse!=null)
         {
             spriteBatch.begin();
-            spriteBatch.draw(stackUnderMouse.item.texture,mousePositionConverted.x,mousePositionConverted.y-32);
+            spriteBatch.draw(stackUnderMouse.item.texture,mouseUIPosition.x,mouseUIPosition.y-32);
             if(stackUnderMouse.count>1)
-                font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
+                font.draw(spriteBatch,""+stackUnderMouse.count,mouseUIPosition.x+32,mouseUIPosition.y-32);
             spriteBatch.end();
         }
 
@@ -293,7 +293,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
         if(playerShip!=null) {
             for (Ship ship : starSystem.ships) {
-                if(ship instanceof NPCPilot npcPilot && npcPilot.contains(mousePositionConverted))
+                if(ship instanceof NPCPilot npcPilot && npcPilot.contains(viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()))))
                 {
                     if(playerShip.damageOnlyAIShips)
                     {
