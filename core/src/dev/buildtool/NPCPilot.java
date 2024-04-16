@@ -159,20 +159,6 @@ public class NPCPilot implements Ship, SaveData {
     public void update(float deltaTime)
     {
         if(!isLanded()) {
-            if (homePlanet == null) {
-                for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
-                    if (starSystem.id == currentSystemId) {
-                        setCurrentSystem(starSystem);
-                        for (Planet planet : starSystem.planets) {
-                            if (planet.id == homePlanetId) {
-                                homePlanet = planet;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
 
             area.set(x, y, hull.look.getWidth() / 2);
             if (fireCooldown > 0) {
