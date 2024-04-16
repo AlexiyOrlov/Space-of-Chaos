@@ -67,9 +67,11 @@ public class NPCPilot implements Ship, SaveData {
         data.put("area y",area.y);
         int w=0;
         for (Ware ware : boughtFor.keySet()) {
-            data.put("ware "+w,ware.name);
-            data.put("ware price "+w,boughtFor.get(ware));
-            w++;
+            if(ware!=null) {
+                data.put("ware " + w, ware.name);
+                data.put("ware price " + w, boughtFor.get(ware));
+                w++;
+            }
         }
         data.put("ware entries",w);
         data.put("can jump",canJump);
