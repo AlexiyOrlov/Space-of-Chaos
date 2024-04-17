@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
 
@@ -202,6 +204,10 @@ public class SpaceOfChaos extends Game implements SaveData{
 		loadTexture("side thrusters 5");
 		loadTexture("space station");
 		loadTexture("space station icon");
+		ObjectMap<String,Object> objectMap=new ObjectMap<>();
+		objectMap.put("font",bitmapFont);
+		objectMap.put("title",bitmapFont);
+		assetManager.load("skins/cloud/cloud-form-ui.json", Skin.class,new SkinLoader.SkinParameter(objectMap));
 		assetManager.finishLoading();
 
 		alcoholTexture=getTexture("alcohol");
@@ -281,8 +287,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		aiBigHull2=getTexture("ai big hull 2");
 		aiLargeHull1=getTexture("ai large hull 1");
 		aiLargeHull2=getTexture("ai large hull 2");
-		skin=new Skin(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
-		skin.get("font", BitmapFont.class).getData().markupEnabled=true;
+		skin=assetManager.get("skins/cloud/cloud-form-ui.json", Skin.class);
 		VisUI.load();
 
 		machineGunSound=loadSound("machine gun.wav");
