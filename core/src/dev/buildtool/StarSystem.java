@@ -28,6 +28,7 @@ public class StarSystem implements SaveData{
     public final ArrayList<OneShotAnimation> animations=new ArrayList<>();
     public int id;
     public boolean occupied;
+    public SpaceStation spaceStation;
     public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f, LOW_PRICE_MULTIPLIER =0.9f;
 
     public StarSystem() {
@@ -85,6 +86,8 @@ public class StarSystem implements SaveData{
                     });
                 }
             });
+
+            spaceStation=new SpaceStation(random.nextFloat(-MathUtils.PI,MathUtils.PI),distance);
         }
     }
 
@@ -97,6 +100,8 @@ public class StarSystem implements SaveData{
         star.draw(spriteBatch, shapeRenderer);
         planets.forEach(planet -> planet.draw(spriteBatch,shapeRenderer));
         starGate.draw(spriteBatch);
+        if(spaceStation!=null)
+            spaceStation.render(spriteBatch);
         projectiles.forEach(projectile -> projectile.render(spriteBatch));
         ships.forEach(ship -> ship.draw(spriteBatch,shapeRenderer));
         ArrayList<OneShotAnimation> animsToRemove=new ArrayList<>();
@@ -192,6 +197,8 @@ public class StarSystem implements SaveData{
         projectiles.removeAll(toRemove);
         ships.removeAll(shipsToRemove);
         projectiles.addAll(toAdd);
+        if(spaceStation!=null)
+            spaceStation.update();
     }
 
     private void damageShip(Ship ship, Projectile projectile, ArrayList<Ship> shipsToRemove, ArrayList<Projectile> toRemove) {

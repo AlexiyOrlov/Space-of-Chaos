@@ -241,6 +241,10 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 }
             }
         });
+        if(starSystem.spaceStation!=null && !camera.frustum.pointInFrustum(starSystem.spaceStation.x,starSystem.spaceStation.y,0))
+        {
+            drawWaypoint(starSystem.spaceStation.x,starSystem.spaceStation.y,SpaceOfChaos.INSTANCE.spaceStationIcon);
+        }
         if(!camera.frustum.pointInFrustum(starSystem.starGate.x,starSystem.starGate.y,0))
         {
             drawWaypoint(starSystem.starGate.x,starSystem.starGate.y, SpaceOfChaos.INSTANCE.stargateIcon);
