@@ -8,19 +8,19 @@ import java.util.HashMap;
 public class Ware extends Item {
     public static ArrayList<Ware> WARES=new ArrayList<>();
     public static HashMap<Ware,Integer> BASE_PRICES =new HashMap<>();
-    public static Ware MEDICATIONS=new Ware("medications",900,true,"Medications", SpaceOfChaos.INSTANCE.medicineTexture);
-    public static Ware FOOD=new Ware("food",900,false,"Food", SpaceOfChaos.INSTANCE.foodTexture);
-    public static Ware FURNITURE=new Ware("furniture",450,false,"Furniture", SpaceOfChaos.INSTANCE.furnitureTexture);
-    public static Ware WATER=new Ware("water",900,false,"Water", SpaceOfChaos.INSTANCE.waterTexture);
-    public static Ware ELECTRONICS=new Ware("electronics",700,false,"Electronics", SpaceOfChaos.INSTANCE.electronicsTexture);
-    public static Ware CLOTHES=new Ware("clothes",800,false,"Clothes", SpaceOfChaos.INSTANCE.clothesTexture);
-    public static Ware JEWELLERY=new Ware("jewellery",900,false,"Jewellery", SpaceOfChaos.INSTANCE.jewelleryTexture);
-    public static Ware FIREARMS=new Ware("firearms",600,true,"Firearms", SpaceOfChaos.INSTANCE.firearmsTexture);
-    public static Ware CAR_PARTS=new Ware("car_parts",300,false,"Car parts", SpaceOfChaos.INSTANCE.carPartsTexture);
-    public static Ware TOOLS=new Ware("tools",600,false,"Tools", SpaceOfChaos.INSTANCE.toolsTexture);
-    public static Ware ALCOHOL=new Ware("alcohol",900,true,"Alcohol", SpaceOfChaos.INSTANCE.alcoholTexture);
-    public static Ware IRON_ORE=new Ware("iron ore",650,false,"Iron ore", SpaceOfChaos.INSTANCE.ironOreTexture);
-    public static Ware COPPER_ORE=new Ware("copper ore",650,false,"Copper ore", SpaceOfChaos.INSTANCE.copperOreTexture);
+    public static Ware MEDICATIONS=new Ware(900,true,"Medications", SpaceOfChaos.INSTANCE.medicineTexture);
+    public static Ware FOOD=new Ware(900,false,"Food", SpaceOfChaos.INSTANCE.foodTexture);
+    public static Ware FURNITURE=new Ware(450,false,"Furniture", SpaceOfChaos.INSTANCE.furnitureTexture);
+    public static Ware WATER=new Ware(900,false,"Water", SpaceOfChaos.INSTANCE.waterTexture);
+    public static Ware ELECTRONICS=new Ware(700,false,"Electronics", SpaceOfChaos.INSTANCE.electronicsTexture);
+    public static Ware CLOTHES=new Ware(800,false,"Clothes", SpaceOfChaos.INSTANCE.clothesTexture);
+    public static Ware JEWELLERY=new Ware(900,false,"Jewellery", SpaceOfChaos.INSTANCE.jewelleryTexture);
+    public static Ware FIREARMS=new Ware(600,true,"Firearms", SpaceOfChaos.INSTANCE.firearmsTexture);
+    public static Ware CAR_PARTS=new Ware(300,false,"Car parts", SpaceOfChaos.INSTANCE.carPartsTexture);
+    public static Ware TOOLS=new Ware(600,false,"Tools", SpaceOfChaos.INSTANCE.toolsTexture);
+    public static Ware ALCOHOL=new Ware(900,true,"Alcohol", SpaceOfChaos.INSTANCE.alcoholTexture);
+    public static Ware IRON_ORE=new Ware(650,false,"Iron ore", SpaceOfChaos.INSTANCE.ironOreTexture);
+    public static Ware COPPER_ORE=new Ware(650,false,"Copper ore", SpaceOfChaos.INSTANCE.copperOreTexture);
     public static final int MAXIMUM_WARE_AMOUNT=1000;
     public static final HashMap<Ware,Float> MANUFACTURING_SPEED=new HashMap<>();
     public boolean needsLicense;
@@ -56,7 +56,7 @@ public class Ware extends Item {
 
     }
 
-    public Ware(String type, int maxSize, boolean needsLicenseToTrade, String name, Texture texture) {
+    public Ware(int maxSize, boolean needsLicenseToTrade, String name, Texture texture) {
         super(maxSize,name,texture, -1);
         needsLicense=needsLicenseToTrade;
     }
