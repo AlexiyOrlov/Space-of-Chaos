@@ -16,14 +16,13 @@ public class SpaceStation implements SaveData{
     public boolean clockwise;
     public Circle area;
     public float rotation;
-    public Inventory equipmentInventory;
+    public Inventory equipmentInventory=new Inventory(9);
 
     public SpaceStation(float angle, int distanceToStar) {
         this.angle = angle;
         this.distanceToStar = distanceToStar;
         clockwise=SpaceOfChaos.random.nextBoolean();
         area=new Circle();
-        equipmentInventory=new Inventory(9);
         ArrayList<Item> items=new ArrayList<>(Item.equipment);
         for (int i = 0; i < 9; i++) {
             if(SpaceOfChaos.random.nextInt(100)<25)
@@ -66,6 +65,7 @@ public class SpaceStation implements SaveData{
         data.put("rotation", angle);
         data.put("distance",distanceToStar);
         data.put("clockwise",clockwise);
+        data.put("shop",equipmentInventory.getData());
         return data;
     }
 
@@ -76,5 +76,6 @@ public class SpaceStation implements SaveData{
         angle = (float)(double) data.get("rotation");
         distanceToStar= (int) data.get("distance");
         clockwise= (boolean) data.get("clockwise");
+        equipmentInventory.load((Map<String, Object>) data.get("shop"));
     }
 }
