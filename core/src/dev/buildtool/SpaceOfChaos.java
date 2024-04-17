@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -203,11 +204,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		loadTexture("side thrusters4");
 		loadTexture("side thrusters 5");
 		loadTexture("space station");
-		loadTexture("space station icon");
-		ObjectMap<String,Object> objectMap=new ObjectMap<>();
-		objectMap.put("font",bitmapFont);
-		objectMap.put("title",bitmapFont);
-		assetManager.load("skins/cloud/cloud-form-ui.json", Skin.class,new SkinLoader.SkinParameter(objectMap));
+		loadTexture("space station icon");;
 		assetManager.finishLoading();
 
 		alcoholTexture=getTexture("alcohol");
@@ -287,7 +284,10 @@ public class SpaceOfChaos extends Game implements SaveData{
 		aiBigHull2=getTexture("ai big hull 2");
 		aiLargeHull1=getTexture("ai large hull 1");
 		aiLargeHull2=getTexture("ai large hull 2");
-		skin=assetManager.get("skins/cloud/cloud-form-ui.json", Skin.class);
+		skin=new Skin();
+		skin.add("font",bitmapFont);
+		skin.addRegions(new TextureAtlas(Gdx.files.internal("skins/cloud/cloud-form-ui.atlas")));
+		skin.load(Gdx.files.internal("skins/cloud/cloud-form-ui.json"));
 		VisUI.load();
 
 		machineGunSound=loadSound("machine gun.wav");
