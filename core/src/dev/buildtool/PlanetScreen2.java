@@ -32,6 +32,8 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dev.buildtool.weapons.Weapon;
+
 public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private final Stage stage;
     private final Viewport viewport;
@@ -800,9 +802,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         Inventory inventory=playerShip.getShipParts();
         SlotButton hull=new SlotButton(skin, 0,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
         slotButtons.add(hull);
-        SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> true);
+        SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
         slotButtons.add(weapon);
-        SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> true);
+        SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
         slotButtons.add(secondaryWeapon);
         SlotButton engine=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
         slotButtons.add(engine);
