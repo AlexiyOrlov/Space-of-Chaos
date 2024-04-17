@@ -54,7 +54,7 @@ public class StarSystem implements SaveData{
                 }
                 planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED, i));
             }
-            distance+=300;
+            distance+=400;
         }
         starGate=new StarGate(distance, random.nextFloat(-MathUtils.PI,MathUtils.PI));
         positionX=x;
