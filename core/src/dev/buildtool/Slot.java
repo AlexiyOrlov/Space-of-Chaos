@@ -19,20 +19,20 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.List;
 
-public class SlotButton extends Table {
+public class Slot extends Table {
     protected final int index;
     protected final Inventory inventory;
     private final Viewport viewport;
     private final Predicate<Stack> incomingStackPredicate;
 
-    public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport) {
+    public Slot(Skin skin, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport) {
         this(skin, SpaceOfChaos.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,null);
     }
-    public SlotButton(Skin skin, int index,StackHandler stackHandler, Inventory inventory, Viewport viewport,Predicate<Stack> incomingStackPredicate) {
+    public Slot(Skin skin, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport, Predicate<Stack> incomingStackPredicate) {
         this(skin, SpaceOfChaos.INSTANCE.slotTexture3, index,stackHandler,inventory,viewport,incomingStackPredicate);
     }
 
-    public SlotButton(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport, Predicate<Stack> incomingStackPredicate) {
+    public Slot(Skin skin, Texture background, int index, StackHandler stackHandler, Inventory inventory, Viewport viewport, Predicate<Stack> incomingStackPredicate) {
         super(skin);
         this.inventory=inventory;
         this.incomingStackPredicate=incomingStackPredicate;

@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -53,7 +52,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     private final Table playerInventory;
     private Stack stackUnderMouse;
     private boolean inventoryShown;
-    private ArrayList<SlotButton> slotButtons=new ArrayList<>(40);
+    private ArrayList<Slot> slots =new ArrayList<>(40);
     public final Deque<String> messageQueue=new LinkedList<>();
     public float lastMessageTime;
 
@@ -147,9 +146,9 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         int slotIndex=0;
         for (int i = PlayerShip.rows; i >0; i--) {
             for (int j = 0; j < PlayerShip.columns; j++) {
-                SlotButton slotButton=new SlotButton(skin,slotIndex,this,playerShip.inventory, stage.getViewport());
-                inventory.add(slotButton);
-                slotButtons.add(slotButton);
+                Slot slot =new Slot(skin,slotIndex,this,playerShip.inventory, stage.getViewport());
+                inventory.add(slot);
+                slots.add(slot);
                 slotIndex++;
             }
             inventory.row();
@@ -159,16 +158,16 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         stage.addActor(playerInventory);
         Table content=new Table();
         Inventory shipEquipment=playerShip.getShipParts();
-        SlotButton hull=new SlotButton(skin, 0,this,shipEquipment, stage.getViewport(),arg0 -> false);
-        slotButtons.add(hull);
-        SlotButton weapon=new SlotButton(skin,1,this,shipEquipment,stage.getViewport(),arg0 -> arg0!=null && arg0.item instanceof Weapon);
-        slotButtons.add(weapon);
-        SlotButton secondaryWeapon=new SlotButton(skin,4,this,shipEquipment,stage.getViewport(),arg0 -> false);
-        slotButtons.add(secondaryWeapon);
-        SlotButton engine=new SlotButton(skin,2,this,shipEquipment,stage.getViewport(),arg0 -> false);
-        slotButtons.add(engine);
-        SlotButton sideThrusters=new SlotButton(skin,3,this,shipEquipment,stage.getViewport(),arg0 -> false);
-        slotButtons.add(sideThrusters);
+        Slot hull=new Slot(skin, 0,this,shipEquipment, stage.getViewport(), arg0 -> false);
+        slots.add(hull);
+        Slot weapon=new Slot(skin,1,this,shipEquipment,stage.getViewport(), arg0 -> arg0!=null && arg0.item instanceof Weapon);
+        slots.add(weapon);
+        Slot secondaryWeapon=new Slot(skin,4,this,shipEquipment,stage.getViewport(), arg0 -> false);
+        slots.add(secondaryWeapon);
+        Slot engine=new Slot(skin,2,this,shipEquipment,stage.getViewport(), arg0 -> false);
+        slots.add(engine);
+        Slot sideThrusters=new Slot(skin,3,this,shipEquipment,stage.getViewport(), arg0 -> false);
+        slots.add(sideThrusters);
         Label.LabelStyle labelStyle=new Label.LabelStyle(SpaceOfChaos.INSTANCE.bitmapFont, Color.WHITE);
         content.add(new Label("Hull",labelStyle));
         content.add(hull).padRight(20);
@@ -277,7 +276,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
         if(inventoryShown)
         {
-            slotButtons.forEach(SlotButton::drawInfo);
+            slots.forEach(Slot::drawInfo);
         }
 
         if(!inventoryShown) {

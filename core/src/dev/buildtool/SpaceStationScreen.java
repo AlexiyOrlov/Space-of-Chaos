@@ -26,7 +26,6 @@ import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -35,7 +34,7 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
     private final Stage stage;
     private final Viewport viewport;
     private Stack stackUnderMouse;
-    private final ArrayList<SlotButton> slotButtons=new ArrayList<>();
+    private final ArrayList<Slot> slots =new ArrayList<>();
     TabPane tabPane;
     private final Label moneyLabel,capacityLabel;
     private final PlayerShip playerShip;
@@ -115,10 +114,10 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         Table inventory=new Table();
         for (int i = PlayerShip.rows; i >0 ; i--) {
             for (int j = 0; j < PlayerShip.columns; j++) {
-                SlotButton slotButton=new SlotButton(skin,index,this,playerShip.inventory,viewport);
-                inventory.add(slotButton);
+                Slot slot =new Slot(skin,index,this,playerShip.inventory,viewport);
+                inventory.add(slot);
                 index++;
-                slotButtons.add(slotButton);
+                slots.add(slot);
             }
             inventory.row();
         }
@@ -134,7 +133,7 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         stationInventory.padTop(20);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                SlotButton slotButton=new SlotButton(skin, in,this,spaceStation.equipmentInventory,viewport){
+                Slot slot =new Slot(skin, in,this,spaceStation.equipmentInventory,viewport){
                     @Override
                     protected boolean handleClick(int button, StackHandler stackHandler) {
                         if(stackHandler.getStackUnderMouse()==null) {
@@ -183,8 +182,8 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
                         return false;
                     }
                 };
-                stationInventory.add(slotButton);
-                slotButtons.add(slotButton);
+                stationInventory.add(slot);
+                slots.add(slot);
                 in++;
             }
             stationInventory.row();
@@ -221,16 +220,16 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         Table shipParts=new Table();
         shipParts.defaults().padTop(20);
         Inventory parts=playerShip.getShipParts();
-        SlotButton hull=new SlotButton(skin, 0,this,parts,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
-        slotButtons.add(hull);
-        SlotButton weapon=new SlotButton(skin,1,this,parts,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
-        slotButtons.add(weapon);
-        SlotButton secondaryWeapon=new SlotButton(skin,4,this,parts,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
-        slotButtons.add(secondaryWeapon);
-        SlotButton engine=new SlotButton(skin,2,this,parts,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
-        slotButtons.add(engine);
-        SlotButton sideThrusters=new SlotButton(skin,3,this,parts,viewport,arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
-        slotButtons.add(sideThrusters);
+        Slot hull=new Slot(skin, 0,this,parts,viewport, arg0 -> arg0!=null && arg0.item instanceof Hull);
+        slots.add(hull);
+        Slot weapon=new Slot(skin,1,this,parts,viewport, arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slots.add(weapon);
+        Slot secondaryWeapon=new Slot(skin,4,this,parts,viewport, arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slots.add(secondaryWeapon);
+        Slot engine=new Slot(skin,2,this,parts,viewport, arg0 -> arg0!=null &&arg0.item instanceof Engine);
+        slots.add(engine);
+        Slot sideThrusters=new Slot(skin,3,this,parts,viewport, arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
+        slots.add(sideThrusters);
         shipParts.add(new Label("Hull",skin));
         shipParts.add(hull);
         shipParts.row();
@@ -340,7 +339,7 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
                 font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
             spriteBatch.end();
         }
-        slotButtons.forEach(SlotButton::drawInfo);
+        slots.forEach(Slot::drawInfo);
     }
 
     void updateMoney()

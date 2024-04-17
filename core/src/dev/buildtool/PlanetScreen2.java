@@ -27,7 +27,6 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
-import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
     private final Stage stage;
     private final Viewport viewport;
     private Stack stackUnderMouse;
-    private final ArrayList<SlotButton> slotButtons=new ArrayList<>();
+    private final ArrayList<Slot> slots =new ArrayList<>();
 
     private final Label moneyLabel;
 
@@ -61,16 +60,16 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content=new Table();
             content.defaults().padTop(20);
             Inventory inventory=playerShip.getShipParts();
-            SlotButton hull=new SlotButton(skin, 0,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
-            slotButtons.add(hull);
-            SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> true);
-            slotButtons.add(weapon);
-            SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> true);
-            slotButtons.add(secondaryWeapon);
-            SlotButton engine=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
-            slotButtons.add(engine);
-            SlotButton sideThrusters=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
-            slotButtons.add(sideThrusters);
+            Slot hull=new Slot(skin, 0,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null && arg0.item instanceof Hull);
+            slots.add(hull);
+            Slot weapon=new Slot(skin,1,PlanetScreen2.this,inventory,viewport, arg0 -> true);
+            slots.add(weapon);
+            Slot secondaryWeapon=new Slot(skin,4,PlanetScreen2.this,inventory,viewport, arg0 -> true);
+            slots.add(secondaryWeapon);
+            Slot engine=new Slot(skin,2,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null &&arg0.item instanceof Engine);
+            slots.add(engine);
+            Slot sideThrusters=new Slot(skin,3,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
+            slots.add(sideThrusters);
             content.add(new Label("Hull",skin));
             content.add(hull);
             content.row();
@@ -110,7 +109,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             content.padTop(20);
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    SlotButton slotButton=new SlotButton(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
+                    Slot slot =new Slot(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
                         @Override
                         protected boolean handleClick(int button, StackHandler stackHandler) {
                             if(stackHandler.getStackUnderMouse()==null) {
@@ -159,8 +158,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                             return false;
                         }
                     };
-                    content.add(slotButton);
-                    slotButtons.add(slotButton);
+                    content.add(slot);
+                    slots.add(slot);
                     in++;
                 }
                 content.row();
@@ -508,9 +507,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         int slotIndex=0;
         for (int i = PlayerShip.rows; i >0; i--) {
             for (int j = 0; j < PlayerShip.columns; j++) {
-                SlotButton slotButton=new SlotButton(skin,slotIndex,PlanetScreen2.this,player.inventory, viewport);
-                playerInventory.add(slotButton);
-                slotButtons.add(slotButton);
+                Slot slot =new Slot(skin,slotIndex,PlanetScreen2.this,player.inventory, viewport);
+                playerInventory.add(slot);
+                slots.add(slot);
                 slotIndex++;
             }
             playerInventory.row();
@@ -525,7 +524,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         tab1.padTop(20);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                SlotButton slotButton=new SlotButton(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
+                Slot slot =new Slot(skin, in,PlanetScreen2.this,planet.equipmentInventory,viewport){
                     @Override
                     protected boolean handleClick(int button, StackHandler stackHandler) {
                         if(stackHandler.getStackUnderMouse()==null) {
@@ -574,8 +573,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                         return false;
                     }
                 };
-                tab1.add(slotButton);
-                slotButtons.add(slotButton);
+                tab1.add(slot);
+                slots.add(slot);
                 in++;
             }
             tab1.row();
@@ -800,16 +799,16 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         Table shipParts=new Table();
         shipParts.defaults().padTop(20);
         Inventory inventory=playerShip.getShipParts();
-        SlotButton hull=new SlotButton(skin, 0,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
-        slotButtons.add(hull);
-        SlotButton weapon=new SlotButton(skin,1,PlanetScreen2.this,inventory,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
-        slotButtons.add(weapon);
-        SlotButton secondaryWeapon=new SlotButton(skin,4,PlanetScreen2.this,inventory,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
-        slotButtons.add(secondaryWeapon);
-        SlotButton engine=new SlotButton(skin,2,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
-        slotButtons.add(engine);
-        SlotButton sideThrusters=new SlotButton(skin,3,PlanetScreen2.this,inventory,viewport,arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
-        slotButtons.add(sideThrusters);
+        Slot hull=new Slot(skin, 0,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null && arg0.item instanceof Hull);
+        slots.add(hull);
+        Slot weapon=new Slot(skin,1,PlanetScreen2.this,inventory,viewport, arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slots.add(weapon);
+        Slot secondaryWeapon=new Slot(skin,4,PlanetScreen2.this,inventory,viewport, arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slots.add(secondaryWeapon);
+        Slot engine=new Slot(skin,2,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null &&arg0.item instanceof Engine);
+        slots.add(engine);
+        Slot sideThrusters=new Slot(skin,3,PlanetScreen2.this,inventory,viewport, arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
+        slots.add(sideThrusters);
         shipParts.add(new Label("Hull",skin));
         shipParts.add(hull);
         shipParts.row();
@@ -857,8 +856,8 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 font.draw(spriteBatch,""+stackUnderMouse.count,mousePositionConverted.x+32,mousePositionConverted.y-32);
             spriteBatch.end();
         }
-        for (SlotButton slotButton : slotButtons) {
-            slotButton.drawInfo();
+        for (Slot slot : slots) {
+            slot.drawInfo();
         }
     }
 
