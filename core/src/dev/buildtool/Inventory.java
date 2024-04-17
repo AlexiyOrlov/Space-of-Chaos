@@ -10,13 +10,13 @@ import java.util.function.Predicate;
 
 public class Inventory implements SaveData{
     public Stack[] stacks;
-    public Slot[] slots;
+//    public Slot[] slots;
     public HashMap<Integer, Predicate<PlayerShip>> predicateHashMap=new HashMap<>();
     public HashMap<Integer,Consumer<PlayerShip>> actionHashMap= new HashMap<>();
 
     public Inventory(int stackCount) {
         stacks=new Stack[stackCount];
-        slots=new Slot[stackCount];
+//        slots=new Slot[stackCount];
     }
 
     public void addItem(Stack stack)
@@ -84,59 +84,59 @@ public class Inventory implements SaveData{
 
     public void draw(SpriteBatch spriteBatch)
     {
-        for (Slot slot : slots) {
-            slot.draw(spriteBatch);
-        }
+//        for (Slot slot : slots) {
+//            slot.draw(spriteBatch);
+//        }
     }
 
     public void drawSlotInfo(SpriteBatch spriteBatch, Viewport viewport)
     {
-        for (Slot slot : slots) {
-            slot.drawInfo(spriteBatch, viewport);
-        }
+//        for (Slot slot : slots) {
+//            slot.drawInfo(spriteBatch, viewport);
+//        }
     }
 
     public Stack processClick(Viewport viewport,Stack stackUnderMouse)
     {
-        for (Slot slot : slots) {
-            int clickedSlot=slot.processClick(viewport);
-            if (clickedSlot != -1) {
-                Predicate<PlayerShip> predicate=predicateHashMap.get(clickedSlot);
-                Consumer<PlayerShip> consumer=actionHashMap.get(clickedSlot);
-                if (stackUnderMouse == null) {
-                    if(predicate!=null  ) {
-                        if(predicate.test(SpaceOfChaos.INSTANCE.playerShip)) {
-                            stackUnderMouse = stacks[clickedSlot];
-                            stacks[clickedSlot] = null;
-                            consumer.accept(SpaceOfChaos.INSTANCE.playerShip);
-                        }
-                    }
-                    else {
-                        stackUnderMouse = stacks[clickedSlot];
-                        stacks[clickedSlot] = null;
-                    }
-                } else {
-                    Stack present = stacks[clickedSlot];
-                    if (present == null && predicate==null) {
-                        stacks[clickedSlot] = stackUnderMouse;
-                        stackUnderMouse = null;
-                    } else if (predicate==null && present.item != stackUnderMouse.item) {
-                        stacks[clickedSlot] = stackUnderMouse;
-                        stackUnderMouse = present;
-                    }
-                }
-                break;
-
-            }
-        }
+//        for (Slot slot : slots) {
+//            int clickedSlot=slot.processClick(viewport);
+//            if (clickedSlot != -1) {
+//                Predicate<PlayerShip> predicate=predicateHashMap.get(clickedSlot);
+//                Consumer<PlayerShip> consumer=actionHashMap.get(clickedSlot);
+//                if (stackUnderMouse == null) {
+//                    if(predicate!=null  ) {
+//                        if(predicate.test(SpaceOfChaos.INSTANCE.playerShip)) {
+//                            stackUnderMouse = stacks[clickedSlot];
+//                            stacks[clickedSlot] = null;
+//                            consumer.accept(SpaceOfChaos.INSTANCE.playerShip);
+//                        }
+//                    }
+//                    else {
+//                        stackUnderMouse = stacks[clickedSlot];
+//                        stacks[clickedSlot] = null;
+//                    }
+//                } else {
+//                    Stack present = stacks[clickedSlot];
+//                    if (present == null && predicate==null) {
+//                        stacks[clickedSlot] = stackUnderMouse;
+//                        stackUnderMouse = null;
+//                    } else if (predicate==null && present.item != stackUnderMouse.item) {
+//                        stacks[clickedSlot] = stackUnderMouse;
+//                        stackUnderMouse = present;
+//                    }
+//                }
+//                break;
+//
+//            }
+//        }
         return stackUnderMouse;
     }
 
     public void setVisible(boolean b)
     {
-        for (Slot slot : slots) {
-            slot.visible=b;
-        }
+//        for (Slot slot : slots) {
+//            slot.visible=b;
+//        }
     }
 
     public boolean isEmpty()
