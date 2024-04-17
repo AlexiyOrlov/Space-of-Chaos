@@ -96,6 +96,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		} else if (UIUtils.isWindows) {
 			dataDir=System.getenv("AppData");
 		}
+		Functions.log("Data directory is "+dataDir);
 		textMeasurer=new GlyphLayout();
 		FreeTypeFontGenerator generator=new FreeTypeFontGenerator(Gdx.files.internal("fonts/GentiumPlus-R.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter freeTypeFontParameter=new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -349,7 +350,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		worldBatch.dispose();
 		skin.dispose();
 		uiBatch.dispose();
-		bitmapFont.dispose();
+//		bitmapFont.dispose();
 		textures.forEach(Texture::dispose);
 		sounds.forEach(Sound::dispose);
 		VisUI.dispose();
@@ -561,7 +562,6 @@ public class SpaceOfChaos extends Game implements SaveData{
 	{
 
         assert dataDir != null;
-		Functions.log("Data directory is "+dataDir);
         Path dataPath=Path.of(dataDir,"Space of Chaos","Saves");
 		if(!Files.exists(dataPath)) {
 			try {
