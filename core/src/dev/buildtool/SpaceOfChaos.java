@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -93,7 +94,11 @@ public class SpaceOfChaos extends Game implements SaveData{
 			dataDir=System.getenv("AppData");
 		}
 		textMeasurer=new GlyphLayout();
-		bitmapFont=new BitmapFont();
+		FreeTypeFontGenerator generator=new FreeTypeFontGenerator(Gdx.files.internal("fonts/GentiumPlus-R.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter freeTypeFontParameter=new FreeTypeFontGenerator.FreeTypeFontParameter();
+		freeTypeFontParameter.size=20;
+		bitmapFont=generator.generateFont(freeTypeFontParameter);
+		generator.dispose();
 		bitmapFont.getData().markupEnabled=true;
 		assetManager=new AssetManager();
 		worldBatch = new SpriteBatch();

@@ -65,6 +65,7 @@ project(":core") {
         implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
         implementation("com.google.guava:guava:33.1.0-jre")
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     }
 }
 
