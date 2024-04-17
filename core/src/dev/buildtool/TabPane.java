@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class TabPane extends Table {
     private final Table contentTable;
     private final Table tabTable;
+    private int tabCount;
     public TabPane(Skin skin) {
         super(skin);
         contentTable=new Table();
@@ -32,5 +33,10 @@ public class TabPane extends Table {
             }
         });
         tabTable.add(textImageButton);
+        if(tabCount==0)
+        {
+            contentTable.add(content);
+        }
+        tabCount++;
     }
 }
