@@ -252,6 +252,8 @@ public class StarSystem implements SaveData{
         data.put("star",star.getData());
         data.put("star gate",starGate.getData());
         data.put("id",id);
+        if(spaceStation!=null)
+            data.put("space station",spaceStation.getData());
         return data;
     }
 
@@ -296,5 +298,10 @@ public class StarSystem implements SaveData{
         star.load((Map<String, Object>) data.get("star"));
         starGate=new StarGate();
         starGate.load((Map<String, Object>) data.get("star gate"));
+        if(data.containsKey("space station"))
+        {
+            spaceStation=new SpaceStation();
+            spaceStation.load((Map<String, Object>) data.get("space station"));
+        }
     }
 }

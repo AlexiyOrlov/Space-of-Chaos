@@ -14,15 +14,17 @@ public class SpaceStation implements SaveData{
     public float angle;
     public int distanceToStar;
     public boolean clockwise;
-    public Circle area;
+    public Circle area=new Circle();
     public float rotation;
     public Inventory equipmentInventory=new Inventory(9);
+    public SpaceStation(){
+
+    }
 
     public SpaceStation(float angle, int distanceToStar) {
         this.angle = angle;
         this.distanceToStar = distanceToStar;
         clockwise=SpaceOfChaos.random.nextBoolean();
-        area=new Circle();
         ArrayList<Item> items=new ArrayList<>(Item.equipment);
         for (int i = 0; i < 9; i++) {
             if(SpaceOfChaos.random.nextInt(100)<25)
