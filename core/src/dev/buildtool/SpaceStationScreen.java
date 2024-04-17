@@ -45,9 +45,9 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         viewport.apply();
         stage=new Stage(viewport);
         Skin skin=SpaceOfChaos.INSTANCE.skin;
-        capacityLabel=new Label("Capacity: ",skin);
+        capacityLabel=new Label("Capacity: "+playerShip.occupiedCapacity()+"/"+playerShip.getHull().capacity,skin);
         tabPane=new TabPane(skin);
-        moneyLabel=new Label(""+playerShip.money,skin);
+        moneyLabel=new Label("Money: "+playerShip.money,skin);
         Table container=new Table();
         container.setFillParent(true);
         Table table1=new Table();
@@ -92,6 +92,9 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
 
         //ship parts
         Table outer=new Table();
+        outer.add(moneyLabel);
+        outer.add(capacityLabel);
+        outer.row();
         Table stationInventory=new Table();
         int in=0;
         stationInventory.padTop(20);
