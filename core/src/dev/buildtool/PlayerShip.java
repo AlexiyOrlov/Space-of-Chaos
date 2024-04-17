@@ -242,6 +242,10 @@ public class PlayerShip implements Ship,SaveData {
                         break;
                     }
                 }
+                if(currentStarSystem.spaceStation.area.overlaps(area))
+                {
+                    SpaceOfChaos.INSTANCE.setScreen(new SpaceStationScreen(currentStarSystem.spaceStation,this));
+                }
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 if (fireDelay <= 0) {

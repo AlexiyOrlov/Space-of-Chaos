@@ -9,7 +9,8 @@ public class TextImageButton extends ImageTextButton {
     public TextImageButton(String text, Skin skin,Texture texture) {
         super(text, skin);
         clearChildren();
-        add(new Image(texture));
+        if(texture!=null)
+            add(new Image(texture));
         add(getLabel());
     }
 }
