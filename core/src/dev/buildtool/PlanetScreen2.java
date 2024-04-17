@@ -643,7 +643,6 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                     Integer price = planet.warePrices.get(ware);
                     Integer currentAmount = planet.wareAmounts.get(ware);
                     if(currentAmount>0) {
-                        //TODO take into account ship capacity
                         int maximumToBuy = Math.min(currentAmount, player.money / price);
                         if (maximumToBuy > 0) {
                             if(player.getHull().capacity-player.occupiedCapacity()>0) {
