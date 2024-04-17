@@ -25,6 +25,8 @@ import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -50,6 +52,38 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         moneyLabel=new Label("Money: "+playerShip.money,skin);
         Table container=new Table();
         container.setFillParent(true);
+
+        Table statusTab=new Table();
+        statusTab.add(new Label("Systems under human control ",skin)).padRight(20);
+        int systemsUnderHumanControl=0;
+        int systemsUnderAIControl=0;
+        int totalSystems=0;
+        long aiShips = 0;
+        long humanShips=0;
+        for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
+            if(starSystem.occupied)
+                systemsUnderAIControl++;
+            else
+                systemsUnderHumanControl++;
+            totalSystems++;
+            aiShips+=starSystem.ships.stream().filter(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.AI).count();
+            humanShips+=starSystem.ships.stream().filter(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI).count();
+        }
+        float percent1= (float) systemsUnderHumanControl /totalSystems*100;
+        statusTab.add(new Label(systemsUnderHumanControl+" ("+String.format(Locale.getDefault(),"%.2f",percent1)+" %)",skin));
+        statusTab.row();
+        float percent2= (float) systemsUnderAIControl /totalSystems*100;
+        statusTab.add(new Label("Systems under AI control ",skin));
+        statusTab.add(new Label(systemsUnderAIControl+" ("+String.format(Locale.getDefault(),"%.2f",percent2)+" %)",skin));
+        statusTab.row();
+        statusTab.add(new Label("AI ship count ",skin));
+        statusTab.add(new Label(aiShips+"",skin));
+        statusTab.row();
+        statusTab.add(new Label("Human ship count ",skin));
+        statusTab.add(new Label(humanShips+"",skin));
+        statusTab.row();
+        tabPane.addTab(statusTab,"Status");
+
         Table table1=new Table();
         playerShip.licences.forEach((ware, aBoolean) -> {
             if(!aBoolean)
