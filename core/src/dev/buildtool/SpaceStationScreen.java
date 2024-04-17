@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import dev.buildtool.weapons.Weapon;
+
 public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
     private SpaceStation spaceStation;
     private final Stage stage;
@@ -49,6 +51,38 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         table2.add(inventory);
         tabPane.addTab(table2,"Ship");
         stage.addActor(tabPane);
+
+        //ship parts
+        Table shipParts=new Table();
+        shipParts.defaults().padTop(20);
+        Inventory parts=playerShip.getShipParts();
+        SlotButton hull=new SlotButton(skin, 0,this,parts,viewport,arg0 -> arg0!=null && arg0.item instanceof Hull);
+        slotButtons.add(hull);
+        SlotButton weapon=new SlotButton(skin,1,this,parts,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slotButtons.add(weapon);
+        SlotButton secondaryWeapon=new SlotButton(skin,4,this,parts,viewport,arg0 -> arg0==null || arg0.item instanceof Weapon);
+        slotButtons.add(secondaryWeapon);
+        SlotButton engine=new SlotButton(skin,2,this,parts,viewport,arg0 -> arg0!=null &&arg0.item instanceof Engine);
+        slotButtons.add(engine);
+        SlotButton sideThrusters=new SlotButton(skin,3,this,parts,viewport,arg0 -> arg0!=null &&  arg0.item instanceof SideThrusters);
+        slotButtons.add(sideThrusters);
+        shipParts.add(new Label("Hull",skin));
+        shipParts.add(hull);
+        shipParts.row();
+        shipParts.add(new Label("Weapon 1",skin));
+        shipParts.add(weapon);
+        shipParts.row();
+        shipParts.add(new Label("Weapon 2",skin));
+        shipParts.add(secondaryWeapon);
+        shipParts.row();
+        shipParts.add(new Label("Engine",skin));
+        shipParts.add(engine);
+        shipParts.row();
+        shipParts.add(new Label("Side thrusters",skin));
+        shipParts.add(sideThrusters);
+        shipParts.row();
+
+        table2.add(shipParts);
     }
 
     @Override
