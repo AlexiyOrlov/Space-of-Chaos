@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +16,23 @@ public class SpaceStation implements SaveData{
     public boolean clockwise;
     public Circle area;
     public float rotation;
+    public Inventory equipmentInventory;
 
     public SpaceStation(float angle, int distanceToStar) {
         this.angle = angle;
         this.distanceToStar = distanceToStar;
         clockwise=SpaceOfChaos.random.nextBoolean();
         area=new Circle();
+        equipmentInventory=new Inventory(9);
+        ArrayList<Item> items=new ArrayList<>(Item.equipment);
+        for (int i = 0; i < 9; i++) {
+            if(SpaceOfChaos.random.nextInt(100)<25)
+            {
+                Item randomItem= items.get(SpaceOfChaos.random.nextInt(items.size()));
+                equipmentInventory.addItem(new Stack(randomItem,1));
+                items.remove(randomItem);
+            }
+        }
     }
 
     public void update()

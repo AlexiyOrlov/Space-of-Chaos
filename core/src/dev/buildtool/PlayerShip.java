@@ -55,7 +55,19 @@ public class PlayerShip implements Ship,SaveData {
         inventory=new Inventory(32);
         setCurrentSystem(currentStarSystem);
         licences=new HashMap<>();
-        Ware.WARES.forEach(ware -> licences.put(ware,false));
+        Ware.WARES.forEach(ware -> {
+            licences.put(Ware.CAR_PARTS,true);
+            licences.put(Ware.ELECTRONICS,true);
+            licences.put(Ware.JEWELLERY,true);
+            licences.put(Ware.TOOLS,true);
+            licences.put(Ware.FURNITURE,true);
+            licences.put(Ware.CLOTHES,true);
+            licences.put(Ware.WATER,true);
+            licences.put(Ware.FOOD,true);
+            licences.put(Ware.ALCOHOL,false);
+            licences.put(Ware.MEDICATIONS,false);
+            licences.put(Ware.FIREARMS,false);
+        });
         area=new Circle();
         setHull(new Stack(Hull.BASIC,1));
         setPrimaryWeapon(new Stack(WeaponRegistry.GUN,1));

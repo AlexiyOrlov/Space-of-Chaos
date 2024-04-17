@@ -17,8 +17,8 @@ public class Ware extends Item {
     public static Ware JEWELLERY=new Ware(900,false,"Jewellery", SpaceOfChaos.INSTANCE.jewelleryTexture);
     public static Ware FIREARMS=new Ware(600,true,"Firearms", SpaceOfChaos.INSTANCE.firearmsTexture,400000);
     public static Ware CAR_PARTS=new Ware(300,false,"Car parts", SpaceOfChaos.INSTANCE.carPartsTexture);
-    public static Ware TOOLS=new Ware(600,false,"Tools", SpaceOfChaos.INSTANCE.toolsTexture,100000);
-    public static Ware ALCOHOL=new Ware(900,true,"Alcohol", SpaceOfChaos.INSTANCE.alcoholTexture);
+    public static Ware TOOLS=new Ware(600,false,"Tools", SpaceOfChaos.INSTANCE.toolsTexture);
+    public static Ware ALCOHOL=new Ware(900,true,"Alcohol", SpaceOfChaos.INSTANCE.alcoholTexture,100000);
     public static Ware IRON_ORE=new Ware(650,false,"Iron ore", SpaceOfChaos.INSTANCE.ironOreTexture);
     public static Ware COPPER_ORE=new Ware(650,false,"Copper ore", SpaceOfChaos.INSTANCE.copperOreTexture);
     public static final int MAXIMUM_WARE_AMOUNT=1000;
