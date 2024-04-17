@@ -64,6 +64,7 @@ project(":core") {
         api "com.kotcrab.vis:vis-ui:$visuiVersion"
         implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
         implementation("com.google.guava:guava:33.1.0-jre")
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
 
