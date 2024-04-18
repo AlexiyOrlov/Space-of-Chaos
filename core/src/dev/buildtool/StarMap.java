@@ -14,7 +14,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -43,7 +45,10 @@ public class StarMap extends ScreenAdapter {
     private StarSystem selectedStarSystem;
     private float targetAngle;
 
+    private ArrayList<String> tooltip;
+
     public StarMap(StarSystem currentSystem, PlayerShip playerShip) {
+        tooltip=new ArrayList<>(3);
         target=new Image(SpaceOfChaos.INSTANCE.targetTexture);
         target.setOrigin(target.getWidth()/2,target.getHeight()/2);
         starSystems= SpaceOfChaos.INSTANCE.starSystems;
@@ -107,15 +112,28 @@ public class StarMap extends ScreenAdapter {
             });
             List<Planet> inhabitedPlanets=starSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.INHABITED).toList();
             List<Planet> uninhabitedPlanets=starSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.UNINHABITED).toList();
-            TextTooltip tooltip;
-            if(starSystem.occupied)
-            {
-                tooltip=new TextTooltip(starSystem.planets.size()+" planets",skin);
-            }
-            else
-                tooltip = new TextTooltip((starSystem.spaceStation!=null?"Space station\n":"") +(inhabitedPlanets.isEmpty() ?"": inhabitedPlanets.size()+" inhabited planets\n")+(uninhabitedPlanets.isEmpty()?"": uninhabitedPlanets.size() + " uninhabited planets"), skin);
-            tooltip.setInstant(true);
-            starImage.addListener(tooltip);
+            starImage.addListener(new InputListener(){
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    if(tooltip.isEmpty()) {
+                        if (starSystem.occupied) {
+                            tooltip.add(starSystem.planets.size() + " planets");
+                        } else {
+                            if (!inhabitedPlanets.isEmpty()) {
+                                tooltip.add(inhabitedPlanets.size() + " inhabited planets");
+                            }
+                            if (!uninhabitedPlanets.isEmpty()) {
+                                tooltip.add(uninhabitedPlanets.size() + " uninhabited planets");
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    tooltip.clear();
+                }
+            });
             if(starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.AI) && starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI))
             {
                 Image twoSwords=new Image(SpaceOfChaos.INSTANCE.twoSwordsTexture);
@@ -163,6 +181,17 @@ public class StarMap extends ScreenAdapter {
         target.rotateBy(targetAngle);
         targetAngle+= MathUtils.degreesToRadians*12;
         target.setRotation(targetAngle);
+        if(!tooltip.isEmpty())
+        {
+            SpaceOfChaos.INSTANCE.uiBatch.begin();
+            Vector2 position=new Vector2(Gdx.input.getX(), Gdx.graphics.getBackBufferHeight()-Gdx.input.getY());
+            int y=0;
+            for (String s : tooltip) {
+                font.draw(SpaceOfChaos.INSTANCE.uiBatch, s,position.x+20,position.y+y);
+                y-=20;
+            }
+            SpaceOfChaos.INSTANCE.uiBatch.end();
+        }
     }
 
     @Override
