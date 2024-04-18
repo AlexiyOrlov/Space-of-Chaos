@@ -260,7 +260,7 @@ public class PlayerShip implements Ship,SaveData {
                         break;
                     }
                 }
-                if(currentStarSystem.spaceStation.area.overlaps(area))
+                if(currentStarSystem.spaceStation!=null && currentStarSystem.spaceStation.area.overlaps(area))
                 {
                     SpaceOfChaos.INSTANCE.setScreen(new SpaceStationScreen(currentStarSystem.spaceStation,this));
                 }
