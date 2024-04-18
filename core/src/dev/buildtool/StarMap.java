@@ -113,7 +113,7 @@ public class StarMap extends ScreenAdapter {
                 tooltip=new TextTooltip(starSystem.planets.size()+" planets",skin);
             }
             else
-                tooltip = new TextTooltip((inhabitedPlanets.isEmpty() ?"": inhabitedPlanets.size()+" inhabited planets\n") +(uninhabitedPlanets.isEmpty()?"": uninhabitedPlanets.size() + " uninhabited planets"), skin);
+                tooltip = new TextTooltip((inhabitedPlanets.isEmpty() ?"": inhabitedPlanets.size()+" inhabited planets\n") +(uninhabitedPlanets.isEmpty()?"": uninhabitedPlanets.size() + " uninhabited planets\n"+(starSystem.spaceStation!=null?"Space station":"")), skin);
             tooltip.setInstant(true);
             starImage.addListener(tooltip);
             if(starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI == PilotAI.AI) && starSystem.ships.stream().anyMatch(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI))
