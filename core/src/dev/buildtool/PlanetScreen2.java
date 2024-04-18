@@ -835,7 +835,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         containingTable.add(toggleTime);
         containingTable.row();
         containingTable.add(tabPane);
-        containingTable.add(playerInventory);
+        containingTable.add(playerInventory).colspan(3);
         containingTable.add(shipParts);
         stage.addActor(containingTable);
     }
