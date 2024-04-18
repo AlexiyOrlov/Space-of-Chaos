@@ -126,6 +126,8 @@ public class StarMap extends ScreenAdapter {
                                 tooltip.add(uninhabitedPlanets.size() + " uninhabited planets");
                             }
                         }
+                        if(starSystem.spaceStation!=null)
+                            tooltip.add("Space station");
                     }
                 }
 
