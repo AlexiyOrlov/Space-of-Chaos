@@ -74,7 +74,7 @@ public class Star implements SaveData{
         spriteBatch.begin();
         spriteBatch.draw(texture,0,0);
         GlyphLayout layout=new GlyphLayout(SpaceOfChaos.INSTANCE.bitmapFont,name);
-        SpaceOfChaos.INSTANCE.bitmapFont.draw(spriteBatch,name,256-layout.width/2,256);
+        SpaceOfChaos.INSTANCE.bitmapFont.draw(spriteBatch,name,texture.getWidth()/2-layout.width/2,texture.getHeight()/2);
         spriteBatch.end();
 
         if(SpaceOfChaos.debugDraw){
