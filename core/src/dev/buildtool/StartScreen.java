@@ -66,8 +66,8 @@ public class StartScreen extends ScreenAdapter {
                 try {
                     var files=Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).filter(path -> path.toString().endsWith(".yaml")).toList();
                     Skin skin=SpaceOfChaos.INSTANCE.skin;
-                    ScrollPane scrollPane=new ScrollPane(null,skin);
                     Table forPane=new Table();
+                    ScrollPane scrollPane=new ScrollPane(forPane,skin);
                     Dialog dialog=new Dialog("List of saves",skin);
                     files.forEach(path -> {
                         Label label=new Label(path.getFileName().toString(),skin);
@@ -87,8 +87,6 @@ public class StartScreen extends ScreenAdapter {
                         forPane.add(textButton);
                         forPane.row();
                     });
-                    forPane.setHeight(600);
-                    scrollPane.setActor(forPane);
                     TextButton cancel=new TextButton("Cancel",skin);
                     dialog.button(cancel);
                     dialog.add(scrollPane);
