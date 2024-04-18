@@ -87,7 +87,7 @@ public class StarSystem implements SaveData{
                 }
             });
             if(random.nextInt(100)<20) {
-                spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distance);
+                spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distance+300);
             }
         }
     }
