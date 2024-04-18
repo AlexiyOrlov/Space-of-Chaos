@@ -571,7 +571,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 			}
 		}
 		Dialog dialog=new Dialog("Save game?",skin);
-		TextField input=new TextField("",skin);
+		TextField input=new TextField(null,skin);
 		dialog.add(input);
 		dialog.button(new TextButton("Cancel",skin));
 		TextButton textButton=new TextButton("Save",skin);
