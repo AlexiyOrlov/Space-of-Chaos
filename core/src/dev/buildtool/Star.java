@@ -1,6 +1,7 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -72,6 +73,8 @@ public class Star implements SaveData{
     {
         spriteBatch.begin();
         spriteBatch.draw(texture,0,0);
+        GlyphLayout layout=new GlyphLayout(SpaceOfChaos.INSTANCE.bitmapFont,name);
+        SpaceOfChaos.INSTANCE.bitmapFont.draw(spriteBatch,name,256-layout.width/2,256);
         spriteBatch.end();
 
         if(SpaceOfChaos.debugDraw){
