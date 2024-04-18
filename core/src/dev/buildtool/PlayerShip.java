@@ -170,7 +170,7 @@ public class PlayerShip implements Ship,SaveData {
             hudText.add("Press 'M' to open star map");
         }
 
-        if(currentStarSystem.spaceStation.area.overlaps(area))
+        if(currentStarSystem.spaceStation!=null && currentStarSystem.spaceStation.area.overlaps(area))
         {
             hudText.add("Press 'L' to land");
         }
