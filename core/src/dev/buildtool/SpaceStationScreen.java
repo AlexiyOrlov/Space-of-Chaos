@@ -59,6 +59,7 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         int totalSystems=0;
         long aiShips = 0;
         long humanShips=0;
+        int spaceStations=0;
         for (StarSystem starSystem : SpaceOfChaos.INSTANCE.starSystems) {
             if(starSystem.occupied)
                 systemsUnderAIControl++;
@@ -67,6 +68,8 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
             totalSystems++;
             aiShips+=starSystem.ships.stream().filter(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI==PilotAI.AI).count();
             humanShips+=starSystem.ships.stream().filter(ship -> ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI).count();
+            if(starSystem.spaceStation!=null)
+                spaceStations++;
         }
         float percent1= (float) systemsUnderHumanControl /totalSystems*100;
         statusTab.add(new Label(systemsUnderHumanControl+" ("+String.format(Locale.getDefault(),"%.2f",percent1)+" %)",skin));
@@ -81,6 +84,12 @@ public class SpaceStationScreen extends ScreenAdapter implements StackHandler {
         statusTab.add(new Label("Human ship count ",skin));
         statusTab.add(new Label(humanShips+"",skin));
         statusTab.row();
+        if(spaceStations>0)
+        {
+            statusTab.add(new Label("Space station count",skin));
+            statusTab.add(new Label(spaceStations+"",skin));
+            statusTab.row();
+        }
         tabPane.addTab(statusTab,"Status");
 
         Table table1=new Table();
