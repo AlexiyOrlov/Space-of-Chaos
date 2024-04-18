@@ -773,7 +773,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 if (player.licences.get(ware)) {
                     marketWares.add(buy);
                     marketWares.add(sell);
-                    if(playerWareCount.getOrDefault(ware,0)>0)
+                    if(playerWareCount.getOrDefault(ware,0)==0)
                         sell.setVisible(false);
                 } else {
                     Label noLicense = new Label("No license", skin);
