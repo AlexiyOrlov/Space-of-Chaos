@@ -26,11 +26,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
+
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -85,7 +90,51 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         save.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SpaceOfChaos.INSTANCE.saveGame(stage);
+                try{
+                    Dialog dialog=new Dialog("Save game",skin);
+                    Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
+                    var files= Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).toList();
+                    Skin skin=SpaceOfChaos.INSTANCE.skin;
+                    files.forEach(path -> {
+                        Label label1=new Label(path.getFileName().toString(),skin);
+                        TextButton textButton=new TextButton("Overwrite",skin);
+                        Table content=dialog.getContentTable();
+                        content.add(label1,textButton);
+                        content.row();
+                        textButton.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                Dialogs.showOptionDialog(stage,"Overwrite?",null, Dialogs.OptionDialogType.YES_NO,new OptionDialogAdapter(){
+                                    @Override
+                                    public void yes() {
+                                        Yaml yaml=new Yaml();
+                                        String string=yaml.dump(SpaceOfChaos.INSTANCE.getData());
+                                        try{
+                                            Files.writeString(path, string);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        finally {
+                                            dialog.hide();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    TextButton newSave=new TextButton("New save",skin);
+                    newSave.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            SpaceOfChaos.INSTANCE.saveGame(stage);
+                        }
+                    });
+                    dialog.button(newSave);
+                    dialog.button("Cancel");
+                    dialog.show(stage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         TextButton load=new TextButton("Load",skin);
