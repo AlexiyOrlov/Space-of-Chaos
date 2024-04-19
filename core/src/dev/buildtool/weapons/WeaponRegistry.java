@@ -24,7 +24,7 @@ public class WeaponRegistry {
         TIER1_WEAPONS.add(AI_GUN1);
 
         TIER2_WEAPONS.add(SHOTGUN);
-        TIER2_WEAPONS.add(CLUSTER_GUN);
+//        TIER2_WEAPONS.add(CLUSTER_GUN);
         TIER2_WEAPONS.add(MACHINE_GUN);
 
         TIER3_WEAPONS.add(TRISHOT);
