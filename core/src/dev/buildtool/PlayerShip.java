@@ -253,8 +253,8 @@ public class PlayerShip implements Ship,SaveData {
                     if (planet.outline.overlaps(area)) {
                         if (planet.kind== Planet.Kind.INHABITED)
                             SpaceOfChaos.INSTANCE.setScreen(new PlanetScreen2(currentStarSystem, planet, this));
-                        else {
-
+                        else if(planet.kind== Planet.Kind.OCCUPIED) {
+                            System.out.println("Occupied planet");
                         }
                         acceleration = 0;
                         break;
