@@ -497,6 +497,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 									return ship instanceof PlayerShip;
 							})) {
 								starSystem.occupied = false;
+								//TODO do something
+								starSystem.planets.forEach(planet -> planet.kind= Planet.Kind.FREED);
 								Functions.log("System " + starSystem.getStarName() + " was liberated");
 								if (systemScreen != null)
 									systemScreen.addMessage("Star system " + starSystem.getStarName() + " has been liberated");

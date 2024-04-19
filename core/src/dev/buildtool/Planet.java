@@ -150,7 +150,8 @@ public class Planet implements SaveData {
     public enum Kind{
         INHABITED,
         UNINHABITED,
-        OCCUPIED
+        OCCUPIED,
+        FREED
     }
     static {
         planetNames.add("Ankeigantu");
