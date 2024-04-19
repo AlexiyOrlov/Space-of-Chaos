@@ -177,7 +177,7 @@ public class StarSystem implements SaveData{
             for (Projectile projectile : projectiles) {
                 if(projectile.shooter!=ship)
                 {
-                    if((projectile.target==null || (projectile.target==ship)) && projectile.validTargets.test(ship) && (projectile.target==null || projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem()))
+                    if((projectile.target==null || (projectile.target==ship)) && !ship.isLanded() && projectile.validTargets.test(ship) && (projectile.target==null || projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem()))
                     {
                         if(ship.overlaps(projectile.area)) {
                             damageShip(ship, projectile, shipsToRemove, toRemove);
