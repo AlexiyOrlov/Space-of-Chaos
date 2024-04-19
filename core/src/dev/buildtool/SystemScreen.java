@@ -94,7 +94,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 try{
                     Dialog dialog=new Dialog("Save game",skin);
                     Path savePath=Path.of(SpaceOfChaos.INSTANCE.dataDir,"Space of Chaos","Saves");
-                    var files= Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).toList();
+                    var files= Files.walk(savePath).sorted(Comparator.comparingLong(path -> path.toFile().lastModified())).filter(path -> path.toString().endsWith(".yaml")).toList();
                     Skin skin=SpaceOfChaos.INSTANCE.skin;
                     files.forEach(path -> {
                         Label label1=new Label(path.getFileName().toString(),skin);
