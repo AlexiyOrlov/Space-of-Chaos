@@ -405,7 +405,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         {
             Vector2 mousePos=viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             for (Ship ship : starSystem.ships) {
-                if(ship.contains(mousePos) && ship.getAI()==PilotAI.MERCENARY)
+                if(ship.contains(mousePos) && ship.getAI()==PilotAI.MERCENARY && ship.getLeader()==null)
                 {
                     int equipmentCost=ship.getEngine().basePrice;
                     equipmentCost+=ship.getThrusters().basePrice;
@@ -421,6 +421,8 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                         @Override
                         public void changed(ChangeEvent event, Actor actor) {
                             Functions.log(String.valueOf(finalEquipmentCost));
+                            ship.setLeader(playerShip);
+                            playerShip.toggleMouseAction();
 //                            int cost=finalEquipmentCost/2;
 //                            if(cost<=playerShip.money)
 //                            {
@@ -434,7 +436,6 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                     TextButton cancel=new TextButton("Cancel",skin);
                     dialog.button(cancel);
                     dialog.show(stage);
-                    playerShip.toggleMouseAction();
                     break;
                 }
             }

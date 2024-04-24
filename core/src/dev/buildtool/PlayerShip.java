@@ -101,6 +101,16 @@ public class PlayerShip implements Ship,SaveData {
         return weapon==null ? null : (Weapon) weapon.item;
     }
 
+    @Override
+    public void setLeader(Ship ship) {
+
+    }
+
+    @Override
+    public Ship getLeader() {
+        return null;
+    }
+
     public void setHull(Stack hull)
     {
         if(!(hull.item instanceof Hull))

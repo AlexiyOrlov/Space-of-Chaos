@@ -62,6 +62,7 @@ public class NPCPilot implements Ship, SaveData {
     public int currentSystemId=-1;
 
     float patrollingTime=180;
+    public Ship leader;
 
     @Override
     public Map<String, Object> getData() {
@@ -501,25 +502,7 @@ public class NPCPilot implements Ship, SaveData {
     {
         if(target!=null)
         {
-            rotateTowards(target.getX(),target.getY());
-            if(Vector2.dst(x,y,target.getX(),target.getY())>Gdx.graphics.getBackBufferHeight()/2)
-            {
-                move();
-            }
-            else {
-                if(sideMovementTime<=0)
-                {
-                    sideMovementTime=random.nextInt(3,6);
-                    strafeDirection= random.nextBoolean();
-                }
-                else {
-                    sideMovementTime-=deltaTime;
-                }
-                strafe(strafeDirection);
-                fire();
-            }
-            if(target.getIntegrity()<=0 || target.isLanded() || target.getCurrentSystem()!=currentSystem)
-                target=null;
+            combat(deltaTime);
         }
         else if(state==null)
         {
@@ -556,30 +539,59 @@ public class NPCPilot implements Ship, SaveData {
         }
     }
 
-    private void mercenaryAi(float delta)
-    {
-        if(target!=null)
+    private void combat(float deltaTime) {
+        rotateTowards(target.getX(),target.getY());
+        if(Vector2.dst(x,y,target.getX(),target.getY())>Gdx.graphics.getBackBufferHeight()/2)
         {
-            rotateTowards(target.getX(),target.getY());
-            if(Vector2.dst(target.getX(),target.getY(),x,y)>SpaceOfChaos.getWindowHeight()/2)
+            move();
+        }
+        else {
+            if(sideMovementTime<=0)
             {
-                move();
+                sideMovementTime=random.nextInt(3,6);
+                strafeDirection= random.nextBoolean();
             }
             else {
-                if (sideMovementTime <= 0) {
-                    sideMovementTime = random.nextInt(3, 6);
-                    strafeDirection = random.nextBoolean();
+                sideMovementTime-= deltaTime;
+            }
+            strafe(strafeDirection);
+            fire();
+        }
+        if(target.getIntegrity()<=0 || target.isLanded() || target.getCurrentSystem()!=currentSystem)
+            target=null;
+    }
+
+    private void mercenaryAi(float delta)
+    {
+
+        if (leader != null) {
+            if(target==null)
+            {
+                if (leader.getCurrentSystem() == currentSystem) {
+                    rotateTowards(leader.getX(), leader.getY());
+                    if (Vector2.dst(x, y, leader.getX(), leader.getY()) > 300) {
+                        move();
+                    }
                 } else {
-                    sideMovementTime -= delta;
-                }
-                strafe(strafeDirection);
-                if(isLookingAt(target.getX(),target.getY()))
-                {
-                    fire();
+                    navigatingTo = leader.getCurrentSystem();
+                    StarGate starGate=currentSystem.starGate;
+                    rotateTowards(starGate.x,starGate.y);
+                    if(Vector2.dst(x,y,starGate.x,starGate.y)>20)
+                    {
+                        move();
+                    }
+                    else {
+                        canJump=true;
+                    }
                 }
             }
-            if(target.getIntegrity()<=0 || target.isLanded() || target.getCurrentSystem()!=currentSystem)
-                target=null;
+            else {
+                combat(delta);
+            }
+        }
+        else if(target!=null)
+        {
+            combat(delta);
         }
         else if(navigatingTo==null)
         {
@@ -974,5 +986,15 @@ public class NPCPilot implements Ship, SaveData {
     @Override
     public Weapon getSecondaryWeapon() {
         return secondaryWeapon;
+    }
+
+    @Override
+    public void setLeader(Ship ship) {
+        leader=ship;
+    }
+
+    @Override
+    public Ship getLeader() {
+        return leader;
     }
 }

@@ -32,4 +32,7 @@ public interface Ship {
     SideThrusters getThrusters();
     Weapon getPrimaryWeapon();
     Weapon getSecondaryWeapon();
+    void setLeader(Ship ship);
+
+    Ship getLeader();
 }
