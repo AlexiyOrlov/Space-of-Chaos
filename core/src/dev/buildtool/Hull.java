@@ -32,6 +32,7 @@ public class Hull extends Item{
     public static ArrayList<Hull> battleHulls=new ArrayList<>();
     public static ArrayList<Hull> tradingHulls=new ArrayList<>();
     public static ArrayList<Hull> pirateHulls=new ArrayList<>();
+    public static ArrayList<Hull> playerHulls=new ArrayList<>();
     static {
         battleHulls.add(BATTLE1);
         battleHulls.add(BATTLE2);
@@ -44,6 +45,11 @@ public class Hull extends Item{
         pirateHulls.add(PIRATE1);
         pirateHulls.add(PIRATE2);
         pirateHulls.add(PIRATE3);
+
+        playerHulls.add(HORNET);
+        playerHulls.add(BEETLE);
+        playerHulls.add(BUMBLEBEE);
+        playerHulls.add(DRAGONFLY);
     }
     public int capacity;
     public Texture look;
