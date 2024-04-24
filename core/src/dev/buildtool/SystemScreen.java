@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import dev.buildtool.weapons.Weapon;
@@ -60,7 +61,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     private boolean inventoryShown;
     private ArrayList<Slot> slots =new ArrayList<>(40);
     public final Deque<String> messageQueue=new LinkedList<>();
-    public float lastMessageTime;
+    public HashMap<String,Float> lastMessageTimes=new HashMap<>(10);
 
     public SystemScreen(StarSystem starSystem) {
         SpaceOfChaos spaceOfChaos = SpaceOfChaos.INSTANCE;
@@ -365,11 +366,18 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             }
         }
 
-        if(lastMessageTime>0)
-        {
-            lastMessageTime-=delta;
+        if(SpaceOfChaos.INSTANCE.updateWorld) {
+            int y = 0;
             spriteBatch.begin();
-            font.draw(spriteBatch,messageQueue.getLast(),0,SpaceOfChaos.getWindowHeight()-80);
+            for (String s : messageQueue) {
+                float messageTime = lastMessageTimes.get(s);
+                if (messageTime > 0) {
+                    messageTime -= delta;
+                    lastMessageTimes.put(s, messageTime);
+                    font.draw(spriteBatch, s, 0, SpaceOfChaos.getWindowHeight() - 80 - y);
+                    y-=20;
+                }
+            }
             spriteBatch.end();
         }
     }
@@ -510,6 +518,6 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             messageQueue.remove();
         }
         messageQueue.add(message);
-        lastMessageTime=10;
+        lastMessageTimes.put(message,10f);
     }
 }

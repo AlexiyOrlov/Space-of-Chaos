@@ -444,6 +444,10 @@ public class SpaceOfChaos extends Game implements SaveData{
 						}
 					});
 					Functions.log("Incoming attack from "+randomSystem.getStarName()+" on "+attackTarget.getStarName());
+					if(systemScreen!=null)
+					{
+						systemScreen.addMessage("AI is attacking system "+randomSystem.getStarName());
+					}
 					aiAttackTimer=random.nextInt(10*60,20*60);
 				}
 			}
