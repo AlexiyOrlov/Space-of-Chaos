@@ -62,7 +62,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 			aiBigHull2,aiLargeHull1,aiLargeHull2,redProjectileTexture,clusterGunTexture,greenCircle,yellowCircle,twoSwordsTexture,
 		missileTexture,missileLauncherTexture,reticle,gatlingGunTexture,triShotTexture,aiBiggerHull1,aiBiggerHull2,targetRadar,
 		allTargetRadar,shipDetector,priceScanner,wrenchTexture,tradingHull3,dragonflyHull,beetleHull,sideThrusters3,
-		sideThrusters4,sideThrusters5,spaceStation,spaceStationIcon;
+		sideThrusters4,sideThrusters5,spaceStation,spaceStationIcon,ladyBugHull,cockroachHull;
 	public static SpaceOfChaos INSTANCE;
 	public Skin skin;
 	ShapeRenderer shapeRenderer,uiShapeRenderer;
@@ -205,7 +205,9 @@ public class SpaceOfChaos extends Game implements SaveData{
 		loadTexture("side thrusters4");
 		loadTexture("side thrusters 5");
 		loadTexture("space station");
-		loadTexture("space station icon");;
+		loadTexture("space station icon");
+		loadTexture("ladybug");
+		loadTexture("cockroach");
 		assetManager.finishLoading();
 
 		alcoholTexture=getTexture("alcohol");
@@ -335,6 +337,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 		sideThrusters5=getTexture("side thrusters 5");
 		spaceStation=getTexture("space station");
 		spaceStationIcon=getTexture("space station icon");
+		ladyBugHull=getTexture("ladybug");
+		cockroachHull=getTexture("cockroach");
 		setScreen(new StartScreen(this));
 	}
 

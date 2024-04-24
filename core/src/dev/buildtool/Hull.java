@@ -12,6 +12,8 @@ public class Hull extends Item{
     public static final Hull BUMBLEBEE=new Hull(200, SpaceOfChaos.INSTANCE.blackHull2Texture, 200,"'Bumblebee'",70000);
     public static final Hull DRAGONFLY=new Hull(300,SpaceOfChaos.INSTANCE.dragonflyHull, 280,"'Dragonfly'",120000);
     public static final Hull BEETLE=new Hull(340,SpaceOfChaos.INSTANCE.beetleHull, 350,"'Beetle'",150000);
+    public static final Hull COCKROACH=new Hull(360,SpaceOfChaos.INSTANCE.cockroachHull, 390,"'Cockroach'",180000);
+    public static final Hull LADYBUG=new Hull(400,SpaceOfChaos.INSTANCE.ladyBugHull,440,"'Ladybug'",220000);
     public static final Hull AI_SMALL1=new Hull(100, SpaceOfChaos.INSTANCE.aiSmallHull1, 100,"AI small hull 1",-1);
     public static final Hull AI_SMALL2=new Hull(120, SpaceOfChaos.INSTANCE.aiSmallHull2, 120,"AI small hull 2",-1);
     public static final Hull AI_MEDIUM1=new Hull(200, SpaceOfChaos.INSTANCE.aiMediumHull1,200,"AI medium hull 1",-1);
@@ -50,6 +52,8 @@ public class Hull extends Item{
         playerHulls.add(BEETLE);
         playerHulls.add(BUMBLEBEE);
         playerHulls.add(DRAGONFLY);
+        playerHulls.add(COCKROACH);
+        playerHulls.add(LADYBUG);
     }
     public int capacity;
     public Texture look;
