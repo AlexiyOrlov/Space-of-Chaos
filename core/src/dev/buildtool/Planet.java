@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
-import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -453,7 +451,7 @@ public class Planet implements SaveData {
         outline.set(x,y,radius);
         if(kind==Kind.INHABITED) {
             ships.forEach(npcPilot -> {
-                npcPilot.workOnPlanet(deltaTime, this);
+                npcPilot.updateOnPlanet(deltaTime, this);
                 if (!npcPilot.landed)
                 {
                     shipsToRemove.add(npcPilot);

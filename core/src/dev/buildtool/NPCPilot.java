@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import dev.buildtool.projectiles.Projectile;
@@ -563,8 +562,26 @@ public class NPCPilot implements Ship, SaveData {
 
     private void mercenaryAi(float delta)
     {
-
-        if (leader != null) {
+        if(integrity< hull.integrity)
+        {
+            if(targetPlanet==null) {
+                currentSystem.planets.stream().filter(planet -> planet.kind == Planet.Kind.INHABITED).findAny().ifPresent(planet -> {
+                    targetPlanet=planet;
+                });
+            }
+            else {
+                rotateTowards(targetPlanet.x, targetPlanet.y);
+                if(Vector2.dst(x,y,targetPlanet.x,targetPlanet.y)>20)
+                {
+                    move();
+                }
+                else {
+                    state=State.GOING_TO_REPAIR;
+                    land(targetPlanet);
+                }
+            }
+        }
+        else if (leader != null) {
             if(target==null)
             {
                 if (leader.getCurrentSystem() == currentSystem) {
@@ -687,7 +704,7 @@ public class NPCPilot implements Ship, SaveData {
     }
 
 
-    public void workOnPlanet(float deltaTime, Planet currentPlanet)
+    public void updateOnPlanet(float deltaTime, Planet currentPlanet)
     {
         if(pilotAI==PilotAI.PIRATE)
         {
