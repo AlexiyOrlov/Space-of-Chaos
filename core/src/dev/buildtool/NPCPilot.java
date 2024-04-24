@@ -997,4 +997,14 @@ public class NPCPilot implements Ship, SaveData {
     public Ship getLeader() {
         return leader;
     }
+
+    @Override
+    public void setTarget(Ship target) {
+        this.target=target;
+    }
+
+    @Override
+    public Ship getTarget() {
+        return target;
+    }
 }

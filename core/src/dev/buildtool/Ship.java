@@ -35,4 +35,6 @@ public interface Ship {
     void setLeader(Ship ship);
 
     Ship getLeader();
+    void setTarget(Ship target);
+    Ship getTarget();
 }

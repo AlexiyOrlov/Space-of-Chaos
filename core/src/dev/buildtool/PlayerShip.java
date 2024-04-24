@@ -45,6 +45,8 @@ public class PlayerShip implements Ship,SaveData {
     public int currentSystemId;
     public static final int rows=4,columns=8;
     public boolean mouseAction;
+    //TODO save
+    public ArrayList<Ship> hiredShips=new ArrayList<>();
 
     public PlayerShip() {
     }
@@ -108,6 +110,16 @@ public class PlayerShip implements Ship,SaveData {
 
     @Override
     public Ship getLeader() {
+        return null;
+    }
+
+    @Override
+    public void setTarget(Ship target) {
+
+    }
+
+    @Override
+    public Ship getTarget() {
         return null;
     }
 
@@ -376,7 +388,12 @@ public class PlayerShip implements Ship,SaveData {
 
     @Override
     public void onProjectileImpact(Projectile projectile) {
-
+        hiredShips.forEach(ship -> {
+            if(ship.getTarget()==null)
+            {
+                ship.setTarget(projectile.shooter);
+            }
+        });
     }
 
     public int occupiedCapacity()

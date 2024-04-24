@@ -422,6 +422,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                         public void changed(ChangeEvent event, Actor actor) {
                             Functions.log(String.valueOf(finalEquipmentCost));
                             ship.setLeader(playerShip);
+                            playerShip.hiredShips.add(ship);
                             playerShip.toggleMouseAction();
 //                            int cost=finalEquipmentCost/2;
 //                            if(cost<=playerShip.money)
