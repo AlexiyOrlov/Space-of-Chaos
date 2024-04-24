@@ -87,6 +87,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public HashMap<Integer,StarSystem> idMap=new HashMap<>();
 	static int nextSystemId;
 	Pixmap crossCursor;
+	public static final int hullRepairCost=50;
 	@Override
 	public void create () {
 		INSTANCE=this;

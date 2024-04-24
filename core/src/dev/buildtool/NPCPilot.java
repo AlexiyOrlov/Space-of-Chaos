@@ -726,10 +726,10 @@ public class NPCPilot implements Ship, SaveData {
         {
             //TODO
             int toRepair=hull.integrity-integrity;
-            int repairCost=10*toRepair;
+            int repairCost=SpaceOfChaos.hullRepairCost*toRepair;
             int toSpend=Math.min(money,repairCost);
             if(toSpend>0) {
-                int willRepair = toSpend / 10;
+                int willRepair = toSpend / SpaceOfChaos.hullRepairCost;
                 money -= toSpend;
                 integrity += willRepair;
                 state = State.FINE;

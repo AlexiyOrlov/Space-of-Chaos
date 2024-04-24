@@ -441,9 +441,9 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 int toRepair=player.getHull().integrity-player.getIntegrity();
-                int repairCost=toRepair*50;
+                int repairCost=toRepair*SpaceOfChaos.hullRepairCost;
                 int canRepair=Math.min(repairCost,player.money);
-                int amountToRepair=canRepair/50;
+                int amountToRepair=canRepair/SpaceOfChaos.hullRepairCost;
                 if(toRepair>0) {
                     if(amountToRepair>0) {
                         Dialogs.showOptionDialog(stage, "Repair?", "Repair " + amountToRepair + " integrity for " + canRepair + "?", Dialogs.OptionDialogType.YES_NO, new OptionDialogAdapter() {
