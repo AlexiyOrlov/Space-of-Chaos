@@ -61,6 +61,8 @@ public class NPCPilot implements Ship, SaveData {
     public int homePlanetId=-1;
     public int currentSystemId=-1;
 
+    float patrollingTime=180;
+
     @Override
     public Map<String, Object> getData() {
         HashMap<String,Object> data=new HashMap<>();
@@ -89,6 +91,7 @@ public class NPCPilot implements Ship, SaveData {
         data.put("integrity",integrity);
         data.put("x",x);
         data.put("y",y);
+        data.put("patrol time",patrollingTime);
         //currentlylandendon
         //current system
         return data;
@@ -119,6 +122,7 @@ public class NPCPilot implements Ship, SaveData {
         integrity= (int) data.get("integrity");
         x= (float)(double) data.get("x");
         y= (float)(double) data.get("y");
+        patrollingTime= (float)(double) data.get("patrol time");
     }
 
     enum State {
@@ -182,7 +186,7 @@ public class NPCPilot implements Ship, SaveData {
                 case GUARD -> guardAI(deltaTime);
                 case PIRATE -> pirateAI();
                 case AI -> aiai(deltaTime);
-                case MERCENARY -> mercenaryAi();
+                case MERCENARY -> mercenaryAi(deltaTime);
             }
         }
     }
@@ -552,11 +556,50 @@ public class NPCPilot implements Ship, SaveData {
         }
     }
 
-    private void mercenaryAi()
+    private void mercenaryAi(float delta)
     {
-        if(navigatingTo==null)
+        if(target!=null)
         {
-            navigatingTo=findClosestSystems().stream().findAny().get();
+            rotateTowards(target.getX(),target.getY());
+            if(Vector2.dst(target.getX(),target.getY(),x,y)>SpaceOfChaos.getWindowHeight()/2)
+            {
+                move();
+            }
+            else {
+                if (sideMovementTime <= 0) {
+                    sideMovementTime = random.nextInt(3, 6);
+                    strafeDirection = random.nextBoolean();
+                } else {
+                    sideMovementTime -= delta;
+                }
+                strafe(strafeDirection);
+                if(isLookingAt(target.getX(),target.getY()))
+                {
+                    fire();
+                }
+            }
+            if(target.getIntegrity()<=0 || target.isLanded() || target.getCurrentSystem()!=currentSystem)
+                target=null;
+        }
+        else if(navigatingTo==null)
+        {
+            if(patrollingTime<=0) {
+                navigatingTo = findClosestSystems().stream().findAny().get();
+            }
+            else {
+                patrollingTime-=delta;
+                if(targetPlanet==null)
+                {
+                    targetPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                }
+                else {
+                    rotateTowards(targetPlanet.x, targetPlanet.y);
+                    if(Vector2.dst(targetPlanet.x,targetPlanet.y,x,y)>200)
+                    {
+                        move();
+                    }
+                }
+            }
         }
         else {
             StarGate starGate=currentSystem.starGate;
@@ -567,6 +610,7 @@ public class NPCPilot implements Ship, SaveData {
             }
             else {
                 canJump=true;
+                patrollingTime=random.nextInt(180,300);
             }
         }
     }
