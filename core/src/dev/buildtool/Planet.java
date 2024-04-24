@@ -384,6 +384,8 @@ public class Planet implements SaveData {
                 Weapon randomSecondary=randomint==0?WeaponRegistry.getRandomTier1Weapon():randomint==1?WeaponRegistry.getRandomTier2Weapon():WeaponRegistry.getRandomTier3Weapon();
                 NPCPilot mercenary=new NPCPilot(PilotAI.MERCENARY,randomPrimary,Hull.playerHulls.get(random.nextInt(Hull.playerHulls.size())),Engine.randomEngine(),SideThrusters.getRandomThrusters(),this,starSystem,randomSecondary);
                 starSystem.ships.add(mercenary);
+                mercenary.x=x;
+                mercenary.y=y;
             }
         } else if (kind == Kind.OCCUPIED) {
             int randomInt=random.nextInt(100);
