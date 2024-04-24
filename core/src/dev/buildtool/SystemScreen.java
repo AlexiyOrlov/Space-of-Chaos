@@ -177,13 +177,23 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 }
             }
         });
+        TextButton mainMenu=new TextButton("Main menu",skin);
+        mainMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.setScreen(new StartScreen(SpaceOfChaos.INSTANCE));
+            }
+        });
         pauseMenu.add(label);
         pauseMenu.row();
         pauseMenu.add(save);
         pauseMenu.row();
         pauseMenu.add(load);
         pauseMenu.row();
+        pauseMenu.add(mainMenu);
+        pauseMenu.row();
         pauseMenu.add(quit);
+        pauseMenu.row();
         pauseMenu.setVisible(false);
         stage.addActor(pauseMenu);
         Pixmap pixmap=new Pixmap(1,1, Pixmap.Format.RGB565);
