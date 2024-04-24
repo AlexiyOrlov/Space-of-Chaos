@@ -98,7 +98,6 @@ public class NPCPilot implements Ship, SaveData {
             data.put("leader",leaderId);
         }
         //currentlylandendon
-        //current system
         return data;
     }
 
