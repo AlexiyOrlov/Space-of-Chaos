@@ -379,7 +379,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         else {
             if(!pauseMenu.isVisible()) {
                 spriteBatch.begin();
-                GlyphLayout glyphLayout = new GlyphLayout(font, "Press ESC for menu");
+                GlyphLayout glyphLayout = new GlyphLayout(font, "Ship was destroyed. Press ESC for menu");
                 font.draw(spriteBatch, "Ship was destroyed. Press Esc for menu", Gdx.graphics.getBackBufferWidth() / 2 - glyphLayout.width / 2, SpaceOfChaos.getWindowHeight() / 2);
                 spriteBatch.end();
             }
