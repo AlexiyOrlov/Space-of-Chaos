@@ -182,6 +182,7 @@ public class NPCPilot implements Ship, SaveData {
                 case GUARD -> guardAI(deltaTime);
                 case PIRATE -> pirateAI();
                 case AI -> aiai(deltaTime);
+                case MERCENARY -> mercenaryAi();
             }
         }
     }
@@ -547,6 +548,25 @@ public class NPCPilot implements Ship, SaveData {
                         move();
                     }
                 }
+            }
+        }
+    }
+
+    private void mercenaryAi()
+    {
+        if(navigatingTo==null)
+        {
+            navigatingTo=findClosestSystems().stream().findAny().get();
+        }
+        else {
+            StarGate starGate=currentSystem.starGate;
+            if(Vector2.dst(starGate.x,starGate.y,x,y)>20)
+            {
+                rotateTowards(starGate.x,starGate.y);
+                move();
+            }
+            else {
+                canJump=true;
             }
         }
     }
