@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -373,6 +374,14 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                         break;
                     }
                 }
+            }
+        }
+        else {
+            if(!pauseMenu.isVisible()) {
+                spriteBatch.begin();
+                GlyphLayout glyphLayout = new GlyphLayout(font, "Press ESC for menu");
+                font.draw(spriteBatch, "Ship was destroyed. Press Esc for menu", Gdx.graphics.getBackBufferWidth() / 2 - glyphLayout.width / 2, SpaceOfChaos.getWindowHeight() / 2);
+                spriteBatch.end();
             }
         }
 
