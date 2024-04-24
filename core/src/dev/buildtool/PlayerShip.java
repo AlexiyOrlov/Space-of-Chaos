@@ -335,6 +335,18 @@ public class PlayerShip implements Ship,SaveData {
         {
             toggleMouseAction();
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.F))
+        {
+            ArrayList<Container> toRemove=new ArrayList<>();
+            for (Container container : currentStarSystem.itemContainers) {
+                if (Vector2.dst(x, y, container.x, container.y) < 40) {
+                    inventory.addItem(container.stack);
+                    toRemove.add(container);
+                }
+            }
+            currentStarSystem.itemContainers.removeAll(toRemove);
+        }
     }
 
     public boolean toggleMouseAction()
