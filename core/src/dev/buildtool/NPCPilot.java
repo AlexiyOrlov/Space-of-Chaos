@@ -62,6 +62,7 @@ public class NPCPilot implements Ship, SaveData {
 
     float patrollingTime=180;
     public Ship leader;
+    public int leaderId=-1;
 
     @Override
     public Map<String, Object> getData() {
@@ -92,6 +93,10 @@ public class NPCPilot implements Ship, SaveData {
         data.put("x",x);
         data.put("y",y);
         data.put("patrol time",patrollingTime);
+        if(leaderId!=-1)
+        {
+            data.put("leader",leaderId);
+        }
         //currentlylandendon
         //current system
         return data;
@@ -123,6 +128,10 @@ public class NPCPilot implements Ship, SaveData {
         x= (float)(double) data.get("x");
         y= (float)(double) data.get("y");
         patrollingTime= (float)(double) data.get("patrol time");
+        if(data.containsKey("leader"))
+        {
+            leaderId= (int) data.get("leader");
+        }
     }
 
     enum State {
@@ -1008,6 +1017,7 @@ public class NPCPilot implements Ship, SaveData {
     @Override
     public void setLeader(Ship ship) {
         leader=ship;
+        leaderId=leader.getId();
     }
 
     @Override
