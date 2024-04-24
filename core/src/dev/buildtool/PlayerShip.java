@@ -160,7 +160,7 @@ public class PlayerShip implements Ship,SaveData {
         for (Planet planet : currentStarSystem.planets) {
             if(planet.outline.overlaps(area))
             {
-                hudText.add("Press 'L' to land");
+                hudText.add("Press 'E' to land");
                 break;
             }
         }
@@ -172,7 +172,7 @@ public class PlayerShip implements Ship,SaveData {
 
         if(currentStarSystem.spaceStation!=null && currentStarSystem.spaceStation.area.overlaps(area))
         {
-            hudText.add("Press 'L' to land");
+            hudText.add("Press 'E' to land");
         }
 
         int y=50;
@@ -248,7 +248,7 @@ public class PlayerShip implements Ship,SaveData {
                 acceleration -= 0.03f;
             }
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 for (Planet planet : currentStarSystem.planets) {
                     if (planet.outline.overlaps(area)) {
                         if (planet.kind== Planet.Kind.INHABITED)
