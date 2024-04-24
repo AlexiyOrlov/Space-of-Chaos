@@ -113,6 +113,11 @@ public class PlayerShip implements Ship,SaveData {
         return (Hull) shipParts.stacks[0].item;
     }
 
+    @Override
+    public SideThrusters getThrusters() {
+        return getSideThrusters();
+    }
+
     public Inventory getShipParts() {
         return shipParts;
     }
@@ -267,7 +272,7 @@ public class PlayerShip implements Ship,SaveData {
                     SpaceOfChaos.INSTANCE.setScreen(new SpaceStationScreen(currentStarSystem.spaceStation,this));
                 }
             }
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !mouseAction) {
                 if (fireDelay <= 0) {
                     Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, homingTarget,damageOnlyAIShips? ship -> ship instanceof NPCPilot npcPilot&& npcPilot.pilotAI==PilotAI.AI: ship -> true, currentStarSystem);
                     if (projectiles != null) {
@@ -276,7 +281,7 @@ public class PlayerShip implements Ship,SaveData {
                     }
                 }
             }
-            if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
+            if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && !mouseAction){
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
@@ -306,15 +311,21 @@ public class PlayerShip implements Ship,SaveData {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R))
         {
-            mouseAction=!mouseAction;
-            if(mouseAction)
-            {
-                Gdx.graphics.setCursor(Gdx.graphics.newCursor(SpaceOfChaos.INSTANCE.crossCursor, 16,16));
-            }
-            else {
-                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
-            }
+            toggleMouseAction();
         }
+    }
+
+    public boolean toggleMouseAction()
+    {
+        mouseAction=!mouseAction;
+        if(mouseAction)
+        {
+            Gdx.graphics.setCursor(Gdx.graphics.newCursor(SpaceOfChaos.INSTANCE.crossCursor, 16,16));
+        }
+        else {
+            Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+        }
+        return mouseAction;
     }
 
     public void addItem(Stack stack)
@@ -456,5 +467,10 @@ public class PlayerShip implements Ship,SaveData {
     @Override
     public int getId() {
         return 0;
+    }
+
+    @Override
+    public PilotAI getAI() {
+        return null;
     }
 }

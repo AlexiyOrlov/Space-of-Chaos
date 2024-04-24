@@ -945,4 +945,34 @@ public class NPCPilot implements Ship, SaveData {
     public int getId() {
         return id;
     }
+
+    @Override
+    public PilotAI getAI() {
+        return pilotAI;
+    }
+
+    @Override
+    public Engine getEngine() {
+        return engine;
+    }
+
+    @Override
+    public Hull getHull() {
+        return hull;
+    }
+
+    @Override
+    public SideThrusters getThrusters() {
+        return sideThrusters;
+    }
+
+    @Override
+    public Weapon getPrimaryWeapon() {
+        return primaryWeapon;
+    }
+
+    @Override
+    public Weapon getSecondaryWeapon() {
+        return secondaryWeapon;
+    }
 }

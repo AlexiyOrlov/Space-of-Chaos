@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 import dev.buildtool.projectiles.Projectile;
+import dev.buildtool.weapons.Weapon;
 
 public interface Ship {
     float getX();
@@ -24,4 +25,11 @@ public interface Ship {
     boolean isLanded();
     void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
     int getId();
+    PilotAI getAI();
+
+    Engine getEngine();
+    Hull getHull();
+    SideThrusters getThrusters();
+    Weapon getPrimaryWeapon();
+    Weapon getSecondaryWeapon();
 }

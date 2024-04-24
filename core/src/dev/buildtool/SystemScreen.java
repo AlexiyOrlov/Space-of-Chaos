@@ -256,6 +256,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
+        Skin skin=SpaceOfChaos.INSTANCE.skin;
         PlayerShip playerShip= SpaceOfChaos.INSTANCE.playerShip;
         if(playerShip!=null)
             playerShip.update(delta, viewport);
@@ -398,6 +399,45 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 }
             }
             spriteBatch.end();
+        }
+
+        if(playerShip!=null && Gdx.input.justTouched() && playerShip.mouseAction)
+        {
+            Vector2 mousePos=viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            for (Ship ship : starSystem.ships) {
+                if(ship.contains(mousePos) && ship.getAI()==PilotAI.MERCENARY)
+                {
+                    int equipmentCost=ship.getEngine().basePrice;
+                    equipmentCost+=ship.getThrusters().basePrice;
+                    equipmentCost+=ship.getHull().basePrice;
+                    equipmentCost+=ship.getPrimaryWeapon().basePrice;
+                    equipmentCost+=ship.getSecondaryWeapon().basePrice;
+
+                    Dialog dialog=new Dialog("Communication",skin);
+                    TextButton hire=new TextButton("Hire this pilot",skin);
+                    dialog.button(hire);
+                    int finalEquipmentCost = equipmentCost;
+                    hire.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            Functions.log(String.valueOf(finalEquipmentCost));
+//                            int cost=finalEquipmentCost/2;
+//                            if(cost<=playerShip.money)
+//                            {
+//
+//                            }
+//                            else {
+//                                Dialogs.showOKDialog(stage,"Not enough money","You have "+playerShip.money+" money. This pilot costs "+cost+".");
+//                            }
+                        }
+                    });
+                    TextButton cancel=new TextButton("Cancel",skin);
+                    dialog.button(cancel);
+                    dialog.show(stage);
+                    playerShip.toggleMouseAction();
+                    break;
+                }
+            }
         }
     }
 
