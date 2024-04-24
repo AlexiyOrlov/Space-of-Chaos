@@ -570,7 +570,7 @@ public class NPCPilot implements Ship, SaveData {
 
     private void mercenaryAi(float delta)
     {
-        if(integrity< hull.integrity)
+        if(integrity< hull.integrity && target==null)
         {
             if(targetPlanet==null) {
                 currentSystem.planets.stream().filter(planet -> planet.kind == Planet.Kind.INHABITED).findAny().ifPresent(planet -> {
