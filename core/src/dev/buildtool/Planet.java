@@ -154,7 +154,8 @@ public class Planet implements SaveData {
         OCCUPIED,
         FREED
     }
-    static {
+
+    static void initialize(){
         planetNames.add("Ankeigantu");
         planetNames.add("Caruta");
         planetNames.add("Namacarro");

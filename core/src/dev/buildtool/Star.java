@@ -15,7 +15,8 @@ public class Star implements SaveData{
     public String name;
     private final Circle area=new Circle(0,0,256);
     static final HashSet<String> starNames=new HashSet<>();
-    static {
+
+    static void initialize(){
         starNames.add("Fi");
         starNames.add("Chaak");
         starNames.add("Cuapret");

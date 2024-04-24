@@ -363,6 +363,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 	public void initialize()
 	{
 		starSystems=new ArrayList<>();
+		Planet.initialize();
+		Star.initialize();
 		int x=0;
 		int y=0;
 		int planetCount=0;
