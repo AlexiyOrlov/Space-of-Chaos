@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -85,6 +86,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	String dataDir=null;
 	public HashMap<Integer,StarSystem> idMap=new HashMap<>();
 	static int nextSystemId;
+	Pixmap crossCursor;
 	@Override
 	public void create () {
 		INSTANCE=this;
@@ -339,6 +341,9 @@ public class SpaceOfChaos extends Game implements SaveData{
 		spaceStationIcon=getTexture("space station icon");
 		ladyBugHull=getTexture("ladybug");
 		cockroachHull=getTexture("cockroach");
+
+		crossCursor=new Pixmap(Gdx.files.internal("textures/cross cursor.png"));
+
 		setScreen(new StartScreen(this));
 	}
 
@@ -358,6 +363,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		textures.forEach(Texture::dispose);
 		sounds.forEach(Sound::dispose);
 		VisUI.dispose();
+		crossCursor.dispose();
 	}
 
 	public void initialize()

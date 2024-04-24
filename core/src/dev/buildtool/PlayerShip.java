@@ -3,6 +3,7 @@ package dev.buildtool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -43,6 +44,7 @@ public class PlayerShip implements Ship,SaveData {
     int reticleRotation;
     public int currentSystemId;
     public static final int rows=4,columns=8;
+    public boolean mouseAction;
 
     public PlayerShip() {
     }
@@ -300,6 +302,18 @@ public class PlayerShip implements Ship,SaveData {
 
             Vector2 mouseWorld = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
             rotation = Functions.rotateTowards(rotation * MathUtils.degreesToRadians, x, y, mouseWorld.x, mouseWorld.y, -MathUtils.degreesToRadians * 90, getSideThrusters().steeringSpeed) * MathUtils.radiansToDegrees;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R))
+        {
+            mouseAction=!mouseAction;
+            if(mouseAction)
+            {
+                Gdx.graphics.setCursor(Gdx.graphics.newCursor(SpaceOfChaos.INSTANCE.crossCursor, 16,16));
+            }
+            else {
+                Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+            }
         }
     }
 
