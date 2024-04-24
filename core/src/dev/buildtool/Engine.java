@@ -43,4 +43,9 @@ public class Engine extends Item{
     {
         System.out.println("Engines initialized");
     }
+
+    public static Engine randomEngine()
+    {
+        return engines.get(SpaceOfChaos.random.nextInt(engines.size()));
+    }
 }

@@ -2,6 +2,7 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SideThrusters extends Item{
@@ -12,6 +13,13 @@ public class SideThrusters extends Item{
     public static final SideThrusters MARK2=new SideThrusters(0.04f,4,"Thrusters MK2",SpaceOfChaos.INSTANCE.sideThrusters3, 26000);
     public static final SideThrusters MARK3=new SideThrusters(0.05f,5,"Thrusters MK3",SpaceOfChaos.INSTANCE.sideThrusters4, 32000);
     public static final SideThrusters MARK4=new SideThrusters(0.06f,6,"Thrusters MK4",SpaceOfChaos.INSTANCE.sideThrusters5, 37000);
+    public static ArrayList<SideThrusters> sideThrusters=new ArrayList<>();
+    static {
+        sideThrusters.add(BASIC);
+        sideThrusters.add(MARK2);
+        sideThrusters.add(MARK3);
+        sideThrusters.add(MARK4);
+    }
     public SideThrusters(float steeringSpeed, float strafingSpeed, String name, Texture texture,int basePrice) {
         super(1,name,texture,basePrice);
         this.steeringSpeed = steeringSpeed;
@@ -29,5 +37,9 @@ public class SideThrusters extends Item{
     public static void initialize()
     {
         System.out.println("Side thrusters initialized");
+    }
+    public static SideThrusters getRandomThrusters()
+    {
+        return sideThrusters.get(SpaceOfChaos.random.nextInt(sideThrusters.size()));
     }
 }

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+import dev.buildtool.weapons.Weapon;
 import dev.buildtool.weapons.WeaponRegistry;
 
 public class Planet implements SaveData {
@@ -373,6 +374,16 @@ public class Planet implements SaveData {
                 NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())), Engine.SLOW,SideThrusters.SLOW, starSystem,this );
                 ships.add(trader);
                 starSystem.ships.add(trader);
+            }
+
+            if(random.nextInt(100)<25)
+            {
+                int randomint=random.nextInt(3);
+                Weapon randomPrimary=randomint==0?WeaponRegistry.getRandomTier1Weapon():randomint==1?WeaponRegistry.getRandomTier2Weapon():WeaponRegistry.getRandomTier3Weapon();
+                randomint=random.nextInt(3);
+                Weapon randomSecondary=randomint==0?WeaponRegistry.getRandomTier1Weapon():randomint==1?WeaponRegistry.getRandomTier2Weapon():WeaponRegistry.getRandomTier3Weapon();
+                NPCPilot mercenary=new NPCPilot(PilotAI.MERCENARY,randomPrimary,Hull.playerHulls.get(random.nextInt(Hull.playerHulls.size())),Engine.randomEngine(),SideThrusters.getRandomThrusters(),this,starSystem,randomSecondary);
+                starSystem.ships.add(mercenary);
             }
         } else if (kind == Kind.OCCUPIED) {
             int randomInt=random.nextInt(100);

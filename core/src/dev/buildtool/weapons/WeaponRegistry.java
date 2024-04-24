@@ -36,4 +36,19 @@ public class WeaponRegistry {
     {
         System.out.println("Weapon registry initialized");
     }
+
+    public static Weapon getRandomTier1Weapon()
+    {
+        return TIER1_WEAPONS.get(SpaceOfChaos.random.nextInt(TIER1_WEAPONS.size()));
+    }
+
+    public static Weapon getRandomTier2Weapon()
+    {
+        return TIER2_WEAPONS.get(SpaceOfChaos.random.nextInt(TIER2_WEAPONS.size()));
+    }
+
+    public static Weapon getRandomTier3Weapon()
+    {
+        return TIER3_WEAPONS.get(SpaceOfChaos.random.nextInt(TIER3_WEAPONS.size()));
+    }
 }
