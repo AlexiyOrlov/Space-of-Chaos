@@ -216,7 +216,7 @@ public class PlayerShip implements Ship,SaveData {
         uibatch.begin();
         if(damageOnlyAIShips)
         {
-            font.draw(uibatch,"AI Enemy",70,backBufferHeight/2-20);
+            font.draw(uibatch,"Enemy",70,backBufferHeight/2-20);
         }
         else {
             font.draw(uibatch,"All",70,backBufferHeight/2-20);
