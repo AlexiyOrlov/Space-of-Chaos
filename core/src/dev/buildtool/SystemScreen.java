@@ -414,24 +414,24 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                     equipmentCost+=ship.getSecondaryWeapon().basePrice;
 
                     Dialog dialog=new Dialog("Communication",skin);
-                    TextButton hire=new TextButton("Hire this pilot",skin);
+                    TextButton hire=new TextButton("Hire this pilot for "+(equipmentCost/2)+"?\nYou have "+playerShip.money,skin);
                     dialog.button(hire);
                     int finalEquipmentCost = equipmentCost;
                     hire.addListener(new ChangeListener() {
                         @Override
                         public void changed(ChangeEvent event, Actor actor) {
                             Functions.log(String.valueOf(finalEquipmentCost));
-                            ship.setLeader(playerShip);
-                            playerShip.hiredShips.add(ship);
                             playerShip.toggleMouseAction();
-//                            int cost=finalEquipmentCost/2;
-//                            if(cost<=playerShip.money)
-//                            {
-//
-//                            }
-//                            else {
-//                                Dialogs.showOKDialog(stage,"Not enough money","You have "+playerShip.money+" money. This pilot costs "+cost+".");
-//                            }
+                            int cost=finalEquipmentCost/2;
+                            if(cost<=playerShip.money)
+                            {
+                                playerShip.money-=cost;
+                                ship.setLeader(playerShip);
+                                playerShip.hiredShips.add(ship);
+                            }
+                            else {
+                                Dialogs.showOKDialog(stage,"Not enough money","You have "+playerShip.money+" money. This pilot costs "+cost+".");
+                            }
                         }
                     });
                     TextButton cancel=new TextButton("Cancel",skin);
