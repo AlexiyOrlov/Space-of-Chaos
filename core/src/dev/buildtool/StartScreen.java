@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -71,11 +73,10 @@ public class StartScreen extends ScreenAdapter {
                     Dialog dialog=new Dialog("List of saves",skin);
                     files.forEach(path -> {
                         Label label=new Label(path.getFileName().toString(),skin);
-                        TextButton textButton=new TextButton("Load",skin);
-                        textButton.addListener(new ChangeListener() {
+                        TextButton load=new TextButton("Load",skin);
+                        load.addListener(new ChangeListener() {
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
-                                System.out.println(path);
                                 SpaceOfChaos.INSTANCE.loadGame(path);
                                 if(SpaceOfChaos.INSTANCE.playerShip.isLanded())
                                 {
@@ -83,8 +84,28 @@ public class StartScreen extends ScreenAdapter {
                                 }
                             }
                         });
+                        TextButton delete=new TextButton("Delete",skin);
+                        delete.addListener(new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                Dialogs.showOptionDialog(stage,"Confirm deletion","Delete this save?", Dialogs.OptionDialogType.YES_NO,new OptionDialogAdapter(){
+                                    @Override
+                                    public void yes() {
+                                        try {
+                                            Files.delete(path);
+                                            forPane.removeActor(label);
+                                            forPane.removeActor(load);
+                                            forPane.removeActor(delete);
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                });
+                            }
+                        });
                         forPane.add(label);
-                        forPane.add(textButton);
+                        forPane.add(load);
+                        forPane.add(delete);
                         forPane.row();
                     });
                     TextButton cancel=new TextButton("Cancel",skin);
