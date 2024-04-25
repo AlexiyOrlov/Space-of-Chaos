@@ -370,9 +370,9 @@ public class Planet implements SaveData {
 
             if(random.nextBoolean())
             {
-                NPCPilot trader=new NPCPilot(this,PilotAI.TRADER,WeaponRegistry.GUN,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())), Engine.SLOW,SideThrusters.SLOW, starSystem,this );
-                ships.add(trader);
+                NPCPilot trader=new NPCPilot(PilotAI.TRADER,WeaponRegistry.GUN,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())), Engine.SLOW,SideThrusters.SLOW, starSystem,this );
                 starSystem.ships.add(trader);
+                trader.land(this);
             }
 
             if(random.nextInt(100)<25)

@@ -142,9 +142,8 @@ public class NPCPilot implements Ship, SaveData {
     public NPCPilot() {
     }
 
-    public NPCPilot(Planet currentlyLandedOn, PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, StarSystem currentStarSystem, Planet homePlanet) {
-        this.currentlyLandedOn = currentlyLandedOn;
-        currentSystem=currentlyLandedOn.starSystem;
+    public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, StarSystem currentStarSystem, Planet homePlanet) {
+        currentSystem=currentStarSystem;
         inventory=new Inventory(40);
         pilotAI=type;
         this.primaryWeapon = primaryWeapon;
@@ -159,7 +158,7 @@ public class NPCPilot implements Ship, SaveData {
 
     public NPCPilot(PilotAI type, Weapon primaryWeapon, Hull hull, Engine engine, SideThrusters sideThrusters, Planet homePlanet, StarSystem currentStarSystem)
     {
-        this(homePlanet,type, primaryWeapon,hull,engine,sideThrusters, currentStarSystem,homePlanet);
+        this(type, primaryWeapon,hull,engine,sideThrusters, currentStarSystem,homePlanet);
         this.homePlanet = homePlanet;
     }
 
@@ -346,7 +345,7 @@ public class NPCPilot implements Ship, SaveData {
         }
     }
 
-    private void land(Planet on)
+    public void land(Planet on)
     {
         on.ships.add(this);
         landed=true;
