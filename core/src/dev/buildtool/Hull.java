@@ -81,4 +81,9 @@ public class Hull extends Item{
     {
         System.out.println("Hulls initialized");
     }
+
+    public static Hull getRandomPlayerHull()
+    {
+        return playerHulls.get(SpaceOfChaos.random.nextInt(playerHulls.size()));
+    }
 }

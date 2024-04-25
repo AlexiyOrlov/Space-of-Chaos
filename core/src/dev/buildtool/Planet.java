@@ -488,19 +488,22 @@ public class Planet implements SaveData {
                     shipManufacturingTime=random.nextInt(15*60,25*60);
                     NPCPilot newPilot;
                     int ri=random.nextInt(100);
-                    if(ri<33)
+                    if(ri<25)
                     {
                         newPilot=new NPCPilot(PilotAI.PIRATE,random.nextBoolean()?WeaponRegistry.AI_GUN1:WeaponRegistry.SHOTGUN,Hull.pirateHulls.get(random.nextInt(Hull.pirateHulls.size())),Engine.engines.get(random.nextInt(Engine.engines.size())),SideThrusters.BASIC,this,starSystem );
-                    } else if (ri < 66) {
+                    } else if (ri < 50) {
                         newPilot=new NPCPilot(PilotAI.GUARD,random.nextBoolean()?WeaponRegistry.SHOTGUN:WeaponRegistry.MACHINE_GUN,Hull.battleHulls.get(random.nextInt(Hull.battleHulls.size())), Engine.engines.get(random.nextInt(Engine.engines.size())),SideThrusters.BASIC,this, starSystem);
-                    }
-                    else {
+                    } else if (ri <= 75) {
+                        int rai=random.nextInt(3);
+                        int rai2=random.nextInt(3);
+                        newPilot=new NPCPilot(PilotAI.MERCENARY,rai==0?WeaponRegistry.getRandomTier1Weapon():rai==1?WeaponRegistry.getRandomTier2Weapon():WeaponRegistry.getRandomTier3Weapon(),Hull.getRandomPlayerHull(),Engine.randomEngine(),SideThrusters.getRandomThrusters(),this,starSystem,rai2==0?WeaponRegistry.getRandomTier1Weapon():rai2==1?WeaponRegistry.getRandomTier2Weapon():WeaponRegistry.getRandomTier3Weapon());
+                    } else {
                         newPilot=new NPCPilot(PilotAI.TRADER,random.nextBoolean()?WeaponRegistry.GUN: WeaponRegistry.AI_GUN1,Hull.tradingHulls.get(random.nextInt(Hull.tradingHulls.size())),Engine.SLOW,SideThrusters.SLOW,this, starSystem);
                     }
                     newPilot.x=x;
                     newPilot.y=y;
                     starSystem.ships.add(newPilot);
-                    Functions.log("Ship produced");
+                    Functions.log(newPilot.pilotAI+ " ship produced");
                 }
 
 
