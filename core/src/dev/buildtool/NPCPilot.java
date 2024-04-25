@@ -260,7 +260,6 @@ public class NPCPilot implements Ship, SaveData {
                     else {
                         rotateTowards(targetPlanet.x, targetPlanet.y);
                         if (Vector2.dst(x, y, targetPlanet.x, targetPlanet.y) < 20) {
-                            currentlyLandedOn = targetPlanet;
                             land(targetPlanet);
                             if (SpaceOfChaos.debugDraw)
                                 System.out.println("Landed on " + targetPlanet.name);
@@ -351,6 +350,7 @@ public class NPCPilot implements Ship, SaveData {
     {
         on.ships.add(this);
         landed=true;
+        currentlyLandedOn=on;
     }
 
     private void guardAI(float deltaTime)
