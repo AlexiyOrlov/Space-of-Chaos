@@ -75,8 +75,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 		stargateJump;
 	private final ArrayList<Texture> textures=new ArrayList<>(600);
 	private final ArrayList<Sound> sounds=new ArrayList<>(100);
-	private float aiAttackTimer=0;//random.nextInt(15*60);
-	private float humanAttackTimer=0;
+	private float aiAttackTimer=random.nextInt(10*60,20*60);
+	private float humanAttackTimer=random.nextInt(10*60,20*60);
 	private Texture explosionSprite;
 	public Animation<TextureRegion> explosionAnimation;
 	private SystemScreen systemScreen;
