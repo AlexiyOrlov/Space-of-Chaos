@@ -435,7 +435,6 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
                 SpaceOfChaos.INSTANCE.autoSave();
             }
         });
-//        outer.add(takeOffButton);
         TextImageButton repairButton=new TextImageButton(player.integrity<player.getHull().integrity?"Repair hull":"Integrity is full",skin,SpaceOfChaos.INSTANCE.wrenchTexture);
         repairButton.addListener(new ChangeListener() {
             @Override
