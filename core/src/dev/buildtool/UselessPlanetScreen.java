@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -88,11 +89,20 @@ public class UselessPlanetScreen extends ScreenAdapter implements StackHandler{
             }
             playerInventory.row();
         }
+        TextButton toggleTime=new TextButton(SpaceOfChaos.INSTANCE.updateWorld?"World is simulating":"World is paused",skin);
+        toggleTime.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                SpaceOfChaos.INSTANCE.updateWorld=!SpaceOfChaos.INSTANCE.updateWorld;
+                toggleTime.setText(SpaceOfChaos.INSTANCE.updateWorld?"World is simulating":"World is paused");
+            }
+        });
         table.add(new Label("Planet "+planet.name,skin)).colspan(3);
         table.row();
         table.add(shipParts);
         table.add(playerInventory);
         table.add(takeOffButton);
+        table.add(toggleTime);
         stage.addActor(table);
     }
 
