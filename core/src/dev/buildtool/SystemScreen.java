@@ -449,6 +449,10 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                                 playerShip.money-=cost;
                                 ship.setLeader(playerShip);
                                 playerShip.hiredShips.add(ship);
+                                if(ship instanceof NPCPilot npcPilot)
+                                {
+                                    npcPilot.money+=cost;
+                                }
                             }
                             else {
                                 Dialogs.showOKDialog(stage,"Not enough money","You have "+playerShip.money+" money. This pilot costs "+cost+".");
