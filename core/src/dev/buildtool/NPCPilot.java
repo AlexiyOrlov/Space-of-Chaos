@@ -227,9 +227,24 @@ public class NPCPilot implements Ship, SaveData {
                 List<StarSystem> systemsWithHigherPrices= filterSystemsWithHigherPrices(closestSystems);
                 if(systemsWithHigherPrices.isEmpty())
                 {
-                    navigatingTo=closestSystems.get(random.nextInt(closestSystems.size()));
-                    if(SpaceOfChaos.debugDraw)
-                        System.out.println("Profitable planets not found. Going to "+navigatingTo.getStarName());
+                    List<StarSystem> systemsWithFreedPlanets=closestSystems.stream().filter(starSystem -> {
+                        for (Planet planet : starSystem.planets) {
+                            if(planet.kind== Planet.Kind.FREED)
+                                return true;
+                        }
+                        return false;
+                    }).toList();
+                    if(!systemsWithFreedPlanets.isEmpty())
+                    {
+                        navigatingTo=systemsWithFreedPlanets.get(random.nextInt(systemsWithFreedPlanets.size()));
+                        if(SpaceOfChaos.debugDraw)
+                            System.out.println("Going to system with freed planet - "+navigatingTo.getStarName());
+                    }
+                    else {
+                        navigatingTo = closestSystems.get(random.nextInt(closestSystems.size()));
+                        if (SpaceOfChaos.debugDraw)
+                            System.out.println("Profitable planets not found. Going to " + navigatingTo.getStarName());
+                    }
                 }
                 else {
                     navigatingTo = systemsWithHigherPrices.get(random.nextInt(systemsWithHigherPrices.size()));
@@ -246,9 +261,15 @@ public class NPCPilot implements Ship, SaveData {
                         targetPlanet = planetsWithHigherPrices.get(random.nextInt(planetsWithHigherPrices.size()));
                     }
                     else{
-                        if(SpaceOfChaos.debugDraw)
-                            System.out.println("No suitable planets");
-                        navigatingTo=null;
+                        List<Planet> freedPlanets=currentSystem.planets.stream().filter(planet -> planet.kind== Planet.Kind.FREED).toList();
+                        if(freedPlanets.isEmpty()) {
+                            if (SpaceOfChaos.debugDraw)
+                                System.out.println("No suitable planets");
+                            navigatingTo = null;
+                        }
+                        else {
+                            targetPlanet=freedPlanets.get(random.nextInt(freedPlanets.size()));
+                        }
                     }
                 }
                 else {
