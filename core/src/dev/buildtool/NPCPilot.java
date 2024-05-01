@@ -758,6 +758,7 @@ public class NPCPilot implements Ship, SaveData {
                 state=null;
             } else {
                 timeSpentOnPlanet += deltaTime;
+
                 if (pilotAI == PilotAI.TRADER) {
                     if (inventory.isEmpty()) {
                         if (money > 0) {
