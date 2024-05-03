@@ -55,7 +55,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
     Viewport viewport;
     StarSystem starSystem;
     Rectangle viewportBounds;
-    private final Stage stage;
+    final Stage stage;
     private final Table pauseMenu;
     private final Table playerInventory;
     private Stack stackUnderMouse;

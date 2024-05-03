@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -541,6 +542,23 @@ public class SpaceOfChaos extends Game implements SaveData{
 					}
 				});
 				systemCheckTime=0.5f;
+				if(starSystems.stream().noneMatch(starSystem -> starSystem.occupied))
+				{
+					Functions.log("All systems have been liberated");
+					if(systemScreen!=null)
+					{
+						Dialog dialog=new Dialog("All systems have been liberated. You have won the game!",skin);
+						TextButton ok=new TextButton("Go to main menu",skin);
+						ok.addListener(new ChangeListener() {
+							@Override
+							public void changed(ChangeEvent event, Actor actor) {
+								setScreen(new StartScreen(SpaceOfChaos.this));
+							}
+						});
+						dialog.button(ok);
+						dialog.show(systemScreen.stage);
+					}
+				}
 			}
 			else {
 				systemCheckTime-=deltaTime;
