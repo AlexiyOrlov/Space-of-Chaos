@@ -629,6 +629,14 @@ public class NPCPilot implements Ship, SaveData {
                         canJump=true;
                     }
                 }
+
+                for (Ship ship : currentSystem.ships) {
+                    if(ship.getTarget()==leader)
+                    {
+                        setTarget(ship);
+                        break;
+                    }
+                }
             }
             else {
                 combat(delta);
