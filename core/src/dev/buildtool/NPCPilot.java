@@ -192,7 +192,7 @@ public class NPCPilot implements Ship, SaveData {
                 case TRADER -> traderAI();
                 case GUARD -> guardAI(deltaTime);
                 case PIRATE -> pirateAI();
-                case AI -> aiai(deltaTime);
+                case AI -> alienAI(deltaTime);
                 case MERCENARY -> mercenaryAi(deltaTime);
             }
         }
@@ -525,7 +525,7 @@ public class NPCPilot implements Ship, SaveData {
         }
     }
 
-    private void aiai(float deltaTime)
+    private void alienAI(float deltaTime)
     {
         if(target!=null)
         {
