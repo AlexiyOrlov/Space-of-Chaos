@@ -59,7 +59,6 @@ public class Item implements Comparable<Item>{
         equipment.add(ALL_TARGET_RADAR);
         equipment.add(PRICE_SCANNER);
         equipment.add(SHIP_RADAR);
-        equipment.add(ExplorationDrone.MARK1);
         equipment.add(Engine.MARK2);
         equipment.add(Engine.ENGINE_3);
         equipment.add(Hull.BUMBLEBEE);
