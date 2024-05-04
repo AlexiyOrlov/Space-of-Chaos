@@ -165,7 +165,25 @@ public class StarSystem implements SaveData{
             for (Projectile projectile : projectiles) {
                 if(projectile.shooter!=ship)
                 {
-                    if((projectile.target==null || (projectile.target==ship)) && !ship.isLanded() && projectile.validTargets.test(ship) && (projectile.target==null || projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem()))
+                    boolean hit=true;
+                    if(projectile.shooter instanceof PlayerShip playerShip)
+                    {
+                        if(playerShip.hiredShips.contains(ship))
+                        {
+                            hit=false;
+                        }
+                        if(playerShip.damageOnlyAIShips && ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI)
+                        {
+                            hit=false;
+                        }
+                    }
+                    else {
+                        if(projectile.target!=ship)
+                        {
+                            hit=false;
+                        }
+                    }
+                    if(hit && (projectile.target==null || projectile.shooter.getCurrentSystem()==projectile.target.getCurrentSystem()) && !ship.isLanded() )
                     {
                         if(ship.overlaps(projectile.area)) {
                             damageShip(ship, projectile, shipsToRemove, toRemove);

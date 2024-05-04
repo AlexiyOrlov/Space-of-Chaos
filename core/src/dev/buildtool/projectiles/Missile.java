@@ -14,8 +14,8 @@ import dev.buildtool.StarSystem;
 
 public class Missile extends Projectile implements DestructibleProjectile{
     private int integrity=30;
-    public Missile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
-        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, shipPredicate,starSystem);
+    public Missile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, StarSystem starSystem) {
+        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, starSystem);
     }
 
     @Override

@@ -12,8 +12,8 @@ import dev.buildtool.StarSystem;
 public class SplittingProjectile extends Projectile{
 
 
-    public SplittingProjectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
-        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, shipPredicate, starSystem);
+    public SplittingProjectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, StarSystem starSystem) {
+        super(texture, damage, x, y, rotationDegrees, speed, shooter, target, starSystem);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SplittingProjectile extends Projectile{
         {
             int rotation= SpaceOfChaos.random.nextInt(-180,180);
             for (int i = 0; i < 20; i++) {
-                Projectile projectile=new Projectile(texture,damage-3,x,y,rotation,speed,shooter,target,validTargets, starSystem);
+                Projectile projectile=new Projectile(texture,damage-3,x,y,rotation,speed,shooter,target, starSystem);
                 projectilesToAdd.add(projectile);
                 rotation+=18;
             }

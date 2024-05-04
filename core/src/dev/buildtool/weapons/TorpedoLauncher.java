@@ -3,8 +3,6 @@ package dev.buildtool.weapons;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.util.function.Predicate;
-
 import dev.buildtool.StarSystem;
 import dev.buildtool.projectiles.Projectile;
 import dev.buildtool.Ship;
@@ -15,7 +13,7 @@ public class TorpedoLauncher extends Weapon{
     }
 
     @Override
-    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
+    public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem) {
         return new Projectile[0];
     }
 }

@@ -30,7 +30,6 @@ public class Projectile implements SaveData {
     public Ship target;
     protected int speed;
     protected float time;
-    public Predicate<Ship> validTargets=ship -> true;
     protected StarSystem starSystem;
 
     public Vector2 velocity=new Vector2();
@@ -63,10 +62,9 @@ public class Projectile implements SaveData {
         }
     }
 
-    public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
+    public Projectile(Texture texture, int damage, float x, float y, float rotationDegrees, int speed, Ship shooter, Ship target, StarSystem starSystem)
     {
         this(texture, damage, x, y, rotationDegrees, speed, shooter, target);
-        validTargets=shipPredicate;
         this.starSystem=starSystem;
     }
 
