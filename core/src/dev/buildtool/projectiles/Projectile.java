@@ -102,8 +102,6 @@ public class Projectile implements SaveData {
         //target
         data.put("texture id", SpaceOfChaos.INSTANCE.textureHashMap.inverse().get(texture));
         data.put("time",time);
-        //TODO
-//        data.put("target predicate",validTargets);
         data.put("velocity x",velocity.x);
         data.put("velocity y",velocity.y);
         data.put("x",x);
@@ -125,7 +123,6 @@ public class Projectile implements SaveData {
         rotation= (float)(double)  data.get("rotation");
         speed= (int) data.get("speed");
         time= (float)(double) data.get("time");
-//        validTargets= (Predicate<Ship>) data.get("target predicate");
         velocity.x= (float)(double)  data.get("velocity x");
         velocity.y= (float)(double)  data.get("velocity y");
         shooterId= (int) data.get("shooter");
