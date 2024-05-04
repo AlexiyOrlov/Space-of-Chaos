@@ -10,9 +10,9 @@ public class SideThrusters extends Item{
     final float strafingSpeed;
     public static final SideThrusters SLOW=new SideThrusters(0.02f, 2,"Slow thrusters", SpaceOfChaos.INSTANCE.thrusters1Texture, 3000);
     public static final SideThrusters BASIC=new SideThrusters(0.03f, 3,"Basic thrusters", SpaceOfChaos.INSTANCE.thrusters2Texture, 4000);
-    public static final SideThrusters MARK2=new SideThrusters(0.04f,4,"Thrusters MK2",SpaceOfChaos.INSTANCE.sideThrusters3, 26000);
-    public static final SideThrusters MARK3=new SideThrusters(0.05f,5,"Thrusters MK3",SpaceOfChaos.INSTANCE.sideThrusters4, 32000);
-    public static final SideThrusters MARK4=new SideThrusters(0.06f,6,"Thrusters MK4",SpaceOfChaos.INSTANCE.sideThrusters5, 37000);
+    public static final SideThrusters MARK2=new SideThrusters(0.04f,4,"Thrusters MK2",SpaceOfChaos.INSTANCE.sideThrusters3, 52000);
+    public static final SideThrusters MARK3=new SideThrusters(0.05f,5,"Thrusters MK3",SpaceOfChaos.INSTANCE.sideThrusters4, 63000);
+    public static final SideThrusters MARK4=new SideThrusters(0.06f,6,"Thrusters MK4",SpaceOfChaos.INSTANCE.sideThrusters5, 74000);
     public static ArrayList<SideThrusters> sideThrusters=new ArrayList<>();
     static {
         sideThrusters.add(BASIC);
