@@ -61,10 +61,7 @@ public class StarSystem implements SaveData{
         positionY=y;
         if(inhabitedPlanetCount>0)
         {
-            Ware.WARES.forEach(ware -> {
-                float factor = 1 + random.nextFloat(-0.5f, 0.5f);
-                priceFactors.put(ware, factor);
-            });
+            setPriceFactors(random);
             planets.forEach(planet -> {
                 if(planet.kind== Planet.Kind.INHABITED) {
                     planet.initializeMarket();
@@ -74,6 +71,13 @@ public class StarSystem implements SaveData{
                 spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distance+300);
             }
         }
+    }
+
+    public void setPriceFactors(Random random) {
+        Ware.WARES.forEach(ware -> {
+            float factor = 1 + random.nextFloat(-0.5f, 0.5f);
+            priceFactors.put(ware, factor);
+        });
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float deltaTime)

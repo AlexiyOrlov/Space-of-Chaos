@@ -519,6 +519,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 							})) {
 								starSystem.occupied = false;
 								//TODO do something
+								starSystem.setPriceFactors(random);
 								starSystem.planets.forEach(planet -> {
 									if(random.nextBoolean())
 										planet.kind= Planet.Kind.UNINHABITED;
