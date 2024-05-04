@@ -21,11 +21,6 @@ public class ClusterGun extends Weapon{
     }
 
     @Override
-    int projectilesPerShot() {
-        return 20;
-    }
-
-    @Override
     int damagePerShot() {
         return 20*17;
     }
