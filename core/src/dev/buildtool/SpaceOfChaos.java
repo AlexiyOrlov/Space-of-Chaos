@@ -519,7 +519,15 @@ public class SpaceOfChaos extends Game implements SaveData{
 							})) {
 								starSystem.occupied = false;
 								//TODO do something
-								starSystem.planets.forEach(planet -> planet.kind= Planet.Kind.FREED);
+								starSystem.planets.forEach(planet -> {
+									if(random.nextBoolean())
+										planet.kind= Planet.Kind.UNINHABITED;
+									else
+									{
+										planet.kind= Planet.Kind.INHABITED;
+										planet.initializeEquipment();
+									}
+								});
 								Functions.log("System " + starSystem.getStarName() + " was liberated");
 								if (systemScreen != null)
 									systemScreen.addMessage("Star system " + starSystem.getStarName() + " has been liberated");

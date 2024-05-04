@@ -315,16 +315,7 @@ public class Planet implements SaveData {
         this.distance=distance;
         speed=orbitSpeed;
         if(kind==Kind.INHABITED) {
-            equipmentInventory=new Inventory(9);
-            ArrayList<Item> items=new ArrayList<>(Item.equipment);
-            for (int i = 0; i < 9; i++) {
-                if(random.nextInt(100)<25)
-                {
-                    Item randomItem= items.get(random.nextInt(items.size()));
-                    equipmentInventory.addItem(new Stack(randomItem,1));
-                    items.remove(randomItem);
-                }
-            }
+            initializeEquipment();
         } else if (kind == Kind.OCCUPIED) {
             shipManufacturingTime=random.nextInt(15*60,25*60);
         } else {
@@ -403,6 +394,19 @@ public class Planet implements SaveData {
             starSystem.ships.add(aiPilot);
         }
         starSystemId=starSystem.id;
+    }
+
+    void initializeEquipment() {
+        equipmentInventory=new Inventory(9);
+        ArrayList<Item> items=new ArrayList<>(Item.equipment);
+        for (int i = 0; i < 9; i++) {
+            if(random.nextInt(100)<25)
+            {
+                Item randomItem= items.get(random.nextInt(items.size()));
+                equipmentInventory.addItem(new Stack(randomItem,1));
+                items.remove(randomItem);
+            }
+        }
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
