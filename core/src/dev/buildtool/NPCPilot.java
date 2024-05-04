@@ -968,24 +968,16 @@ public class NPCPilot implements Ship, SaveData {
         float integrityPercent = (float) integrity / hull.integrity;
         if(integrityPercent <=0.8f)
         {
-            setNewTarget(projectile.shooter);
+            setTarget(projectile.shooter);
             if(pilotAI==PilotAI.GUARD) {
                 currentSystem.ships.forEach(ship -> {
                     if (ship instanceof NPCPilot npcPilot) {
                         if (npcPilot.pilotAI == PilotAI.GUARD) {
-                            npcPilot.setNewTarget(projectile.shooter);
+                            npcPilot.setTarget(projectile.shooter);
                         }
                     }
                 });
             }
-        }
-    }
-
-    public void setNewTarget(Ship ship)
-    {
-        if(target==null)
-        {
-            target=ship;
         }
     }
 
@@ -1049,7 +1041,8 @@ public class NPCPilot implements Ship, SaveData {
 
     @Override
     public void setTarget(Ship target) {
-        this.target=target;
+        if(this.target==null)
+            this.target=target;
     }
 
     @Override
