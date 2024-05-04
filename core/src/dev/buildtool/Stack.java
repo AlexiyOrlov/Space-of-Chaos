@@ -19,8 +19,10 @@ public class Stack implements SaveData{
     @Override
     public Map<String, Object> getData() {
         HashMap<String,Object> data=new HashMap<>();
-        data.put("item",item.name);
-        data.put("count",count);
+        if(item!=null) {
+            data.put("item", item.name);
+            data.put("count", count);
+        }
         return data;
     }
 
