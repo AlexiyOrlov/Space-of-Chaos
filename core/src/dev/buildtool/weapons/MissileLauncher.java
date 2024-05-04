@@ -3,6 +3,7 @@ package dev.buildtool.weapons;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import dev.buildtool.Ship;
@@ -18,5 +19,12 @@ public class MissileLauncher extends Weapon{
     @Override
     public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
         return new Projectile[]{new Missile(projectileTexture,25,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate, starSystem)};
+    }
+
+    @Override
+    public List<String> getTooltip() {
+        List<String> strings=super.getTooltip();
+        strings.add("Homing");
+        return strings;
     }
 }
