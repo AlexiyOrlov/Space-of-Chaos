@@ -36,7 +36,6 @@ public abstract class Weapon extends Item {
         return createProjectiles(originX, originY, rotation, shooter, target, starSystem);
     }
 
-    //TODO refactor predicate?
     public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
     {
         shoot(originX, originY, rotation, shooter, target, starSystem);
