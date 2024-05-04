@@ -463,6 +463,12 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                         }
                     });
                     TextButton cancel=new TextButton("Cancel",skin);
+                    cancel.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            playerShip.toggleMouseAction();
+                        }
+                    });
                     dialog.button(cancel);
                     dialog.show(stage);
                     break;
