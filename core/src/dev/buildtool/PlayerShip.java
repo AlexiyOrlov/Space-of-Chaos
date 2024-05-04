@@ -295,7 +295,7 @@ public class PlayerShip implements Ship,SaveData {
             }
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !mouseAction) {
                 if (fireDelay <= 0) {
-                    Projectile[] projectiles = getPrimaryWeapon().shoot2(x, y, rotation, this, homingTarget, currentStarSystem);
+                    Projectile[] projectiles = getPrimaryWeapon().shoot(x, y, rotation, this, homingTarget, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         fireDelay = getPrimaryWeapon().cooldown;
@@ -306,7 +306,7 @@ public class PlayerShip implements Ship,SaveData {
                 Weapon secondaryWeapon=getSecondaryWeapon();
                 if(secondaryWeapon!=null && secondaryFireDelay<=0)
                 {
-                    Projectile[] projectiles = secondaryWeapon.shoot2(x, y, rotation, this, homingTarget, currentStarSystem);
+                    Projectile[] projectiles = secondaryWeapon.shoot(x, y, rotation, this, homingTarget, currentStarSystem);
                     if (projectiles != null) {
                         currentStarSystem.projectiles.addAll(List.of(projectiles));
                         secondaryFireDelay = secondaryWeapon.cooldown;

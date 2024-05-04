@@ -4,7 +4,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import dev.buildtool.Item;
 import dev.buildtool.StarSystem;
@@ -36,11 +35,6 @@ public abstract class Weapon extends Item {
         return createProjectiles(originX, originY, rotation, shooter, target, starSystem);
     }
 
-    public Projectile[] shoot2(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem)
-    {
-        shoot(originX, originY, rotation, shooter, target, starSystem);
-        return createProjectiles(originX, originY, rotation, shooter, target, starSystem);
-    }
     public abstract Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem);
 
     @Override
