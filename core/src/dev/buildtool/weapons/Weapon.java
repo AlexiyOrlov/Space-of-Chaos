@@ -36,7 +36,7 @@ public abstract class Weapon extends Item {
         return createProjectiles(originX, originY, rotation, shooter, target, starSystem);
     }
 
-    public Projectile[] shoot(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem)
+    public Projectile[] shoot2(float originX, float originY, float rotation, Ship shooter, Ship target, StarSystem starSystem)
     {
         shoot(originX, originY, rotation, shooter, target, starSystem);
         return createProjectiles(originX, originY, rotation, shooter, target, starSystem);

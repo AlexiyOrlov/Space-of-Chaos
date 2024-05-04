@@ -441,9 +441,9 @@ public class NPCPilot implements Ship, SaveData {
         if (fireCooldown <= 0) {
             Projectile[] projectiles;
             if(pilotAI==PilotAI.AI)
-                projectiles=primaryWeapon.shoot(x,y,rotationDegrees,this,target,ship -> ship!=this &&( (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI) || ship instanceof PlayerShip),currentSystem);
+                projectiles=primaryWeapon.shoot2(x,y,rotationDegrees,this,target, currentSystem);
             else
-                projectiles = primaryWeapon.shoot(x, y, rotationDegrees, this,target, currentSystem);
+                projectiles = primaryWeapon.shoot2(x, y, rotationDegrees, this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             fireCooldown = primaryWeapon.cooldown;
         }
@@ -451,9 +451,9 @@ public class NPCPilot implements Ship, SaveData {
         {
             Projectile[] projectiles;
             if(pilotAI==PilotAI.AI)
-                projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target,ship -> ship!=this &&( (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI!=PilotAI.AI) || ship instanceof PlayerShip),currentSystem);
+                projectiles=secondaryWeapon.shoot2(x,y,rotationDegrees,this,target, currentSystem);
             else
-                projectiles = secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
+                projectiles = secondaryWeapon.shoot2(x,y,rotationDegrees,this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             secondaryCooldown=secondaryWeapon.cooldown;
         }
