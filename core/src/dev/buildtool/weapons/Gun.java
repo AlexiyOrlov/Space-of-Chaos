@@ -19,4 +19,9 @@ public class Gun extends Weapon {
     public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
         return new Projectile[] {new Projectile(projectileTexture,damagePerProjectile,originX,originY,rotation,projectileSpeed, shooter,target,shipPredicate, starSystem)};
     }
+
+    @Override
+    int projectilesPerShot() {
+        return 1;
+    }
 }

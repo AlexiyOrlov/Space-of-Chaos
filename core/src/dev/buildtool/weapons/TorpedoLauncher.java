@@ -18,4 +18,9 @@ public class TorpedoLauncher extends Weapon{
     public Projectile[] createProjectiles(float originX, float originY, float rotation, Ship shooter, Ship target, Predicate<Ship> shipPredicate, StarSystem starSystem) {
         return new Projectile[0];
     }
+
+    @Override
+    int projectilesPerShot() {
+        return 1;
+    }
 }

@@ -25,4 +25,9 @@ public class Shotgun extends Weapon {
         projectiles[4]=new Projectile(projectileTexture, damagePerProjectile,originX,originY,rotation+3,projectileSpeed,shooter,target,shipPredicate, starSystem);
         return projectiles;
     }
+
+    @Override
+    int projectilesPerShot() {
+        return 5;
+    }
 }

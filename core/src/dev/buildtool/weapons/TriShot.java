@@ -22,4 +22,9 @@ public class TriShot extends Weapon{
         projectiles[2]=new Projectile(projectileTexture,damagePerProjectile,originX,originY,rotation-10,projectileSpeed,shooter,target,shipPredicate,starSystem);
         return projectiles;
     }
+
+    @Override
+    int projectilesPerShot() {
+        return 3;
+    }
 }

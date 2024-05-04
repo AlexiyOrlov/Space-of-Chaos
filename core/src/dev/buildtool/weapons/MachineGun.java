@@ -20,4 +20,9 @@ public class MachineGun extends Weapon{
         projectiles[0]=new Projectile(this.projectileTexture,this.damagePerProjectile,originX,originY,rotation,projectileSpeed,shooter,target,shipPredicate, starSystem);
         return projectiles;
     }
+
+    @Override
+    int projectilesPerShot() {
+        return 1;
+    }
 }
