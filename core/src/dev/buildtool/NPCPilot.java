@@ -630,7 +630,10 @@ public class NPCPilot implements Ship, SaveData {
                     }
                 }
 
-                currentSystem.ships.stream().filter(ship1 -> ship1.getTarget()==leader).reduce((ship1, ship2) -> Vector2.dst(x,y,ship1.getX(),ship1.getY())<Vector2.dst(x,y,ship2.getX(),ship2.getY())?ship1:ship2).ifPresent(this::setTarget);
+                currentSystem.ships.stream().filter(ship1 -> ship1.getTarget()==leader).reduce((ship1, ship2) -> Vector2.dst(x,y,ship1.getX(),ship1.getY())<Vector2.dst(x,y,ship2.getX(),ship2.getY())?ship1:ship2).ifPresent(ship -> {
+                    if(!ship.isLanded())
+                        setTarget(ship);
+                });
             }
             else {
                 combat(delta);
