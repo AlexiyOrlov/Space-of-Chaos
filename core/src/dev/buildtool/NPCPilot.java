@@ -631,7 +631,7 @@ public class NPCPilot implements Ship, SaveData {
                 }
 
                 for (Ship ship : currentSystem.ships) {
-                    if(ship.getTarget()==leader)
+                    if(ship.getTarget()==leader &&!ship.isLanded() && ship.getCurrentSystem()==currentSystem)
                     {
                         setTarget(ship);
                         break;
