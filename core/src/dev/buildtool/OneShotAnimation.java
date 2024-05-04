@@ -9,11 +9,19 @@ public class OneShotAnimation {
     private final Animation<TextureRegion> animation;
     private final float x;
     private final float y;
+    private float scale=1;
 
     public OneShotAnimation(Animation<TextureRegion> animation, float x, float y) {
         this.animation = animation;
         this.x = x;
         this.y = y;
+    }
+
+    public OneShotAnimation(Animation<TextureRegion> animation, float x, float y, float scale) {
+        this.animation = animation;
+        this.x = x;
+        this.y = y;
+        this.scale = scale;
     }
 
     public void update(float deltaTime, SpriteBatch spriteBatch)
@@ -22,7 +30,8 @@ public class OneShotAnimation {
         {
             TextureRegion textureRegion=animation.getKeyFrame(time);
             spriteBatch.begin();
-            spriteBatch.draw(textureRegion,x-textureRegion.getRegionWidth()/2,y-textureRegion.getRegionHeight()/2);
+            Functions.drawScaled(spriteBatch,textureRegion,scale,x-textureRegion.getRegionWidth()/2,y-textureRegion.getRegionHeight()/2);
+//            spriteBatch.draw(textureRegion,x-textureRegion.getRegionWidth()/2,y-textureRegion.getRegionHeight()/2);
             spriteBatch.end();
             time+=deltaTime;
         }

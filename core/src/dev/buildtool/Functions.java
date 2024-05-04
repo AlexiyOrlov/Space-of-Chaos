@@ -14,9 +14,9 @@ public class Functions {
         spriteBatch.draw(new TextureRegion(texture),x,y,0,0,texture.getWidth(),texture.getHeight(),scale,scale,0);
     }
 
-    public static void drawScaled(SpriteBatch spriteBatch,Texture texture,float scale,float x,float y,float rotationDegrees)
+    public static void drawScaled(SpriteBatch spriteBatch,TextureRegion texture,float scale,float x,float y)
     {
-        spriteBatch.draw(new TextureRegion(texture),x,y,0,0,texture.getWidth(),texture.getHeight(),scale,scale, MathUtils.degreesToRadians*rotationDegrees);
+        spriteBatch.draw(texture,x,y,0,0,texture.getRegionWidth(),texture.getRegionHeight(),scale,scale, 0);
     }
 
     public static void drawRotated(SpriteBatch spriteBatch,Texture texture,float x,float y,float rotationDegrees)

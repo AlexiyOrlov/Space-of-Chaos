@@ -959,6 +959,10 @@ public class NPCPilot implements Ship, SaveData {
                     currentSystem.itemContainers.add(container);
                 }
             }
+            OneShotAnimation explosion=new OneShotAnimation(SpaceOfChaos.INSTANCE.explosionAnimation, x,y, (float) hull.texture.getWidth() /64);
+            currentSystem.animations.add(explosion);
+            if(SpaceOfChaos.INSTANCE.playerShip!=null && currentSystem==SpaceOfChaos.INSTANCE.playerShip.getCurrentSystem())
+                SpaceOfChaos.INSTANCE.explosionSound.play(0.2f);
         }
     }
 
