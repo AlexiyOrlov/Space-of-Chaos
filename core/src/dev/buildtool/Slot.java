@@ -78,7 +78,7 @@ public class Slot extends Table {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         Stack stack = inventory.stacks[index];
-        if(stack !=null)
+        if(stack !=null && stack.item!=null)
         {
             BitmapFont font= SpaceOfChaos.INSTANCE.bitmapFont;
             int textureWidth=stack.item.texture.getWidth();
