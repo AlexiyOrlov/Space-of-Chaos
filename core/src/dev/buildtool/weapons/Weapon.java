@@ -48,7 +48,7 @@ public abstract class Weapon extends Item {
     public List<String> getTooltip() {
         List<String> tooltip= super.getTooltip();
         tooltip.add("Damage per projectile: "+damagePerProjectile);
-        tooltip.add("Damage per minute: "+(60/cooldown*damagePerProjectile*projectilesPerShot()));
+        tooltip.add("Damage per minute: "+(60/cooldown*damagePerShot()));
         return tooltip;
     }
 
@@ -57,5 +57,12 @@ public abstract class Weapon extends Item {
         System.out.println("Weapons initialized");
     }
 
-    abstract int projectilesPerShot();
+    int projectilesPerShot(){
+        return 1;
+    }
+
+    int damagePerShot()
+    {
+        return projectilesPerShot()*damagePerProjectile;
+    }
 }
