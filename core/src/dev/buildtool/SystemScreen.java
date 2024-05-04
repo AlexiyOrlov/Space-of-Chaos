@@ -267,6 +267,9 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         content.add(new Label("Side thrusters",labelStyle));
         content.add(sideThrusters).padRight(20);
         content.row();
+        Label money=new Label("Money: "+playerShip.money,new Label.LabelStyle(SpaceOfChaos.INSTANCE.bitmapFont, Color.WHITE));
+        playerInventory.add(money).colspan(2);
+        playerInventory.row();
         playerInventory.add(content);
         playerInventory.add(inventory);
     }
