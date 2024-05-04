@@ -409,6 +409,27 @@ public class Planet implements SaveData {
         }
     }
 
+    public void initializeMarket()
+    {
+        Ware.WARES.forEach(ware -> {
+            int randomWareAmount = random.nextInt(10, 500);
+            int basePrice = Ware.BASE_PRICES.get(ware);
+            float priceMultiplier = 1;
+            if (randomWareAmount < 100) {
+                priceMultiplier = StarSystem.HIGHEST_PRICE_MULTIPLIER;
+            } else if (randomWareAmount < 250) {
+                priceMultiplier =StarSystem. HIGH_PRICE_MULTIPLIER;
+            } else if (randomWareAmount > 750) {
+                priceMultiplier = StarSystem.LOWEST_PRICE_MULTIPLIER;
+            } else if (randomWareAmount > 500) {
+                priceMultiplier = StarSystem.LOW_PRICE_MULTIPLIER;
+            }
+            int finalPrice = (int) (basePrice * priceMultiplier * starSystem.priceFactors.get(ware));
+            warePrices.put(ware, finalPrice);
+            wareAmounts.put(ware, randomWareAmount);
+        });
+    }
+
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer)
     {
         spriteBatch.begin();

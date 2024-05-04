@@ -67,23 +67,7 @@ public class StarSystem implements SaveData{
             });
             planets.forEach(planet -> {
                 if(planet.kind== Planet.Kind.INHABITED) {
-                    Ware.WARES.forEach(ware -> {
-                        int randomWareAmount = random.nextInt(10, 500);
-                        int basePrice = Ware.BASE_PRICES.get(ware);
-                        float priceMultiplier = 1;
-                        if (randomWareAmount < 100) {
-                            priceMultiplier = HIGHEST_PRICE_MULTIPLIER;
-                        } else if (randomWareAmount < 250) {
-                            priceMultiplier = HIGH_PRICE_MULTIPLIER;
-                        } else if (randomWareAmount > 750) {
-                            priceMultiplier = LOWEST_PRICE_MULTIPLIER;
-                        } else if (randomWareAmount > 500) {
-                            priceMultiplier = LOW_PRICE_MULTIPLIER;
-                        }
-                        int finalPrice = (int) (basePrice * priceMultiplier * priceFactors.get(ware));
-                        planet.warePrices.put(ware, finalPrice);
-                        planet.wareAmounts.put(ware, randomWareAmount);
-                    });
+                    planet.initializeMarket();
                 }
             });
             if(random.nextInt(100)<20) {
