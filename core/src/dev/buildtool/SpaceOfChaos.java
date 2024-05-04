@@ -80,7 +80,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	private float humanAttackTimer=random.nextInt(10*60,20*60);
 	private Texture explosionSprite;
 	public Animation<TextureRegion> explosionAnimation;
-	private SystemScreen systemScreen;
+	SystemScreen systemScreen;
 	private float systemCheckTime;
 	private static int textureID;
 	public HashBiMap<Integer,Texture> textureHashMap=HashBiMap.create(600);

@@ -215,6 +215,11 @@ public class StarSystem implements SaveData{
             if(ship instanceof PlayerShip)
             {
                 SpaceOfChaos.INSTANCE.playerShip=null;
+            } else if (ship instanceof NPCPilot n) {
+                if(n.leader instanceof PlayerShip)
+                {
+                    SpaceOfChaos.INSTANCE.systemScreen.addMessage("One of your hired pilots was killed");
+                }
             }
         }
         toRemove.add(projectile);
