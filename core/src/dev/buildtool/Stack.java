@@ -28,8 +28,10 @@ public class Stack implements SaveData{
 
     @Override
     public void load(Map<String, Object> data) {
-        String item= (String) data.get("item");
-        this.item=Item.REGISTRY.get(item);
-        count= (int) data.get("count");
+        if(data.containsKey("item")) {
+            String item = (String) data.get("item");
+            this.item = Item.REGISTRY.get(item);
+            count = (int) data.get("count");
+        }
     }
 }
