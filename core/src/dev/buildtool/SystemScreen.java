@@ -499,6 +499,11 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                 }
             }
         }
+
+        if(playerShip!=null && !playerShip.mouseAction && Gdx.input.isKeyJustPressed(Input.Keys.F1))
+        {
+            SpaceOfChaos.INSTANCE.setScreen(new HelpScreen(starSystem));
+        }
     }
 
     private void drawWaypoint(float tox,float toy,Texture icon)
