@@ -456,7 +456,7 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
             Dialog help = new Dialog("Help - planet screen", skin);
             Label s1 = new Label("You are currently landed on an inhabited planet. You can trade wares and ship parts here.\n" +
                     "Press 'Equipment' and 'Market' buttons to switch.\n" +
-                    "You can repair your hull here. While on a planet, you can toggle world simulation.\n" +
+                    "You can also repair your hull here. While on a planet, you can toggle world simulation.\n" +
                     "Press 'Take off' button when you are ready to go to space.", skin);
             help.add(s1);
             help.getContentTable().row();
