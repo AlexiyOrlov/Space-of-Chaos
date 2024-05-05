@@ -281,7 +281,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                     You can toggle whether you will hit only aliens with the projectiles or any ship with Tab.
                     Inhabited planets are indicated by green circle on HUD, uninhabited - by gray circle.
                     To travel to other systems, approach star gate, which looks like a circular structure.
-                    Press F1 to show reminder. 
+                    Press F1 to show reminder.
                     """, skin);
             TextButton gotIt = new TextButton("Got it", skin);
             gotIt.addListener(new ChangeListener() {
