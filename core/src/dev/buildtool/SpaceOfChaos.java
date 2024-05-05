@@ -89,6 +89,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	static int nextSystemId;
 	Pixmap crossCursor;
 	public static final int hullRepairCost=50;
+	public  static boolean planetScreenHelpShown,systemScreenHelpShown;
 	@Override
 	public void create () {
 		INSTANCE=this;
@@ -714,7 +715,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 			data.put("star system "+i,starSystem.getData());
 		}
 		data.put("system count",starSystems.size());
-
+		data.put("planet help shown",planetScreenHelpShown);
 		return data;
 	}
 
@@ -733,6 +734,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 			starSystem.load((Map<String, Object>) data.get("star system "+i));
 			starSystems.add(starSystem);
 		}
+		if(data.containsKey("planet help shown"))
+			planetScreenHelpShown= (boolean) data.get("planet help shown");
 
 		ArrayList<StarSystem> tmp=new ArrayList<>(starSystems);
 		for (StarSystem system : starSystems) {
