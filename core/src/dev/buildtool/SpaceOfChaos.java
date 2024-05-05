@@ -528,6 +528,9 @@ public class SpaceOfChaos extends Game implements SaveData{
 									else
 									{
 										planet.kind= Planet.Kind.INHABITED;
+										//TODO remove in future
+										planet.initializeEquipment();
+										planet.initializeMarket();
 									}
 								});
 								Functions.log("System " + starSystem.getStarName() + " was liberated");
