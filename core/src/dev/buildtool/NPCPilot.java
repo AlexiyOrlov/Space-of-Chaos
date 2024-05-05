@@ -533,11 +533,11 @@ public class NPCPilot implements Ship, SaveData {
     {
         if(target!=null)
         {
-            combat(deltaTime);
             if(Vector2.dst(x,y,target.getX(),target.getY())>SpaceOfChaos.getWindowHeight()*2)
             {
                 currentSystem.ships.stream().filter(ship -> ship instanceof PlayerShip || (ship instanceof NPCPilot npcPilot && npcPilot.pilotAI != PilotAI.AI)).reduce((ship, ship2) -> Vector2.dst(x,y,ship.getX(),ship.getY())<Vector2.dst(x,y,ship2.getX(),ship2.getY())?ship:ship2).ifPresent(this::setTarget);
             }
+            combat(deltaTime);
         }
         else if(state==null)
         {
