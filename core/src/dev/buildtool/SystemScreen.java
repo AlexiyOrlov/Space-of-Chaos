@@ -272,6 +272,30 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
         playerInventory.row();
         playerInventory.add(content);
         playerInventory.add(inventory);
+
+        if(!SpaceOfChaos.systemScreenHelpShown) {
+            Dialog help = new Dialog("Help - system screen", skin);
+            Label label1 = new Label("""
+                    This is current star system. You can move your ship with WASD keys.
+                    Shoot your primary weapom with left mouse button, secondary - with right mouse button.
+                    You can toggle whether you will hit only aliens with the projectiles or any ship with Tab.
+                    Inhabited planets are indicated by green circle on HUD, uninhabited - by gray circle.
+                    To travel to other systems, approach star gate, which looks like a circular structure.
+                    Press F1 to show reminder. 
+                    """, skin);
+            TextButton gotIt = new TextButton("Got it", skin);
+            gotIt.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    help.hide();
+                }
+            });
+            help.add(label1);
+            help.getContentTable().row();
+            help.add(gotIt);
+            help.show(stage);
+            SpaceOfChaos.systemScreenHelpShown=true;
+        }
     }
 
     @Override
