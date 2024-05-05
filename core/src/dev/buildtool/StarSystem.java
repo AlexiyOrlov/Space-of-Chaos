@@ -62,11 +62,7 @@ public class StarSystem implements SaveData{
         if(inhabitedPlanetCount>0)
         {
             setPriceFactors(random);
-            planets.forEach(planet -> {
-                if(planet.kind== Planet.Kind.INHABITED) {
-                    planet.initializeMarket();
-                }
-            });
+            planets.forEach(Planet::initializeMarket);
             if(random.nextInt(100)<20) {
                 spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distance+300);
             }

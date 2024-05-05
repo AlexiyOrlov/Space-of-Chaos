@@ -314,9 +314,8 @@ public class Planet implements SaveData {
         currentAngle=angle;
         this.distance=distance;
         speed=orbitSpeed;
-        if(kind==Kind.INHABITED) {
+        if(kind==Kind.INHABITED || kind==Kind.OCCUPIED) {
             initializeEquipment();
-        } else if (kind == Kind.OCCUPIED) {
             shipManufacturingTime=random.nextInt(15*60,25*60);
         } else {
             int resources= SpaceOfChaos.random.nextInt(1,3);
