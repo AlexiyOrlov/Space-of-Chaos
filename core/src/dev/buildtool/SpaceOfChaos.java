@@ -89,7 +89,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 	static int nextSystemId;
 	Pixmap crossCursor;
 	public static final int hullRepairCost=50;
-	public  static boolean planetScreenHelpShown,systemScreenHelpShown;
+	public  static boolean planetScreenHelpShown,systemScreenHelpShown,marketHelpShown;
 	@Override
 	public void create () {
 		INSTANCE=this;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TabPane extends Table {
         add(contentTable);
     }
 
-    public void addTab(Table content,String name)
+    public TextImageButton addTab(Table content, String name)
     {
         TextImageButton textImageButton=new TextImageButton(name,getSkin(),null);
         textImageButton.addListener(new ChangeListener() {
@@ -38,5 +39,6 @@ public class TabPane extends Table {
             contentTable.add(content);
         }
         tabCount++;
+        return textImageButton;
     }
 }

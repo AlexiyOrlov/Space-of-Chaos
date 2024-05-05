@@ -406,7 +406,28 @@ public class PlanetScreen2 extends ScreenAdapter implements StackHandler {
         container.row();
         //inner tables must not fill parent
         tab2.add(marketWares,container);
-        tabPane.addTab(tab2,"Market");
+        tabPane.addTab(tab2,"Market").addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(!SpaceOfChaos.marketHelpShown)
+                {
+                    SpaceOfChaos.marketHelpShown=true;
+                    Dialog help2=new Dialog("Help - market",skin);
+                    Label label=new Label("At market you can buy and sell different wares. Some of the wares require a license, which can be bought at space station",skin);
+                    help2.add(label);
+                    help2.getContentTable().row();
+                    TextButton gotit=new TextButton("Got it",skin);
+                    gotit.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            help2.hide();
+                        }
+                    });
+                    help2.add(gotit);
+                    help2.show(stage);
+                }
+            }
+        });
 
         //ship parts
         Table shipParts=new Table();
