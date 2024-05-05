@@ -330,6 +330,10 @@ public class NPCPilot implements Ship, SaveData {
                         }
                     }
                 }
+                if(closestPlanet==null)
+                {
+                    closestPlanet=currentSystem.planets.get(random.nextInt(currentSystem.planets.size()));
+                }
             }
             StarGate starGate = currentSystem.starGate;
             float distanceToStarGate = Vector2.dst(starGate.x, starGate.y, x, y);
