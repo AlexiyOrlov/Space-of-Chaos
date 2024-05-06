@@ -20,7 +20,11 @@ import com.kotcrab.vis.ui.util.dialog.OptionDialogAdapter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -84,6 +88,7 @@ public class StartScreen extends ScreenAdapter {
                                 }
                             }
                         });
+
                         TextButton delete=new TextButton("Delete",skin);
                         delete.addListener(new ChangeListener() {
                             @Override
@@ -104,6 +109,14 @@ public class StartScreen extends ScreenAdapter {
                             }
                         });
                         forPane.add(label);
+                        try {
+                            BasicFileAttributes attributes=  Files.readAttributes(path, BasicFileAttributes.class);
+                            DateFormat dateFormat=new SimpleDateFormat("dd/MM", Locale.getDefault());
+                            Label date=new Label("      On "+dateFormat.format(attributes.lastModifiedTime().toMillis()),skin);
+                            forPane.add(date);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         forPane.add(load);
                         forPane.add(delete);
                         forPane.row();

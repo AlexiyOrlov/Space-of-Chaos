@@ -36,12 +36,16 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import dev.buildtool.weapons.Weapon;
 
@@ -168,6 +172,14 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
 
                         Table table1=dialog.getContentTable();
                         table1.add(label);
+                        try {
+                            BasicFileAttributes attributes=  Files.readAttributes(path, BasicFileAttributes.class);
+                            DateFormat dateFormat=new SimpleDateFormat("dd/MM", Locale.getDefault());
+                            Label date=new Label("      On "+dateFormat.format(attributes.lastModifiedTime().toMillis()),skin);
+                            table1.add(date);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         table1.add(save);
                         TextButton delete=new TextButton("Delete",skin);
                         delete.addListener(new ChangeListener() {
