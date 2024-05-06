@@ -282,6 +282,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                     Inhabited planets are indicated by green circle on HUD, uninhabited - by gray circle.
                     To travel to other systems, approach star gate, which looks like a circular structure.
                     Press F1 to show reminder.
+                    The goal of the game is to liberate all systems from AI.
                     """, skin);
             TextButton gotIt = new TextButton("Got it", skin);
             gotIt.addListener(new ChangeListener() {
