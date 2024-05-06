@@ -540,14 +540,14 @@ public class Planet implements SaveData {
                 int randomInt=random.nextInt(100);
                 if(randomInt<25)
                 {
-                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.MARK2,SideThrusters.BASIC,this, starSystem);
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_SMALL1:Hull.AI_SMALL2,Engine.randomEngine(),SideThrusters.BASIC,this, starSystem);
                 } else if (randomInt <= 50) {
-                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.AI_GUN1:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_MEDIUM2:Hull.AI_MEDIUM1,Engine.BASIC,SideThrusters.BASIC,this, starSystem);
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.AI_GUN1:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_MEDIUM2:Hull.AI_MEDIUM1,Engine.randomEngine(),SideThrusters.BASIC,this, starSystem);
                 } else if (randomInt <= 75) {
-                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.SLOW,SideThrusters.SLOW,this, starSystem);
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.SHOTGUN,random.nextBoolean()?Hull.AI_BIG1:Hull.AI_BIG2,Engine.randomEngine(),SideThrusters.SLOW,this, starSystem);
                 }
                 else {
-                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.SLOW,SideThrusters.SLOW,this, starSystem);
+                    npcPilot=new NPCPilot(PilotAI.AI,random.nextBoolean()?WeaponRegistry.MACHINE_GUN:WeaponRegistry.CLUSTER_GUN,random.nextBoolean()?Hull.AI_LARGE1:Hull.AI_LARGE2,Engine.randomEngine(),SideThrusters.SLOW,this, starSystem);
                 }
                 npcPilot.x=x;
                 npcPilot.y=y;
