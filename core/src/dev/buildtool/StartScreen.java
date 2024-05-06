@@ -62,6 +62,10 @@ public class StartScreen extends ScreenAdapter {
             }
         });
         stage.addActor(table);
+        Label label=new Label("Space of Chaos",SpaceOfChaos.INSTANCE.skin);
+        label.setFontScale(2);
+        table.add(label);
+        table.row();
         table.add(button);
         table.row();
         TextButton load=new TextButton("Load game",game.skin);
