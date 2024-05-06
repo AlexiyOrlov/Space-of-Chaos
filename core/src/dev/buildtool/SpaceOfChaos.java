@@ -76,8 +76,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 		stargateJump,aiGun,missileSound;
 	private final ArrayList<Texture> textures=new ArrayList<>(600);
 	private final ArrayList<Sound> sounds=new ArrayList<>(100);
-	private float aiAttackTimer=random.nextInt(10*60,20*60);
-	private float humanAttackTimer=random.nextInt(10*60,20*60);
+	private float aiAttackTimer=random.nextInt(7*60,12*60);
+	private float humanAttackTimer=random.nextInt(7*60,12*60);
 	private Texture explosionSprite;
 	public Animation<TextureRegion> explosionAnimation;
 	SystemScreen systemScreen;
@@ -468,7 +468,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 					{
 						systemScreen.addMessage("AI is attacking system "+randomSystem.getStarName());
 					}
-					aiAttackTimer=random.nextInt(10*60,20*60);
+					aiAttackTimer=random.nextInt(7*60,12*60);
 				}
 			}
 			else {
@@ -505,7 +505,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 					Functions.log("Human attack from " + randomHumanSystem.getStarName() + " on " + closeOccupiedSystem.getStarName());
 					if(systemScreen!=null)
 						systemScreen.addMessage("Human attack on "+closeOccupiedSystem.getStarName()+" is happening");
-					humanAttackTimer = random.nextInt(10 * 60, 20 * 60);
+					humanAttackTimer = random.nextInt(7 * 60, 12 * 60);
 				}
 			}
 			else
