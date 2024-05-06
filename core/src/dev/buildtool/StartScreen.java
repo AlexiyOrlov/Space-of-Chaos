@@ -44,7 +44,7 @@ public class StartScreen extends ScreenAdapter {
                 Dialog systemCount=new Dialog("Star system count",game.skin);
                 Label set=new Label("Set how many systems you want to have",game.skin);
                 Table table1=systemCount.getContentTable();
-                table1.add(set);
+                table1.add(set).colspan(2);
                 table1.row();
                 Label count=new Label("1",game.skin);
                 Slider slider=new Slider(3,25,1,false,game.skin);
@@ -83,7 +83,7 @@ public class StartScreen extends ScreenAdapter {
                         }
                     }
                 });
-                systemCount.add(accept);
+                table1.add(accept);
                 TextButton cancel=new TextButton("Cancel",game.skin);
                 cancel.addListener(new ChangeListener() {
                     @Override
@@ -91,7 +91,7 @@ public class StartScreen extends ScreenAdapter {
                         systemCount.hide();
                     }
                 });
-                systemCount.add(cancel);
+                table1.add(cancel);
                 systemCount.show(stage);
             }
         });
