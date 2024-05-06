@@ -278,7 +278,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
             Label label1 = new Label("""
                     This is current star system. You can move your ship with WASD keys.
                     Shoot your primary weapom with left mouse button, secondary - with right mouse button.
-                    You can toggle whether you will hit only aliens with the projectiles or any ship with Tab.
+                    You can toggle whether you will hit only AI ships with the projectiles or any ship with Tab.
                     Inhabited planets are indicated by green circle on HUD, uninhabited - by gray circle.
                     To travel to other systems, approach star gate, which looks like a circular structure.
                     Press F1 to show reminder.
