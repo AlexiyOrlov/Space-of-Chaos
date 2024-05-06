@@ -716,6 +716,8 @@ public class SpaceOfChaos extends Game implements SaveData{
 		}
 		data.put("system count",starSystems.size());
 		data.put("planet help shown",planetScreenHelpShown);
+		data.put("system screen help shown",systemScreenHelpShown);
+		data.put("market help shown",marketHelpShown);
 		return data;
 	}
 
@@ -736,7 +738,10 @@ public class SpaceOfChaos extends Game implements SaveData{
 		}
 		if(data.containsKey("planet help shown"))
 			planetScreenHelpShown= (boolean) data.get("planet help shown");
-
+		if(data.containsKey("system screen help shown"))
+			systemScreenHelpShown= (boolean) data.get("system screen help shown");
+		if(data.containsKey("market help shown"))
+			marketHelpShown= (boolean) data.get("market help shown");
 		ArrayList<StarSystem> tmp=new ArrayList<>(starSystems);
 		for (StarSystem system : starSystems) {
 			for (Planet planet : system.planets) {
