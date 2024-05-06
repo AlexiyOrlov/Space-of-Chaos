@@ -157,7 +157,7 @@ public class StarMap extends ScreenAdapter {
         ScreenUtils.clear(Color.BLACK);
         stage.act(delta);
         stage.draw();
-        if(Gdx.input.isKeyJustPressed(Input.Keys.M))
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
             SpaceOfChaos.INSTANCE.setScreen(new SystemScreen(currentStarSystem));
         }
@@ -165,7 +165,7 @@ public class StarMap extends ScreenAdapter {
         GlyphLayout glyphLayout=new GlyphLayout(font,"Galactic map");
         spriteBatch.begin();
         font.draw(spriteBatch,"Galactic map", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-30);
-        glyphLayout.setText(font, "Press 'M' to exit");
+        glyphLayout.setText(font, "Press 'Esc' to exit");
         font.draw(spriteBatch,"Press 'M' to exit", (float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-50);
         glyphLayout.setText(font,"Double right click a system to travel");
         font.draw(spriteBatch,"Double right click a system to travel",(float) Gdx.graphics.getBackBufferWidth() /2- glyphLayout.width/2,Gdx.graphics.getBackBufferHeight()-70);
