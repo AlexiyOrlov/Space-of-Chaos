@@ -191,7 +191,7 @@ public class StarSystem implements SaveData{
                         }
                     }
                 }
-                if(Vector2.dst(projectile.x,projectile.y,0,0)>10000)
+                if(Vector2.dst(projectile.x,projectile.y,0,0)>30000)
                 {
                     toRemove.add(projectile);
                 }
