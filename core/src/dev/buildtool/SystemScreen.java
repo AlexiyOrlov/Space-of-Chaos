@@ -293,6 +293,7 @@ public class SystemScreen extends ScreenAdapter implements StackHandler {
                     You can toggle whether you will hit only AI ships with the projectiles or any ship with Tab.
                     Inhabited planets are indicated by green circle on HUD, uninhabited - by gray circle.
                     To travel to other systems, approach star gate, which looks like a circular structure.
+                    To view your inventory, press I.
                     Press F1 to show reminder.
                     The goal of the game is to liberate all systems from AI.
                     """, skin);
