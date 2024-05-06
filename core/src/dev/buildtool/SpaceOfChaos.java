@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -406,6 +407,18 @@ public class SpaceOfChaos extends Game implements SaveData{
 			SpaceOfChaos.INSTANCE.idMap.put(i,starSystem);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();
+		}
+		long spaceStationCount=starSystems.stream().filter(starSystem -> starSystem.spaceStation!=null).count();
+		for (int i = (int) spaceStationCount; i < 3; i++) {
+			while(true)
+			{
+				StarSystem randomSystem=starSystems.get(random.nextInt(starSystems.size()));
+				if(randomSystem.spaceStation==null)
+				{
+					randomSystem.spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), randomSystem.distanceFromStar+300);
+					break;
+				}
+			}
 		}
 		Functions.log("Generated "+planetCount+ " planets in total");
 		updateWorld=false;

@@ -29,6 +29,7 @@ public class StarSystem implements SaveData{
     public int id;
     public boolean occupied;
     public SpaceStation spaceStation;
+    int distanceFromStar =500;
     public static final float HIGHEST_PRICE_MULTIPLIER=1.2f,HIGH_PRICE_MULTIPLIER=1.1f,LOWEST_PRICE_MULTIPLIER=0.8f, LOW_PRICE_MULTIPLIER =0.9f;
 
     public StarSystem() {
@@ -40,10 +41,9 @@ public class StarSystem implements SaveData{
         Random random = SpaceOfChaos.random;
         star=new Star(starTextures.get(random.nextInt(starTextures.size())));
         int inhabitedPlanetCount=0;
-        int distance=500;
         for (int i = 0; i < random.nextInt(3,7); i++) {
             if(occupiedByAI){
-                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, Planet.Kind.OCCUPIED, i));
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distanceFromStar, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, Planet.Kind.OCCUPIED, i));
             }
             else {
                 boolean inhabited = false;
@@ -52,11 +52,11 @@ public class StarSystem implements SaveData{
                     if (inhabited)
                         inhabitedPlanetCount++;
                 }
-                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distance, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED, i));
+                planets.add(new Planet(planetTextures.get(random.nextInt(planetTextures.size())), distanceFromStar, random.nextFloat(-MathUtils.PI, MathUtils.PI), random.nextFloat(0.01f, 0.08f), this, inhabited? Planet.Kind.INHABITED: Planet.Kind.UNINHABITED, i));
             }
-            distance+=400;
+            distanceFromStar+=400;
         }
-        starGate=new StarGate(distance, random.nextFloat(-MathUtils.PI,MathUtils.PI));
+        starGate=new StarGate(distanceFromStar, random.nextFloat(-MathUtils.PI,MathUtils.PI));
         positionX=x;
         positionY=y;
         if(inhabitedPlanetCount>0)
@@ -64,7 +64,7 @@ public class StarSystem implements SaveData{
             setPriceFactors(random);
             planets.forEach(Planet::initializeMarket);
             if(random.nextInt(100)<20) {
-                spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distance+300);
+                spaceStation = new SpaceStation(random.nextFloat(-MathUtils.PI, MathUtils.PI), distanceFromStar+300);
             }
         }
     }

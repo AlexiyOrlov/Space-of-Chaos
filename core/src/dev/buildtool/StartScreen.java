@@ -47,7 +47,7 @@ public class StartScreen extends ScreenAdapter {
                 table1.add(set).colspan(2);
                 table1.row();
                 Label count=new Label("1",game.skin);
-                Slider slider=new Slider(3,25,1,false,game.skin);
+                Slider slider=new Slider(6,25,1,false,game.skin);
                 slider.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
