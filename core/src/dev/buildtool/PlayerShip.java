@@ -264,9 +264,9 @@ public class PlayerShip implements Ship,SaveData {
 
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 if (acceleration > -getEngine().maxSpeed)
-                    acceleration -= 0.1f;
+                    acceleration -= 0.05f;
             } else if (acceleration < 0) {
-                acceleration += 0.03f;
+                acceleration += 0.015f;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
