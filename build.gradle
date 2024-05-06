@@ -18,7 +18,7 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
 
-    version = '1.0'
+    version = '0.0.1'
     ext {
         appName = "Space of Chaos"
         gdxVersion = '1.12.1'
