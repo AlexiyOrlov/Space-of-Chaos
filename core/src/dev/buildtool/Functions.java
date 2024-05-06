@@ -92,7 +92,7 @@ public class Functions {
 
     public static void log(String message)
     {
-        Gdx.app.log("Info",message);
+        Gdx.app.log("INFO",message);
     }
 
     public static boolean validTarget(Ship ship,StarSystem sourceSystem)
