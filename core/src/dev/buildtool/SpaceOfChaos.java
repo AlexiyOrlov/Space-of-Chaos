@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,10 +25,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.google.common.collect.HashBiMap;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.util.dialog.Dialogs;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -374,7 +371,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		crossCursor.dispose();
 	}
 
-	public void initialize()
+	public void initialize(int systemCount)
 	{
 		starSystems=new ArrayList<>();
 		Planet.initialize();
@@ -382,8 +379,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 		int x=0;
 		int y=0;
 		int planetCount=0;
-		int starSystemCount=30;
-		for (int i = 0; i <starSystemCount; i++) {
+		for (int i = 0; i <systemCount; i++) {
 			int xleft=random.nextInt(-300,-100);
 			int xright=random.nextInt(100,300);
 			int yleft=random.nextInt(-300,-100);
@@ -406,7 +402,7 @@ public class SpaceOfChaos extends Game implements SaveData{
 				if(!recalculate)
 					break;
 			}
-			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>starSystemCount/2, i);
+			StarSystem starSystem=new StarSystem(planetTextures,starTextures,x,y, i>systemCount/2, i);
 			SpaceOfChaos.INSTANCE.idMap.put(i,starSystem);
 			starSystems.add(starSystem);
 			planetCount+=starSystem.planets.size();

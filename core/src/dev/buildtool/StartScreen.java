@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -26,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class StartScreen extends ScreenAdapter {
     private final Stage stage;
@@ -41,24 +41,58 @@ public class StartScreen extends ScreenAdapter {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.initialize();
-                StarSystem next=game.starSystems.get(random.nextInt(game.starSystems.size()));
-                lable:
-                while (true) {
-                    for (Planet planet : next.planets) {
-                        if(planet.kind== Planet.Kind.INHABITED){
-                            PlayerShip playerShip = new PlayerShip(0, 0, 0, next);
-                            game.playerShip= playerShip;
-                            playerShip.money=1000;
-                            game.setScreen(new PlanetScreen2(next, planet,playerShip));
-                            next.ships.add(playerShip);
-                            game.playerShip.x=planet.x;
-                            game.playerShip.y=planet.y;
-                            break lable;
+                Dialog systemCount=new Dialog("Star system count",game.skin);
+                Label set=new Label("Set how many systems you want to have",game.skin);
+                Table table1=systemCount.getContentTable();
+                table1.add(set);
+                table1.row();
+                Label count=new Label("1",game.skin);
+                Slider slider=new Slider(3,25,1,false,game.skin);
+                slider.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        count.setText(""+(int)slider.getValue());
+                    }
+                });
+                slider.setValue(15);
+                table1.add(count);
+                table1.add(slider);
+                table1.row();
+                Button accept=new TextButton("Accept",game.skin);
+                accept.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        systemCount.hide();
+                        game.initialize((int) slider.getValue());
+                        StarSystem next=game.starSystems.get(random.nextInt(game.starSystems.size()));
+                        lable:
+                        while (true) {
+                            for (Planet planet : next.planets) {
+                                if(planet.kind== Planet.Kind.INHABITED){
+                                    PlayerShip playerShip = new PlayerShip(0, 0, 0, next);
+                                    game.playerShip= playerShip;
+                                    playerShip.money=1000;
+                                    game.setScreen(new PlanetScreen2(next, planet,playerShip));
+                                    next.ships.add(playerShip);
+                                    game.playerShip.x=planet.x;
+                                    game.playerShip.y=planet.y;
+                                    break lable;
+                                }
+                            }
+                            next=game.starSystems.get(random.nextInt(game.starSystems.size()));
                         }
                     }
-                    next=game.starSystems.get(random.nextInt(game.starSystems.size()));
-                }
+                });
+                systemCount.add(accept);
+                TextButton cancel=new TextButton("Cancel",game.skin);
+                cancel.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        systemCount.hide();
+                    }
+                });
+                systemCount.add(cancel);
+                systemCount.show(stage);
             }
         });
         stage.addActor(table);
