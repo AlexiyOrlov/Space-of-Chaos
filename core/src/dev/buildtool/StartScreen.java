@@ -142,15 +142,15 @@ public class StartScreen extends ScreenAdapter {
         table.row();
         table.add(quit);
         table.row();
-        TextButton shaderTest=new TextButton("Test shader",game.skin);
-        shaderTest.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new ShaderTest());
-            }
-        });
-        table.add(shaderTest);
-        table.row();
+//        TextButton shaderTest=new TextButton("Test shader",game.skin);
+//        shaderTest.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                game.setScreen(new ShaderTest());
+//            }
+//        });
+//        table.add(shaderTest);
+//        table.row();
     }
 
     @Override
