@@ -29,6 +29,8 @@ public class HelpScreen extends ScreenAdapter {
         content.row();
         content.add(new Label("Hire mercenary - press R, then click on the mercenary",skin));
         content.row();
+        content.add(new Label("To travel to other systems use star gate",skin));
+        content.row();
         TextButton close=new TextButton("Close",skin);
         close.addListener(new ChangeListener() {
             @Override
