@@ -31,7 +31,6 @@ public class OneShotAnimation {
             TextureRegion textureRegion=animation.getKeyFrame(time);
             spriteBatch.begin();
             Functions.drawScaled(spriteBatch,textureRegion,scale,x-textureRegion.getRegionWidth()/2,y-textureRegion.getRegionHeight()/2);
-//            spriteBatch.draw(textureRegion,x-textureRegion.getRegionWidth()/2,y-textureRegion.getRegionHeight()/2);
             spriteBatch.end();
             time+=deltaTime;
         }
