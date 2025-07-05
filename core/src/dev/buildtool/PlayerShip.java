@@ -377,11 +377,6 @@ public class PlayerShip implements Ship,SaveData {
     }
 
     @Override
-    public Vector2 getVelocity() {
-        return new Vector2(MathUtils.cosDeg(rotation+90+90)*(leftAcceleration-rightAcceleration),MathUtils.cosDeg(rotation+90-90)*(leftAcceleration-rightAcceleration));
-    }
-
-    @Override
     public StarSystem getCurrentSystem() {
         return currentStarSystem;
     }

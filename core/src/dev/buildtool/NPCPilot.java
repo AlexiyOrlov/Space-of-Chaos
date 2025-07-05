@@ -921,11 +921,6 @@ public class NPCPilot implements Ship, SaveData {
     }
 
     @Override
-    public Vector2 getVelocity() {
-        return null;
-    }
-
-    @Override
     public StarSystem getCurrentSystem() {
         return currentSystem;
     }

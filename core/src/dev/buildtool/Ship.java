@@ -12,8 +12,6 @@ public interface Ship {
     float getX();
     float getY();
 
-    Vector2 getVelocity();
-
     StarSystem getCurrentSystem();
     void setCurrentSystem(StarSystem starSystem);
     void damage(int damage);
