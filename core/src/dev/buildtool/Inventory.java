@@ -1,17 +1,10 @@
 package dev.buildtool;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class Inventory implements SaveData{
     public Stack[] stacks;
-    public HashMap<Integer, Predicate<PlayerShip>> predicateHashMap=new HashMap<>();
-    public HashMap<Integer,Consumer<PlayerShip>> actionHashMap= new HashMap<>();
 
     public Inventory(int stackCount) {
         stacks=new Stack[stackCount];
