@@ -1,7 +1,6 @@
 package dev.buildtool;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -93,10 +92,5 @@ public class Functions {
     public static void log(String message)
     {
         Gdx.app.log("INFO",message);
-    }
-
-    public static boolean validTarget(Ship ship,StarSystem sourceSystem)
-    {
-        return !ship.isLanded() && ship.getIntegrity() > 0 && sourceSystem==ship.getCurrentSystem();
     }
 }
