@@ -2,6 +2,7 @@ package dev.buildtool;
 
 import com.badlogic.gdx.graphics.Texture;
 
+//TODO finish
 public class ExplorationDrone extends Item{
     public int explorationRate;
     public int integrity;
