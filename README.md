@@ -15,3 +15,5 @@ Press F3 to toggle debug rendering and extra logging.
 Press Tab to toggle between attacking only AI-controlled ships and all ships.
 
 All rights reserved
+
+You can download the game from [https://krosenut.itch.io/space-of-chaos](https://krosenut.itch.io/space-of-chaos)
