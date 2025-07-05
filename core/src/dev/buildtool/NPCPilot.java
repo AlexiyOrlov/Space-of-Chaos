@@ -454,10 +454,7 @@ public class NPCPilot implements Ship, SaveData {
         if(secondaryCooldown<=0 && secondaryWeapon!=null)
         {
             Projectile[] projectiles;
-            if(pilotAI==PilotAI.AI)
-                projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
-            else
-                projectiles = secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
+            projectiles=secondaryWeapon.shoot(x,y,rotationDegrees,this,target, currentSystem);
             currentSystem.projectiles.addAll(List.of(projectiles));
             secondaryCooldown=secondaryWeapon.cooldown;
         }
