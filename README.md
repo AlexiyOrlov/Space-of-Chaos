@@ -13,3 +13,5 @@ buy new ships, hire mercenaries for combat assistance.
 Press F3 to toggle debug rendering and extra logging.
 
 Press Tab to toggle between attacking only AI-controlled ships and all ships.
+
+All rights reserved
